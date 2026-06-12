@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Factory {
+  id        String     @id @default(uuid())
+  name      String
+  address   String
+  createdAt DateTime   @default(now())
+  workshops Workshop[]
+  roleUsers RoleUser[]
+}
+
+model Workshop {
+  id        String    @id @default(uuid())
+  factoryId String
+  factory   Factory   @relation(fields: [factoryId], references: [id])
+  name      String
+  createdAt DateTime  @default(now())
+  machines  Machine[]
+}
+
+model Machine {
+  id          String   @id @default(uuid())
+  workshopId  String
+  workshop    Workshop @relation(fields: [workshopId], references: [id])
+  name        String
+  status      String
+  infoMachine String
+  installDate DateTime
+  createdAt   DateTime @default(now())
+  sensors     Sensor[]
+}
+
+model Sensor {
+  id          String      @id @default(uuid())
+  machineId   String
+  machine     Machine     @relation(fields: [machineId], references: [id])
+  name        String
+  metric      String
+  unit        String
+  status      String
+  createdAt   DateTime    @default(now())
+  telemetries Telemetry[]
+}
+
+model Telemetry {
+  id         String   @id @default(uuid())
+  sensorId   String
+  sensor     Sensor   @relation(fields: [sensorId], references: [id])
+  value      Float
+  recordedAt DateTime @default(now())
+}
+
+model User {
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
+  password  String
+  status    String
+  createdAt DateTime   @default(now())
+  roleUsers RoleUser[]
+}
+
+model RoleUser {
+  userId    String
+  user      User    @relation(fields: [userId], references: [id])
+  role      String
+  factoryId String
+  factory   Factory @relation(fields: [factoryId], references: [id])
+
+  @@id([userId, factoryId])
+}
