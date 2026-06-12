@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { AuthClient } from 'apps/api-gateway/src/clients/auth.client';
+
+import { AuthClient } from '../../clients/auth.client';
 
 @Injectable()
 export class AuthService {
