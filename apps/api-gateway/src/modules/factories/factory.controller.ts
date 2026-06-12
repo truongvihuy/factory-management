@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 
 import { FactoryService } from './factory.service';
 
-@Controller('factories')
+@Controller('factory')
 export class FactoryController {
   constructor(private readonly factoryService: FactoryService) {}
 
