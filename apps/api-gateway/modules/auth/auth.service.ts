@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { AuthClient } from 'apps/api-gateway/clients/auth.client';
 
 @Injectable()
 export class AuthService {
-  constructor() {}
+  constructor(private readonly client: AuthClient) {}
 
   // async login() {
   // }

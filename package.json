@@ -8,8 +8,17 @@
   },
   "license": "MIT",
   "scripts": {
+    "dev:gateway": "nest start api-gateway --watch",
+    "dev:auth": "nest start auth-service --watch",
+    "dev:factory": "nest start factory-service --watch",
+    "start:gateway": "nest start api-gateway",
+    "start:auth": "nest start auth-service",
+    "start:factory": "nest start factory-service",
+    "build": "nest build",
+    "test": "jest",
     "gen:prisma": "prisma generate",
-    "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\""
+    "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
+    "lint": "eslint \"{apps,libs}/**/*.ts\" --fix"
   },
   "dependencies": {
     "@nestjs/axios": "^4.0.1",
