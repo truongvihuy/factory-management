@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { FactoryClient } from 'apps/api-gateway/clients/factory.client';
+import { FactoryClient } from 'apps/api-gateway/src/clients/factory.client';
 
 @Injectable()
 export class FactoryService {

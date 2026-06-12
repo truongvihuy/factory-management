@@ -1,7 +1,7 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 
-import { FactoryClient } from 'apps/api-gateway/clients/factory.client';
+import { FactoryClient } from 'apps/api-gateway/src/clients/factory.client';
 import { FactoryController } from './factory.controller';
 import { FactoryService } from './factory.service';
 

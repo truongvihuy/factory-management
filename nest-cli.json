@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "monorepo": true,
+  "root": "apps/api-gateway",
+  "projects": {
+    "api-gateway": {
+      "type": "application",
+      "root": "apps/api-gateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/api-gateway/src"
+    },
+    "factory-service": {
+      "type": "application",
+      "root": "apps/factory-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/factory-service/src"
+    },
+    "telemetry-service": {
+      "type": "application",
+      "root": "apps/telemetry-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/telemetry-service/src"
+    }
+  }
+}
