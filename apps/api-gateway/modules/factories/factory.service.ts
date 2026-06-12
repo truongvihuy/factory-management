@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+
 import { FactoryClient } from 'apps/api-gateway/clients/factory.client';
 
 @Injectable()
