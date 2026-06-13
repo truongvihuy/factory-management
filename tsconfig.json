@@ -22,24 +22,30 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@common/*": [
-        "libs/common/src/*"
+      "@app/auth": [
+        "libs/auth/src"
       ],
-      "@database/*": [
-        "libs/database/src/*"
-      ],
-      "@auth/*": [
+      "@app/auth/*": [
         "libs/auth/src/*"
       ],
-      "@events/*": [
+      "@app/common": [
+        "libs/common/src"
+      ],
+      "@app/common/*": [
+        "libs/common/src/*"
+      ],
+      "@app/database": [
+        "libs/database/src"
+      ],
+      "@app/database/*": [
+        "libs/database/src/*"
+      ],
+      "@app/events": [
+        "libs/events/src"
+      ],
+      "@app/events/*": [
         "libs/events/src/*"
-      ],
-      "@mqtt/*": [
-        "libs/mqtt/src/*"
-      ],
-      "@redis/*": [
-        "libs/redis/src/*"
       ]
     }
-  },
+  }
 }
