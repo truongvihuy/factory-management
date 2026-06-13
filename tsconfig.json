@@ -12,5 +12,9 @@
     {
       "path": "./apps/factory-service/tsconfig.app.json"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {}
+  }
 }

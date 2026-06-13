@@ -7,19 +7,41 @@
       "type": "application",
       "root": "apps/api-gateway",
       "entryFile": "main",
-      "sourceRoot": "apps/api-gateway/src"
+      "sourceRoot": "apps/api-gateway/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
+      }
+    },
+    "auth-service": {
+      "type": "application",
+      "root": "apps/auth-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/auth-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/auth-service/tsconfig.app.json"
+      }
     },
     "factory-service": {
       "type": "application",
       "root": "apps/factory-service",
       "entryFile": "main",
-      "sourceRoot": "apps/factory-service/src"
+      "sourceRoot": "apps/factory-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/factory-service/tsconfig.app.json"
+      }
     },
     "telemetry-service": {
       "type": "application",
       "root": "apps/telemetry-service",
       "entryFile": "main",
-      "sourceRoot": "apps/telemetry-service/src"
+      "sourceRoot": "apps/telemetry-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/telemetry-service/tsconfig.app.json"
+      }
     }
+  },
+  "compilerOptions": {
+    "webpack": false,
+    "tsConfigPath": "tsconfig.json"
   }
 }
