@@ -16,7 +16,13 @@
     "start:factory": "nest start factory-service",
     "build": "nest build",
     "build:gateway": "nest build api-gateway",
+    "build:auth": "nest build auth-service",
+    "build:factory": "nest build factory-service",
     "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./apps/test/test/jest-e2e.json",
     "gen:prisma": "prisma generate",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "lint": "eslint \"{apps,libs}/**/*.ts\" --fix"
