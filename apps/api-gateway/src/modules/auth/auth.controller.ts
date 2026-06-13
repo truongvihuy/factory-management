@@ -10,7 +10,7 @@ export class AuthController {
   async getProfile() {}
 
   @Post('login')
-  async login(@Body() loginDto) {}
+  async login(@Body() loginDto: any) {}
 
   @Post('register')
   async register() {}

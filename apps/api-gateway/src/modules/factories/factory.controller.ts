@@ -13,10 +13,10 @@ export class FactoryController {
   async getFactory(@Param('id') id: string) {}
 
   @Post()
-  async addFactory(@Body() body) {}
+  async addFactory(@Body() body: any) {}
 
   @Put()
-  async updateFactory(@Body() body) {}
+  async updateFactory(@Body() body: any) {}
 
   @Delete(':id')
   async deleteFactory(@Param() id: string) {}
