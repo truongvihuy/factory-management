@@ -22,28 +22,28 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@app/auth": [
+      "@libs/auth": [
         "libs/auth/src"
       ],
-      "@app/auth/*": [
+      "@libs/auth/*": [
         "libs/auth/src/*"
       ],
-      "@app/common": [
+      "@libs/common": [
         "libs/common/src"
       ],
-      "@app/common/*": [
+      "@libs/common/*": [
         "libs/common/src/*"
       ],
-      "@app/database": [
+      "@libs/database": [
         "libs/database/src"
       ],
-      "@app/database/*": [
+      "@libs/database/*": [
         "libs/database/src/*"
       ],
-      "@app/events": [
+      "@libs/events": [
         "libs/events/src"
       ],
-      "@app/events/*": [
+      "@libs/events/*": [
         "libs/events/src/*"
       ]
     }
