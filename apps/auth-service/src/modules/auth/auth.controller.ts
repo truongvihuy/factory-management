@@ -10,7 +10,14 @@ export class AuthController {
   async getProfile() {}
 
   @Post('login')
-  async login(@Body() loginDto: any) {}
+  async login(@Body() payload: any) {
+    return payload;
+  }
+
+  @Post('verify')
+  async verify(@Body() payload: any) {
+    return payload;
+  }
 
   @Post('register')
   async register() {}
