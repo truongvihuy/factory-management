@@ -1,6 +1,5 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 
@@ -14,13 +13,13 @@ export class AuthClient {
     this.url = this.config.get('AUTH_SERVICE_URL') ?? '';
   }
 
-  async login(payload: any) {
-    const response = await firstValueFrom(this.httpService.post(this.url, payload));
+  async login(token: string) {
+    const response = await firstValueFrom(this.httpService.post(`${this.url}/auth/login`, { token }));
     return response.data;
   }
 
-  async verify(token: any) {
-    const response = await firstValueFrom(this.httpService.post(this.url, { token }));
+  async verify(token: string) {
+    const response = await firstValueFrom(this.httpService.post(`${this.url}/auth/verify`, { token }));
     return response.data;
   }
 }

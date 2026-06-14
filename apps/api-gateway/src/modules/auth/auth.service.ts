@@ -6,7 +6,9 @@ import { AuthClient } from '../../clients/auth.client';
 export class AuthService {
   constructor(private readonly client: AuthClient) {}
 
-  async login() {}
+  async login(token: string) {
+    return this.client.login(token);
+  }
 
   async verify(token: string) {
     return this.client.verify(token);
