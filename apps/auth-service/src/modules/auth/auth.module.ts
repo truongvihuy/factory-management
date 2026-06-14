@@ -1,4 +1,4 @@
-import { PrismaService } from '@libs/database';
+import { PrismaModule } from '@libs/database';
 import { Module } from '@nestjs/common';
 
 import { AuthController } from './auth.controller';
@@ -7,7 +7,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
-  imports: [PrismaService],
+  imports: [PrismaModule],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, LocalStrategy],
 })
