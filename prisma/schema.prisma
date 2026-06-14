@@ -13,71 +13,117 @@ datasource db {
 }
 
 model Factory {
-  id        String     @id @default(uuid())
+  id        String   @id @default(uuid())
   name      String
   address   String
-  createdAt DateTime   @default(now())
+  createdAt DateTime @default(now())
+
   workshops Workshop[]
   roleUsers RoleUser[]
 }
 
 model Workshop {
-  id        String    @id @default(uuid())
+  id        String   @id @default(uuid())
   factoryId String
-  factory   Factory   @relation(fields: [factoryId], references: [id])
   name      String
-  createdAt DateTime  @default(now())
-  machines  Machine[]
+  createdAt DateTime @default(now())
+
+  factory  Factory   @relation(fields: [factoryId], references: [id])
+  machines Machine[]
 }
 
 model Machine {
-  id          String   @id @default(uuid())
+  id          String         @id @default(uuid())
   workshopId  String
-  workshop    Workshop @relation(fields: [workshopId], references: [id])
   name        String
-  status      String
+  status      Status_Machine
   infoMachine String
   installDate DateTime
-  createdAt   DateTime @default(now())
-  sensors     Sensor[]
+  createdAt   DateTime       @default(now())
+
+  workshop Workshop @relation(fields: [workshopId], references: [id])
+  sensors  Sensor[]
+}
+
+enum Status_Machine {
+  // Operational Status
+  RUNNING
+  IDLE
+  READY
+
+  // Downtime & Error Status
+  DOWN
+  ERROR
+
+  // Maintenance & Repair
+  MAINTENANCE
+  REPAIR
+  MATERIAL_SHORTAGE
+  SETUP
 }
 
 model Sensor {
-  id          String      @id @default(uuid())
-  machineId   String
+  id        String        @id @default(uuid())
+  machineId String
+  name      String
+  metric    String
+  unit      String
+  status    Status_Sensor
+  createdAt DateTime      @default(now())
+
   machine     Machine     @relation(fields: [machineId], references: [id])
-  name        String
-  metric      String
-  unit        String
-  status      String
-  createdAt   DateTime    @default(now())
   telemetries Telemetry[]
+}
+
+enum Status_Sensor {
+  ACTIVE
+  INACTIVE
+  CONNECTED
+  DISCONNECTED
 }
 
 model Telemetry {
   id         String   @id @default(uuid())
   sensorId   String
-  sensor     Sensor   @relation(fields: [sensorId], references: [id])
   value      Float
   recordedAt DateTime @default(now())
+
+  sensor Sensor @relation(fields: [sensorId], references: [id])
 }
 
 model User {
-  id        String     @id @default(uuid())
+  id        String   @id @default(uuid())
   name      String
-  email     String     @unique
+  email     String   @unique
   password  String
-  status    String
-  createdAt DateTime   @default(now())
+  admin     Boolean  @default(false)
+  status    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
   roleUsers RoleUser[]
 }
 
 model RoleUser {
   userId    String
-  user      User    @relation(fields: [userId], references: [id])
-  role      String
+  role      Role
   factoryId String
-  factory   Factory @relation(fields: [factoryId], references: [id])
+
+  user    User    @relation(fields: [userId], references: [id])
+  factory Factory @relation(fields: [factoryId], references: [id])
 
   @@id([userId, factoryId])
+}
+
+enum Role {
+  MANAGER
+  ENGINEER
+  OPERATOR
+  VIEW
+}
+
+enum Severity {
+  LOW
+  MEDIUM
+  HIGHT
+  CRITICAL
 }
