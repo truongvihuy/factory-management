@@ -8,6 +8,7 @@ import { FactoryModule } from './modules/factories/factory.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: 'env/.env.api-gateway',
     }),
     AuthModule,
     FactoryModule,
