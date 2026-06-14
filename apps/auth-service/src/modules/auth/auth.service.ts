@@ -1,15 +1,57 @@
 import { PrismaService } from '@libs/database';
-import { Injectable } from '@nestjs/common';
-import { LoginDto } from './dto/login.dto';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  async login(dto: LoginDto) {}
+  verify(token: string) {
+    return this.jwtService.verify(token);
+  }
 
-  async verify(token: string) {}
+  encoded(token: string) {
+    const [email, password] = Buffer.from(token, 'base64').toString('utf-8').split(':');
+    return { email, password };
+  }
+
+  async verifyEmailPwd(email: string, password: string) {
+    const user = await this.prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      return null;
+    }
+
+    if (user.password !== password) {
+      return null;
+    }
+
+    return user;
+  }
+
+  async login(email: string, password: string) {
+    const user = await this.verifyEmailPwd(email, password);
+
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    if (!user.status) {
+      throw new UnauthorizedException();
+    }
+
+    const payload = {
+      sub: user.id,
+      email: user.email,
+    };
+
+    const accessToken = this.jwtService.sign(payload);
+
+    return { accessToken, payload };
+  }
 
   async register(dto: RegisterDto) {
     // const hashedPassword =

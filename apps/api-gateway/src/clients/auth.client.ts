@@ -10,11 +10,13 @@ export class AuthClient {
     private readonly config: ConfigService,
     private readonly httpService: HttpService,
   ) {
-    this.url = this.config.get('AUTH_SERVICE_URL') ?? '';
+    this.url = this.config.get('AUTH_SERVICE_URL');
   }
 
   async login(token: string) {
     const response = await firstValueFrom(this.httpService.post(`${this.url}/auth/login`, { token }));
+
+    console.log(response.status);
     return response.data;
   }
 

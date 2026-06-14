@@ -11,17 +11,12 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() payload: any) {
-    return payload;
+    const { email, password } = this.authService.encoded(payload.token);
+    return this.authService.login(email, password);
   }
 
   @Post('verify')
   async verify(@Body() payload: any) {
-    return payload;
+    return this.authService.verify(payload.token);
   }
-
-  @Post('register')
-  async register() {}
-
-  @Post('refesh-token')
-  async refeshToken() {}
 }
