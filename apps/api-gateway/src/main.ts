@@ -4,6 +4,7 @@ import {
   RequestLoggerInterceptor,
   ResponseInterceptor,
 } from '@libs/common';
+import { TestExceptionFilter, TestGuard, TestInterceptor, TestPipe } from '@libs/common/test';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 
@@ -18,6 +19,12 @@ async function bootstrap() {
   app.useGlobalInterceptors(new RequestLoggerInterceptor());
   app.useGlobalInterceptors(new ExecutionTimeInterceptor());
   app.useGlobalInterceptors(new ResponseInterceptor());
+
+  app.useGlobalFilters(new TestExceptionFilter());
+  app.useGlobalGuards(new TestGuard());
+  app.useGlobalInterceptors(new TestInterceptor());
+  app.useGlobalPipes(new TestPipe());
+
   await app.listen(config.get<number>('PORT') ?? 3000);
 }
 bootstrap();

@@ -6,9 +6,7 @@ import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {
-    console.log('AuthController created');
-  }
+  constructor(private readonly authService: AuthService) {}
 
   @Get('profile')
   @UseGuards(JwtAuthGuard)

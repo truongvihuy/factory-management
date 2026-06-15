@@ -6,7 +6,6 @@ import { PrismaClient } from 'generated/prisma';
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
   constructor(private readonly config: ConfigService) {
-    console.log('PrismaService created');
     super({
       log: ['error', 'info', 'query', 'warn'],
       adapter: new PrismaPg({
