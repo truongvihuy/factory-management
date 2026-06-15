@@ -1,7 +1,10 @@
+import { REQUEST_ID } from '@libs/common';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
+
+import { Options } from './options.dto';
 
 @Injectable()
 export class AuthClient {
@@ -13,13 +16,33 @@ export class AuthClient {
     this.url = this.config.get('AUTH_SERVICE_URL');
   }
 
-  async login(token: string) {
-    const response = await firstValueFrom(this.httpService.post(`${this.url}/auth/login`, { token }));
+  private async _requestServer(method: 'get' | 'post' | 'put' | 'delete', url: string, body?: any, options?: Options) {
+    let axiosRes;
+    switch (method) {
+      case 'get':
+        axiosRes = this.httpService.get(url, {
+          headers: {
+            [REQUEST_ID]: options?.requestId,
+          },
+        });
+        break;
+      default:
+        axiosRes = this.httpService[method](url, body, {
+          headers: {
+            [REQUEST_ID]: options?.requestId,
+          },
+        });
+    }
+
+    const response = await firstValueFrom(axiosRes);
     return response.data;
   }
 
-  async verify(token: string) {
-    const response = await firstValueFrom(this.httpService.post(`${this.url}/auth/verify`, { token }));
-    return response.data;
+  async login(token: string, options?: Options) {
+    this._requestServer('post', `${this.url}/auth/login`, { token }, options);
+  }
+
+  async verify(token: string, options?: Options) {
+    this._requestServer('post', `${this.url}/auth/verify`, { token }, options);
   }
 }

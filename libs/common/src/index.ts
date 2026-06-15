@@ -19,4 +19,5 @@ export * from './interfaces/error-response.interface';
 export * from './logger/app.logger';
 export * from './logger/request-context.logger';
 
-export * from './middleware/request-id.middleware';
+export * from './middleware/request-id.gateway.middleware';
+export * from './middleware/request-id.service.middleware';
