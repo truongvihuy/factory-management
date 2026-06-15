@@ -18,14 +18,14 @@ async function main() {
     create: {
       name: admin.name,
       email: admin.email,
-      password: bcrypt.hashSync(admin.password, 12),
+      password: bcrypt.hashSync(admin.password, 10),
       status: admin.status,
       admin: admin.admin,
     },
     update: {
       name: admin.name,
       email: admin.email,
-      password: bcrypt.hashSync(admin.password, 12),
+      password: bcrypt.hashSync(admin.password, 10),
       status: admin.status,
       admin: admin.admin,
     },

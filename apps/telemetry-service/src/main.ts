@@ -1,4 +1,4 @@
-import { ExecutionTimeInterceptor } from '@libs/common';
+import { DEFAULT, ExecutionTimeInterceptor } from '@libs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 
@@ -9,6 +9,6 @@ async function bootstrap() {
   const config = app.get(ConfigService);
 
   app.useGlobalInterceptors(new ExecutionTimeInterceptor());
-  await app.listen(config.get<number>('PORT') ?? 3003);
+  await app.listen(config.get<number>('PORT', DEFAULT.PORT_TELEMETRY_SERVICE));
 }
 bootstrap();

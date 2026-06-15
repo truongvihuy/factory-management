@@ -1,4 +1,5 @@
 import {
+  DEFAULT,
   ExecutionTimeInterceptor,
   HttpExceptionFilter,
   RequestLoggerInterceptor,
@@ -14,17 +15,17 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
 
+  app.useGlobalFilters(new TestExceptionFilter());
+  app.useGlobalGuards(new TestGuard());
+  app.useGlobalInterceptors(new TestInterceptor());
+  app.useGlobalPipes(new TestPipe());
+
   app.setGlobalPrefix('api');
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new RequestLoggerInterceptor());
   app.useGlobalInterceptors(new ExecutionTimeInterceptor());
   app.useGlobalInterceptors(new ResponseInterceptor());
 
-  app.useGlobalFilters(new TestExceptionFilter());
-  app.useGlobalGuards(new TestGuard());
-  app.useGlobalInterceptors(new TestInterceptor());
-  app.useGlobalPipes(new TestPipe());
-
-  await app.listen(config.get<number>('PORT') ?? 3000);
+  await app.listen(config.get<number>('PORT', DEFAULT.PORT_API_GATEWAY));
 }
 bootstrap();

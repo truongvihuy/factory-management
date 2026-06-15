@@ -1,6 +1,8 @@
 import { PrismaService } from '@libs/database';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import bcrypt from 'bcrypt';
+
 import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
@@ -21,11 +23,12 @@ export class AuthService {
 
   async verifyEmailPwd(email: string, password: string) {
     const user = await this.prisma.user.findUnique({ where: { email } });
+
     if (!user) {
       return null;
     }
 
-    if (user.password !== password) {
+    if (!bcrypt.compareSync(password, user.password)) {
       return null;
     }
 

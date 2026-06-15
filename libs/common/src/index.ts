@@ -1,3 +1,4 @@
+export * from './constants/default.enum';
 export * from './constants/errors.enum';
 export * from './constants/header.constant';
 
