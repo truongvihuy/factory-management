@@ -10,7 +10,7 @@ export class RequestLoggerInterceptor implements NestInterceptor {
 
     return next.handle().pipe(
       tap(() => {
-        console.log(`[${requestId}] comppleted`);
+        console.log(`[${requestId}] completed`);
       }),
     );
   }

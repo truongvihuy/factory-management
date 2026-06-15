@@ -15,8 +15,6 @@ export class AuthClient {
 
   async login(token: string) {
     const response = await firstValueFrom(this.httpService.post(`${this.url}/auth/login`, { token }));
-
-    console.log(response.status);
     return response.data;
   }
 
