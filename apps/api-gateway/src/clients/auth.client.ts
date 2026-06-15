@@ -39,10 +39,10 @@ export class AuthClient {
   }
 
   async login(token: string, options?: Options) {
-    this._requestServer('post', `${this.url}/auth/login`, { token }, options);
+    return this._requestServer('post', `${this.url}/auth/login`, { token }, options);
   }
 
   async verify(token: string, options?: Options) {
-    this._requestServer('post', `${this.url}/auth/verify`, { token }, options);
+    return this._requestServer('post', `${this.url}/auth/verify`, { token }, options);
   }
 }
