@@ -1,10 +1,8 @@
-import { REQUEST_ID } from '@libs/common';
+import { Options, REQUEST_ID, USER_ID } from '@libs/common';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
-
-import { Options } from './options.dto';
 
 @Injectable()
 export class AuthClient {
@@ -23,6 +21,7 @@ export class AuthClient {
         axiosRes = this.httpService.get(url, {
           headers: {
             [REQUEST_ID]: options?.requestId,
+            [USER_ID]: options?.userId,
           },
         });
         break;
@@ -30,6 +29,7 @@ export class AuthClient {
         axiosRes = this.httpService[method](url, body, {
           headers: {
             [REQUEST_ID]: options?.requestId,
+            [USER_ID]: options?.userId,
           },
         });
     }
@@ -44,5 +44,9 @@ export class AuthClient {
 
   async verify(token: string, options?: Options) {
     return this._requestServer('post', `${this.url}/auth/verify`, { token }, options);
+  }
+
+  async getUser(userId: string, options?: Options) {
+    return this._requestServer('get', `${this.url}/user/${userId}`, null, options);
   }
 }

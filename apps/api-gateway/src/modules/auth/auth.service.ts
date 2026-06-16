@@ -1,3 +1,4 @@
+import { Options } from '@libs/common';
 import { Injectable } from '@nestjs/common';
 
 import { AuthClient } from '../../clients/auth.client';
@@ -6,12 +7,16 @@ import { AuthClient } from '../../clients/auth.client';
 export class AuthService {
   constructor(private readonly client: AuthClient) {}
 
-  async login(token: string) {
-    return this.client.login(token);
+  async login(token: string, options: Options) {
+    return this.client.login(token, options);
   }
 
-  async verify(token: string) {
-    return this.client.verify(token);
+  async verify(token: string, options: Options) {
+    return this.client.verify(token, options);
+  }
+
+  async getUser(userId: string, options: Options) {
+    return this.client.getUser(userId, options);
   }
 
   // register();
