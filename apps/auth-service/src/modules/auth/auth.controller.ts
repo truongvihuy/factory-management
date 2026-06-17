@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 
+import { Role } from 'generated/prisma';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -21,7 +22,25 @@ export class AuthController {
   }
 
   @Get('permission/:id')
-  async getPemissions(@Param() id: string) {
+  async getPemissions(@Param('id') id: string) {
     return this.authService.getPermissions(id);
+  }
+
+  @Get('permission/check/:userId/:factoryId/:role')
+  async checkPermission(
+    @Param('userId') userId: string,
+    @Param('factoryId') factoryId: string,
+    @Param('role') role: Role,
+  ) {
+    return this.authService.checkPermission(userId, factoryId, role);
+  }
+
+  @Post('permission/update/:userId/:factoryId/:role')
+  async updatePermission(
+    @Param('userId') userId: string,
+    @Param('factoryId') factoryId: string,
+    @Param('role') role: Role,
+  ) {
+    return this.authService.checkPermission(userId, factoryId, role);
   }
 }

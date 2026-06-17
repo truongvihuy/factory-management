@@ -3,7 +3,7 @@ import { PrismaService } from '@libs/database';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
-import { User } from 'generated/prisma';
+import { Role, User } from 'generated/prisma';
 
 @Injectable()
 export class AuthService {
@@ -77,7 +77,31 @@ export class AuthService {
     return { accessToken, payload };
   }
 
+  /** Handle Permission */
   async getPermissions(userId: string) {
     return this.prisma.permission.findMany({ where: { userId } });
+  }
+
+  async checkPermission(userId: string, factoryId: string, role: Role) {
+    const permission = await this.prisma.permission.findUniqueOrThrow({
+      where: { userId_factoryId: { userId, factoryId } },
+    });
+
+    if (permission?.role === role) {
+      return true;
+    }
+
+    return false;
+  }
+
+  async updatePermission(userId: string, factoryId: string, role: Role) {
+    const _permission = { userId, factoryId, role };
+    await this.prisma.permission.upsert({
+      where: { userId_factoryId: { userId, factoryId } },
+      create: _permission,
+      update: _permission,
+    });
+
+    return true;
   }
 }
