@@ -3,8 +3,6 @@ import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from
 @Injectable()
 export class LocalAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
-    console.log('LocalAuthGuard.canActivate');
-
     const request = context.switchToHttp().getRequest();
     const token = request.headers.authorization?.replace('Basic ', '');
     if (!token) {
