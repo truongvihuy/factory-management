@@ -3,6 +3,7 @@ export * from './constants/errors.enum';
 export * from './constants/header.constant';
 export * from './constants/key-metadata.constant';
 
+export * from './decorators/admin.decorator';
 export * from './decorators/role.decorator';
 
 export * from './exceptions/bussiness.exception';

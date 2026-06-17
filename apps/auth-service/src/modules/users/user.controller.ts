@@ -7,9 +7,12 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get(':id')
-  async getUser(@Param('id') id: string) {
-    return this.userService.getUser(id);
+  @Get('')
+  async getUsers() {}
+
+  @Get(':userId')
+  async getUser(@Param('userId') userId: string) {
+    return this.userService.getUser(userId);
   }
 
   @Post('')
@@ -17,24 +20,24 @@ export class UserController {
     return this.userService.createUser(dto);
   }
 
-  @Put(':id')
-  async updateUser(@Param('id') id: string, @Body() dto: any) {
-    return this.userService.updateUser(id, dto);
+  @Put(':userId')
+  async updateUser(@Param('userId') userId: string, @Body() dto: any) {
+    return this.userService.updateUser(userId, dto);
   }
 
-  @Get('admin-permission/:id')
-  async checkAdmin(@Param('id') id: string) {
-    return this.userService.checkAdmin(id);
+  @Get('admin-permission/:userId')
+  async checkAdmin(@Param('userId') userId: string) {
+    return this.userService.checkAdmin(userId);
   }
 
-  @Post('admin-permission/:id/:admin')
-  async updateAdmin(@Param('id') id: string, @Param('admin') admin: boolean) {
-    return this.userService.updateAdmin(id, admin);
+  @Post('admin-permission/:userId/:admin')
+  async updateAdmin(@Param('userId') userId: string, @Param('admin') admin: boolean) {
+    return this.userService.updateAdmin(userId, admin);
   }
 
-  @Get('permission/:id')
-  async getPemissions(@Param('id') id: string) {
-    return this.userService.getPermissions(id);
+  @Get('permission/:userId')
+  async getPemissions(@Param('userId') userId: string) {
+    return this.userService.getPermissions(userId);
   }
 
   @Get('permission/:userId/:factoryId/:role')

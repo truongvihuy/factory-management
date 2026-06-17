@@ -25,10 +25,10 @@ export class UserService {
     });
   }
 
-  async updateUser(id: string, userDTO: User) {
+  async updateUser(userId: string, userDTO: User) {
     userDTO.password = this.authHandleSerivce.hashPassword(userDTO.password);
     return this.prisma.user.update({
-      where: { id },
+      where: { id: userId },
       data: userDTO,
     });
   }
