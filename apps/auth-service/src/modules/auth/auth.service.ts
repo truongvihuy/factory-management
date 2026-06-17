@@ -1,9 +1,9 @@
+import { ILogin, ILoginPayload, ILoginResponse } from '@libs/common';
 import { PrismaService } from '@libs/database';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
-
-import { RegisterDto } from './dto/register.dto';
+import { User } from 'generated/prisma';
 
 @Injectable()
 export class AuthService {
@@ -12,30 +12,45 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  verify(token: string) {
+  /** Handle JWT */
+  verifyJWT(token: string): ILoginPayload {
     return this.jwtService.verify(token);
   }
 
-  encoded(token: string) {
+  signJWT(payload: ILoginPayload): string {
+    return this.jwtService.sign(payload);
+  }
+
+  /** Handle encode base64 email:password */
+  encoded(token: string): ILogin {
     const [email, password] = Buffer.from(token, 'base64').toString('utf-8').split(':');
     return { email, password };
   }
 
-  async verifyEmailPwd(email: string, password: string) {
+  /** Handle hash password */
+  hashPassword(password: string): string {
+    return bcrypt.hashSync(password, 10);
+  }
+
+  comparePassword(password: string, hashPassword: string): boolean {
+    return bcrypt.compareSync(password, hashPassword);
+  }
+
+  async verifyEmailPwd(email: string, password: string): Promise<User | null> {
     const user = await this.prisma.user.findUnique({ where: { email } });
 
     if (!user) {
       return null;
     }
 
-    if (!bcrypt.compareSync(password, user.password)) {
+    if (!this.comparePassword(password, user.password)) {
       return null;
     }
 
     return user;
   }
 
-  async login(email: string, password: string) {
+  async login(email: string, password: string): Promise<ILoginResponse> {
     const user = await this.verifyEmailPwd(email, password);
 
     if (!user) {
@@ -46,36 +61,19 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    const payload = {
+    const roles = await this.prisma.roleUser.findMany({
+      where: { userId: user.id },
+    });
+
+    const payload: ILoginPayload = {
       sub: user.id,
       email: user.email,
+      admin: user.admin,
+      roles,
     };
 
-    const accessToken = this.jwtService.sign(payload);
+    const accessToken = this.signJWT(payload);
 
     return { accessToken, payload };
   }
-
-  async register(dto: RegisterDto) {
-    // const hashedPassword =
-    //   await bcry.hash(
-    //     dto.password,
-    //     10,
-    //   );
-    // return this.prisma.user.create({
-    //   data: {
-    //     email: dto.email,
-    //     password: hashedPassword,
-    //   },
-    // });
-  }
-  // refreshToken();
-
-  // logout();
-
-  // validateUser();
-
-  // hashPassword();
-
-  // comparePassword();
 }

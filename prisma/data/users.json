@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Admin",
+    "email": "admin@abc.co",
+    "password": "admin123",
+    "admin": true,
+    "status": true
+  },
+  {
+    "name": "Manager",
+    "email": "manager@abc.co",
+    "password": "admin123",
+    "admin": true,
+    "status": true
+  }
+]

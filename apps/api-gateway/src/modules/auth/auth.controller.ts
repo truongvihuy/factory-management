@@ -20,6 +20,6 @@ export class AuthController {
     return this.authService.login(req.user.token, { requestId: req.requestId });
   }
 
-  // @Post('refesh-token')
-  // async refeshToken() {}
+  @Post('refesh-token')
+  async refeshToken() {}
 }

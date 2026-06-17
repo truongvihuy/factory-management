@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 
 import { UserService } from './user.service';
 
@@ -15,4 +15,10 @@ export class UserController {
   async createUser(@Body() dto: any) {
     return this.userService.create();
   }
+
+  @Post('/role')
+  addRole(@Body() dto: any) {}
+
+  @Delete('/role')
+  deleteRole(@Body() dto: any) {}
 }
