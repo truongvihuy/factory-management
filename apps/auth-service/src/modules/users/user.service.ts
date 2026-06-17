@@ -1,15 +1,13 @@
+import { AuthHandleService } from '@libs/auth';
 import { PrismaService } from '@libs/database';
 import { Injectable } from '@nestjs/common';
-import bcrypt from 'bcrypt';
-
 import { Role, User } from 'generated/prisma';
-import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly authSerivce: AuthService,
+    private readonly authHandleSerivce: AuthHandleService,
   ) {}
 
   async getUser(userId: string) {
@@ -21,8 +19,16 @@ export class UserService {
   }
 
   async createUser(userDTO: User) {
-    userDTO.password = await bcrypt.hash(userDTO.password, 10);
+    userDTO.password = this.authHandleSerivce.hashPassword(userDTO.password);
     return this.prisma.user.create({
+      data: userDTO,
+    });
+  }
+
+  async updateUser(id: string, userDTO: User) {
+    userDTO.password = this.authHandleSerivce.hashPassword(userDTO.password);
+    return this.prisma.user.update({
+      where: { id },
       data: userDTO,
     });
   }
@@ -48,6 +54,14 @@ export class UserService {
     return this.prisma.permission.findMany({ where: { userId } });
   }
 
+  async getPermission(userId: string, factoryId: string) {
+    const permission = await this.prisma.permission.findUniqueOrThrow({
+      where: { userId_factoryId: { userId, factoryId } },
+    });
+
+    return permission.role;
+  }
+
   async checkPermission(userId: string, factoryId: string, role: Role) {
     const permission = await this.prisma.permission.findUniqueOrThrow({
       where: { userId_factoryId: { userId, factoryId } },
@@ -66,6 +80,14 @@ export class UserService {
       where: { userId_factoryId: { userId, factoryId } },
       create: _permission,
       update: _permission,
+    });
+
+    return true;
+  }
+
+  async delelePermission(userId: string, factoryId: string) {
+    await this.prisma.permission.delete({
+      where: { userId_factoryId: { userId, factoryId } },
     });
 
     return true;

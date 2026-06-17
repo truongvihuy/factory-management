@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 
 import { Role } from 'generated/prisma';
 import { UserService } from './user.service';
@@ -17,6 +17,11 @@ export class UserController {
     return this.userService.createUser(dto);
   }
 
+  @Put(':id')
+  async updateUser(@Param('id') id: string, @Body() dto: any) {
+    return this.userService.updateUser(id, dto);
+  }
+
   @Get('admin-permission/:id')
   async checkAdmin(@Param('id') id: string) {
     return this.userService.checkAdmin(id);
@@ -32,7 +37,7 @@ export class UserController {
     return this.userService.getPermissions(id);
   }
 
-  @Get('permission/check/:userId/:factoryId/:role')
+  @Get('permission/:userId/:factoryId/:role')
   async checkPermission(
     @Param('userId') userId: string,
     @Param('factoryId') factoryId: string,
@@ -41,12 +46,22 @@ export class UserController {
     return this.userService.checkPermission(userId, factoryId, role);
   }
 
+  @Get('permission/:userId/:factoryId')
+  async getPermission(@Param('userId') userId: string, @Param('factoryId') factoryId: string) {
+    return this.userService.getPermission(userId, factoryId);
+  }
+
   @Post('permission/update/:userId/:factoryId/:role')
   async updatePermission(
     @Param('userId') userId: string,
     @Param('factoryId') factoryId: string,
     @Param('role') role: Role,
   ) {
-    return this.userService.checkPermission(userId, factoryId, role);
+    return this.userService.updatePermission(userId, factoryId, role);
+  }
+
+  @Delete('permission/delete/:userId/:factoryId')
+  async deletePermission(@Param('userId') userId: string, @Param('factoryId') factoryId: string) {
+    return this.userService.delelePermission(userId, factoryId);
   }
 }
