@@ -8,7 +8,9 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('')
-  async getUsers() {}
+  async getUsers() {
+    return this.userService.getUserList();
+  }
 
   @Get(':userId')
   async getUser(@Param('userId') userId: string) {

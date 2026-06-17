@@ -57,7 +57,7 @@ export class AuthClient {
   }
 
   async createUser(user: User, options?: RequestContext) {
-    return this._requestServer('post', `${this.url}/user/`, user, options);
+    return this._requestServer('post', `${this.url}/user`, user, options);
   }
 
   async updateUser(userId: string, user: User, options?: RequestContext) {
