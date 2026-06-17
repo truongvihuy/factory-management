@@ -61,7 +61,7 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    const roles = await this.prisma.roleUser.findMany({
+    const permissions = await this.prisma.permission.findMany({
       where: { userId: user.id },
     });
 
@@ -69,11 +69,15 @@ export class AuthService {
       sub: user.id,
       email: user.email,
       admin: user.admin,
-      roles,
+      permissions,
     };
 
     const accessToken = this.signJWT(payload);
 
     return { accessToken, payload };
+  }
+
+  async getPermissions(userId: string) {
+    return this.prisma.permission.findMany({ where: { userId } });
   }
 }

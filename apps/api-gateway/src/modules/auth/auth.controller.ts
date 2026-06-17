@@ -1,3 +1,4 @@
+import { ILoginPayload, ILoginToken } from '@libs/common';
 import { Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
@@ -10,14 +11,16 @@ export class AuthController {
 
   @Get('profile')
   @UseGuards(JwtAuthGuard)
-  async getProfile(@Req() req: any) {
-    return this.authService.getUser(req.user.sub, { requestId: req.requestId, userId: req.user.sub });
+  async getProfile(@Req() req: Request) {
+    const { user, requestId } = req as any as { user: ILoginPayload; requestId: string };
+    return this.authService.getUser(user.sub, { requestId: requestId, userId: user.sub });
   }
 
   @Post('login')
   @UseGuards(LocalAuthGuard)
-  async login(@Req() req: any) {
-    return this.authService.login(req.user.token, { requestId: req.requestId });
+  async login(@Req() req: Request) {
+    const { user, requestId } = req as any as { user: ILoginToken; requestId: string };
+    return this.authService.login(user.token, { requestId });
   }
 
   @Post('refesh-token')

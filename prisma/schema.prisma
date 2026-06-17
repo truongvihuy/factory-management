@@ -19,8 +19,8 @@ model Factory {
   address   String
   createdAt DateTime @default(now())
 
-  workshops Workshop[]
-  roleUsers RoleUser[]
+  workshops   Workshop[]
+  permissions Permission[]
 }
 
 model Workshop {
@@ -101,10 +101,10 @@ model User {
   status    Boolean  @default(true)
   createdAt DateTime @default(now())
 
-  roleUsers RoleUser[]
+  permissions Permission[]
 }
 
-model RoleUser {
+model Permission {
   userId    String
   role      Role
   factoryId String

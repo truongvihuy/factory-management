@@ -1,19 +1,19 @@
-import { RoleUser } from 'generated/prisma';
+import { Permission } from 'generated/prisma';
 
 export interface ILogin {
   email: string;
   password: string;
 }
 
-export type ILoginToken = {
+export interface ILoginToken {
   token: string;
-};
+}
 
 export interface ILoginPayload {
   sub: string;
   email: string;
   admin: boolean;
-  roles: RoleUser[];
+  permissions: Permission[];
 }
 
 export interface ILoginResponse {

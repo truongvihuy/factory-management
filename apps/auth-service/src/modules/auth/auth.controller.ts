@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
 
@@ -18,5 +18,10 @@ export class AuthController {
   @Post('verify')
   async verify(@Body() payload: any) {
     return this.authService.verifyJWT(payload.token);
+  }
+
+  @Get('permission/:id')
+  async getPemissions(@Param() id: string) {
+    return this.authService.getPermissions(id);
   }
 }
