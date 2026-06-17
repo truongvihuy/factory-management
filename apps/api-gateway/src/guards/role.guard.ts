@@ -1,13 +1,17 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 
+import { AuthClient } from '../clients/auth.client';
+
 @Injectable()
-export class LocalAuthGuard implements CanActivate {
+export class RoleGuard implements CanActivate {
+  constructor(private readonly authClient: AuthClient) {}
+
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
     const authorization = request.headers.authorization ?? '';
     const [type, token] = authorization.split(' ');
 
-    if (type.toLowerCase() !== 'basic') {
+    if (type.toLowerCase() !== 'bearer') {
       throw new UnauthorizedException();
     }
 
@@ -15,8 +19,14 @@ export class LocalAuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
 
-    request['user'] = { token };
+    try {
+      const requestId = request.requestId;
+      const user = await this.authClient.verify(token, { requestId });
+      request.user = user;
 
-    return true;
+      return true;
+    } catch {
+      throw new UnauthorizedException();
+    }
   }
 }
