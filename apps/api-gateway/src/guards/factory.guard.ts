@@ -1,27 +1,28 @@
-import { ROLES_KEY } from '@libs/common';
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
 
-import { Role } from 'generated/prisma';
+import { Permission } from 'generated/prisma';
 import { AuthClient } from '../clients/auth.client';
 
 @Injectable()
-export class RoleGuard implements CanActivate {
-  constructor(
-    private readonly reflector: Reflector,
-    private readonly authClient: AuthClient,
-  ) {}
+export class FactoryGuard implements CanActivate {
+  constructor(private readonly authClient: AuthClient) {}
 
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
-    const roles = this.reflector.get<Role[]>(ROLES_KEY, context.getHandler());
 
     const factoryId: string = request.params.factoryId;
+    const permissions: Permission[] = request.user.permission;
+    const factoryIds = permissions.map((per: any) => per.factoryId);
+
+    if (!factoryIds.includes(factoryId)) {
+      throw new UnauthorizedException();
+    }
+
     const userId: string = request.user.sub;
     const requestId: string = request.requestId;
+    const role = await this.authClient.getPermission(userId, factoryId, { requestId, userId });
 
-    const role: Role = await this.authClient.getPermission(userId, factoryId, { userId, requestId });
-    if (!roles.includes(role)) {
+    if (!role) {
       throw new UnauthorizedException();
     }
 

@@ -12,9 +12,9 @@ export class FactoryController {
   @UseGuards(JwtAuthGuard)
   async getFactories(@Req() req: Request) {}
 
-  @Get(':id')
+  @Get(':factoryId')
   @UseGuards(JwtAuthGuard)
-  async getFactory(@Param('id') id: string) {}
+  async getFactory(@Param('factoryId') factoryId: string) {}
 
   @Post()
   @UseGuards(JwtAuthGuard, AdminGuard)
@@ -23,6 +23,6 @@ export class FactoryController {
   @Put()
   async updateFactory(@Body() body: any) {}
 
-  @Delete(':id')
-  async deleteFactory(@Param() id: string) {}
+  @Delete(':factoryId')
+  async deleteFactory(@Param('factoryId') factoryId: string) {}
 }

@@ -1,6 +1,9 @@
 export * from './constants/default.enum';
 export * from './constants/errors.enum';
 export * from './constants/header.constant';
+export * from './constants/key-metadata.constant';
+
+export * from './decorators/role.decorator';
 
 export * from './exceptions/bussiness.exception';
 export * from './exceptions/rpc.exception';

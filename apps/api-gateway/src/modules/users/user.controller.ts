@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 
 import { UserService } from './user.service';
 
@@ -8,4 +8,9 @@ export class UserController {
 
   @Get('')
   async getUserList() {}
+
+  @Get('permission/:userId')
+  async getPemissions(@Param('userId') userId: string) {
+    // return this.userService.getPermission(userId);
+  }
 }

@@ -1,31 +1,20 @@
+import { IS_ADMIN_KEY } from '@libs/common';
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 
 @Injectable()
 export class AdminGuard implements CanActivate {
-  constructor() {}
+  constructor(private readonly reflector: Reflector) {}
 
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
+    const isAdmin = this.reflector.get<boolean>(IS_ADMIN_KEY, context.getHandler()) ?? true;
 
-    if (request.user.admin) {
-      return true;
+    const user = request.user;
+    if (isAdmin !== user.admin) {
+      throw new UnauthorizedException();
     }
 
-    throw new UnauthorizedException();
-  }
-}
-
-@Injectable()
-export class NotAdminGuard implements CanActivate {
-  constructor() {}
-
-  async canActivate(context: ExecutionContext) {
-    const request = context.switchToHttp().getRequest();
-
-    if (!request.user.admin) {
-      return true;
-    }
-
-    throw new UnauthorizedException();
+    return true;
   }
 }
