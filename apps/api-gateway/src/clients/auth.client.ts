@@ -1,4 +1,4 @@
-import { Options, REQUEST_ID, USER_ID } from '@libs/common';
+import { REQUEST_ID, RequestContext, USER_ID } from '@libs/common';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -14,7 +14,12 @@ export class AuthClient {
     this.url = this.config.get('AUTH_SERVICE_URL');
   }
 
-  private async _requestServer(method: 'get' | 'post' | 'put' | 'delete', url: string, body?: any, options?: Options) {
+  private async _requestServer(
+    method: 'get' | 'post' | 'put' | 'delete',
+    url: string,
+    body?: any,
+    options?: RequestContext,
+  ) {
     let axiosRes;
     switch (method) {
       case 'get':
@@ -38,15 +43,15 @@ export class AuthClient {
     return response.data;
   }
 
-  async login(token: string, options?: Options) {
+  async login(token: string, options?: RequestContext) {
     return this._requestServer('post', `${this.url}/auth/login`, { token }, options);
   }
 
-  async verify(token: string, options?: Options) {
+  async verify(token: string, options?: RequestContext) {
     return this._requestServer('post', `${this.url}/auth/verify`, { token }, options);
   }
 
-  async getUser(userId: string, options?: Options) {
+  async getUser(userId: string, options?: RequestContext) {
     return this._requestServer('get', `${this.url}/user/${userId}`, null, options);
   }
 }

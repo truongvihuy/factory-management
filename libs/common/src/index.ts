@@ -16,7 +16,7 @@ export * from './interfaces/api-response.interface';
 export * from './interfaces/current-user.interface';
 export * from './interfaces/error-response.interface';
 export * from './interfaces/login.interface';
-export * from './interfaces/options.gateway';
+export * from './interfaces/request-context.intercace';
 
 export * from './logger/app.logger';
 export * from './logger/request-context.logger';
