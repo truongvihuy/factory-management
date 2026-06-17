@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 
+import { Role } from 'generated/prisma';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -13,12 +14,39 @@ export class UserController {
 
   @Post('')
   async createUser(@Body() dto: any) {
-    return this.userService.create();
+    return this.userService.createUser(dto);
   }
 
-  @Post('/role')
-  addRole(@Body() dto: any) {}
+  @Get('admin-permission/:id')
+  async checkAdmin(@Param('id') id: string) {
+    return this.userService.checkAdmin(id);
+  }
 
-  @Delete('/role')
-  deleteRole(@Body() dto: any) {}
+  @Post('admin-permission/:id/:admin')
+  async updateAdmin(@Param('id') id: string, @Param('admin') admin: boolean) {
+    return this.userService.updateAdmin(id, admin);
+  }
+
+  @Get('permission/:id')
+  async getPemissions(@Param('id') id: string) {
+    return this.userService.getPermissions(id);
+  }
+
+  @Get('permission/check/:userId/:factoryId/:role')
+  async checkPermission(
+    @Param('userId') userId: string,
+    @Param('factoryId') factoryId: string,
+    @Param('role') role: Role,
+  ) {
+    return this.userService.checkPermission(userId, factoryId, role);
+  }
+
+  @Post('permission/update/:userId/:factoryId/:role')
+  async updatePermission(
+    @Param('userId') userId: string,
+    @Param('factoryId') factoryId: string,
+    @Param('role') role: Role,
+  ) {
+    return this.userService.checkPermission(userId, factoryId, role);
+  }
 }

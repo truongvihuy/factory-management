@@ -1,24 +1,73 @@
 import { PrismaService } from '@libs/database';
 import { Injectable } from '@nestjs/common';
+import bcrypt from 'bcrypt';
+
+import { Role, User } from 'generated/prisma';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly authSerivce: AuthService,
+  ) {}
 
   async getUser(userId: string) {
     return this.prisma.user.findUnique({ where: { id: userId } });
   }
-  async create() {
-    // const hashedPassword =
-    //   await bcry.hash(
-    //     dto.password,
-    //     10,
-    //   );
-    // return this.prisma.user.create({
-    //   data: {
-    //     email: dto.email,
-    //     password: hashedPassword,
-    //   },
-    // });
+
+  async getUserList() {
+    return this.prisma.user.findMany({});
+  }
+
+  async createUser(userDTO: User) {
+    userDTO.password = await bcrypt.hash(userDTO.password, 10);
+    return this.prisma.user.create({
+      data: userDTO,
+    });
+  }
+
+  /** Handle Admin */
+  async checkAdmin(userId: string) {
+    const user = await this.prisma.user.findFirstOrThrow({
+      where: { id: userId },
+    });
+    return user.admin;
+  }
+
+  async updateAdmin(userId: string, admin: boolean) {
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { admin },
+    });
+    return true;
+  }
+
+  /** Handle Permission */
+  async getPermissions(userId: string) {
+    return this.prisma.permission.findMany({ where: { userId } });
+  }
+
+  async checkPermission(userId: string, factoryId: string, role: Role) {
+    const permission = await this.prisma.permission.findUniqueOrThrow({
+      where: { userId_factoryId: { userId, factoryId } },
+    });
+
+    if (permission?.role === role) {
+      return true;
+    }
+
+    return false;
+  }
+
+  async updatePermission(userId: string, factoryId: string, role: Role) {
+    const _permission = { userId, factoryId, role };
+    await this.prisma.permission.upsert({
+      where: { userId_factoryId: { userId, factoryId } },
+      create: _permission,
+      update: _permission,
+    });
+
+    return true;
   }
 }

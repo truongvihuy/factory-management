@@ -7,7 +7,7 @@ import { Pool } from 'pg';
 import { PrismaClient, Role } from '../generated/prisma';
 
 import * as factories from './data/factories.json';
-import * as roleUsers from './data/role-users.json';
+import * as permissions from './data/permission.json';
 import * as users from './data/users.json';
 import * as workshops from './data/workshops.json';
 
@@ -20,7 +20,7 @@ async function main() {
   // await seedDBFactory();
   // await seedDBWorkshop();
   await seedDBUser();
-  await seedDBRoleUser();
+  await seedDBPermission();
 }
 main()
   .then(async () => {
@@ -58,31 +58,29 @@ async function seedDBUser() {
   );
 }
 
-async function seedDBRoleUser() {
+async function seedDBPermission() {
   await Promise.all(
-    roleUsers.map(async (roleUser) => {
+    permissions.map(async (permission) => {
       const [user, factory] = await Promise.all([
-        prisma.user.findFirstOrThrow({ where: { email: roleUser.email } }),
-        prisma.factory.findFirstOrThrow({ skip: roleUser.factoryPos }),
+        prisma.user.findFirstOrThrow({ where: { email: permission.email } }),
+        prisma.factory.findFirstOrThrow({ skip: permission.factoryPos }),
       ]);
 
-      return prisma.roleUser.upsert({
+      const _permission = {
+        userId: user.id,
+        factoryId: factory.id,
+        role: permission.role as Role,
+      };
+
+      return prisma.permission.upsert({
         where: {
           userId_factoryId: {
             userId: user.id,
             factoryId: factory.id,
           },
         },
-        create: {
-          userId: user.id,
-          factoryId: factory.id,
-          role: roleUser.role as Role,
-        },
-        update: {
-          userId: user.id,
-          factoryId: factory.id,
-          role: roleUser.role as Role,
-        },
+        create: _permission,
+        update: _permission,
       });
     }),
   );

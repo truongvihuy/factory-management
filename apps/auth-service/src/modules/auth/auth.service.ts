@@ -1,40 +1,15 @@
-import { ILogin, ILoginPayload, ILoginResponse } from '@libs/common';
+import { AuthHandleService } from '@libs/auth';
+import { ILoginPayload, ILoginResponse } from '@libs/common';
 import { PrismaService } from '@libs/database';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import bcrypt from 'bcrypt';
-import { Role, User } from 'generated/prisma';
+import { User } from 'generated/prisma';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly jwtService: JwtService,
+    private readonly authHandleService: AuthHandleService,
   ) {}
-
-  /** Handle JWT */
-  verifyJWT(token: string): ILoginPayload {
-    return this.jwtService.verify(token);
-  }
-
-  signJWT(payload: ILoginPayload): string {
-    return this.jwtService.sign(payload);
-  }
-
-  /** Handle encode base64 email:password */
-  encoded(token: string): ILogin {
-    const [email, password] = Buffer.from(token, 'base64').toString('utf-8').split(':');
-    return { email, password };
-  }
-
-  /** Handle hash password */
-  hashPassword(password: string): string {
-    return bcrypt.hashSync(password, 10);
-  }
-
-  comparePassword(password: string, hashPassword: string): boolean {
-    return bcrypt.compareSync(password, hashPassword);
-  }
 
   async verifyEmailPwd(email: string, password: string): Promise<User | null> {
     const user = await this.prisma.user.findUnique({ where: { email } });
@@ -43,7 +18,7 @@ export class AuthService {
       return null;
     }
 
-    if (!this.comparePassword(password, user.password)) {
+    if (!this.authHandleService.comparePassword(password, user.password)) {
       return null;
     }
 
@@ -72,52 +47,8 @@ export class AuthService {
       permissions,
     };
 
-    const accessToken = this.signJWT(payload);
+    const accessToken = this.authHandleService.signJWT(payload);
 
     return { accessToken, payload };
-  }
-
-  /** Handle Admin */
-  async checkAdmin(userId: string) {
-    const user = await this.prisma.user.findFirstOrThrow({
-      where: { id: userId },
-    });
-    return user.admin;
-  }
-
-  async updateAdmin(userId: string, admin: boolean) {
-    await this.prisma.user.update({
-      where: { id: userId },
-      data: { admin },
-    });
-    return true;
-  }
-
-  /** Handle Permission */
-  async getPermissions(userId: string) {
-    return this.prisma.permission.findMany({ where: { userId } });
-  }
-
-  async checkPermission(userId: string, factoryId: string, role: Role) {
-    const permission = await this.prisma.permission.findUniqueOrThrow({
-      where: { userId_factoryId: { userId, factoryId } },
-    });
-
-    if (permission?.role === role) {
-      return true;
-    }
-
-    return false;
-  }
-
-  async updatePermission(userId: string, factoryId: string, role: Role) {
-    const _permission = { userId, factoryId, role };
-    await this.prisma.permission.upsert({
-      where: { userId_factoryId: { userId, factoryId } },
-      create: _permission,
-      update: _permission,
-    });
-
-    return true;
   }
 }
