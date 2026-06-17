@@ -77,6 +77,22 @@ export class AuthService {
     return { accessToken, payload };
   }
 
+  /** Handle Admin */
+  async checkAdmin(userId: string) {
+    const user = await this.prisma.user.findFirstOrThrow({
+      where: { id: userId },
+    });
+    return user.admin;
+  }
+
+  async updateAdmin(userId: string, admin: boolean) {
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { admin },
+    });
+    return true;
+  }
+
   /** Handle Permission */
   async getPermissions(userId: string) {
     return this.prisma.permission.findMany({ where: { userId } });

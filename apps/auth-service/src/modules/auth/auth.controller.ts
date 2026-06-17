@@ -21,6 +21,16 @@ export class AuthController {
     return this.authService.verifyJWT(payload.token);
   }
 
+  @Get('admin-permission/:id')
+  async checkAdmin(@Param('id') id: string) {
+    return this.authService.checkAdmin(id);
+  }
+
+  @Post('admin-permission/:id/:admin')
+  async updateAdmin(@Param('id') id: string, @Param('admin') admin: boolean) {
+    return this.authService.updateAdmin(id, admin);
+  }
+
   @Get('permission/:id')
   async getPemissions(@Param('id') id: string) {
     return this.authService.getPermissions(id);

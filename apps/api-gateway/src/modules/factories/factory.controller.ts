@@ -1,5 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 
+import { AdminGuard } from '../../guards/admin.guard';
+import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { FactoryService } from './factory.service';
 
 @Controller('factory')
@@ -7,12 +9,15 @@ export class FactoryController {
   constructor(private readonly factoryService: FactoryService) {}
 
   @Get()
-  async getFactories() {}
+  @UseGuards(JwtAuthGuard)
+  async getFactories(@Req() req: Request) {}
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   async getFactory(@Param('id') id: string) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard, AdminGuard)
   async addFactory(@Body() body: any) {}
 
   @Put()
