@@ -1,20 +1,9 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
-import { firstValueFrom } from 'rxjs';
+import { ConfigService } from '@nestjs/config';
+import { BaseClient } from './base.client';
 
-@Injectable()
-export class FactoryClient {
-  constructor(private readonly httpService: HttpService) {}
-
-  async getMachines() {
-    const response = await firstValueFrom<any>(this.httpService.get('http://factory-service:3001/machines'));
-
-    return response.data;
-  }
-
-  async getMachine(id: string) {
-    const response = await firstValueFrom(this.httpService.get(`http://factory-service:3001/machines/${id}`));
-
-    return response.data;
+export class FactoryClient extends BaseClient {
+  constructor(config: ConfigService, httpService: HttpService) {
+    super(config, httpService, 'AUTH_SERVICE_URL');
   }
 }
