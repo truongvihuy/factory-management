@@ -20,7 +20,7 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Roles(Role.MANAGER)
-  @Get(':factoryId')
+  @Get('/factory/:factoryId')
   async getUserListOfFactory(@Param('factoryId') factoryId: string) {
     //
   }
