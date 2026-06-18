@@ -4,7 +4,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { AuthModule } from './modules/auth/auth.module';
-import { FactoryModule } from './modules/factories/factory.module';
+import { FactoryModule } from './modules/factory/factory.module';
 
 @Module({
   imports: [
