@@ -1,10 +1,18 @@
 [
   {
-    "name": "Workshop ABC",
+    "name": "Workshop A1",
     "factoryPos": 0
   },
   {
-    "name": "Workshop XYZ",
+    "name": "Workshop A2",
     "factoryPos": 0
+  },
+  {
+    "name": "Workshop B1",
+    "factoryPos": 1
+  },
+  {
+    "name": "Workshop B2",
+    "factoryPos": 1
   }
 ]

@@ -2,15 +2,50 @@
   {
     "name": "Admin",
     "email": "admin@abc.co",
-    "password": "admin123",
+    "password": "123456",
     "admin": true,
     "status": true
   },
   {
-    "name": "Manager",
-    "email": "manager@abc.co",
-    "password": "admin123",
-    "admin": true,
+    "name": "Manager A",
+    "email": "managera@abc.co",
+    "password": "123456",
+    "admin": false,
+    "status": true
+  },
+  {
+    "name": "Manager B",
+    "email": "managerb@abc.co",
+    "password": "123456",
+    "admin": false,
+    "status": true
+  },
+  {
+    "name": "Engineer A",
+    "email": "engineera@abc.co",
+    "password": "123456",
+    "admin": false,
+    "status": true
+  },
+  {
+    "name": "Engineer B",
+    "email": "engineerb@abc.co",
+    "password": "123456",
+    "admin": false,
+    "status": true
+  },
+  {
+    "name": "Operator A",
+    "email": "operatora@abc.co",
+    "password": "123456",
+    "admin": false,
+    "status": true
+  },
+  {
+    "name": "View",
+    "email": "view@abc.co",
+    "password": "123456",
+    "admin": false,
     "status": true
   }
 ]
