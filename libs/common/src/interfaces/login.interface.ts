@@ -1,5 +1,3 @@
-import { Permission } from 'generated/prisma';
-
 export interface ILogin {
   email: string;
   password: string;
@@ -9,14 +7,18 @@ export interface ILoginToken {
   token: string;
 }
 
-export interface ILoginPayload {
+export interface IAccessTokenPayload {
   sub: string;
+  sessionId: string;
   email: string;
-  admin: boolean;
-  permissions: Permission[];
+}
+
+export interface IRefreshTokenPayload {
+  sub: string;
+  sessionId: string;
 }
 
 export interface ILoginResponse {
   accessToken: string;
-  payload: ILoginPayload;
+  refreshToken: string;
 }
