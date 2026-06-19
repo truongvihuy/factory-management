@@ -7,27 +7,23 @@ import { AuthClient } from '../../clients/auth.client';
 export class AuthService {
   constructor(private readonly client: AuthClient) {}
 
-  async login(token: string, options: RequestContext) {
-    return this.client.login(token, options);
+  login(payload: { basicToken: string; ip: string; userAgent: string | null }, options: RequestContext) {
+    return this.client.login(payload, options);
   }
 
-  async verify(token: string, options: RequestContext) {
+  refreshToken(refreshToken: string, options: RequestContext) {
+    return this.client.refreshToken(refreshToken, options);
+  }
+
+  logout(sessionId: string, options: RequestContext) {
+    return this.client.logout(sessionId, options);
+  }
+
+  verify(token: string, options: RequestContext) {
     return this.client.verify(token, options);
   }
 
   async getUser(userId: string, options: RequestContext) {
     return this.client.getUser(userId, options);
   }
-
-  // register();
-
-  // refreshToken();
-
-  // logout();
-
-  // validateUser();
-
-  // hashPassword();
-
-  // comparePassword();
 }

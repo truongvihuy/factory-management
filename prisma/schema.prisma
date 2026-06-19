@@ -63,7 +63,7 @@ model RefreshToken {
   sessionId String   @unique
   tokenHash String
   expiredAt DateTime
-  createdAt DateTime
+  createdAt DateTime @default(now())
 
   session Session @relation(fields: [sessionId], references: [id])
 }

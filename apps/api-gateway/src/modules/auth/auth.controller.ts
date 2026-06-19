@@ -1,5 +1,6 @@
-import { ILoginPayload, ILoginToken } from '@libs/common';
-import { Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { IAccessTokenPayload, ILoginToken } from '@libs/common';
+import { Body, Controller, Get, Ip, Post, Req, UseGuards } from '@nestjs/common';
+import type { Request } from 'express';
 
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { LocalAuthGuard } from '../../guards/local-auth.guard';
@@ -9,20 +10,31 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get('profile')
   @UseGuards(JwtAuthGuard)
-  async getProfile(@Req() req: Request) {
-    const { user, requestId } = req as any as { user: ILoginPayload; requestId: string };
+  @Get('profile')
+  getProfile(@Req() req: Request) {
+    const { user, requestId } = req as any as { user: IAccessTokenPayload; requestId: string };
     return this.authService.getUser(user.sub, { requestId: requestId, userId: user.sub });
   }
 
-  @Post('login')
   @UseGuards(LocalAuthGuard)
-  async login(@Req() req: Request) {
+  @Post('login')
+  login(@Req() req: Request, @Ip() ip: string) {
     const { user, requestId } = req as any as { user: ILoginToken; requestId: string };
-    return this.authService.login(user.token, { requestId });
+    const userAgent = req.headers['user-agent'] ?? null;
+    return this.authService.login({ basicToken: user.token, ip, userAgent }, { requestId });
   }
 
-  @Post('refesh-token')
-  async refeshToken() {}
+  @Post('refresh-token')
+  refreshToken(@Req() req: Request, @Body() payload: any) {
+    const requestId = (req as any).requestId;
+    return this.authService.refreshToken(payload.refreshToken, { requestId });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('logout')
+  logout(@Req() req: Request) {
+    const { user, requestId } = req as any as { user: IAccessTokenPayload; requestId: string };
+    return this.authService.logout(user.sessionId, { requestId, userId: user.sub });
+  }
 }

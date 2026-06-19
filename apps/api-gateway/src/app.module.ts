@@ -4,7 +4,6 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { AuthModule } from './modules/auth/auth.module';
-import { FactoryModule } from './modules/factory/factory.module';
 import { UserModule } from './modules/user/user.module';
 
 @Module({
@@ -15,7 +14,7 @@ import { UserModule } from './modules/user/user.module';
     }),
     AuthModule,
     UserModule,
-    FactoryModule,
+    // FactoryModule,
   ],
 })
 export class AppModule implements NestModule {

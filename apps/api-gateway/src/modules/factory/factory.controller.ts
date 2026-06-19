@@ -1,6 +1,6 @@
-import { Admin, ILoginPayload } from '@libs/common';
+import { Admin, IAccessTokenPayload } from '@libs/common';
 import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
-import { Permission } from 'generated/prisma';
+import type { Request } from 'express';
 
 import { AdminGuard } from '../../guards/admin.guard';
 import { FactoryGuard } from '../../guards/factory.guard';
@@ -14,8 +14,8 @@ export class FactoryController {
   @UseGuards(JwtAuthGuard, AdminGuard)
   @Admin()
   @Get('all')
-  getFactoryListAll(@Req() req: any) {
-    const { user, requestId } = req as any as { user: ILoginPayload; requestId: string };
+  getFactoryListAll(@Req() req: Request) {
+    const { user, requestId } = req as any as { user: IAccessTokenPayload; requestId: string };
 
     return this.factoryService.getFactoryListAll({ requestId, userId: user.sub });
   }
@@ -23,9 +23,8 @@ export class FactoryController {
   @UseGuards(JwtAuthGuard)
   @Get()
   async getFactoryListByIds(@Req() req: any) {
-    const permissions: Permission[] = req.user.permission;
-    const factoryIds = permissions.map((per) => per.factoryId);
-
+    // const permissions: Permission[] = req.user.permission;
+    // const factoryIds = permissions.map((per) => per.factoryId);
     // return this.factoryService.getFactoryListByIds(factoryIds);
   }
 

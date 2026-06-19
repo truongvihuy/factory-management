@@ -1,13 +1,15 @@
 import { RequestContext } from '@libs/common';
 import { HttpService } from '@nestjs/axios';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Factory, Machine, Sensor, Workshop } from 'generated/prisma';
 
 import { BaseClient } from './base.client';
 
+@Injectable()
 export class FactoryClient extends BaseClient {
-  constructor(config: ConfigService, httpService: HttpService) {
-    super(config, httpService, 'FACTORY_SERVICE_URL');
+  constructor(configService: ConfigService, httpService: HttpService) {
+    super(configService, httpService, 'FACTORY_SERVICE_URL');
   }
 
   getFactoryListAll(options?: RequestContext) {
