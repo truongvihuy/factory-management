@@ -1,4 +1,4 @@
-import { Admin } from '@libs/common';
+import { Admin, ILoginPayload } from '@libs/common';
 import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { Permission } from 'generated/prisma';
 
@@ -14,8 +14,10 @@ export class FactoryController {
   @UseGuards(JwtAuthGuard, AdminGuard)
   @Admin()
   @Get('all')
-  getFactoryListAll() {
-    // return this.factoryService.getFactoryListAll();
+  getFactoryListAll(@Req() req: any) {
+    const { user, requestId } = req as any as { user: ILoginPayload; requestId: string };
+
+    return this.factoryService.getFactoryListAll({ requestId, userId: user.sub });
   }
 
   @UseGuards(JwtAuthGuard)
