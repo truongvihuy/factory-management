@@ -4,9 +4,10 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import bcrypt from 'bcrypt';
 import { Pool } from 'pg';
 
-import { PrismaClient, Role } from '../generated/prisma';
+import { PrismaClient, Role, Status_Machine } from '../generated/prisma';
 
 import * as factories from './data/factories.json';
+import * as machines from './data/machines.json';
 import * as permissions from './data/permission.json';
 import * as users from './data/users.json';
 import * as workshops from './data/workshops.json';
@@ -19,8 +20,9 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
   // await seedDBFactory();
   // await seedDBWorkshop();
-  await seedDBUser();
-  await seedDBPermission();
+  await seedDBMachine();
+  // await seedDBUser();
+  // await seedDBPermission();
 }
 main()
   .then(async () => {
@@ -98,6 +100,23 @@ async function seedDBWorkshop() {
         data: {
           name: wor.name,
           factoryId: factory.id,
+        },
+      });
+    }),
+  );
+}
+
+async function seedDBMachine() {
+  await Promise.all(
+    machines.map(async (mac) => {
+      const workshop = await prisma.workshop.findFirstOrThrow({ skip: mac.workshopPos });
+      return prisma.machine.create({
+        data: {
+          name: mac.name,
+          workshopId: workshop.id,
+          infoMachine: mac.infoMachine,
+          installDate: mac.installDate,
+          status: mac.status as Status_Machine,
         },
       });
     }),

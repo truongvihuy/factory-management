@@ -1,7 +1,37 @@
 [
   {
-    "email": "manager@abc.co",
+    "email": "managera@abc.co",
     "role": "MANAGER",
     "factoryPos": 0
+  },
+  {
+    "email": "managerb@abc.co",
+    "role": "MANAGER",
+    "factoryPos": 1
+  },
+  {
+    "email": "engineera@abc.co",
+    "role": "ENGINEER",
+    "factoryPos": 0
+  },
+  {
+    "email": "engineerb@abc.co",
+    "role": "ENGINEER",
+    "factoryPos": 1
+  },
+  {
+    "email": "operatora@abc.co",
+    "role": "OPERATOR",
+    "factoryPos": 0
+  },
+  {
+    "email": "view@abc.co",
+    "role": "VIEW",
+    "factoryPos": 0
+  },
+  {
+    "email": "view@abc.co",
+    "role": "VIEW",
+    "factoryPos": 1
   }
 ]
