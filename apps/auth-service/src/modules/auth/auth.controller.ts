@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-
 import { AuthHandleService } from '@libs/auth';
+import { Body, Controller, Post } from '@nestjs/common';
+
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -10,9 +10,6 @@ export class AuthController {
     private readonly authService: AuthService,
   ) {}
 
-  @Get('profile')
-  async getProfile() {}
-
   @Post('login')
   async login(@Body() payload: any) {
     const { email, password } = this.authHandleService.encoded(payload.basicToken);
@@ -20,7 +17,7 @@ export class AuthController {
     return this.authService.login(email, password, ip, userAgent);
   }
 
-  @Post('refesh-token')
+  @Post('refresh-token')
   async refeshToken(@Body() payload: any) {
     return this.authService.refreshToken(payload.refreshToken);
   }
