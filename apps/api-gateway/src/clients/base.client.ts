@@ -7,7 +7,7 @@ export class BaseClient {
   private readonly prefixUrl;
   constructor(
     protected readonly config: ConfigService,
-    protected readonly httpService: HttpService,
+    private readonly httpService: HttpService,
     KEY_URL: string,
   ) {
     this.prefixUrl = this.config.get(KEY_URL);
