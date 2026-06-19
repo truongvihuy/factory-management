@@ -8,7 +8,7 @@ import { PrismaClient, Role, Status_Machine } from '../generated/prisma';
 
 import * as factories from './data/factories.json';
 import * as machines from './data/machines.json';
-import * as permissions from './data/permission.json';
+import * as userRoles from './data/userRoles.json';
 import * as users from './data/users.json';
 import * as workshops from './data/workshops.json';
 
@@ -18,11 +18,11 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  // await seedDBFactory();
-  // await seedDBWorkshop();
+  await seedDBFactory();
+  await seedDBWorkshop();
   await seedDBMachine();
-  // await seedDBUser();
-  // await seedDBPermission();
+  await seedDBUser();
+  await seedDBUserRole();
 }
 main()
   .then(async () => {
@@ -60,29 +60,29 @@ async function seedDBUser() {
   );
 }
 
-async function seedDBPermission() {
+async function seedDBUserRole() {
   await Promise.all(
-    permissions.map(async (permission) => {
+    userRoles.map(async (userRole) => {
       const [user, factory] = await Promise.all([
-        prisma.user.findFirstOrThrow({ where: { email: permission.email } }),
-        prisma.factory.findFirstOrThrow({ skip: permission.factoryPos }),
+        prisma.user.findFirstOrThrow({ where: { email: userRole.email } }),
+        prisma.factory.findFirstOrThrow({ skip: userRole.factoryPos }),
       ]);
 
-      const _permission = {
+      const _userRole = {
         userId: user.id,
         factoryId: factory.id,
-        role: permission.role as Role,
+        role: userRole.role as Role,
       };
 
-      return prisma.permission.upsert({
+      return prisma.userRole.upsert({
         where: {
           userId_factoryId: {
             userId: user.id,
             factoryId: factory.id,
           },
         },
-        create: _permission,
-        update: _permission,
+        create: _userRole,
+        update: _userRole,
       });
     }),
   );
