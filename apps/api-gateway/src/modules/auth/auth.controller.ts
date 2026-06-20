@@ -7,9 +7,10 @@ import {
   type IForgotPassword,
   type IResetPassword,
 } from '@libs/common';
-import { Body, Controller, Get, Ip, Param, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Ip, Param, Post, Req, UseGuards } from '@nestjs/common';
 import type { Request } from 'express';
 
+import { LocalAuthGuard } from '../../guards/local-auth.guard';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -21,6 +22,7 @@ export class AuthController {
     return this.authService.getUser(user.sub, { requestId: requestId, userId: user.sub });
   }
 
+  @UseGuards(LocalAuthGuard)
   @Post('login')
   @Public()
   login(@Req() req: Request, @RequestId() requestId: string, @Ip() ip: string) {
