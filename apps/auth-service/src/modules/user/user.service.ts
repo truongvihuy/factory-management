@@ -33,35 +33,7 @@ export class UserService {
     });
   }
 
-  /** Handle Admin */
-  async checkAdmin(userId: string) {
-    const user = await this.prisma.user.findFirstOrThrow({
-      where: { id: userId },
-    });
-    return user.admin;
-  }
-
-  async updateAdmin(userId: string, admin: boolean) {
-    await this.prisma.user.update({
-      where: { id: userId },
-      data: { admin },
-    });
-    return true;
-  }
-
-  /** Handle Permission */
-  async checkUserRole(userId: string, factoryId: string, role: Role) {
-    const userRole = await this.prisma.userRole.findUnique({
-      where: { userId_factoryId: { userId, factoryId } },
-    });
-
-    if (userRole?.role === role) {
-      return true;
-    }
-
-    return false;
-  }
-
+  /** Handle User Role */
   async getUserRoles(userId: string) {
     const [user, userRoles] = await Promise.all([
       this.prisma.user.findUnique({ where: { id: userId } }),
@@ -72,13 +44,6 @@ export class UserService {
       admin: user?.admin,
       userRoles,
     };
-  }
-
-  async getRole(userId: string, factoryId: string) {
-    const userRole = await this.prisma.userRole.findUnique({
-      where: { userId_factoryId: { userId, factoryId } },
-    });
-    return userRole?.role;
   }
 
   async updateUserRole(userId: string, factoryId: string, role: Role) {
