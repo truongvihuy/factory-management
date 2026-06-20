@@ -1,6 +1,20 @@
-import { Module } from '@nestjs/common';
+import { RequestIdServiceMiddleware } from '@libs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+
+import { FactoryService } from './modules/factory/factory.service';
 
 @Module({
-  imports: [],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: 'env/.env.factory-service',
+    }),
+    FactoryService,
+  ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(RequestIdServiceMiddleware).forRoutes('*');
+  }
+}
