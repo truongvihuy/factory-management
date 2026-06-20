@@ -1,5 +1,5 @@
 import { AuthHandleService } from '@libs/auth';
-import type { IChangePassword, IForgotPassword, IResetPassword, IToken } from '@libs/common';
+import type { IChangePassword, ICheckUserRole, IForgotPassword, IResetPassword, IToken } from '@libs/common';
 import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
 import type { Request } from 'express';
 import { AuthService } from './auth.service';
@@ -28,11 +28,6 @@ export class AuthController {
     return this.authService.logout(payload.sessionId);
   }
 
-  @Post('verify')
-  async verify(@Body() payload: IToken) {
-    return this.authHandleService.verifyJWT(payload.token);
-  }
-
   @Post('change-password')
   async changePassword(@Req() req: Request, @Body() payload: IChangePassword) {
     const userId = (req as any).userId;
@@ -53,6 +48,16 @@ export class AuthController {
   @Post('reset-password')
   async resetPassword(@Body() payload: IResetPassword) {
     return this.authService.resetPassword(payload.token, payload.newPassword);
+  }
+
+  @Post('verify')
+  async verify(@Body() payload: IToken) {
+    return this.authHandleService.verifyJWT(payload.token);
+  }
+
+  @Post('check/user-role')
+  async checkUserRole(@Body() payload: ICheckUserRole) {
+    return this.authService.checkUserRole(payload);
   }
 
   @Get('session')

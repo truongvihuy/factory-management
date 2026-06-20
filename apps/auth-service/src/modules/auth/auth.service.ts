@@ -1,5 +1,12 @@
 import { AuthHandleService } from '@libs/auth';
-import { DEFAULT, IAccessTokenPayload, ILoginResponse, IRefreshTokenPayload } from '@libs/common';
+import {
+  DEFAULT,
+  IAccessTokenPayload,
+  ICheckUserRole,
+  ILoginResponse,
+  IRefreshTokenPayload,
+  ROLE_PERMISSIONS,
+} from '@libs/common';
 import { PrismaService } from '@libs/database';
 import { ConflictException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -90,6 +97,35 @@ export class AuthService {
     // Handle create token and send mail
 
     return this._changePasswordAndRevorkedAll(userId, newPassword);
+  }
+
+  async checkUserRole(data: ICheckUserRole) {
+    const [user, userRole] = await Promise.all([
+      this._checkUser(data.userId),
+      data.factoryId
+        ? this.prisma.userRole.findUnique({
+            where: {
+              userId_factoryId: {
+                userId: data.userId,
+                factoryId: data.factoryId,
+              },
+            },
+          })
+        : null,
+    ]);
+    let hasPermission = false;
+    if (user.admin) {
+      hasPermission = ROLE_PERMISSIONS.ADMIN.includes(data.permission);
+      if (hasPermission) {
+        return true;
+      }
+    }
+
+    if (userRole) {
+      return ROLE_PERMISSIONS[userRole.role].includes(data.permission);
+    }
+
+    return false;
   }
 
   async getSessions(userId: string) {

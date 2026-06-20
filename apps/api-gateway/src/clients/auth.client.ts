@@ -23,10 +23,6 @@ export class AuthClient extends BaseClient {
     return this._requestServer('post', '/auth/logout', { sessionId }, options);
   }
 
-  async verify(token: string, options?: RequestContext) {
-    return this._requestServer('post', `/auth/verify`, { token }, options);
-  }
-
   async changePassword(data: IChangePassword, options?: RequestContext) {
     return this._requestServer('post', `/auth/change-password`, data, options);
   }
@@ -51,6 +47,23 @@ export class AuthClient extends BaseClient {
     return this._requestServer('post', `/auth/session/revorked/${sessionId}`, null, options);
   }
 
+  async verify(token: string, options?: RequestContext) {
+    return this._requestServer('post', `/auth/verify`, { token }, options);
+  }
+
+  async checkUserRole(userId: string, factoryId: string, permission: string, options?: RequestContext) {
+    return this._requestServer(
+      'post',
+      `/auth/check/user-role`,
+      {
+        userId,
+        factoryId,
+        permission,
+      },
+      options,
+    );
+  }
+
   async getUser(userId: string, options?: RequestContext) {
     return this._requestServer('get', `/user/${userId}`, null, options);
   }
@@ -73,10 +86,6 @@ export class AuthClient extends BaseClient {
 
   async getUserRoles(userId: string, options?: RequestContext) {
     return this._requestServer('get', `/user/role/${userId}`, null, options);
-  }
-
-  async checkUserRole(userId: string, factoryId: string, role: Role, options?: RequestContext) {
-    return this._requestServer('get', `/user/role/${userId}/${factoryId}/${role}`, null, options);
   }
 
   async getRole(userId: string, factoryId: string, options?: RequestContext) {
