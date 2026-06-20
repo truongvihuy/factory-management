@@ -1,81 +1,83 @@
-import type { IAccessTokenPayload, IChangePassword, IForgotPassword, IResetPassword, IToken } from '@libs/common';
-import { Body, Controller, Get, Ip, Param, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  CurrentUser,
+  Public,
+  RequestId,
+  type IAccessTokenPayload,
+  type IChangePassword,
+  type IForgotPassword,
+  type IResetPassword,
+} from '@libs/common';
+import { Body, Controller, Get, Ip, Param, Post, Req } from '@nestjs/common';
 import type { Request } from 'express';
 
-import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
-import { LocalAuthGuard } from '../../guards/local-auth.guard';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Get('profile')
-  getProfile(@Req() req: Request) {
-    const { user, requestId } = req as any as { user: IAccessTokenPayload; requestId: string };
+  getProfile(@CurrentUser() user: IAccessTokenPayload, @RequestId() requestId: string) {
     return this.authService.getUser(user.sub, { requestId: requestId, userId: user.sub });
   }
 
-  @UseGuards(LocalAuthGuard)
   @Post('login')
-  login(@Req() req: Request, @Ip() ip: string) {
-    const { user, requestId } = req as any as { user: IToken; requestId: string };
+  @Public()
+  login(@Req() req: Request, @RequestId() requestId: string, @Ip() ip: string) {
+    const user = (req as any).user;
     const userAgent = req.headers['user-agent'] ?? null;
     return this.authService.login({ basicToken: user.token, ip, userAgent }, { requestId });
   }
 
   @Post('refresh-token')
-  refreshToken(@Req() req: Request, @Body() payload: any) {
-    const requestId = (req as any).requestId;
+  @Public()
+  refreshToken(@RequestId() requestId: string, @Body() payload: any) {
     return this.authService.refreshToken(payload.refreshToken, { requestId });
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('logout')
-  logout(@Req() req: Request) {
-    const { user, requestId } = req as any as { user: IAccessTokenPayload; requestId: string };
+  logout(@CurrentUser() user: IAccessTokenPayload, @RequestId() requestId: string) {
     return this.authService.logout(user.sessionId, { requestId, userId: user.sub });
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('change-password')
-  changePassword(@Req() req: Request, @Body() payload: IChangePassword) {
-    const { user, requestId } = req as any as { user: IAccessTokenPayload; requestId: string };
+  changePassword(
+    @CurrentUser() user: IAccessTokenPayload,
+    @RequestId() requestId: string,
+    @Body() payload: IChangePassword,
+  ) {
     payload.exceptSessionId = user.sessionId;
     return this.authService.changePassword(payload, { requestId, userId: user.sub });
   }
 
   @Post('forgot-password')
-  forgotPassword(@Req() req: Request, @Body() payload: IForgotPassword) {
-    const requestId = (req as any).requestId;
+  @Public()
+  forgotPassword(@Body() payload: IForgotPassword, @RequestId() requestId: string) {
     return this.authService.forgotPassword(payload, { requestId });
   }
 
   @Post('reset-password')
-  resetPassword(@Req() req: Request, @Body() payload: IResetPassword) {
-    const requestId = (req as any).requestId;
+  @Public()
+  resetPassword(@Body() payload: IResetPassword, @RequestId() requestId: string) {
     return this.authService.resetPassword(payload, { requestId });
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('session')
-  getSession(@Req() req: Request) {
-    const { user, requestId } = req as any as { user: IAccessTokenPayload; requestId: string };
+  getSession(@CurrentUser() user: IAccessTokenPayload, @RequestId() requestId: string) {
     return this.authService.getSessions({ userId: user.sub, requestId });
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('ression/revorked/all')
-  revorkedAll(@Req() req: Request) {
-    const { user, requestId } = req as any as { user: IAccessTokenPayload; requestId: string };
+  revorkedAll(@CurrentUser() user: IAccessTokenPayload, @RequestId() requestId: string) {
     return this.authService.revorkedAll(user.sessionId, { userId: user.sub, requestId });
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('ression/revorked/:sessionId')
-  revorked(@Req() req: Request, @Param('sessionId') sessionId: string) {
-    const { user, requestId } = req as any as { user: IAccessTokenPayload; requestId: string };
-    return this.authService.revorked(user.sessionId, { userId: user.sub, requestId });
+  revorked(
+    @CurrentUser() user: IAccessTokenPayload,
+    @RequestId() requestId: string,
+    @Param('sessionId') sessionId: string,
+  ) {
+    return this.authService.revorked(sessionId, { userId: user.sub, requestId });
   }
 }

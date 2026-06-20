@@ -2,7 +2,7 @@
 
 import { Role } from 'generated/prisma';
 
-export enum Permission {
+export enum PermissionCode {
   // User
   USER_READ = 'user.read',
   USER_CREATE = 'user.create',
@@ -53,88 +53,93 @@ export enum Permission {
 export const ROLE_PERMISSIONS = {
   ADMIN: [
     // User
-    Permission.USER_READ,
-    Permission.USER_CREATE,
-    Permission.USER_UPDATE,
-    Permission.USER_DELETE,
+    PermissionCode.USER_READ,
+    PermissionCode.USER_CREATE,
+    PermissionCode.USER_UPDATE,
+    PermissionCode.USER_DELETE,
+    // UserRole
+    PermissionCode.ROLE_READ,
+    PermissionCode.ROLE_CREATE,
+    PermissionCode.ROLE_UPDATE,
+    PermissionCode.ROLE_DELETE,
     // Factory
-    Permission.FACTORY_READ,
-    Permission.FACTORY_CREATE,
-    Permission.FACTORY_UPDATE,
-    Permission.FACTORY_DELETE,
+    PermissionCode.FACTORY_READ,
+    PermissionCode.FACTORY_CREATE,
+    PermissionCode.FACTORY_UPDATE,
+    PermissionCode.FACTORY_DELETE,
   ],
   [Role.MANAGER]: [
     // User
-    Permission.USER_READ,
+    PermissionCode.USER_READ,
     // Factory
-    Permission.FACTORY_READ,
+    PermissionCode.FACTORY_READ,
     // Workshop
-    Permission.WORKSHOP_READ,
+    PermissionCode.WORKSHOP_READ,
     // Machine
-    Permission.MACHINE_READ,
-    Permission.MACHINE_CREATE,
-    Permission.MACHINE_UPDATE,
-    Permission.MACHINE_DELETE,
+    PermissionCode.MACHINE_READ,
+    PermissionCode.MACHINE_CREATE,
+    PermissionCode.MACHINE_UPDATE,
+    PermissionCode.MACHINE_DELETE,
     // Sensor
-    Permission.SENSOR_READ,
-    Permission.SENSOR_CREATE,
-    Permission.SENSOR_UPDATE,
-    Permission.SENSOR_DELETE,
+    PermissionCode.SENSOR_READ,
+    PermissionCode.SENSOR_CREATE,
+    PermissionCode.SENSOR_UPDATE,
+    PermissionCode.SENSOR_DELETE,
     // Telemetry
-    Permission.TELEMETRY_READ,
+    PermissionCode.TELEMETRY_READ,
   ],
   [Role.ENGINEER]: [
     // User
-    Permission.USER_READ,
+    PermissionCode.USER_READ,
     // Factory
-    Permission.FACTORY_READ,
+    PermissionCode.FACTORY_READ,
     // Workshop
-    Permission.WORKSHOP_READ,
+    PermissionCode.WORKSHOP_READ,
     // Machine
-    Permission.MACHINE_READ,
-    Permission.MACHINE_CREATE,
-    Permission.MACHINE_UPDATE,
-    Permission.MACHINE_DELETE,
+    PermissionCode.MACHINE_READ,
+    PermissionCode.MACHINE_CREATE,
+    PermissionCode.MACHINE_UPDATE,
+    PermissionCode.MACHINE_DELETE,
     // Sensor
-    Permission.SENSOR_READ,
-    Permission.SENSOR_CREATE,
-    Permission.SENSOR_UPDATE,
-    Permission.SENSOR_DELETE,
+    PermissionCode.SENSOR_READ,
+    PermissionCode.SENSOR_CREATE,
+    PermissionCode.SENSOR_UPDATE,
+    PermissionCode.SENSOR_DELETE,
     // Telemetry
-    Permission.TELEMETRY_READ,
+    PermissionCode.TELEMETRY_READ,
   ],
   [Role.OPERATOR]: [
     // User
-    Permission.USER_READ,
+    PermissionCode.USER_READ,
     // Factory
-    Permission.FACTORY_READ,
+    PermissionCode.FACTORY_READ,
     // Workshop
-    Permission.WORKSHOP_READ,
+    PermissionCode.WORKSHOP_READ,
     // Machine
-    Permission.MACHINE_READ,
-    Permission.MACHINE_CREATE,
-    Permission.MACHINE_UPDATE,
-    Permission.MACHINE_DELETE,
+    PermissionCode.MACHINE_READ,
+    PermissionCode.MACHINE_CREATE,
+    PermissionCode.MACHINE_UPDATE,
+    PermissionCode.MACHINE_DELETE,
     // Sensor
-    Permission.SENSOR_READ,
-    Permission.SENSOR_CREATE,
-    Permission.SENSOR_UPDATE,
-    Permission.SENSOR_DELETE,
+    PermissionCode.SENSOR_READ,
+    PermissionCode.SENSOR_CREATE,
+    PermissionCode.SENSOR_UPDATE,
+    PermissionCode.SENSOR_DELETE,
     // Telemetry
-    Permission.TELEMETRY_READ,
+    PermissionCode.TELEMETRY_READ,
   ],
   [Role.VIEW]: [
     // User
-    Permission.USER_READ,
+    PermissionCode.USER_READ,
     // Factory
-    Permission.FACTORY_READ,
+    PermissionCode.FACTORY_READ,
     // Workshop
-    Permission.WORKSHOP_READ,
+    PermissionCode.WORKSHOP_READ,
     // Machine
-    Permission.MACHINE_READ,
+    PermissionCode.MACHINE_READ,
     // Sensor
-    Permission.SENSOR_READ,
+    PermissionCode.SENSOR_READ,
     // Telemetry
-    Permission.TELEMETRY_READ,
+    PermissionCode.TELEMETRY_READ,
   ],
 };
