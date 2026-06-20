@@ -49,6 +49,11 @@ export class AuthService {
       this._checkRefreshToken(data.sessionId, token),
     ]);
 
+    await this.prisma.session.update({
+      where: { id: session.id },
+      data: { lastActivityAt: new Date() },
+    });
+
     return this._createAccessTokenAndRefreshToken(user, session);
   }
 
@@ -163,6 +168,10 @@ export class AuthService {
     const now = new Date();
 
     if (session.expiredAt && +session.expiredAt < +now) {
+      await this.prisma.session.update({
+        where: { id: session.id },
+        data: { revokedAt: session.expiredAt },
+      });
       throw new ConflictException();
     }
 
