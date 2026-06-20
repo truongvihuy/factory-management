@@ -67,7 +67,7 @@ export class AuthController {
     return this.authService.revokedAll(userId, sessionId);
   }
 
-  @Get('session/reverked/:sessionId')
+  @Post('session/reverked/:sessionId')
   async revorkedSession(@Param('sessionId') sessionId: string) {
     return this.authService.revoked(sessionId);
   }

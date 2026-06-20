@@ -1,5 +1,5 @@
 import type { IAccessTokenPayload, IChangePassword, IForgotPassword, IResetPassword, IToken } from '@libs/common';
-import { Body, Controller, Get, Ip, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Ip, Param, Post, Req, UseGuards } from '@nestjs/common';
 import type { Request } from 'express';
 
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
@@ -42,6 +42,7 @@ export class AuthController {
   @Post('change-password')
   changePassword(@Req() req: Request, @Body() payload: IChangePassword) {
     const { user, requestId } = req as any as { user: IAccessTokenPayload; requestId: string };
+    payload.exceptSessionId = user.sessionId;
     return this.authService.changePassword(payload, { requestId, userId: user.sub });
   }
 
@@ -55,5 +56,26 @@ export class AuthController {
   resetPassword(@Req() req: Request, @Body() payload: IResetPassword) {
     const requestId = (req as any).requestId;
     return this.authService.resetPassword(payload, { requestId });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('session')
+  getSession(@Req() req: Request) {
+    const { user, requestId } = req as any as { user: IAccessTokenPayload; requestId: string };
+    return this.authService.getSessions({ userId: user.sub, requestId });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('ression/revorked/all')
+  revorkedAll(@Req() req: Request) {
+    const { user, requestId } = req as any as { user: IAccessTokenPayload; requestId: string };
+    return this.authService.revorkedAll(user.sessionId, { userId: user.sub, requestId });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('ression/revorked/:sessionId')
+  revorked(@Req() req: Request, @Param('sessionId') sessionId: string) {
+    const { user, requestId } = req as any as { user: IAccessTokenPayload; requestId: string };
+    return this.authService.revorked(user.sessionId, { userId: user.sub, requestId });
   }
 }

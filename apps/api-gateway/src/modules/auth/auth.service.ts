@@ -38,4 +38,16 @@ export class AuthService {
   resetPassword(data: IResetPassword, options: RequestContext) {
     return this.client.resetPassword(data, options);
   }
+
+  getSessions(options: RequestContext) {
+    this.client.getSessions(options);
+  }
+
+  revorked(sessionId: string, options: RequestContext) {
+    return this.client.revorkedSession(sessionId, options);
+  }
+
+  revorkedAll(sessionId: string, options: RequestContext) {
+    return this.client.revorkedAll(sessionId, options);
+  }
 }

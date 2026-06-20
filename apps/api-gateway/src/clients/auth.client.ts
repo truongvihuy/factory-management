@@ -39,6 +39,18 @@ export class AuthClient extends BaseClient {
     return this._requestServer('post', `/auth/reset-password`, data, options);
   }
 
+  async getSessions(options: RequestContext) {
+    return this._requestServer('get', `/auth/session`, null, options);
+  }
+
+  async revorkedAll(sessionId: string, options: RequestContext) {
+    return this._requestServer('post', `/auth/session/revorked/all/${sessionId}`, null, options);
+  }
+
+  async revorkedSession(sessionId: string, options: RequestContext) {
+    return this._requestServer('post', `/auth/session/revorked/${sessionId}`, null, options);
+  }
+
   async getUser(userId: string, options?: RequestContext) {
     return this._requestServer('get', `/user/${userId}`, null, options);
   }
