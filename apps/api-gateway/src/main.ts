@@ -8,7 +8,6 @@ import {
 import { TestExceptionFilter, TestGuard, TestInterceptor, TestPipe } from '@libs/common/test';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-
 import { AppModule } from './app.module';
 
 async function bootstrap() {
