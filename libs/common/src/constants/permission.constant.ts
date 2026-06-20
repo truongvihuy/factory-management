@@ -1,5 +1,3 @@
-// libs/auth/src/constants/permissions.constant.ts
-
 import { Role } from 'generated/prisma';
 
 export enum PermissionCode {

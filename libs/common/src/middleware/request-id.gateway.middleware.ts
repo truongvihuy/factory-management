@@ -1,7 +1,6 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { NextFunction, Request, Response } from 'express';
-
 import { REQUEST_ID } from '../constants/header.constant';
 
 @Injectable()
