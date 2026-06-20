@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-
 import { AuthClient } from '../../clients/auth.client';
 
 @Injectable()

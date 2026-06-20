@@ -1,7 +1,6 @@
 import { IAccessTokenPayload, Permission, PermissionCode } from '@libs/common';
 import { Body, Controller, Delete, Get, Param, Post, Put, Req } from '@nestjs/common';
 import type { Request } from 'express';
-
 import { FactoryService } from './factory.service';
 
 @Controller('factory')

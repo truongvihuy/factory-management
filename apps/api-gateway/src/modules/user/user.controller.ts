@@ -1,6 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-
 import { CurrentUser, type IAccessTokenPayload, Permission, PermissionCode } from '@libs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('user')
