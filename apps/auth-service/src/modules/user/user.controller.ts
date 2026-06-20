@@ -1,6 +1,4 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-
-import { Role } from 'generated/prisma';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -9,6 +7,11 @@ export class UserController {
 
   @Get('')
   async getUsers() {
+    return this.userService.getUserList();
+  }
+
+  @Get('/factory/:factoryId')
+  async getUserListOfFactory(@Param('factoryId') factoryId: string) {
     return this.userService.getUserList();
   }
 
@@ -27,46 +30,18 @@ export class UserController {
     return this.userService.updateUser(userId, dto);
   }
 
-  @Get('admin-permission/:userId')
-  async checkAdmin(@Param('userId') userId: string) {
-    return this.userService.checkAdmin(userId);
+  @Get(':userId/user-role')
+  async getUserRoles(@Param('userId') userId: string) {
+    return this.userService.getUserRoles(userId);
   }
 
-  @Post('admin-permission/:userId/:admin')
-  async updateAdmin(@Param('userId') userId: string, @Param('admin') admin: boolean) {
-    return this.userService.updateAdmin(userId, admin);
+  @Post(':userId/user-role')
+  async updateUserRole(@Param('userId') userId: string, @Body() payload: any) {
+    return this.userService.updateUserRole(userId, payload.factoryId, payload.role);
   }
 
-  @Get('permission/:userId')
-  async getPemissions(@Param('userId') userId: string) {
-    return this.userService.getPermissions(userId);
-  }
-
-  @Get('permission/:userId/:factoryId/:role')
-  async checkPermission(
-    @Param('userId') userId: string,
-    @Param('factoryId') factoryId: string,
-    @Param('role') role: Role,
-  ) {
-    return this.userService.checkPermission(userId, factoryId, role);
-  }
-
-  @Get('permission/:userId/:factoryId')
-  async getPermission(@Param('userId') userId: string, @Param('factoryId') factoryId: string) {
-    return this.userService.getPermission(userId, factoryId);
-  }
-
-  @Post('permission/update/:userId/:factoryId/:role')
-  async updatePermission(
-    @Param('userId') userId: string,
-    @Param('factoryId') factoryId: string,
-    @Param('role') role: Role,
-  ) {
-    return this.userService.updatePermission(userId, factoryId, role);
-  }
-
-  @Delete('permission/delete/:userId/:factoryId')
-  async deletePermission(@Param('userId') userId: string, @Param('factoryId') factoryId: string) {
-    return this.userService.delelePermission(userId, factoryId);
+  @Delete('/:userId/user-role')
+  async deleteUserRole(@Param('userId') userId: string, @Body() payload: any) {
+    return this.userService.deleteUserRole(userId, payload.factoryId);
   }
 }

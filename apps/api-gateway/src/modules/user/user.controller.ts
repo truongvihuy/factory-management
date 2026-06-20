@@ -1,66 +1,37 @@
-import { Admin, Roles } from '@libs/common';
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { Role } from 'generated/prisma';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 
-import { AdminGuard } from '../../guards/admin.guard';
-import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
-import { RoleGuard } from '../../guards/role.guard';
+import { CurrentUser, type IAccessTokenPayload, Permission, PermissionCode } from '@libs/common';
 import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @UseGuards(JwtAuthGuard, AdminGuard)
-  @Admin()
   @Get('')
-  async getUserList() {
-    //
-  }
+  @Permission(PermissionCode.USER_READ)
+  async getUserList(@CurrentUser() user: IAccessTokenPayload) {}
 
-  @UseGuards(JwtAuthGuard, RoleGuard)
-  @Roles(Role.MANAGER)
   @Get('/factory/:factoryId')
-  async getUserListOfFactory(@Param('factoryId') factoryId: string) {
-    //
-  }
+  @Permission(PermissionCode.USER_READ)
+  async getUserListOfFactory(@Param('factoryId') factoryId: string, @CurrentUser() user: IAccessTokenPayload) {}
 
-  @UseGuards(JwtAuthGuard, AdminGuard)
-  @Admin()
   @Post('')
-  async createUser(@Body() userDTO: any) {
-    // return this.userService.getPermission(userId);
-  }
+  @Permission(PermissionCode.USER_CREATE)
+  async createUser(@Body() userDTO: any) {}
 
-  @UseGuards(JwtAuthGuard, AdminGuard)
-  @Admin()
   @Put(':userId')
-  async updateUser(@Param('userId') userId: string, @Body() userDTO: any) {
-    // return this.userService.getPermission(userId);
-  }
+  @Permission(PermissionCode.USER_UPDATE)
+  async updateUser(@Param('userId') userId: string, @Body() userDTO: any) {}
 
-  @UseGuards(JwtAuthGuard, AdminGuard)
-  @Admin()
-  @Get('permission/:userId')
-  async getPemissions(@Param('userId') userId: string) {
-    // return this.userService.getPermission(userId);
-  }
+  @Get(':userId/user-role')
+  @Permission(PermissionCode.USER_UPDATE)
+  async getUserRole(@Param('userId') userId: string) {}
 
-  @UseGuards(JwtAuthGuard, AdminGuard)
-  @Admin()
-  @Post('permission/:userId/:factoryId/:role')
-  async updatePermission(
-    @Param('userId') userId: string,
-    @Param('factoryId') factoryId: string,
-    @Param('role') role: Role,
-  ) {
-    // return this.userService.getPermission(userId);
-  }
+  @Post(':userId/user-role')
+  @Permission(PermissionCode.USER_UPDATE)
+  async updateUserRole(@Param('userId') userId: string, @Body() payload: any) {}
 
-  @UseGuards(JwtAuthGuard, AdminGuard)
-  @Admin()
-  @Delete('permission/:userId/:factoryId')
-  async deletePermission(@Param('userId') userId: string, @Param('factoryId') factoryId: string) {
-    // return this.userService.getPermission(userId);
-  }
+  @Delete(':userId/user-role')
+  @Permission(PermissionCode.USER_UPDATE)
+  async deleteUserRole(@Param('userId') userId: string, @Body() payload: any) {}
 }

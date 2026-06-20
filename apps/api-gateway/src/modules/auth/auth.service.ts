@@ -1,4 +1,4 @@
-import { RequestContext } from '@libs/common';
+import { IChangePassword, IForgotPassword, IResetPassword, RequestContext } from '@libs/common';
 import { Injectable } from '@nestjs/common';
 
 import { AuthClient } from '../../clients/auth.client';
@@ -7,27 +7,47 @@ import { AuthClient } from '../../clients/auth.client';
 export class AuthService {
   constructor(private readonly client: AuthClient) {}
 
-  async login(token: string, options: RequestContext) {
-    return this.client.login(token, options);
+  login(payload: { basicToken: string; ip: string; userAgent: string | null }, options: RequestContext) {
+    return this.client.login(payload, options);
   }
 
-  async verify(token: string, options: RequestContext) {
+  refreshToken(refreshToken: string, options: RequestContext) {
+    return this.client.refreshToken(refreshToken, options);
+  }
+
+  logout(sessionId: string, options: RequestContext) {
+    return this.client.logout(sessionId, options);
+  }
+
+  verify(token: string, options: RequestContext) {
     return this.client.verify(token, options);
   }
 
-  async getUser(userId: string, options: RequestContext) {
+  getUser(userId: string, options: RequestContext) {
     return this.client.getUser(userId, options);
   }
 
-  // register();
+  changePassword(data: IChangePassword, options: RequestContext) {
+    return this.client.changePassword(data, options);
+  }
 
-  // refreshToken();
+  forgotPassword(data: IForgotPassword, options: RequestContext) {
+    return this.client.forgotPassword(data, options);
+  }
 
-  // logout();
+  resetPassword(data: IResetPassword, options: RequestContext) {
+    return this.client.resetPassword(data, options);
+  }
 
-  // validateUser();
+  getSessions(options: RequestContext) {
+    this.client.getSessions(options);
+  }
 
-  // hashPassword();
+  revorked(sessionId: string, options: RequestContext) {
+    return this.client.revorkedSession(sessionId, options);
+  }
 
-  // comparePassword();
+  revorkedAll(sessionId: string, options: RequestContext) {
+    return this.client.revorkedAll(sessionId, options);
+  }
 }

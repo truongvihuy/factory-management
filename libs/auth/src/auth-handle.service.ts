@@ -1,6 +1,6 @@
-import { ILogin, ILoginPayload } from '@libs/common';
+import { ILogin } from '@libs/common';
 import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { JwtService, JwtSignOptions, JwtVerifyOptions } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
 
 @Injectable()
@@ -8,12 +8,12 @@ export class AuthHandleService {
   constructor(private readonly jwtService: JwtService) {}
 
   /** Handle JWT */
-  verifyJWT(token: string): ILoginPayload {
-    return this.jwtService.verify(token);
+  signJWT<T extends object = any>(payload: T, options?: JwtSignOptions): string {
+    return this.jwtService.sign(payload, options);
   }
 
-  signJWT(payload: ILoginPayload): string {
-    return this.jwtService.sign(payload);
+  verifyJWT<T extends object = any>(token: string, options?: JwtVerifyOptions) {
+    return this.jwtService.verify<T>(token, options) as T & { iat: number; exp: number };
   }
 
   /** Handle encode base64 email:password */

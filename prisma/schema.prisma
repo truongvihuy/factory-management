@@ -13,14 +13,71 @@ datasource db {
   // url      = env("DATABASE_URL")
 }
 
+// Auth Service
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  admin     Boolean  @default(false)
+  status    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  userRole UserRole[]
+  sessions Session[]
+}
+
+model UserRole {
+  userId    String
+  role      Role
+  factoryId String
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@id([userId, factoryId])
+}
+
+enum Role {
+  MANAGER
+  ENGINEER
+  OPERATOR
+  VIEW
+}
+
+model Session {
+  id             String    @id @default(uuid())
+  userId         String
+  ip             String
+  userAgent      String
+  revokedAt      DateTime?
+  expiredAt      DateTime?
+  lastActivityAt DateTime  @default(now())
+  createdAt      DateTime  @default(now())
+
+  user          User           @relation(fields: [userId], references: [id])
+  refreshTokens RefreshToken[]
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  sessionId String   @unique
+  tokenHash String
+  expiredAt DateTime
+  createdAt DateTime @default(now())
+
+  session Session @relation(fields: [sessionId], references: [id])
+}
+
+// Factory Service
+
 model Factory {
   id        String   @id @default(uuid())
   name      String
   address   String
   createdAt DateTime @default(now())
 
-  workshops   Workshop[]
-  permissions Permission[]
+  workshops Workshop[]
 }
 
 model Workshop {
@@ -72,8 +129,7 @@ model Sensor {
   status    Status_Sensor
   createdAt DateTime      @default(now())
 
-  machine     Machine     @relation(fields: [machineId], references: [id])
-  telemetries Telemetry[]
+  machine Machine @relation(fields: [machineId], references: [id])
 }
 
 enum Status_Sensor {
@@ -83,43 +139,13 @@ enum Status_Sensor {
   DISCONNECTED
 }
 
+// Telemetry Service
+
 model Telemetry {
   id         String   @id @default(uuid())
   sensorId   String
   value      Float
   recordedAt DateTime @default(now())
-
-  sensor Sensor @relation(fields: [sensorId], references: [id])
-}
-
-model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  admin     Boolean  @default(false)
-  status    Boolean  @default(true)
-  createdAt DateTime @default(now())
-
-  permissions Permission[]
-}
-
-model Permission {
-  userId    String
-  role      Role
-  factoryId String
-
-  user    User    @relation(fields: [userId], references: [id])
-  factory Factory @relation(fields: [factoryId], references: [id])
-
-  @@id([userId, factoryId])
-}
-
-enum Role {
-  MANAGER
-  ENGINEER
-  OPERATOR
-  VIEW
 }
 
 enum Severity {

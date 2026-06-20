@@ -1,22 +1,47 @@
-import { Permission } from 'generated/prisma';
+import { PermissionCode } from '../constants/permission.constant';
 
 export interface ILogin {
   email: string;
   password: string;
 }
 
-export interface ILoginToken {
+export interface IChangePassword {
+  currentPassword: string;
+  newPassword: string;
+  exceptSessionId?: string;
+}
+
+export interface IForgotPassword {
+  email: string;
+}
+
+export interface IResetPassword {
+  token: string;
+  newPassword: string;
+}
+
+export interface IToken {
   token: string;
 }
 
-export interface ILoginPayload {
+export interface IAccessTokenPayload {
   sub: string;
+  sessionId: string;
   email: string;
-  admin: boolean;
-  permissions: Permission[];
+}
+
+export interface ICheckUserRole {
+  userId: string;
+  factoryId: string;
+  permission: PermissionCode;
+}
+
+export interface IRefreshTokenPayload {
+  sub: string;
+  sessionId: string;
 }
 
 export interface ILoginResponse {
   accessToken: string;
-  payload: ILoginPayload;
+  refreshToken: string;
 }

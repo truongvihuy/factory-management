@@ -6,11 +6,11 @@ import { firstValueFrom } from 'rxjs';
 export class BaseClient {
   private readonly prefixUrl;
   constructor(
-    protected readonly config: ConfigService,
+    protected readonly configService: ConfigService,
     private readonly httpService: HttpService,
     KEY_URL: string,
   ) {
-    this.prefixUrl = this.config.get(KEY_URL);
+    this.prefixUrl = this.configService.get(KEY_URL);
   }
 
   protected async _requestServer(
