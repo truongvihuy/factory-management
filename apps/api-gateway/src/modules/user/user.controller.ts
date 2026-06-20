@@ -1,5 +1,4 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { Role } from 'generated/prisma';
 
 import { Permission, PermissionCode } from '@libs/common';
 import { UserService } from './user.service';
@@ -38,19 +37,15 @@ export class UserController {
     // return this.userService.getPermission(userId);
   }
 
-  @Post('permission/:userId/:factoryId/:role')
+  @Post('permission/:userId')
   @Permission(PermissionCode.USER_UPDATE)
-  async updatePermission(
-    @Param('userId') userId: string,
-    @Param('factoryId') factoryId: string,
-    @Param('role') role: Role,
-  ) {
+  async updatePermission(@Param('userId') userId: string, @Body() payload: any) {
     // return this.userService.getPermission(userId);
   }
 
-  @Delete('permission/:userId/:factoryId')
+  @Delete('permission/:userId')
   @Permission(PermissionCode.USER_UPDATE)
-  async deletePermission(@Param('userId') userId: string, @Param('factoryId') factoryId: string) {
+  async deletePermission(@Param('userId') userId: string, @Body() payload: any) {
     // return this.userService.getPermission(userId);
   }
 }

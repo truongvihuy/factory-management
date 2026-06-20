@@ -100,30 +100,28 @@ export class AuthService {
   }
 
   async checkUserRole(data: ICheckUserRole) {
-    const [user, userRole] = await Promise.all([
-      this._checkUser(data.userId),
-      data.factoryId
-        ? this.prisma.userRole.findUnique({
-            where: {
-              userId_factoryId: {
-                userId: data.userId,
-                factoryId: data.factoryId,
-              },
-            },
-          })
-        : null,
-    ]);
-
-    if (!data.factoryId) {
-      if (user.admin) {
-        return ROLE_PERMISSIONS.ADMIN.includes(data.permission);
+    const user = await this._checkUser(data.userId);
+    let hasPermission = false;
+    if (user.admin) {
+      hasPermission = ROLE_PERMISSIONS.ADMIN.includes(data.permission);
+      if (hasPermission) {
+        return true;
       }
-
-      return false;
     }
 
-    if (userRole) {
-      return ROLE_PERMISSIONS[userRole.role].includes(data.permission);
+    if (data.factoryId) {
+      const userRole = await this.prisma.userRole.findUnique({
+        where: {
+          userId_factoryId: {
+            userId: data.userId,
+            factoryId: data.factoryId,
+          },
+        },
+      });
+
+      if (userRole) {
+        return ROLE_PERMISSIONS[userRole.role].includes(data.permission);
+      }
     }
 
     return false;
