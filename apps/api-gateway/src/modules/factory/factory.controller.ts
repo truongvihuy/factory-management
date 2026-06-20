@@ -1,34 +1,29 @@
-import { Admin, IAccessTokenPayload } from '@libs/common';
-import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { IAccessTokenPayload, Permission, PermissionCode } from '@libs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req } from '@nestjs/common';
 import type { Request } from 'express';
 
-import { AdminGuard } from '../../guards/admin.guard';
-import { FactoryGuard } from '../../guards/factory.guard';
-import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { FactoryService } from './factory.service';
 
 @Controller('factory')
 export class FactoryController {
   constructor(private readonly factoryService: FactoryService) {}
 
-  @UseGuards(JwtAuthGuard, AdminGuard)
-  @Admin()
   @Get('all')
+  @Permission(PermissionCode.FACTORY_READ)
   getFactoryListAll(@Req() req: Request) {
     const { user, requestId } = req as any as { user: IAccessTokenPayload; requestId: string };
 
     return this.factoryService.getFactoryListAll({ requestId, userId: user.sub });
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get()
+  @Permission(PermissionCode.FACTORY_READ)
   async getFactoryListByIds(@Req() req: any) {
     // const permissions: Permission[] = req.user.permission;
     // const factoryIds = permissions.map((per) => per.factoryId);
     // return this.factoryService.getFactoryListByIds(factoryIds);
   }
 
-  @UseGuards(JwtAuthGuard, FactoryGuard)
   @Get(':factoryId')
   async getFactory(@Param('factoryId') factoryId: string) {}
 

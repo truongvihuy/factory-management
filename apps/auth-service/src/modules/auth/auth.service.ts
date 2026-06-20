@@ -113,12 +113,13 @@ export class AuthService {
           })
         : null,
     ]);
-    let hasPermission = false;
-    if (user.admin) {
-      hasPermission = ROLE_PERMISSIONS.ADMIN.includes(data.permission);
-      if (hasPermission) {
-        return true;
+
+    if (!data.factoryId) {
+      if (user.admin) {
+        return ROLE_PERMISSIONS.ADMIN.includes(data.permission);
       }
+
+      return false;
     }
 
     if (userRole) {
