@@ -154,7 +154,6 @@ export class FactoryService {
 
   async deleteSensor(factoryId: string, workshopId: string, machineId: string, sensorId: string) {
     const valid = await this._checkMachineInValid(factoryId, workshopId, machineId, sensorId);
-
     return this.prisma.sensor.delete({ where: { id: sensorId } });
   }
 }
