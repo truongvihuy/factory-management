@@ -18,7 +18,7 @@ export class FactoryController {
 
   @Get(':factoryId')
   @Permission(PermissionCode.FACTORY_READ)
-  async getFactory(@Param('factoryId') factoryId: string) {}
+  getFactory(@Param('factoryId') factoryId: string) {}
 
   @Post()
   @Permission(PermissionCode.FACTORY_CREATE)

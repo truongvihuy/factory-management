@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 
-import { Permission, PermissionCode } from '@libs/common';
+import { CurrentUser, type IAccessTokenPayload, Permission, PermissionCode } from '@libs/common';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -9,43 +9,29 @@ export class UserController {
 
   @Get('')
   @Permission(PermissionCode.USER_READ)
-  async getUserList() {
-    //
-  }
+  async getUserList(@CurrentUser() user: IAccessTokenPayload) {}
 
   @Get('/factory/:factoryId')
   @Permission(PermissionCode.USER_READ)
-  async getUserListOfFactory(@Param('factoryId') factoryId: string) {
-    //
-  }
+  async getUserListOfFactory(@Param('factoryId') factoryId: string, @CurrentUser() user: IAccessTokenPayload) {}
 
   @Post('')
   @Permission(PermissionCode.USER_CREATE)
-  async createUser(@Body() userDTO: any) {
-    // return this.userService.getPermission(userId);
-  }
+  async createUser(@Body() userDTO: any) {}
 
   @Put(':userId')
   @Permission(PermissionCode.USER_UPDATE)
-  async updateUser(@Param('userId') userId: string, @Body() userDTO: any) {
-    // return this.userService.getPermission(userId);
-  }
+  async updateUser(@Param('userId') userId: string, @Body() userDTO: any) {}
 
-  @Get('permission/:userId')
+  @Get(':userId/user-role')
   @Permission(PermissionCode.USER_UPDATE)
-  async getPemissions(@Param('userId') userId: string) {
-    // return this.userService.getPermission(userId);
-  }
+  async getUserRole(@Param('userId') userId: string) {}
 
-  @Post('permission/:userId')
+  @Post(':userId/user-role')
   @Permission(PermissionCode.USER_UPDATE)
-  async updatePermission(@Param('userId') userId: string, @Body() payload: any) {
-    // return this.userService.getPermission(userId);
-  }
+  async updateUserRole(@Param('userId') userId: string, @Body() payload: any) {}
 
-  @Delete('permission/:userId')
+  @Delete(':userId/user-role')
   @Permission(PermissionCode.USER_UPDATE)
-  async deletePermission(@Param('userId') userId: string, @Body() payload: any) {
-    // return this.userService.getPermission(userId);
-  }
+  async deleteUserRole(@Param('userId') userId: string, @Body() payload: any) {}
 }
