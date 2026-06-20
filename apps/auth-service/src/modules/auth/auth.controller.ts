@@ -1,6 +1,6 @@
 import { AuthHandleService } from '@libs/auth';
 import type { IChangePassword, IForgotPassword, IResetPassword, IToken } from '@libs/common';
-import { Body, Controller, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
 import type { Request } from 'express';
 import { AuthService } from './auth.service';
 
@@ -36,7 +36,13 @@ export class AuthController {
   @Post('change-password')
   async changePassword(@Req() req: Request, @Body() payload: IChangePassword) {
     const userId = (req as any).userId;
-    return this.authService.changePassword(userId, payload.currentPassword, payload.newPassword);
+
+    return this.authService.changePassword(
+      userId,
+      payload.currentPassword,
+      payload.newPassword,
+      payload.exceptSessionId,
+    );
   }
 
   @Post('forgot-password')
@@ -47,5 +53,22 @@ export class AuthController {
   @Post('reset-password')
   async resetPassword(@Body() payload: IResetPassword) {
     return this.authService.resetPassword(payload.token, payload.newPassword);
+  }
+
+  @Get('session')
+  async getSessions(@Req() req: Request) {
+    const userId = (req as any).userId;
+    return this.authService.getSessions(userId);
+  }
+
+  @Post('session/revorked/all/:sessionId')
+  async revorkedAll(@Req() req: Request, @Param('sessionId') sessionId: string) {
+    const userId = (req as any).userId;
+    return this.authService.revokedAll(userId, sessionId);
+  }
+
+  @Get('session/reverked/:sessionId')
+  async revorkedSession(@Param('sessionId') sessionId: string) {
+    return this.authService.revoked(sessionId);
   }
 }

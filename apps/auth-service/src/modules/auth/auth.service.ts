@@ -5,7 +5,7 @@ import { ConflictException, ForbiddenException, Injectable, UnauthorizedExceptio
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { differenceInDays } from 'date-fns';
-import { Session, User } from 'generated/prisma';
+import { Prisma, Session, User } from 'generated/prisma';
 import ms from 'ms';
 import { randomBytes } from 'node:crypto';
 
@@ -18,7 +18,7 @@ export class AuthService {
   ) {}
 
   async login(email: string, password: string, ip: string, userAgent: string): Promise<ILoginResponse> {
-    const user = await this.checkEmailPassword(email, password);
+    const user = await this._checkEmailPassword(email, password);
 
     const now = new Date();
     const SESSION_EXPIRATION = this.configService.get('SESSION_EXPIRATION', DEFAULT.SESSION_EXPIRATION);
@@ -30,6 +30,7 @@ export class AuthService {
         userAgent,
         userId: user.id,
         expiredAt,
+        revokedAt: null,
         createdAt: now,
       },
     });
@@ -43,9 +44,9 @@ export class AuthService {
     });
 
     const [session, user] = await Promise.all([
-      this.checkSession(data.sessionId),
-      this.checkUser(data.sub),
-      this.checkRefreshToken(data.sessionId, token),
+      this._checkSession(data.sessionId),
+      this._checkUser(data.sub),
+      this._checkRefreshToken(data.sessionId, token),
     ]);
 
     return this._createAccessTokenAndRefreshToken(user, session);
@@ -60,28 +61,59 @@ export class AuthService {
     return true;
   }
 
-  async changePassword(userId: string, currentPassword: string, newPassword: string) {
-    await this.checkEmailPassword(userId, currentPassword);
-    return this._changePasswordAndRevorkedAll(userId, newPassword);
+  async changePassword(
+    userId: string,
+    currentPassword: string,
+    newPassword: string,
+    exceptSessionId?: string | undefined,
+  ) {
+    await this._checkEmailPassword(userId, currentPassword);
+    return this._changePasswordAndRevorkedAll(userId, newPassword, exceptSessionId);
   }
 
   async forgotPassword(email: string) {
-    const user = await this.checkUser(email);
-    const resetToken = this._createResetToken(user);
+    const user = await this._checkUser(email);
+    const resetToken = await this._createResetToken(user);
     // Send mail
 
     return true;
   }
 
   async resetPassword(token: string, newPassword: string) {
-    const userId = await this.checkResetToken(token);
-    const user = await this.checkUser(userId);
-
+    const userId = await this._checkResetToken(token);
+    const user = await this._checkUser(userId);
     // Handle create token and send mail
+
     return this._changePasswordAndRevorkedAll(userId, newPassword);
   }
 
-  async checkEmailPassword(emailOrUserId: string, password: string): Promise<User> {
+  async getSessions(userId: string) {
+    return this.prisma.session.findMany({
+      where: { userId, revokedAt: null },
+    });
+  }
+
+  async revoked(sessionId: string) {
+    await this.prisma.session.update({
+      where: { id: sessionId },
+      data: { revokedAt: new Date() },
+    });
+    return true;
+  }
+
+  async revokedAll(userId: string, exceptSessionId?: string | undefined) {
+    let query: Prisma.SessionWhereInput = { userId };
+    if (exceptSessionId) {
+      query.id = { not: exceptSessionId } as Prisma.StringFilter;
+    }
+    await this.prisma.session.updateMany({
+      where: query,
+      data: { revokedAt: new Date() },
+    });
+    return true;
+  }
+
+  private async _checkEmailPassword(emailOrUserId: string, password: string): Promise<User> {
     const user = await this.prisma.user.findFirst({
       where: { OR: [{ id: emailOrUserId }, { email: emailOrUserId }] },
     });
@@ -101,7 +133,7 @@ export class AuthService {
     return user;
   }
 
-  async checkRefreshToken(sessionId: string, token: string) {
+  private async _checkRefreshToken(sessionId: string, token: string) {
     const refTokenData = await this.prisma.refreshToken.findFirst({ where: { sessionId: sessionId } });
 
     if (refTokenData?.tokenHash !== token) {
@@ -111,14 +143,14 @@ export class AuthService {
     return refTokenData;
   }
 
-  async checkResetToken(token: string) {
+  private async _checkResetToken(token: string) {
     // Get DB check
     const userId = '';
 
     return userId;
   }
 
-  async checkSession(sessionId: string) {
+  private async _checkSession(sessionId: string) {
     const session = await this.prisma.session.findUnique({ where: { id: sessionId } });
     if (!session) {
       throw new ConflictException();
@@ -146,7 +178,7 @@ export class AuthService {
     return session;
   }
 
-  async checkUser(userIdOrEmail: string) {
+  private async _checkUser(userIdOrEmail: string) {
     const user = await this.prisma.user.findFirst({
       where: { OR: [{ id: userIdOrEmail }, { email: userIdOrEmail }] },
     });
@@ -207,13 +239,17 @@ export class AuthService {
     return tokenHash;
   }
 
-  private async _changePasswordAndRevorkedAll(userId: string, newPassword: string) {
+  private async _changePasswordAndRevorkedAll(
+    userId: string,
+    newPassword: string,
+    exceptSessionId?: string | undefined,
+  ) {
     await Promise.all([
       this.prisma.user.update({
         where: { id: userId },
         data: { password: this.authHandleService.hashPassword(newPassword) },
       }),
-      this.prisma.session.updateMany({ where: { userId: userId }, data: { revokedAt: new Date() } }),
+      this.revokedAll(userId, exceptSessionId),
     ]);
 
     return true;

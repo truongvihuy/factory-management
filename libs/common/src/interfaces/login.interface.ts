@@ -6,6 +6,7 @@ export interface ILogin {
 export interface IChangePassword {
   currentPassword: string;
   newPassword: string;
+  exceptSessionId?: string;
 }
 
 export interface IForgotPassword {
