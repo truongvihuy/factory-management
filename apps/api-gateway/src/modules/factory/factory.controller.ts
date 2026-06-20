@@ -16,33 +16,32 @@ export class FactoryController {
     return this.factoryService.getFactoryListAll({ requestId, userId: user.sub });
   }
 
-  @Get()
-  @Permission(PermissionCode.FACTORY_READ)
-  async getFactoryListByIds(@Req() req: any) {
-    // const permissions: Permission[] = req.user.permission;
-    // const factoryIds = permissions.map((per) => per.factoryId);
-    // return this.factoryService.getFactoryListByIds(factoryIds);
-  }
-
   @Get(':factoryId')
+  @Permission(PermissionCode.FACTORY_READ)
   async getFactory(@Param('factoryId') factoryId: string) {}
 
   @Post()
+  @Permission(PermissionCode.FACTORY_CREATE)
   async addFactory(@Body() body: any) {}
 
   @Put(':factoryId')
+  @Permission(PermissionCode.FACTORY_UPDATE)
   async updateFactory(@Param('factoryId') factoryId: string, @Body() body: any) {}
 
   @Delete(':factoryId')
+  @Permission(PermissionCode.FACTORY_DELETE)
   async deleteFactory(@Param('factoryId') factoryId: string) {}
 
   @Get(':factoryId/workshop')
+  @Permission(PermissionCode.WORKSHOP_READ)
   async getWorkshopInFactory(@Param('factoryId') factoryId: string) {}
 
   @Post(':factoryId/workshop')
+  @Permission(PermissionCode.WORKSHOP_CREATE)
   async addWorkshopInFactory(@Param('factoryId') factoryId: string, @Body() body: any) {}
 
   @Put(':factoryId/workshop/:workshopId')
+  @Permission(PermissionCode.WORKSHOP_UPDATE)
   async updateWorkshopInFactory(
     @Param('factoryId') factoryId: string,
     @Param('workshopId') workshopId: string,
@@ -50,6 +49,7 @@ export class FactoryController {
   ) {}
 
   @Delete(':factoryId/workshop/:workshopId')
+  @Permission(PermissionCode.WORKSHOP_DELETE)
   async deleteWorkshopInFactory(@Param('factoryId') factoryId: string, @Param('workshopId') workshopId: string) {}
 
   @Get(':factoryId/workshop/:workshopId/machine')
