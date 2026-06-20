@@ -1,4 +1,4 @@
-import { RequestContext } from '@libs/common';
+import { IChangePassword, IForgotPassword, IResetPassword, RequestContext } from '@libs/common';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -16,7 +16,7 @@ export class AuthClient extends BaseClient {
   }
 
   async refreshToken(refreshToken: string, options?: RequestContext) {
-    return this._requestServer('post', `/auth/refresh-token`, { refreshToken }, options);
+    return this._requestServer('post', `/auth/refresh-token`, { token: refreshToken }, options);
   }
 
   async logout(sessionId: string, options?: RequestContext) {
@@ -25,6 +25,18 @@ export class AuthClient extends BaseClient {
 
   async verify(token: string, options?: RequestContext) {
     return this._requestServer('post', `/auth/verify`, { token }, options);
+  }
+
+  async changePassword(data: IChangePassword, options?: RequestContext) {
+    return this._requestServer('post', `/auth/change-password`, data, options);
+  }
+
+  async forgotPassword(data: IForgotPassword, options?: RequestContext) {
+    return this._requestServer('post', `/auth/forgot-password`, data, options);
+  }
+
+  async resetPassword(data: IResetPassword, options?: RequestContext) {
+    return this._requestServer('post', `/auth/reset-password`, data, options);
   }
 
   async getUser(userId: string, options?: RequestContext) {

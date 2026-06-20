@@ -4,6 +4,7 @@ export enum DEFAULT {
   JWT_REFRESH_SECRET = 'the-secret-refreshsss',
   JWT_REFRESH_EXPIRATION = '30d',
   SESSION_EXPIRATION = '',
+  MAX_IDLE_DAYS = 7,
 
   PORT_API_GATEWAY = 3000,
   PORT_AUTH_SERVICE = 3001,

@@ -3,7 +3,21 @@ export interface ILogin {
   password: string;
 }
 
-export interface ILoginToken {
+export interface IChangePassword {
+  currentPassword: string;
+  newPassword: string;
+}
+
+export interface IForgotPassword {
+  email: string;
+}
+
+export interface IResetPassword {
+  token: string;
+  newPassword: string;
+}
+
+export interface IToken {
   token: string;
 }
 

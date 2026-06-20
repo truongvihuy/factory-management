@@ -1,6 +1,7 @@
 import { AuthHandleService } from '@libs/auth';
-import { Body, Controller, Post } from '@nestjs/common';
-
+import type { IChangePassword, IForgotPassword, IResetPassword, IToken } from '@libs/common';
+import { Body, Controller, Post, Req } from '@nestjs/common';
+import type { Request } from 'express';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -12,14 +13,14 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() payload: any) {
-    const { email, password } = this.authHandleService.encoded(payload.basicToken);
+    const { email, password } = this.authHandleService.encoded(payload.token);
     const { ip, userAgent } = payload;
     return this.authService.login(email, password, ip, userAgent);
   }
 
   @Post('refresh-token')
-  async refeshToken(@Body() payload: any) {
-    return this.authService.refreshToken(payload.refreshToken);
+  async refeshToken(@Body() payload: IToken) {
+    return this.authService.refreshToken(payload.token);
   }
 
   @Post('logout')
@@ -28,7 +29,23 @@ export class AuthController {
   }
 
   @Post('verify')
-  async verify(@Body() payload: any) {
+  async verify(@Body() payload: IToken) {
     return this.authHandleService.verifyJWT(payload.token);
+  }
+
+  @Post('change-password')
+  async changePassword(@Req() req: Request, @Body() payload: IChangePassword) {
+    const userId = (req as any).userId;
+    return this.authService.changePassword(userId, payload.currentPassword, payload.newPassword);
+  }
+
+  @Post('forgot-password')
+  async forgotPassword(@Body() payload: IForgotPassword) {
+    return this.authService.forgotPassword(payload.email);
+  }
+
+  @Post('reset-password')
+  async resetPassword(@Body() payload: IResetPassword) {
+    return this.authService.resetPassword(payload.token, payload.newPassword);
   }
 }

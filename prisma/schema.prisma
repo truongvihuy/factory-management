@@ -46,13 +46,14 @@ enum Role {
 }
 
 model Session {
-  id        String    @id @default(uuid())
-  userId    String
-  ip        String
-  userAgent String
-  revokedAt DateTime?
-  expiredAt DateTime?
-  createdAt DateTime  @default(now())
+  id             String    @id @default(uuid())
+  userId         String
+  ip             String
+  userAgent      String
+  revokedAt      DateTime?
+  expiredAt      DateTime?
+  lastActivityAt DateTime  @default(now())
+  createdAt      DateTime  @default(now())
 
   user          User           @relation(fields: [userId], references: [id])
   refreshTokens RefreshToken[]

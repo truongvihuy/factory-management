@@ -1,4 +1,4 @@
-import { RequestContext } from '@libs/common';
+import { IChangePassword, IForgotPassword, IResetPassword, RequestContext } from '@libs/common';
 import { Injectable } from '@nestjs/common';
 
 import { AuthClient } from '../../clients/auth.client';
@@ -23,7 +23,19 @@ export class AuthService {
     return this.client.verify(token, options);
   }
 
-  async getUser(userId: string, options: RequestContext) {
+  getUser(userId: string, options: RequestContext) {
     return this.client.getUser(userId, options);
+  }
+
+  changePassword(data: IChangePassword, options: RequestContext) {
+    return this.client.changePassword(data, options);
+  }
+
+  forgotPassword(data: IForgotPassword, options: RequestContext) {
+    return this.client.forgotPassword(data, options);
+  }
+
+  resetPassword(data: IResetPassword, options: RequestContext) {
+    return this.client.resetPassword(data, options);
   }
 }
