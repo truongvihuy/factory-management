@@ -13,7 +13,8 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() payload: any) {
-    const { email, password } = this.authHandleService.encoded(payload.token);
+    console.log(payload);
+    const { email, password } = this.authHandleService.encoded(payload.basicToken);
     const { ip, userAgent } = payload;
     return this.authService.login(email, password, ip, userAgent);
   }
