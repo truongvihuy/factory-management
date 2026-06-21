@@ -1,4 +1,4 @@
-import { IAccessTokenPayload, Permission, PermissionCode } from '@libs/common';
+import { CurrentUser, type IAccessTokenPayload, Permission, PermissionCode, RequestId } from '@libs/common';
 import { Body, Controller, Delete, Get, Param, Post, Put, Req } from '@nestjs/common';
 import type { Request } from 'express';
 import { FactoryService } from './factory.service';
@@ -33,7 +33,13 @@ export class FactoryController {
 
   @Get(':factoryId/workshop')
   @Permission(PermissionCode.WORKSHOP_READ)
-  async getWorkshopInFactory(@Param('factoryId') factoryId: string) {}
+  async getWorkshopInFactory(
+    @Param('factoryId') factoryId: string,
+    @CurrentUser() user: IAccessTokenPayload,
+    @RequestId() requestId: string,
+  ) {
+    return this.factoryService.getWorkshopsOfFactory(factoryId, { userId: user.sub, requestId });
+  }
 
   @Post(':factoryId/workshop')
   @Permission(PermissionCode.WORKSHOP_CREATE)
@@ -52,7 +58,14 @@ export class FactoryController {
   async deleteWorkshopInFactory(@Param('factoryId') factoryId: string, @Param('workshopId') workshopId: string) {}
 
   @Get(':factoryId/workshop/:workshopId/machine')
-  async getMachine(@Param('factoryId') factoryId: string, @Param('workshopId') workshopId: string) {}
+  async getMachineInWorkshop(
+    @Param('factoryId') factoryId: string,
+    @Param('workshopId') workshopId: string,
+    @CurrentUser() user: IAccessTokenPayload,
+    @RequestId() requestId: string,
+  ) {
+    return this.factoryService.getMachineInWorkshop(factoryId, workshopId, { userId: user.sub, requestId });
+  }
 
   @Post(':factoryId/workshop/:workshopId/machine')
   async addMachine(
