@@ -1,8 +1,7 @@
 import { RequestIdServiceMiddleware } from '@libs/common';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-
-import { FactoryService } from './modules/factory/factory.service';
+import { FactoryModule } from './modules/factory/factory.module';
 
 @Module({
   imports: [
@@ -10,7 +9,7 @@ import { FactoryService } from './modules/factory/factory.service';
       isGlobal: true,
       envFilePath: 'env/.env.factory-service',
     }),
-    FactoryService,
+    FactoryModule,
   ],
 })
 export class AppModule implements NestModule {

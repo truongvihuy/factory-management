@@ -8,4 +8,4 @@ import { FactoryService } from './factory.service';
   controllers: [FactoryController],
   providers: [FactoryService],
 })
-export class AuthModule {}
+export class FactoryModule {}
