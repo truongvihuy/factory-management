@@ -36,10 +36,6 @@ export class FactoryService {
     console.log(result);
   }
 
-  getFactoryListByIds(factoryIds: string[]) {
-    return this.prisma.factory.findMany({ where: { id: { in: factoryIds } } });
-  }
-
   getFactoryListAll() {
     return this.prisma.factory.findMany({});
   }

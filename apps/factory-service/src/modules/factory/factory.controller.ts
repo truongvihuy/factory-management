@@ -10,11 +10,6 @@ export class FactoryController {
     return this.factoryService.getFactoryListAll();
   }
 
-  @Post('')
-  async getFactoryListByIds(@Body() payload: any) {
-    return this.factoryService.getFactoryListByIds(payload.factoryIds);
-  }
-
   @Post('create')
   async addFactory(@Body() body: any) {
     return this.factoryService.addFactory(body);

@@ -15,10 +15,6 @@ export class FactoryClient extends BaseClient {
     return this._requestServer('get', '/factory/all', null, options);
   }
 
-  getFactoryListByIds(factoryIds: string[], options?: RequestContext) {
-    return this._requestServer('post', '/factory', { factoryIds }, options);
-  }
-
   addFactory(payload: Factory, options?: RequestContext) {
     return this._requestServer('post', '/factory/create', payload, options);
   }
