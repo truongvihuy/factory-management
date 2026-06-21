@@ -9,4 +9,12 @@ export class FactoryService {
   getFactoryListAll(options?: RequestContext) {
     return this.client.getFactoryListAll(options);
   }
+
+  getWorkshopsOfFactory(factoryId: string, options?: RequestContext) {
+    return this.client.getWorkshopInFactory(factoryId, options);
+  }
+
+  getMachineInWorkshop(factoryId: string, workshopId: string, options?: RequestContext) {
+    return this.client.getMachineInWorkshop(factoryId, workshopId, options);
+  }
 }

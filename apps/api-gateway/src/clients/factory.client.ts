@@ -43,7 +43,7 @@ export class FactoryClient extends BaseClient {
     return this._requestServer('delete', `/factory/${factoryId}/workshop/${workshopId}`, null, options);
   }
 
-  getMachine(factoryId: string, workshopId: string, options?: RequestContext) {
+  getMachineInWorkshop(factoryId: string, workshopId: string, options?: RequestContext) {
     return this._requestServer('get', `/factory/${factoryId}/workshop/${workshopId}/machine`, null, options);
   }
 
