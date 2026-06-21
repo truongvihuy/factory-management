@@ -6,12 +6,11 @@ export class ExecutionTimeInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
     const request = context.switchToHttp().getRequest();
     const requestId = request.requestId;
-
-    const start = Date.now();
+    const startTime = request.startTime;
 
     return next.handle().pipe(
       tap(() => {
-        const ms = Date.now() - start;
+        const ms = Date.now() - startTime;
         console.log(`[${requestId}] execution time ${ms}ms`);
       }),
     );
