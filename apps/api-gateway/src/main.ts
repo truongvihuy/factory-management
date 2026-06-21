@@ -1,4 +1,4 @@
-import { AppException, DEFAULT, ErrorCode, HttpExceptionFilter, ResponseInterceptor } from '@libs/common';
+import { DEFAULT, Exceptions, HttpExceptionFilter, ResponseInterceptor } from '@libs/common';
 import { TestExceptionFilter, TestGuard, TestInterceptor, TestPipe } from '@libs/common/test';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -21,16 +21,7 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       transform: true,
-      exceptionFactory(errors) {
-        return new AppException(400, {
-          code: ErrorCode.VALIDATION_ERROR,
-          message: 'Validation failed',
-          details: errors.map((error) => ({
-            field: error.property,
-            constraints: error.constraints,
-          })),
-        });
-      },
+      exceptionFactory: Exceptions.validateErrors,
     }),
   );
 
