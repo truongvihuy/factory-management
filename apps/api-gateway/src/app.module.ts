@@ -1,4 +1,4 @@
-import { RequestIdGatewayMiddleware } from '@libs/common';
+import { ExecutionTimeMiddleware, RequestIdGatewayMiddleware } from '@libs/common';
 import { TestMiddleware } from '@libs/common/test';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -35,6 +35,7 @@ import { UserModule } from './modules/user/user.module';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(RequestIdGatewayMiddleware).forRoutes('*');
+    consumer.apply(ExecutionTimeMiddleware).forRoutes('*');
     consumer.apply(TestMiddleware).forRoutes('*');
   }
 }

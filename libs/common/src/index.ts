@@ -26,5 +26,5 @@ export * from './interfaces/response.interface';
 export * from './logger/app.logger';
 export * from './logger/request-context.logger';
 
-export * from './middleware/request-id.gateway.middleware';
-export * from './middleware/request-id.service.middleware';
+export * from './middleware/execution-time.middleware';
+export * from './middleware/request-id.middleware';
