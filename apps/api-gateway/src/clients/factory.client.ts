@@ -3,7 +3,6 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Factory, Machine, Sensor, Workshop } from 'generated/prisma';
-
 import { BaseClient } from './base.client';
 
 @Injectable()

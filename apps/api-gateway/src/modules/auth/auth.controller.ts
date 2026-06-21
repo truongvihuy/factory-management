@@ -9,7 +9,6 @@ import {
 } from '@libs/common';
 import { Body, Controller, Get, Ip, Param, Post, Req, UseGuards } from '@nestjs/common';
 import type { Request } from 'express';
-
 import { LocalAuthGuard } from '../../guards/local-auth.guard';
 import { AuthService } from './auth.service';
 
