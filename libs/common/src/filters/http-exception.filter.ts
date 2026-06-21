@@ -6,10 +6,15 @@ import { ApiErrorResponse } from '../interfaces/response.interface';
 export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
+
     const request = ctx.getRequest();
     const response = ctx.getResponse();
 
-    const status = exception.status || 500;
+    const status = exception.getStatus() || 500;
+    const error = exception.getResponse();
+    const code = error.code ?? ErrorCode.INTERNAL_ERROR;
+    const message = error.message ?? 'Internal Server Error';
+    const details = error.details;
     const now = new Date();
 
     response.status(status).json({
@@ -17,8 +22,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
       requestId: request.requestId,
       timestamp: now.toISOString(),
       error: {
-        code: exception.code ?? ErrorCode.INTERNAL_SERVER_ERROR,
-        message: exception.message ?? 'Internal Server Error',
+        code,
+        message,
+        details,
       },
     } as ApiErrorResponse);
   }

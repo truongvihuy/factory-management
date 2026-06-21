@@ -5,16 +5,25 @@ import { map, Observable } from 'rxjs';
 export class ResponseInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
     const request = context.switchToHttp().getRequest();
-    const now = new Date();
+    const requestId = request.requestId;
+    const startTime = new Date();
+
+    console.log(`[${requestId}] ${request.method} ${request.url}`);
 
     return next.handle().pipe(
-      map((data) => ({
-        success: true,
-        requestId: request.requestId,
-        timestamp: now.toISOString(),
-        excutionTime: +now - +request.startTime,
-        data,
-      })),
+      map((data) => {
+        const now = new Date();
+        const ms = +now - +startTime;
+        console.log(`[${requestId}] completed, ${ms}ms`);
+
+        return {
+          success: true,
+          requestId,
+          timestamp: now.toISOString(),
+          executionTime: ms,
+          data,
+        };
+      }),
     );
   }
 }

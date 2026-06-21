@@ -8,7 +8,7 @@ export class TestPipe implements PipeTransform {
     console.log('TestPipe created');
   }
   transform(value: any) {
-    console.log('TestPipe.transform');
+    console.log('TestPipe.transform: ', value);
 
     return value;
   }
