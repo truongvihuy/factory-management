@@ -18,8 +18,8 @@ export class RequestContextGateWayMiddleware implements NestMiddleware {
 @Injectable()
 export class RequestContextServiceMiddleware implements NestMiddleware {
   use(req: any, res: Response, next: NextFunction) {
-    (req as any)['requestId'] = req.headers[REQUEST_ID];
-    (req as any)['userId'] = req.headers[USER_ID];
+    req['requestId'] = req.headers[REQUEST_ID];
+    req['userId'] = req.headers[USER_ID];
 
     next();
   }
