@@ -3,9 +3,7 @@ import 'dotenv/config';
 import { PrismaPg } from '@prisma/adapter-pg';
 import bcrypt from 'bcrypt';
 import { Pool } from 'pg';
-
 import { PrismaClient, Role, Status_Machine } from '../generated/prisma';
-
 import * as factories from './data/factories.json';
 import * as machines from './data/machines.json';
 import * as userRoles from './data/userRoles.json';
