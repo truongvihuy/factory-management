@@ -1,11 +1,6 @@
-import {
-  DEFAULT,
-  ExecutionTimeInterceptor,
-  HttpExceptionFilter,
-  RequestLoggerInterceptor,
-  ResponseInterceptor,
-} from '@libs/common';
+import { AppException, DEFAULT, ErrorCode, HttpExceptionFilter, ResponseInterceptor } from '@libs/common';
 import { TestExceptionFilter, TestGuard, TestInterceptor, TestPipe } from '@libs/common/test';
+import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
@@ -21,9 +16,23 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
   app.useGlobalFilters(new HttpExceptionFilter());
-  app.useGlobalInterceptors(new RequestLoggerInterceptor());
-  app.useGlobalInterceptors(new ExecutionTimeInterceptor());
   app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      exceptionFactory(errors) {
+        return new AppException(400, {
+          code: ErrorCode.VALIDATION_ERROR,
+          message: 'Validation failed',
+          details: errors.map((error) => ({
+            field: error.property,
+            constraints: error.constraints,
+          })),
+        });
+      },
+    }),
+  );
 
   await app.listen(config.get<number>('PORT', DEFAULT.PORT_API_GATEWAY));
 }
