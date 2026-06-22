@@ -1,7 +1,9 @@
 import { CurrentUser, type IAccessTokenPayload, Permission, PermissionCode } from '@libs/common';
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { UserService } from './user.service';
 
+@ApiBearerAuth('access-token')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -16,11 +18,11 @@ export class UserController {
 
   @Post('')
   @Permission(PermissionCode.USER_CREATE)
-  async createUser(@Body() userDTO: any) {}
+  async createUser(@Body() userDTO: unknown) {}
 
   @Put(':userId')
   @Permission(PermissionCode.USER_UPDATE)
-  async updateUser(@Param('userId') userId: string, @Body() userDTO: any) {}
+  async updateUser(@Param('userId') userId: string, @Body() userDTO: unknown) {}
 
   @Get(':userId/user-role')
   @Permission(PermissionCode.USER_UPDATE)
@@ -28,9 +30,9 @@ export class UserController {
 
   @Post(':userId/user-role')
   @Permission(PermissionCode.USER_UPDATE)
-  async updateUserRole(@Param('userId') userId: string, @Body() payload: any) {}
+  async updateUserRole(@Param('userId') userId: string, @Body() payload: unknown) {}
 
   @Delete(':userId/user-role')
   @Permission(PermissionCode.USER_UPDATE)
-  async deleteUserRole(@Param('userId') userId: string, @Body() payload: any) {}
+  async deleteUserRole(@Param('userId') userId: string, @Body() payload: unknown) {}
 }

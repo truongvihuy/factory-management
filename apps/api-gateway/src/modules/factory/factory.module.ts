@@ -1,12 +1,11 @@
-import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { FactoryClient } from '../../clients/factory.client';
+import { ClientModule } from '../../clients/client.module';
 import { FactoryController } from './factory.controller';
 import { FactoryService } from './factory.service';
 
 @Module({
-  imports: [HttpModule],
+  imports: [ClientModule],
   controllers: [FactoryController],
-  providers: [FactoryService, FactoryClient],
+  providers: [FactoryService],
 })
 export class FactoryModule {}

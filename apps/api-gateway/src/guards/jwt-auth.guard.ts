@@ -1,5 +1,5 @@
-import { IS_PUBLIC_KEY } from '@libs/common';
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Exceptions, IS_PUBLIC_KEY } from '@libs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthClient } from '../clients/auth.client';
 
@@ -22,11 +22,11 @@ export class JwtAuthGuard implements CanActivate {
     const [type, token] = authorization.split(' ');
 
     if (type.toLowerCase() !== 'bearer') {
-      throw new UnauthorizedException();
+      Exceptions.missingToken();
     }
 
     if (!token) {
-      throw new UnauthorizedException();
+      Exceptions.missingToken();
     }
 
     const requestId = request.requestId;

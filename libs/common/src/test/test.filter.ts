@@ -6,7 +6,7 @@ export class TestExceptionFilter implements ExceptionFilter {
     console.log.apply('TestExceptionFilter created');
   }
 
-  catch(exception: any, host: ArgumentsHost) {
+  catch(exception: unknown, host: ArgumentsHost) {
     console.log('TestExceptionFilter.catch');
   }
 }
