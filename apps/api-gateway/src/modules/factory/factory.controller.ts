@@ -10,7 +10,7 @@ export class FactoryController {
   @Get('all')
   @Permission(PermissionCode.FACTORY_READ)
   getFactoryListAll(@Req() req: Request) {
-    const { user, requestId } = req as any as { user: IAccessTokenPayload; requestId: string };
+    const { user, requestId } = req as unknown as { user: IAccessTokenPayload; requestId: string };
 
     return this.factoryService.getFactoryListAll({ requestId, userId: user.sub });
   }
@@ -21,11 +21,11 @@ export class FactoryController {
 
   @Post()
   @Permission(PermissionCode.FACTORY_CREATE)
-  async addFactory(@Body() body: any) {}
+  async addFactory(@Body() body: unknown) {}
 
   @Put(':factoryId')
   @Permission(PermissionCode.FACTORY_UPDATE)
-  async updateFactory(@Param('factoryId') factoryId: string, @Body() body: any) {}
+  async updateFactory(@Param('factoryId') factoryId: string, @Body() body: unknown) {}
 
   @Delete(':factoryId')
   @Permission(PermissionCode.FACTORY_DELETE)
@@ -43,14 +43,14 @@ export class FactoryController {
 
   @Post(':factoryId/workshop')
   @Permission(PermissionCode.WORKSHOP_CREATE)
-  async addWorkshopInFactory(@Param('factoryId') factoryId: string, @Body() body: any) {}
+  async addWorkshopInFactory(@Param('factoryId') factoryId: string, @Body() body: unknown) {}
 
   @Put(':factoryId/workshop/:workshopId')
   @Permission(PermissionCode.WORKSHOP_UPDATE)
   async updateWorkshopInFactory(
     @Param('factoryId') factoryId: string,
     @Param('workshopId') workshopId: string,
-    @Body() body: any,
+    @Body() body: unknown,
   ) {}
 
   @Delete(':factoryId/workshop/:workshopId')
@@ -68,14 +68,18 @@ export class FactoryController {
   }
 
   @Post(':factoryId/workshop/:workshopId/machine')
-  async addMachine(@Param('factoryId') factoryId: string, @Param('workshopId') workshopId: string, @Body() body: any) {}
+  async addMachine(
+    @Param('factoryId') factoryId: string,
+    @Param('workshopId') workshopId: string,
+    @Body() body: unknown,
+  ) {}
 
   @Put(':factoryId/workshop/:workshopId/machine/:machineId')
   async updateMachine(
     @Param('factoryId') factoryId: string,
     @Param('workshopId') workshopId: string,
     @Param('machineId') machineId: string,
-    @Body() body: any,
+    @Body() body: unknown,
   ) {}
 
   @Delete(':factoryId/workshop/:workshopId/machine/:machineId')
@@ -97,7 +101,7 @@ export class FactoryController {
     @Param('factoryId') factoryId: string,
     @Param('workshopId') workshopId: string,
     @Param('machineId') machineId: string,
-    @Body() body: any,
+    @Body() body: unknown,
   ) {}
 
   @Put(':factoryId/workshop/:workshopId/machine/:machineId/sensor/:sensorId')
@@ -106,7 +110,7 @@ export class FactoryController {
     @Param('workshopId') workshopId: string,
     @Param('machineId') machineId: string,
     @Param('sensorId') sensorId: string,
-    @Body() body: any,
+    @Body() body: unknown,
   ) {}
 
   @Delete(':factoryId/workshop/:workshopId/machine/:machineId/sensor/:sensorId')

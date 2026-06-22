@@ -5,7 +5,7 @@ export class TestInterceptor implements NestInterceptor {
   constructor() {
     console.log('TestInterceptor created');
   }
-  intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
+  intercept(context: ExecutionContext, next: CallHandler<unknown>): Observable<unknown> | Promise<Observable<unknown>> {
     console.log('TestInterceptor.intercept');
     return next.handle().pipe(
       tap(() => {

@@ -16,7 +16,7 @@ export class BaseClient {
   protected async _requestServer(
     method: 'get' | 'post' | 'put' | 'delete',
     url: string,
-    body?: any,
+    body?: unknown,
     options?: RequestContext,
   ) {
     let axiosRes;
@@ -31,7 +31,7 @@ export class BaseClient {
         });
         break;
       default:
-        axiosRes = this.httpService[method](fullUrl, body, {
+        axiosRes = this.httpService[method](fullUrl, body as any, {
           headers: {
             [REQUEST_ID]: options?.requestId,
             [USER_ID]: options?.userId,

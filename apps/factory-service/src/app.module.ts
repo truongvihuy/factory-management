@@ -1,4 +1,4 @@
-import { RequestIdServiceMiddleware } from '@libs/common';
+import { RequestContextServiceMiddleware } from '@libs/common';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { FactoryModule } from './modules/factory/factory.module';
@@ -14,6 +14,6 @@ import { FactoryModule } from './modules/factory/factory.module';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(RequestIdServiceMiddleware).forRoutes('*');
+    consumer.apply(RequestContextServiceMiddleware).forRoutes('*');
   }
 }
