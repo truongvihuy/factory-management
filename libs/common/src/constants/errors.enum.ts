@@ -22,5 +22,6 @@ export enum ErrorCode {
 
   // System
   VALIDATION_ERROR = 'SYS_001',
+  BAD_GATEWAY = 'SYS_002',
   INTERNAL_ERROR = 'SYS_999',
 }

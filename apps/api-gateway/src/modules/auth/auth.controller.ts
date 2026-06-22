@@ -8,10 +8,12 @@ import {
   type IResetPassword,
 } from '@libs/common';
 import { Body, Controller, Get, Ip, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { ApiBasicAuth, ApiBearerAuth } from '@nestjs/swagger';
 import type { Request } from 'express';
 import { LocalAuthGuard } from '../../guards/local-auth.guard';
 import { AuthService } from './auth.service';
 
+@ApiBearerAuth('access-token')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -21,6 +23,7 @@ export class AuthController {
     return this.authService.getUser(user.sub, { requestId: requestId, userId: user.sub });
   }
 
+  @ApiBasicAuth('basic-token')
   @UseGuards(LocalAuthGuard)
   @Post('login')
   @Public()

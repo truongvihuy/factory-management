@@ -1,4 +1,4 @@
-import { REQUEST_ID, RequestContext, USER_ID } from '@libs/common';
+import { Exceptions, REQUEST_ID, RequestContext, USER_ID } from '@libs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
@@ -39,7 +39,13 @@ export class BaseClient {
         });
     }
 
-    const response = await firstValueFrom(axiosRes);
+    const response = await firstValueFrom(axiosRes).catch((error) => {
+      if (error.response) {
+        throw error;
+      }
+
+      Exceptions.badGateway();
+    });
     return response.data;
   }
 }

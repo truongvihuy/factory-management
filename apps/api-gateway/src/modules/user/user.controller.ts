@@ -1,7 +1,9 @@
 import { CurrentUser, type IAccessTokenPayload, Permission, PermissionCode } from '@libs/common';
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { UserService } from './user.service';
 
+@ApiBearerAuth('access-token')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
