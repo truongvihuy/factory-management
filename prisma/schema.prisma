@@ -143,6 +143,7 @@ enum Status_Sensor {
 
 model Telemetry {
   id         String   @id @default(uuid())
+  machineId  String
   sensorId   String
   value      Float
   recordedAt DateTime @default(now())

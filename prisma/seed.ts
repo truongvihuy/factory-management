@@ -3,12 +3,22 @@ import 'dotenv/config';
 import { PrismaPg } from '@prisma/adapter-pg';
 import bcrypt from 'bcrypt';
 import { Pool } from 'pg';
-import { PrismaClient, Role, Status_Machine } from '../generated/prisma';
-import * as factories from './data/factories.json';
-import * as machines from './data/machines.json';
-import * as userRoles from './data/userRoles.json';
-import * as users from './data/users.json';
-import * as workshops from './data/workshops.json';
+import { PrismaClient, Role, Status_Sensor } from '../generated/prisma';
+
+const Metrics = [
+  'temperature',
+  'humidity',
+  'pressure',
+  'voltage',
+  'current',
+  'power',
+  'energy',
+  'speed',
+  'vibration',
+  'flow_rate',
+];
+
+const Units = ['*C', '%', 'bar', 'V', 'A', 'kW', 'kWh', 'rpm', 'mm/s', 'm3/h'];
 
 const connectionString = `${process.env.DATABASE_URL}`;
 const pool = new Pool({ connectionString });
@@ -17,10 +27,7 @@ const prisma = new PrismaClient({ adapter });
 
 async function main() {
   await seedDBFactory();
-  await seedDBWorkshop();
-  await seedDBMachine();
   await seedDBUser();
-  await seedDBUserRole();
 }
 main()
   .then(async () => {
@@ -35,88 +42,94 @@ main()
   });
 
 async function seedDBUser() {
-  await Promise.all(
-    users.map((user) =>
-      prisma.user.upsert({
-        where: { email: user.email },
-        create: {
-          name: user.name,
-          email: user.email,
-          password: bcrypt.hashSync(user.password, 10),
-          status: user.status,
-          admin: user.admin,
-        },
-        update: {
-          name: user.name,
-          email: user.email,
-          password: bcrypt.hashSync(user.password, 10),
-          status: user.status,
-          admin: user.admin,
-        },
-      }),
-    ),
-  );
-}
+  const admin = {
+    name: 'admin',
+    email: 'admin@abc.co',
+    password: bcrypt.hashSync('123456', 10),
+    status: true,
+    admin: true,
+  };
+  await prisma.user.upsert({
+    where: { email: admin.email },
+    create: admin,
+    update: admin,
+  });
 
-async function seedDBUserRole() {
-  await Promise.all(
-    userRoles.map(async (userRole) => {
-      const [user, factory] = await Promise.all([
-        prisma.user.findFirstOrThrow({ where: { email: userRole.email } }),
-        prisma.factory.findFirstOrThrow({ skip: userRole.factoryPos }),
-      ]);
+  const factories = await prisma.factory.findMany();
 
-      const _userRole = {
-        userId: user.id,
-        factoryId: factory.id,
-        role: userRole.role as Role,
+  for (let role in Object.values(Role)) {
+    for (let [index, fac] of factories.entries()) {
+      let user = {
+        name: role,
+        email: `${role.toLowerCase()}${index}@abc.co`,
+        password: admin.password,
+        status: true,
+        admin: false,
       };
-
-      return prisma.userRole.upsert({
+      let user_ = await prisma.user.upsert({
+        where: { email: user.email },
+        create: user,
+        update: user,
+      });
+      let userRole = {
+        factoryId: fac.id,
+        userId: user_.id,
+        role: role as Role,
+      };
+      await prisma.userRole.upsert({
         where: {
           userId_factoryId: {
-            userId: user.id,
-            factoryId: factory.id,
+            userId: user_.id,
+            factoryId: fac.id,
           },
         },
-        create: _userRole,
-        update: _userRole,
+        create: userRole,
+        update: userRole,
       });
-    }),
-  );
+    }
+  }
 }
 
 async function seedDBFactory() {
-  await Promise.all(factories.map((fac) => prisma.factory.create({ data: fac })));
-}
+  for (let a = 0; a < 10; a++) {
+    const fac = await prisma.factory.create({
+      data: {
+        name: `Factory ${a + 1}`,
+        address: `123 Abc, HCMC, VN`,
+      },
+    });
 
-async function seedDBWorkshop() {
-  await Promise.all(
-    workshops.map(async (wor) => {
-      const factory = await prisma.factory.findFirstOrThrow({ skip: wor.factoryPos });
-      return prisma.workshop.create({
+    for (let b = 0; b < 2; b++) {
+      const wor = await prisma.workshop.create({
         data: {
-          name: wor.name,
-          factoryId: factory.id,
+          name: `Workshop ${a + 1}_${b + 1}`,
+          factoryId: fac.id,
         },
       });
-    }),
-  );
-}
 
-async function seedDBMachine() {
-  await Promise.all(
-    machines.map(async (mac) => {
-      const workshop = await prisma.workshop.findFirstOrThrow({ skip: mac.workshopPos });
-      return prisma.machine.create({
-        data: {
-          name: mac.name,
-          workshopId: workshop.id,
-          infoMachine: mac.infoMachine,
-          installDate: mac.installDate,
-          status: mac.status as Status_Machine,
-        },
-      });
-    }),
-  );
+      for (let c = 0; c < 50; c++) {
+        const mac = await prisma.machine.create({
+          data: {
+            name: `Machine ${a + 1}_${b + 1}_${c + 1}`,
+            workshopId: wor.id,
+            infoMachine: `Thiss is description Machine ${a + 1}_${b + 1}_${c + 1}`,
+            status: 'RUNNING',
+            installDate: new Date(),
+          },
+        });
+
+        for (let d = 0; d < 10; d++) {
+          const sen = await prisma.sensor.create({
+            data: {
+              name: `Sensor ${a + 1}_${b + 1}_${c + 1}_${Metrics[d]}${d + 1}`,
+              machineId: mac.id,
+              metric: Metrics[d],
+              unit: Units[d],
+              status: Status_Sensor.ACTIVE,
+            },
+          });
+        }
+      }
+    }
+  }
 }
