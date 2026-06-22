@@ -10,11 +10,6 @@ export class FactoryController {
     return this.factoryService.getFactoryListAll();
   }
 
-  @Post('')
-  async getFactoryListByIds(@Body() payload: any) {
-    return this.factoryService.getFactoryListByIds(payload.factoryIds);
-  }
-
   @Post('create')
   async addFactory(@Body() body: any) {
     return this.factoryService.addFactory(body);
@@ -32,6 +27,7 @@ export class FactoryController {
 
   @Get(':factoryId/workshop')
   async getWorkshopInFactory(@Param('factoryId') factoryId: string) {
+    console.log({ factoryId });
     return this.factoryService.getWorkshopInFactory(factoryId);
   }
 
@@ -55,8 +51,8 @@ export class FactoryController {
   }
 
   @Get(':factoryId/workshop/:workshopId/machine')
-  async getMachine(@Param('factoryId') factoryId: string, @Param('workshopId') workshopId: string) {
-    return this.factoryService.getMachine(factoryId, workshopId);
+  async getMachineInWorkshop(@Param('factoryId') factoryId: string, @Param('workshopId') workshopId: string) {
+    return this.factoryService.getMachineInWorkshop(factoryId, workshopId);
   }
 
   @Post(':factoryId/workshop/:workshopId/machine')
