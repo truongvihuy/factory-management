@@ -1,3 +1,4 @@
+import { Exceptions } from '@libs/common';
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 
 @Injectable()
@@ -12,7 +13,7 @@ export class LocalAuthGuard implements CanActivate {
     }
 
     if (!token) {
-      throw new UnauthorizedException();
+      Exceptions.invalidCredetials();
     }
 
     request['user'] = { token };
