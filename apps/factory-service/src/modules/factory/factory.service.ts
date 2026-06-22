@@ -8,7 +8,7 @@ export class FactoryService {
   constructor(private readonly prisma: PrismaService) {}
 
   private async validateOwnership(factoryId: string, workshopId: string, machineId?: string, sensorId?: string) {
-    let result: any = null;
+    let result: unknown = null;
 
     if (sensorId) {
       result = await this.prisma.sensor.findFirst({
