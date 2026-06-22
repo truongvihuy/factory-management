@@ -6,7 +6,7 @@ import { Telemetry } from 'generated/prisma';
 export class TelemetryService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async handleTelemetry(payload: Telemetry) {
+  async processTelemetry(payload: Telemetry) {
     await this.prisma.telemetry.create({
       data: {
         sensorId: payload.sensorId,

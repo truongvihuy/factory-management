@@ -1,7 +1,6 @@
-import { RequestContextServiceMiddleware } from '@libs/common';
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { TelemetryModule } from './modules/telemetry/telemetry.module';
+import { MqttModule } from './mqtt/mqtt.module';
 
 @Module({
   imports: [
@@ -9,11 +8,7 @@ import { TelemetryModule } from './modules/telemetry/telemetry.module';
       isGlobal: true,
       envFilePath: 'env/.env.telemetry-service',
     }),
-    TelemetryModule,
+    MqttModule,
   ],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(RequestContextServiceMiddleware).forRoutes('*');
-  }
-}
+export class AppModule {}

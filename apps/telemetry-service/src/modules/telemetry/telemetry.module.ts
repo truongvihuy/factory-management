@@ -6,5 +6,6 @@ import { TelemetryService } from './telemetry.service';
   imports: [PrismaModule],
   // controllers: [TelemetryController],
   providers: [TelemetryService],
+  exports: [TelemetryService],
 })
 export class TelemetryModule {}
