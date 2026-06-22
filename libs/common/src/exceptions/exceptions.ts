@@ -10,6 +10,55 @@ export class Exceptions {
     });
   }
 
+  static missingToken(): never {
+    throw new AppException(HttpStatus.UNAUTHORIZED, {
+      code: ErrorCode.MISSING_TOKEN,
+      message: 'Missing Token or Bearer/Basic token is not provided',
+    });
+  }
+
+  static authBlocked(): never {
+    throw new AppException(HttpStatus.FORBIDDEN, {
+      code: ErrorCode.AUTH_BLOCKED,
+      message: 'User is blocked',
+    });
+  }
+
+  static tokenExpired(): never {
+    throw new AppException(HttpStatus.UNAUTHORIZED, {
+      code: ErrorCode.TOKEN_EXPIRED,
+      message: 'Token exprired',
+    });
+  }
+
+  static invalidToken(): never {
+    throw new AppException(HttpStatus.FORBIDDEN, {
+      code: ErrorCode.TOKEN_INVALID,
+      message: 'Invalid Token',
+    });
+  }
+
+  static accessDenied(): never {
+    throw new AppException(HttpStatus.FORBIDDEN, {
+      code: ErrorCode.ACCESS_DENIED,
+      message: 'Access denied',
+    });
+  }
+
+  static sessionNotFound(): never {
+    throw new AppException(HttpStatus.UNAUTHORIZED, {
+      code: ErrorCode.SESSION_NOT_FOUND,
+      message: 'Session not found',
+    });
+  }
+
+  static sessionRevorked(): never {
+    throw new AppException(HttpStatus.UNAUTHORIZED, {
+      code: ErrorCode.SESSION_REVOKED,
+      message: 'Session revoked',
+    });
+  }
+
   static userNotFound(): never {
     throw new AppException(HttpStatus.NOT_FOUND, {
       code: ErrorCode.USER_NOT_FOUND,
@@ -20,14 +69,7 @@ export class Exceptions {
   static factoryNotFound(): never {
     throw new AppException(HttpStatus.NOT_FOUND, {
       code: ErrorCode.FACTORY_NOT_FOUND,
-      message: 'User not found',
-    });
-  }
-
-  static accessDenied(): never {
-    throw new AppException(HttpStatus.FORBIDDEN, {
-      code: ErrorCode.ACCESS_DENIED,
-      message: 'Access denied',
+      message: 'Factory not found',
     });
   }
 

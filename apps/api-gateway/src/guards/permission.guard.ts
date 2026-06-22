@@ -1,5 +1,5 @@
-import { PERMISSION_KEY } from '@libs/common';
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
+import { Exceptions, PERMISSION_KEY } from '@libs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthClient } from '../clients/auth.client';
 
@@ -25,7 +25,7 @@ export class PermissionGuard implements CanActivate {
     const hasPermission = this.authClient.checkUserRole(userId, factoryId, permission, { userId, requestId });
 
     if (!hasPermission) {
-      throw new ForbiddenException('Permission denied');
+      Exceptions.accessDenied();
     }
 
     return true;
