@@ -26,8 +26,8 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  // await initDb();
-  // await seedDBFactory();
+  await initDb();
+  await seedDBFactory();
   await seedDBUser();
 }
 main()
