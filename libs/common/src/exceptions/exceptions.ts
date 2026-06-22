@@ -80,6 +80,13 @@ export class Exceptions {
     });
   }
 
+  static badGateway(): never {
+    throw new AppException(HttpStatus.BAD_GATEWAY, {
+      code: ErrorCode.BAD_GATEWAY,
+      message: 'Bad Gateway',
+    });
+  }
+
   static validateErrors(errors: ValidationError[]): unknown {
     return new AppException(HttpStatus.BAD_REQUEST, {
       code: ErrorCode.VALIDATION_ERROR,
