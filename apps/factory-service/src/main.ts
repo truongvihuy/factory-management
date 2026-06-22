@@ -1,4 +1,4 @@
-import { DEFAULT, ExecutionTimeInterceptor } from '@libs/common';
+import { DEFAULT } from '@libs/common';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -15,7 +15,6 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
-  app.useGlobalInterceptors(new ExecutionTimeInterceptor());
   await app.listen(config.get<number>('PORT', DEFAULT.PORT_FACTORY_SERVICE));
 }
 bootstrap();
