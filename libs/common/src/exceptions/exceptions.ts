@@ -10,6 +10,13 @@ export class Exceptions {
     });
   }
 
+  static missingToken(): never {
+    throw new AppException(HttpStatus.UNAUTHORIZED, {
+      code: ErrorCode.MISSING_TOKEN,
+      message: 'Missing Token or Bearer/Basic token is not provided',
+    });
+  }
+
   static authBlocked(): never {
     throw new AppException(HttpStatus.FORBIDDEN, {
       code: ErrorCode.AUTH_BLOCKED,
