@@ -47,12 +47,6 @@
       ],
       "@libs/events/*": [
         "libs/events/src/*"
-      ],
-      "@libs/mqtt": [
-        "libs/mqtt/src"
-      ],
-      "@libs/mqtt/*": [
-        "libs/mqtt/src/*"
       ]
     }
   }

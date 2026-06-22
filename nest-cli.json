@@ -76,15 +76,6 @@
         "tsConfigPath": "apps/factory-service/tsconfig.app.json"
       }
     },
-    "mqtt": {
-      "type": "application",
-      "root": "apps/mqtt",
-      "entryFile": "main",
-      "sourceRoot": "libs/mqtt/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/events/tsconfig.lib.json"
-      }
-    },
     "telemetry-service": {
       "type": "application",
       "root": "apps/telemetry-service",

@@ -120,7 +120,6 @@
       "^@libs/common(|/.*)$": "<rootDir>/libs/common/src/$1",
       "^@libs/database(|/.*)$": "<rootDir>/libs/database/src/$1",
       "^@libs/events(|/.*)$": "<rootDir>/libs/events/src/$1",
-      "^@libs/mqtt(|/.*)$": "<rootDir>/libs/mqtt/src/$1"
     }
   }
 }
