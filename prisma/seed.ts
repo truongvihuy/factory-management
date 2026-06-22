@@ -26,9 +26,9 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  await initDb();
+  // await initDb();
+  // await seedDBFactory();
   await seedDBUser();
-  await seedDBFactory();
 }
 main()
   .then(async () => {
@@ -69,10 +69,10 @@ async function seedDBUser() {
 
   const factories = await prisma.factory.findMany();
 
-  for (let role in Object.values(Role)) {
+  for (let [_i, role] of Object.values(Role).entries()) {
     for (let [index, fac] of factories.entries()) {
       let user = {
-        name: role,
+        name: `${role.toLowerCase()} ${index}`,
         email: `${role.toLowerCase()}${index}@abc.co`,
         password: admin.password,
         status: true,
