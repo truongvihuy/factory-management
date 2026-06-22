@@ -31,6 +31,7 @@
     "prisma:deploy": "prisma migrate deploy",
     "prisma:studio": "prisma studio",
     "prisma:reset": "prisma migrate reset",
+    "prisma:seed": "prisma db seed",
     "infra:up": "docker compose --env-file .env -f infrastructure/docker/docker-compose.yml up -d",
     "infra:down": "docker compose --env-file .env -f infrastructure/docker/docker-compose.yml down",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",

@@ -26,8 +26,9 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  await seedDBFactory();
+  await initDb();
   await seedDBUser();
+  await seedDBFactory();
 }
 main()
   .then(async () => {
@@ -40,6 +41,17 @@ main()
     await pool.end();
     process.exit(1);
   });
+
+async function initDb() {
+  await prisma.refreshToken.deleteMany();
+  await prisma.session.deleteMany();
+  await prisma.userRole.deleteMany();
+  await prisma.user.deleteMany();
+  await prisma.sensor.deleteMany();
+  await prisma.machine.deleteMany();
+  await prisma.workshop.deleteMany();
+  await prisma.factory.deleteMany();
+}
 
 async function seedDBUser() {
   const admin = {
