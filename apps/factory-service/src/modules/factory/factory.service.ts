@@ -1,4 +1,4 @@
-import { BusinessException } from '@libs/common';
+import { Exceptions } from '@libs/common';
 import { PrismaService } from '@libs/database';
 import { Injectable } from '@nestjs/common';
 import { Factory, Machine, Sensor, Workshop } from 'generated/prisma';
@@ -43,7 +43,7 @@ export class FactoryService {
     }
 
     if (!result) {
-      throw new BusinessException('fsfs', 's');
+      Exceptions.factoryAccessDenied();
     }
 
     return !!result;

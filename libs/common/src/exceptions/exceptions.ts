@@ -73,6 +73,13 @@ export class Exceptions {
     });
   }
 
+  static factoryAccessDenied(): never {
+    throw new AppException(HttpStatus.FORBIDDEN, {
+      code: ErrorCode.FACTORY_ACCESS_DENIED,
+      message: 'Factory access denied',
+    });
+  }
+
   static validateErrors(errors: ValidationError[]): unknown {
     return new AppException(HttpStatus.BAD_REQUEST, {
       code: ErrorCode.VALIDATION_ERROR,
