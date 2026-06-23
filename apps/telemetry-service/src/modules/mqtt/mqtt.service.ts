@@ -35,8 +35,8 @@ export class MqttService implements OnModuleInit {
         const payload = await this.decodeMessage(topic, message);
         await this.telemetryService.processTelemetry(payload);
         console.log(`[${topic}], completed`);
-      } catch (e) {
-        console.log(`[${topic}], error ${e}`);
+      } catch (e: any) {
+        console.log(`[${topic}], error ${e.message}`);
       }
     });
   }
@@ -47,14 +47,9 @@ export class MqttService implements OnModuleInit {
     const payload = JSON.parse(message.toString()) as PayloadSensor;
     payload.deviceCode = deviceCode;
 
-    const valid = await this.validateSignature(payload);
-    if (valid) {
-      return payload;
-    }
+    await this.validateSignature(payload);
 
-    console.log(`[${topic}] Signature invalid`);
-
-    throw new Error('Invalid Signature');
+    return payload;
   }
 
   async validateSignature(payload: PayloadSensor) {
@@ -67,14 +62,16 @@ export class MqttService implements OnModuleInit {
 
     const device = await this.telemetryService.getDevice(payload.deviceCode);
 
-    if (device) {
-      const expected = createHmac('sha256', device.secretKey).update(JSON.stringify(_payload)).digest('hex');
-
-      if (expected === payload.signature) {
-        return true;
-      }
+    if (!device) {
+      throw new Error('Device not found');
     }
 
-    return false;
+    const expected = createHmac('sha256', device.secretKey).update(JSON.stringify(_payload)).digest('hex');
+
+    if (expected !== payload.signature) {
+      throw new Error('Signature invalid');
+    }
+
+    return true;
   }
 }
