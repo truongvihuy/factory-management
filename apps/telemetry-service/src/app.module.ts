@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { MqttModule } from './mqtt/mqtt.module';
+import { MqttModule } from './modules/mqtt/mqtt.module';
 
 @Module({
   imports: [

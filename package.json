@@ -21,6 +21,7 @@
     "build:auth": "nest build auth-service",
     "build:factory": "nest build factory-service",
     "build:telemetry": "nest build telemetry-service",
+    "test:mqtt": "ts-node scripts/mqtt-load-test.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
