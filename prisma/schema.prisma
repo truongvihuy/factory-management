@@ -173,12 +173,27 @@ model SensorReading {
   recordedAt DateTime @default(now())
 
   @@index([recordedAt])
+  @@index([sensorCode])
 }
 
 model SensorLatest {
   sensorCode String   @id
   value      Float
   recordedAt DateTime
+}
+
+model MachineStatus {
+  machineCode String         @id
+  status      Status_Machine
+  lastSeen    DateTime
+  updatedAt   DateTime       @updatedAt
+}
+
+model DeviceHeartBear {
+  deviceCode String   @id
+  secretKey  String
+  lastSeen   DateTime
+  updatedAt  DateTime @updatedAt
 }
 
 enum Severity {

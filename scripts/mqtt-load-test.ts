@@ -18,7 +18,7 @@ client.on('connect', () => {
       const sensorId = `sensor-${i % SENSOR_COUNT}`;
 
       client.publish(
-        `factory/factory-1/workshop/workshop-1/machine/machine-1/sensor/${sensorId}`,
+        `machine/machine-1/sensor/${sensorId}`,
         JSON.stringify({
           sensorId,
           value: Number((Math.random() * 100).toFixed(2)),
