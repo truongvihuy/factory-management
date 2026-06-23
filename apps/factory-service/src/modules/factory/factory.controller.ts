@@ -118,4 +118,44 @@ export class FactoryController {
   ) {
     return this.factoryService.deleteSensor(factoryId, workshopId, machineId, sensorId);
   }
+
+  @Get(':factoryId/workshop/:workshopId/machine/:machineId/device')
+  async getDevice(
+    @Param('factoryId') factoryId: string,
+    @Param('workshopId') workshopId: string,
+    @Param('machineId') machineId: string,
+  ) {
+    return this.factoryService.getSensor(factoryId, workshopId, machineId);
+  }
+
+  @Post(':factoryId/workshop/:workshopId/machine/:machineId/device')
+  async addDevice(
+    @Param('factoryId') factoryId: string,
+    @Param('workshopId') workshopId: string,
+    @Param('machineId') machineId: string,
+    @Body() body: any,
+  ) {
+    return this.factoryService.addSensor(factoryId, workshopId, machineId, body);
+  }
+
+  @Put(':factoryId/workshop/:workshopId/machine/:machineId/device/:deviceId')
+  async updateDevice(
+    @Param('factoryId') factoryId: string,
+    @Param('workshopId') workshopId: string,
+    @Param('machineId') machineId: string,
+    @Param('deviceId') deviceId: string,
+    @Body() body: any,
+  ) {
+    return this.factoryService.updateSensor(factoryId, workshopId, machineId, deviceId, body);
+  }
+
+  @Delete(':factoryId/workshop/:workshopId/machine/:machineId/device/:deviceId')
+  async deleteDevice(
+    @Param('factoryId') factoryId: string,
+    @Param('workshopId') workshopId: string,
+    @Param('machineId') machineId: string,
+    @Param('deviceId') deviceId: string,
+  ) {
+    return this.factoryService.deleteSensor(factoryId, workshopId, machineId, deviceId);
+  }
 }
