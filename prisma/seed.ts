@@ -150,7 +150,7 @@ async function seedDBFactory() {
 
         const device_ = {
           name: `Device ${c + 1}`,
-          code: `${mac_}-DEV_${c + 1}`,
+          code: `${mac_.code}-DEV_${c + 1}`,
           machineId: mac.id,
           secretKey: `DEVICE_${c + 1}`,
           status: Status_Device.ACTIVE,
@@ -164,16 +164,14 @@ async function seedDBFactory() {
         for (let d = 0; d < 10; d++) {
           const sen_ = {
             name: `Sensor ${Metrics[d]} ${d + 1}`,
-            code: `${mac_}-SEN_${d + 1}`,
+            code: `${mac_.code}-SEN_${d + 1}`,
             machineId: mac.id,
             metric: Metrics[d],
             unit: Units[d],
             status: Status_Sensor.ACTIVE,
           };
           const sen = await prisma.sensor.upsert({
-            where: {
-              code: `${mac_.code}-SEN_${d + 1}`,
-            },
+            where: { code: sen_.code },
             create: sen_,
             update: sen_,
           });
