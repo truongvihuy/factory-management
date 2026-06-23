@@ -3,7 +3,7 @@ import 'dotenv/config';
 import { PrismaPg } from '@prisma/adapter-pg';
 import bcrypt from 'bcrypt';
 import { Pool } from 'pg';
-import { PrismaClient, Role, Status_Sensor } from '../generated/prisma';
+import { PrismaClient, Role, Status_Machine, Status_Sensor } from '../generated/prisma';
 
 const Metrics = [
   'temperature',
@@ -125,7 +125,7 @@ async function seedDBFactory() {
             name: `Machine ${a + 1}_${b + 1}_${c + 1}`,
             workshopId: wor.id,
             infoMachine: `Thiss is description Machine ${a + 1}_${b + 1}_${c + 1}`,
-            status: 'RUNNING',
+            status: Status_Machine.RUNNING,
             installDate: new Date(),
           },
         });
