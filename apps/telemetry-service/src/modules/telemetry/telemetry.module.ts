@@ -4,7 +4,6 @@ import { TelemetryService } from './telemetry.service';
 
 @Module({
   imports: [PrismaModule],
-  // controllers: [TelemetryController],
   providers: [TelemetryService],
   exports: [TelemetryService],
 })

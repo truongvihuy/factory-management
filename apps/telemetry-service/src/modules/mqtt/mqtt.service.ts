@@ -1,6 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { connect, MqttClient } from 'mqtt';
+import { PayloadSensor } from '../telemetry/payload-sensor.dto';
 import { TelemetryService } from '../telemetry/telemetry.service';
 
 @Injectable()
@@ -30,13 +31,13 @@ export class MqttService implements OnModuleInit {
       counter++;
 
       console.log(topic, JSON.parse(message.toString()));
-      // try {
-      //   const payload = JSON.parse(message.toString());
-      //   await this.telemetryService.processTelemetry(payload);
-      //   console.log(`[${topic}] ${message}, completed`);
-      // } catch (e) {
-      //   console.log(`[${topic}] ${message}, error ${e}`);
-      // }
+      try {
+        const payload = JSON.parse(message.toString()) as PayloadSensor;
+        await this.telemetryService.processTelemetry(payload);
+        console.log(`[${topic}], completed`);
+      } catch (e) {
+        console.log(`[${topic}], error ${e}`);
+      }
     });
   }
 }

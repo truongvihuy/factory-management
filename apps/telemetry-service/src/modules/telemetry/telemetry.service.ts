@@ -1,18 +1,25 @@
 import { PrismaService } from '@libs/database';
 import { Injectable } from '@nestjs/common';
-import { Telemetry } from 'generated/prisma';
+import { PayloadSensor } from './payload-sensor.dto';
 
 @Injectable()
 export class TelemetryService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async processTelemetry(payload: Telemetry) {
-    await this.prisma.telemetry.create({
-      data: {
-        sensorId: payload.sensorId,
-        value: payload.value,
-        recordedAt: new Date(payload.recordedAt),
-      },
-    });
+  async processTelemetry(payload: PayloadSensor) {
+    const record = {
+      sensorCode: payload.sensorCode,
+      value: payload.value,
+      recordedAt: new Date(payload.timestamp),
+    };
+
+    await Promise.all([
+      this.prisma.sensorReading.create({ data: record }),
+      this.prisma.sensorLatest.upsert({
+        where: { sensorCode: payload.sensorCode },
+        create: record,
+        update: record,
+      }),
+    ]);
   }
 }
