@@ -73,6 +73,7 @@ model RefreshToken {
 
 model Factory {
   id        String   @id @default(uuid())
+  code      String   @unique
   name      String
   address   String
   createdAt DateTime @default(now())
@@ -83,15 +84,19 @@ model Factory {
 model Workshop {
   id        String   @id @default(uuid())
   factoryId String
+  code      String
   name      String
   createdAt DateTime @default(now())
 
   factory  Factory   @relation(fields: [factoryId], references: [id])
   machines Machine[]
+
+  @@unique([factoryId, code])
 }
 
 model Machine {
   id          String         @id @default(uuid())
+  code        String         @unique
   workshopId  String
   name        String
   status      Status_Machine
@@ -101,6 +106,7 @@ model Machine {
 
   workshop Workshop @relation(fields: [workshopId], references: [id])
   sensors  Sensor[]
+  devides  Device[]
 }
 
 enum Status_Machine {
@@ -122,6 +128,7 @@ enum Status_Machine {
 
 model Sensor {
   id        String        @id @default(uuid())
+  code      String        @unique
   machineId String
   name      String
   metric    String
@@ -139,13 +146,54 @@ enum Status_Sensor {
   DISCONNECTED
 }
 
+model Device {
+  id        String        @id @default(uuid())
+  code      String        @unique
+  machineId String
+  name      String
+  secretKey String
+  status    Status_Device
+  createdAt DateTime      @default(now())
+
+  machine Machine @relation(fields: [machineId], references: [id])
+}
+
+enum Status_Device {
+  ACTIVE
+  INACTIVE
+  DISABLED
+}
+
 // Telemetry Service
 
-model Telemetry {
+model SensorReading {
   id         String   @id @default(uuid())
-  sensorId   String
+  sensorCode String
   value      Float
   recordedAt DateTime @default(now())
+
+  @@index([recordedAt])
+  @@index([sensorCode])
+}
+
+model SensorLatest {
+  sensorCode String   @id
+  value      Float
+  recordedAt DateTime
+}
+
+model MachineStatus {
+  machineCode String         @id
+  status      Status_Machine
+  lastSeen    DateTime
+  updatedAt   DateTime       @updatedAt
+}
+
+model DeviceHeartBear {
+  deviceCode String   @id
+  secretKey  String
+  lastSeen   DateTime
+  updatedAt  DateTime @updatedAt
 }
 
 enum Severity {

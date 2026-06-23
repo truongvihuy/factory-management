@@ -19,6 +19,11 @@ services:
       - '6379:6379'
     volumes:
       - redis_data:/data
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    ports:
+      - '1883:1883'
 
 volumes:
   postgres_data:
