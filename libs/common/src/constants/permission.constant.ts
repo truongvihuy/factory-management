@@ -37,6 +37,12 @@ export enum PermissionCode {
   SENSOR_UPDATE = 'sensor.update',
   SENSOR_DELETE = 'sensor.delete',
 
+  // Device
+  DEVICE_READ = 'device.read',
+  DEVICE_CREATE = 'device.create',
+  DEVICE_UPDATE = 'device.update',
+  DEVICE_DELETE = 'device.delete',
+
   // Telemetry
   TELEMETRY_READ = 'telemetry.read',
   TELEMETRY_CREATE = 'telemetry.create',
