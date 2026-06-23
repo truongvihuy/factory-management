@@ -6,6 +6,10 @@ import { PayloadSensor } from './payload-sensor.dto';
 export class TelemetryService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async getDevice(deviceCode: string) {
+    return this.prisma.deviceHeartBear.findUnique({ where: { deviceCode } });
+  }
+
   async processTelemetry(payload: PayloadSensor) {
     const record = {
       sensorCode: payload.sensorCode,
