@@ -13,4 +13,7 @@ export enum DEFAULT {
 
   REDIS_HOST = 'localhost',
   REDIS_PORT = 6379,
+
+  MQTT_HOST = 'localhost',
+  MQTT_PORT = 1883,
 }

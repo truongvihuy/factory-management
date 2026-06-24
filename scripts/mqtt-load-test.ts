@@ -1,10 +1,12 @@
 import mqtt from 'mqtt';
 
-const MQTT_URL = process.env.MQTT_URL || '';
 const MESSAGE_PER_SECOND = 1000;
 const SENSOR_COUNT = 100;
 
-const client = mqtt.connect(MQTT_URL);
+const client = mqtt.connect({
+  host: process.env.MQTT_HOST,
+  path: process.env.MQTT_PORT,
+});
 
 client.on('connect', () => {
   console.log('🚀 MQTT Connected');
