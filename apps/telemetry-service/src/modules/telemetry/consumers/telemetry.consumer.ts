@@ -42,29 +42,4 @@ export class TelemetryConsumer implements OnModuleInit {
 
     return payload;
   }
-
-  // async validateSignature(payload: PayloadSensor) {
-  //   let _payload = {
-  //     deviceCode: payload.deviceCode,
-  //     sensorCode: payload.deviceCode,
-  //     value: payload.value,
-  //     timestamp: payload.timestamp,
-  //   };
-
-  //   const device = await this.telemetryService.getDevice(payload.deviceCode);
-
-  //   if (!device) {
-  //     throw new Error('Device not found');
-  //   }
-
-  //   const expected = createHmac('sha256', device.secretKey).update(JSON.stringify(_payload)).digest('hex');
-
-  //   if (expected !== payload.signature) {
-  //     throw new Error('Signature invalid');
-  //   }
-
-  //   return true;
-  // }
-
-  // async syncMetadata() {}
 }

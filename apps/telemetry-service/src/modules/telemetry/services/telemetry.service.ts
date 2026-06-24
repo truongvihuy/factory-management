@@ -25,6 +25,6 @@ export class TelemetryService {
 
     await this.cache.updateSensorLatest(payload);
 
-    await this.broadcaster.broadcastTelemetry(payload);
+    // await this.broadcaster.broadcastTelemetry(payload);
   }
 }
