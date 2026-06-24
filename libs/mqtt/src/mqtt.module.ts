@@ -1,4 +1,4 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, InjectionToken, Module, OptionalFactoryDependency } from '@nestjs/common';
 import * as mqtt from 'mqtt';
 import { MQTT_CLIENT } from './mqtt.constants';
 import { MqttService } from './mqtt.service';
@@ -19,6 +19,26 @@ export class MqttModule {
         MqttService,
       ],
       exports: [MqttService],
+    };
+  }
+
+  static forRootAsync(options: {
+    isGlobal: boolean;
+    useFactory: (...array: any[]) => any;
+    inject?: (InjectionToken | OptionalFactoryDependency)[];
+  }): DynamicModule {
+    return {
+      module: MqttModule,
+      global: options.isGlobal || false,
+      providers: [
+        {
+          provide: MQTT_CLIENT,
+          useFactory: options.useFactory,
+          inject: options.inject,
+        },
+        MqttService,
+      ],
+      exports: [MQTT_CLIENT],
     };
   }
 }

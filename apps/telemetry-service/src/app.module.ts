@@ -1,6 +1,8 @@
+import { DEFAULT } from '@libs/common';
 import { RedisModule } from '@libs/redis';
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import Redis from 'ioredis';
 import { MqttModule } from './modules/mqtt/mqtt.module';
 import { WsModule } from './modules/websocket/ws.module';
 
@@ -10,10 +12,15 @@ import { WsModule } from './modules/websocket/ws.module';
       isGlobal: true,
       envFilePath: 'env/.env.telemetry-service',
     }),
-    RedisModule.forRoot({
+    RedisModule.forRootAsync({
       isGlobal: true,
-      host: process.env.REDIS_HOST,
-      port: +process.env.PORT!,
+      useFactory: (configServive: ConfigService) => {
+        return new Redis({
+          host: configServive.get('REDIS_HOST', DEFAULT.REDIS_HOST),
+          port: configServive.get('REDIS_HOST', DEFAULT.REDIS_PORT),
+        });
+      },
+      inject: [ConfigService],
     }),
     WsModule,
     MqttModule,

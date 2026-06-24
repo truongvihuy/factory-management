@@ -1,23 +1,18 @@
+import { MqttService } from '@libs/mqtt';
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { connect, MqttClient } from 'mqtt';
-import { PayloadSensor } from '../telemetry/payload-sensor.dto';
+import { createHmac } from 'crypto';
+import { PayloadSensor } from './payload-sensor.dto';
+import { TelemetryService } from './telemetry.service';
 
 @Injectable()
-export class MqttService implements OnModuleInit {
-  private client: MqttClient;
+export class TelemetryConsumer implements OnModuleInit {
   constructor(
-    private readonly configService: ConfigService,
-    // private readonly telemetryService: TelemetryService,
+    private readonly mqttService: MqttService,
+    private readonly telemetryService: TelemetryService,
   ) {}
 
-  onModuleInit() {
-    this.client = connect(this.configService.get<string>('MQTT_URL', ''));
-
-    this.client.on('connect', () => {
-      console.log('MQTT Connected');
-      this.client.subscribe('device/+');
-    });
+  async onModuleInit() {
+    await this.mqttService.subscribe('device/+');
 
     let counter = 0;
     setInterval(() => {
@@ -25,12 +20,14 @@ export class MqttService implements OnModuleInit {
       counter = 0;
     }, 1000);
 
-    this.client.on('message', async (topic, message) => {
+    const client = this.mqttService.getClient();
+
+    client.on('message', async (topic, message) => {
       counter++;
 
       try {
         const payload = await this.decodeMessage(topic, message);
-        // await this.telemetryService.processTelemetry(payload);
+        await this.telemetryService.processTelemetry(payload);
         console.log(`[${topic}], completed`);
       } catch (e: any) {
         console.log(`[${topic}], error ${e.message}`);
@@ -57,17 +54,17 @@ export class MqttService implements OnModuleInit {
       timestamp: payload.timestamp,
     };
 
-    // const device = await this.telemetryService.getDevice(payload.deviceCode);
+    const device = await this.telemetryService.getDevice(payload.deviceCode);
 
-    // if (!device) {
-    //   throw new Error('Device not found');
-    // }
+    if (!device) {
+      throw new Error('Device not found');
+    }
 
-    // const expected = createHmac('sha256', device.secretKey).update(JSON.stringify(_payload)).digest('hex');
+    const expected = createHmac('sha256', device.secretKey).update(JSON.stringify(_payload)).digest('hex');
 
-    // if (expected !== payload.signature) {
-    //   throw new Error('Signature invalid');
-    // }
+    if (expected !== payload.signature) {
+      throw new Error('Signature invalid');
+    }
 
     return true;
   }
