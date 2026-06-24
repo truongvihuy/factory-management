@@ -3,7 +3,7 @@ import { RedisModule } from '@libs/redis';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import Redis from 'ioredis';
-import { MqttModule } from './modules/mqtt/mqtt.module';
+import { TelemetryModule } from './modules/telemetry/telemetry.module';
 import { WsModule } from './modules/websocket/ws.module';
 
 @Module({
@@ -23,7 +23,7 @@ import { WsModule } from './modules/websocket/ws.module';
       inject: [ConfigService],
     }),
     WsModule,
-    MqttModule,
+    TelemetryModule,
   ],
 })
 export class AppModule {}
