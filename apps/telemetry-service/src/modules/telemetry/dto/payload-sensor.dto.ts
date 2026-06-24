@@ -1,4 +1,5 @@
-export class PayloadSensor {
+export class PayloadSensorDto {
+  machineCode: string;
   deviceCode: string;
   sensorCode: string;
   value: number;

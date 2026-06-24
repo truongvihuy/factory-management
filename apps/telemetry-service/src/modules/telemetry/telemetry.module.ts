@@ -3,8 +3,8 @@ import { MqttModule } from '@libs/mqtt';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as mqtt from 'mqtt';
-import { TelemetryConsumer } from './telemetry.consumer';
-import { TelemetryService } from './telemetry.service';
+import { TelemetryConsumer } from './consumers/telemetry.consumer';
+import { TelemetryService } from './services/telemetry.service';
 
 @Module({
   imports: [

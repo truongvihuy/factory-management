@@ -1,8 +1,7 @@
 import { MqttService } from '@libs/mqtt';
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { createHmac } from 'crypto';
-import { PayloadSensor } from './payload-sensor.dto';
-import { TelemetryService } from './telemetry.service';
+import { PayloadSensorDto } from '../dto/payload-sensor.dto';
+import { TelemetryService } from '../services/telemetry.service';
 
 @Injectable()
 export class TelemetryConsumer implements OnModuleInit {
@@ -27,7 +26,7 @@ export class TelemetryConsumer implements OnModuleInit {
 
       try {
         const payload = await this.decodeMessage(topic, message);
-        await this.telemetryService.processTelemetry(payload);
+        await this.telemetryService.process(payload);
         console.log(`[${topic}], completed`);
       } catch (e: any) {
         console.log(`[${topic}], error ${e.message}`);
@@ -38,36 +37,34 @@ export class TelemetryConsumer implements OnModuleInit {
   async decodeMessage(topic: string, message: Buffer) {
     console.log(`[${topic}] ${message.length} ${message.byteLength}`);
     const [_, deviceCode] = topic.split('/');
-    const payload = JSON.parse(message.toString()) as PayloadSensor;
+    const payload = JSON.parse(message.toString()) as PayloadSensorDto;
     payload.deviceCode = deviceCode;
-
-    await this.validateSignature(payload);
 
     return payload;
   }
 
-  async validateSignature(payload: PayloadSensor) {
-    let _payload = {
-      deviceCode: payload.deviceCode,
-      sensorCode: payload.deviceCode,
-      value: payload.value,
-      timestamp: payload.timestamp,
-    };
+  // async validateSignature(payload: PayloadSensor) {
+  //   let _payload = {
+  //     deviceCode: payload.deviceCode,
+  //     sensorCode: payload.deviceCode,
+  //     value: payload.value,
+  //     timestamp: payload.timestamp,
+  //   };
 
-    const device = await this.telemetryService.getDevice(payload.deviceCode);
+  //   const device = await this.telemetryService.getDevice(payload.deviceCode);
 
-    if (!device) {
-      throw new Error('Device not found');
-    }
+  //   if (!device) {
+  //     throw new Error('Device not found');
+  //   }
 
-    const expected = createHmac('sha256', device.secretKey).update(JSON.stringify(_payload)).digest('hex');
+  //   const expected = createHmac('sha256', device.secretKey).update(JSON.stringify(_payload)).digest('hex');
 
-    if (expected !== payload.signature) {
-      throw new Error('Signature invalid');
-    }
+  //   if (expected !== payload.signature) {
+  //     throw new Error('Signature invalid');
+  //   }
 
-    return true;
-  }
+  //   return true;
+  // }
 
-  async syncMetadata() {}
+  // async syncMetadata() {}
 }

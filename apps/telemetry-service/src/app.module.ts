@@ -4,7 +4,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import Redis from 'ioredis';
 import { TelemetryModule } from './modules/telemetry/telemetry.module';
-import { WsModule } from './modules/websocket/ws.module';
 
 @Module({
   imports: [
@@ -22,7 +21,6 @@ import { WsModule } from './modules/websocket/ws.module';
       },
       inject: [ConfigService],
     }),
-    WsModule,
     TelemetryModule,
   ],
 })
