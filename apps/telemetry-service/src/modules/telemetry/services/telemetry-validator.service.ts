@@ -22,19 +22,19 @@ export class TelemetryValidatorService {
     let _sensors = sensors.map((sen) => {
       return {
         ...sen,
-        machineCode: _mapIdMachineCode[sen.id],
+        machineCode: _mapIdMachineCode[sen.machineId],
       };
     });
 
     let _devices = devices.map((dev) => {
       return {
         ...dev,
-        machineCode: _mapIdMachineCode[dev.id],
+        machineCode: _mapIdMachineCode[dev.machineId],
       };
     });
 
+    await this.machineMetadataRepository.initMetadata(machines);
     await Promise.all([
-      this.machineMetadataRepository.initMetadata(machines),
       this.sensorMetadataRepository.initMetadata(_sensors),
       this.deviceMetadataRepository.initMetadata(_devices),
     ]);

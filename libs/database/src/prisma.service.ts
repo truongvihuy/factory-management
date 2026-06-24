@@ -7,7 +7,7 @@ import { PrismaClient } from 'generated/prisma';
 export class PrismaService extends PrismaClient implements OnModuleInit {
   constructor(private readonly config: ConfigService) {
     super({
-      log: ['error', 'info', 'query', 'warn'],
+      log: [{ emit: 'event', level: 'query' }, 'error', 'info', 'warn'],
       adapter: new PrismaPg({
         connectionString: config.get<string>('DATABASE_URL'),
       }),
@@ -15,6 +15,13 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   }
 
   async onModuleInit() {
+    (this as any).$on('query', (e: any) => {
+      console.log(`------------------`);
+      console.log(`Query: ${e.query}`);
+      console.log(`Params: ${e.params}`);
+      console.log(`Duration: ${e.duration}ms`);
+      console.log(`------------------`);
+    });
     await this.$connect();
   }
 }
