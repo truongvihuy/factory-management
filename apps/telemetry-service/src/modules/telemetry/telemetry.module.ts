@@ -1,3 +1,4 @@
+import { DEFAULT } from '@libs/common';
 import { PrismaModule } from '@libs/database';
 import { MqttModule } from '@libs/mqtt';
 import { Module } from '@nestjs/common';
@@ -13,8 +14,8 @@ import { TelemetryService } from './services/telemetry.service';
       isGlobal: false,
       useFactory: (configServive: ConfigService) => {
         return mqtt.connect({
-          host: configServive.get('MQTT_HOST'),
-          port: configServive.get('MQTT_PORT'),
+          host: configServive.get('MQTT_HOST', DEFAULT.MQTT_HOST),
+          port: configServive.get('MQTT_PORT', DEFAULT.MQTT_PORT),
         });
       },
       inject: [ConfigService],
