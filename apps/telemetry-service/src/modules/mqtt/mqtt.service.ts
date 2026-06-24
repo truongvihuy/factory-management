@@ -1,16 +1,14 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { connect, MqttClient } from 'mqtt';
-import { createHmac } from 'node:crypto';
 import { PayloadSensor } from '../telemetry/payload-sensor.dto';
-import { TelemetryService } from '../telemetry/telemetry.service';
 
 @Injectable()
 export class MqttService implements OnModuleInit {
   private client: MqttClient;
   constructor(
     private readonly configService: ConfigService,
-    private readonly telemetryService: TelemetryService,
+    // private readonly telemetryService: TelemetryService,
   ) {}
 
   onModuleInit() {
@@ -18,7 +16,6 @@ export class MqttService implements OnModuleInit {
 
     this.client.on('connect', () => {
       console.log('MQTT Connected');
-
       this.client.subscribe('device/+');
     });
 
@@ -33,7 +30,7 @@ export class MqttService implements OnModuleInit {
 
       try {
         const payload = await this.decodeMessage(topic, message);
-        await this.telemetryService.processTelemetry(payload);
+        // await this.telemetryService.processTelemetry(payload);
         console.log(`[${topic}], completed`);
       } catch (e: any) {
         console.log(`[${topic}], error ${e.message}`);
@@ -60,18 +57,20 @@ export class MqttService implements OnModuleInit {
       timestamp: payload.timestamp,
     };
 
-    const device = await this.telemetryService.getDevice(payload.deviceCode);
+    // const device = await this.telemetryService.getDevice(payload.deviceCode);
 
-    if (!device) {
-      throw new Error('Device not found');
-    }
+    // if (!device) {
+    //   throw new Error('Device not found');
+    // }
 
-    const expected = createHmac('sha256', device.secretKey).update(JSON.stringify(_payload)).digest('hex');
+    // const expected = createHmac('sha256', device.secretKey).update(JSON.stringify(_payload)).digest('hex');
 
-    if (expected !== payload.signature) {
-      throw new Error('Signature invalid');
-    }
+    // if (expected !== payload.signature) {
+    //   throw new Error('Signature invalid');
+    // }
 
     return true;
   }
+
+  async syncMetadata() {}
 }

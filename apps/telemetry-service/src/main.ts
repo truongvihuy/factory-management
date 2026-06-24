@@ -8,6 +8,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
 
+  app.enableCors();
+
   await app.listen(config.get<number>('PORT', DEFAULT.PORT_TELEMETRY_SERVICE));
 }
 bootstrap();

@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
-import { TelemetryModule } from '../telemetry/telemetry.module';
 import { MqttService } from './mqtt.service';
 
 @Module({
-  imports: [TelemetryModule],
+  imports: [],
   providers: [MqttService],
   exports: [MqttService],
 })
