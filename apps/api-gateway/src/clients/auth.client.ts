@@ -1,9 +1,9 @@
 import { IChangePassword, IForgotPassword, IResetPassword, RequestContext } from '@libs/common';
+import { BaseClient } from '@libs/utils/base.client';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Role, User } from 'generated/prisma';
-import { BaseClient } from './base.client';
 
 @Injectable()
 export class AuthClient extends BaseClient {

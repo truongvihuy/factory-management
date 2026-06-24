@@ -59,6 +59,12 @@
       ],
       "@libs/redis/*": [
         "libs/redis/src/*"
+      ],
+      "@libs/utils": [
+        "libs/utils"
+      ],
+      "@libs/utils/*": [
+        "libs/utils/*"
       ]
     }
   }
