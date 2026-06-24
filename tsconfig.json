@@ -24,6 +24,12 @@
     "strictPropertyInitialization": false,
     "resolveJsonModule": true,
     "paths": {
+      "@libs/mqtt": [
+        "libs/mqtt/src"
+      ],
+      "@libs/mqtt/*": [
+        "libs/mqtt/src/*"
+      ],
       "@libs/auth": [
         "libs/auth/src"
       ],
@@ -47,6 +53,12 @@
       ],
       "@libs/events/*": [
         "libs/events/src/*"
+      ],
+      "@libs/redis": [
+        "libs/redis/src"
+      ],
+      "@libs/redis/*": [
+        "libs/redis/src/*"
       ]
     }
   }
