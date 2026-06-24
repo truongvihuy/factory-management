@@ -24,6 +24,8 @@ export class TelemetryService {
       this.client.getSensors(),
       this.client.getDevices(),
     ]);
+
+    await this.validator.updateMetadata(machines, devices, sensors);
   }
 
   async process(payload: PayloadSensorDto) {

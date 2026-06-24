@@ -16,7 +16,7 @@ import { TelemetryModule } from './modules/telemetry/telemetry.module';
       useFactory: (configServive: ConfigService) => {
         return new Redis({
           host: configServive.get('REDIS_HOST', DEFAULT.REDIS_HOST),
-          port: configServive.get('REDIS_HOST', DEFAULT.REDIS_PORT),
+          port: configServive.get('REDIS_PORT', DEFAULT.REDIS_PORT),
         });
       },
       inject: [ConfigService],

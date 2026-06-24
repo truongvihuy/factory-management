@@ -1,10 +1,8 @@
 import { DEFAULT } from '@libs/common';
 import { PrismaModule } from '@libs/database';
 import { MqttModule } from '@libs/mqtt';
-import { RedisModule } from '@libs/redis';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import Redis from 'ioredis';
 import * as mqtt from 'mqtt';
 import { ClientModule } from '../clients/client.module';
 import { TelemetryConsumer } from './consumers/telemetry.consumer';
@@ -28,16 +26,6 @@ import { TelemetryGateway } from './websockets/telemetry.gateway';
         return mqtt.connect({
           host: configServive.get('MQTT_HOST', DEFAULT.MQTT_HOST),
           port: configServive.get('MQTT_PORT', DEFAULT.MQTT_PORT),
-        });
-      },
-      inject: [ConfigService],
-    }),
-    RedisModule.forRootAsync({
-      isGlobal: true,
-      useFactory: (configServive: ConfigService) => {
-        return new Redis({
-          host: configServive.get('REDIS_HOST', DEFAULT.REDIS_HOST),
-          port: configServive.get('REDIS_HOST', DEFAULT.REDIS_PORT),
         });
       },
       inject: [ConfigService],
