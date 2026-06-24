@@ -36,7 +36,7 @@ export class RedisModule {
         },
         RedisService,
       ],
-      exports: [REDIS_CLIENT],
+      exports: [RedisService],
     };
   }
 }

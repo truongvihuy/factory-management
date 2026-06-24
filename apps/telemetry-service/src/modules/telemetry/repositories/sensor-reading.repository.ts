@@ -11,7 +11,7 @@ export class SensorReadingRepository {
       data: {
         sensorCode: payload.sensorCode,
         value: payload.value,
-        timestamp: new Date(payload.timestamp),
+        recordedAt: new Date(payload.timestamp),
       },
     });
   }

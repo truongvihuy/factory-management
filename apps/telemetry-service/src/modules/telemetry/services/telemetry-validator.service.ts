@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { createHmac } from 'crypto';
+import { Device, Machine, Sensor } from 'generated/prisma';
 import { PayloadSensorDto } from '../dto/payload-sensor.dto';
 import { DeviceMetadataRepository } from '../repositories/device-metadata.repository';
 import { MachineMetadataRepository } from '../repositories/machine-metadata.repository';
@@ -12,6 +13,33 @@ export class TelemetryValidatorService {
     private readonly sensorMetadataRepository: SensorMetadataRepository,
     private readonly deviceMetadataRepository: DeviceMetadataRepository,
   ) {}
+
+  async updateMetadata(machines: Machine[], devices: Device[], sensors: Sensor[]) {
+    let _mapIdMachineCode = {} as any;
+    machines.map((machine) => {
+      _mapIdMachineCode[machine.id] = machine.code;
+    });
+    let _sensors = sensors.map((sen) => {
+      return {
+        ...sen,
+        machineCode: _mapIdMachineCode[sen.id],
+      };
+    });
+
+    let _devices = devices.map((dev) => {
+      return {
+        ...dev,
+        machineCode: _mapIdMachineCode[dev.id],
+      };
+    });
+
+    await Promise.all([
+      this.machineMetadataRepository.initMetadata(machines),
+      this.sensorMetadataRepository.initMetadata(_sensors),
+      this.deviceMetadataRepository.initMetadata(_devices),
+    ]);
+  }
+
   async validate(payload: PayloadSensorDto): Promise<void> {
     const [machine, sensor, device] = await Promise.all([
       this.machineMetadataRepository.get(payload.machineCode),

@@ -38,7 +38,7 @@ export class MqttModule {
         },
         MqttService,
       ],
-      exports: [MQTT_CLIENT],
+      exports: [MqttService],
     };
   }
 }
