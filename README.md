@@ -2,18 +2,36 @@
 
 ## Overview
 
-The Factory Management Platform is a real-time industrial monitoring and management system designed to provide visibility into factory operations through IoT telemetry, maintenance management, alarms, analytics, ...
+Factory Management Platform is a modern Industrial IoT platform designed to monitor, manage, and analyze factory operations in real time.
 
-The platform enables:
+The platform provides end-to-end visibility across factories, workshops, machines, sensors, and devices through a scalable event-driven architecture.
 
-* Factory, workshop, machine, sensor and device management
-* Real-time telemetry collection
-* Equipment monitoring and alarming
-* Maintenance planning and ticket management
-* Production performance analytics
-* Energy consumption analytics
-* Digital Twin visualization (expected)
-* Future AI-powered predictive maintenance (expected)
+### Key Capabilities
+
+* Factory Asset Management
+* Realtime Telemetry Collection
+* Equipment Monitoring
+* Alarm Detection & Notification
+* Maintenance Management
+* Production Analytics
+* Energy Analytics
+* KPI & OEE Dashboards
+* Digital Twin Visualization (Planned)
+* AI Predictive Maintenance (Planned)
+
+---
+
+# Business Problem
+
+Many factories still rely on manual monitoring processes, resulting in:
+
+* Delayed incident detection
+* Unplanned equipment downtime
+* High maintenance costs
+* Limited operational visibility
+* Inefficient energy consumption
+
+This platform aims to digitize factory operations and provide real-time insights for operational excellence.
 
 ---
 
@@ -29,7 +47,7 @@ The platform enables:
 
 * PostgreSQL
 
-## Realtime Technologies
+## Realtime
 
 * MQTT (EMQX)
 * Redis
@@ -47,7 +65,7 @@ The platform enables:
 
 ---
 
-# System Architecture
+# Architecture Overview
 
 ```text
 Sensors
@@ -70,355 +88,48 @@ Telemetry History
 
 ---
 
-# Development Roadmap
-
-## Phase 1 - Foundation & Asset Management
-
-### Modules
-
-* Authentication
-* User Management
-* Role & Permission Management
-* Factory Management
-* Workshop Management
-* Machine Management
-* Sensor Management
-* Device Management
-
-### Objective
-
-Build the core data model and organizational structure of the factory.
-
----
-
-## Phase 2 - Realtime Monitoring
-
-### Modules
-
-* MQTT Integration
-* Telemetry Ingestion
-* Redis Cache
-* WebSocket Gateway
-* Realtime Dashboard
-
-### Objective
-
-Collect and visualize sensor data in real time.
-
----
-
-## Phase 3 - Alarm Management
-
-### Modules
-
-* Alarm Rules
-* Alarm Engine
-* Notification System
-* Alarm Dashboard
-
-### Objective
-
-Automatically detect abnormal machine behavior and notify users.
-
----
-
-## Phase 4 - Maintenance Management
-
-### Modules
-
-* Maintenance Plans
-* Maintenance Tickets
-* Maintenance History
-* Ticket Assignment
-
-### Objective
-
-Manage preventive and corrective maintenance processes.
-
----
-
-## Phase 5 - Analytics & Reporting
-
-### Modules
-
-* Production Analytics
-* Energy Analytics
-* KPI Dashboard
-* OEE Dashboard
-* Export Reports
-
-### Objective
-
-Provide operational insights and performance measurements.
-
----
-
-## Phase 6 - Visualization (expected)
-
-### Modules
-
-* 3D Factory Models
-* Machine Mapping
-* 360° Images
-* Realtime Overlay
-
-### Objective
-
-Provide a visual representation of the factory and machine status.
-
----
-
-## Phase 7 - AI & Advanced Features
-
-### Modules
-
-* Predictive Maintenance
-* AI Anomaly Detection
-* Failure Prediction
-* Energy Optimization
-
-### Objective
-
-Transform monitoring into prediction and optimization.
-
----
-
-# Monorepo Structure
-
-```text
-backend/
-
-├── apps/
-├── libs/
-├── infrastructure/
-├── deployments/
-├── docs/
-├── prisma/
-└── scripts/
-
-```
-
----
-
-# Applications
-
-Each folder inside `apps` represents an independent NestJS application or microservice.
-
-```text
-apps/
-
-├── api-gateway/
-├── auth-service/
-├── factory-service/
-├── telemetry-service/
-├── alarm-service/
-├── maintenance-service/
-├── analytics-service/
-└── notification-service/
-```
-
----
-
-## API Gateway
-
-Responsibilities:
-
-* Authentication
-* Authorization
-* Request routing
-* API aggregation
-* WebSocket gateway
-
----
-
-## Auth Service
-
-Responsibilities:
-
-* Login
-* JWT Authentication
-* Refresh Tokens
-* User Roles / User Permissions
-
----
-
-## Factory Service
-
-Responsibilities:
-
-* Factories
-* Workshops
-* Machines
-* Sensors
-* Devices
-
----
-
-## Telemetry Service
-
-Responsibilities:
-
-* MQTT Consumers
-* Telemetry Processing
-* Data Validation
-* Redis Updates
-* Historical Storage
-
----
-
-## Alarm Service
-
-Responsibilities:
-
-* Alarm Rules
-* Alarm Evaluation
-* Alarm History
-* Alarm Notifications
-
----
-
-## Maintenance Service
-
-Responsibilities:
-
-* Maintenance Plans
-* Maintenance Tickets
-* Maintenance Scheduling
-* Maintenance History
-
----
-
-## Analytics Service
-
-Responsibilities:
-
-* Production Analytics
-* Energy Analytics
-* KPI Calculation
-* OEE Calculation
-* Reporting
-
----
-
-## Notification Service
-
-Responsibilities:
-
-* Email Notifications
-* In-App Notifications
-* Future SMS/Push Notifications
-
----
-
-# Shared Libraries
-
-```text
-libs/
-
-├── common/
-├── database/
-├── logger/
-├── mqtt/
-├── redis/
-├── auth/
-└── events/
-```
-
----
-
-## Common
-
-Shared code across all services:
-
-* Enums
-* Constants
-* Decorators
-* Middlewares
-* Guards
-* Interceptors
-* Exceptions
-* Filters
-* ~~DTOs~~
-
----
-
-## Database
-
-Shared database utilities:
-
-* Database connections
-* ~~Base repositories~~
-* ~~Shared entities~~
-
----
-
-## Logger
-
-Centralized logging configuration.
-
-Recommended:
-
-* Pino
-* Winston
-
----
+# Why This Architecture?
 
 ## MQTT
 
-Shared MQTT client wrapper and utilities.
+Selected because:
 
----
+* Lightweight protocol for IoT devices
+* Low bandwidth usage
+* Publish / Subscribe model
+* High scalability
 
 ## Redis
 
-Shared Redis client and cache utilities.
+Selected because:
+
+* Sub-millisecond latency
+* Realtime caching
+* Pub/Sub support
+* Fast alarm evaluation
+
+## PostgreSQL
+
+Selected because:
+
+* ACID compliance
+* Strong relational modeling
+* Reliable transactional processing
+
+## NestJS
+
+Selected because:
+
+* Modular architecture
+* Dependency Injection
+* Enterprise-grade scalability
+* Strong TypeScript support
 
 ---
 
-## WebSocket
+# System Architecture
 
-Shared Socket.IO gateway configuration.
-
----
-
-## Auth
-
-Shared authentication logic:
-
-* JWT Strategies
-* Guards
-* Role Decorators
-
----
-
-## Events
-
-Shared domain events.
-
-Examples:
-
-```text
-TelemetryReceivedEvent
-AlarmCreatedEvent
-MaintenanceTicketCreatedEvent
-MaintenanceCompletedEvent
-```
-
----
-
-# Infrastructure
-
-Infrastructure resources and local development services.
-
-```text
-infrastructure/
-
-└── docker/
-```
-
----
-
-# Core Business Flow
+## Core Business Flow
 
 ```text
 Factory
@@ -440,7 +151,7 @@ Analytics
 
 ---
 
-# Realtime Data Flow
+## Realtime Data Flow
 
 ```text
 Sensor
@@ -458,58 +169,280 @@ Frontend Dashboard
 
 ---
 
-# Database Strategy
+# Development Roadmap
 
-## Operational Database
+## Phase 1 - Foundation & Asset Management
 
-PostgreSQL stores:
+### Modules
 
-* Factories
-* Workshops
-* Machines
-* Sensors
-* Devices
-* Alarms
-* Maintenance Records
+* Authentication
+* User Management
+* RBAC
+* Factory Management
+* Workshop Management
+* Machine Management
+* Sensor Management
+* Device Management
 
----
+### Objective
 
-## Telemetry Storage
-
-MVP:
-
-```text
-PostgreSQL
-```
-
-Future Scaling:
-
-```text
-TimescaleDB
-or
-InfluxDB
-```
-
-For:
-
-* High-volume telemetry
-* Time-series analytics
-* Retention policies
-* Data aggregation
+Build the core factory hierarchy and asset structure.
 
 ---
 
-# Future Enhancements
+## Phase 2 - Realtime Monitoring
+
+### Modules
+
+* MQTT Integration
+* Telemetry Processing
+* Redis Cache
+* WebSocket Gateway
+* Realtime Dashboard
+
+### Objective
+
+Collect and visualize sensor data in real time.
+
+---
+
+## Phase 3 - Alarm Management
+
+### Modules
+
+* Alarm Rules
+* Alarm Engine
+* Alarm Dashboard
+* Notification Service
+
+### Objective
+
+Automatically detect abnormal equipment behavior.
+
+---
+
+## Phase 4 - Maintenance Management
+
+### Modules
+
+* Maintenance Plans
+* Maintenance Tickets
+* Scheduling
+* Maintenance History
+
+### Objective
+
+Support preventive and corrective maintenance workflows.
+
+---
+
+## Phase 5 - Analytics & Reporting
+
+### Modules
+
+* Production Analytics
+* Energy Analytics
+* KPI Dashboard
+* OEE Dashboard
+* Export Reports
+
+### Objective
+
+Deliver operational insights and performance measurements.
+
+---
+
+## Phase 6 - Digital Twin (Planned)
+
+### Modules
+
+* Factory Mapping
+* Machine Mapping
+* 3D Visualization
+* Realtime Overlay
+
+---
+
+## Phase 7 - AI Features (Planned)
+
+### Modules
 
 * Predictive Maintenance
 * AI Anomaly Detection
 * Failure Prediction
 * Energy Optimization
-* Spare Parts Management
-* AR-Assisted Maintenance
-* Digital Twin Replay
-* Multi-Factory Analytics
-* Enterprise Reporting
+
+---
+
+# Monorepo Structure
+
+```text
+backend/
+
+├── apps/
+├── libs/
+├── infrastructure/
+├── deployments/
+├── docs/
+├── prisma/
+└── scripts/
+```
+
+---
+
+# Applications
+
+```text
+apps/
+
+├── api-gateway/
+├── auth-service/
+├── factory-service/
+├── telemetry-service/
+├── alarm-service/
+├── maintenance-service/
+├── analytics-service/
+└── notification-service/
+```
+
+---
+
+# Shared Libraries
+
+```text
+libs/
+
+├── common/
+├── database/
+├── logger/
+├── mqtt/
+├── redis/
+├── websocket/
+├── auth/
+└── events/
+```
+
+---
+
+# Event Driven Design
+
+Example domain events:
+
+```text
+TelemetryReceivedEvent
+
+AlarmCreatedEvent
+
+AlarmResolvedEvent
+
+MaintenanceTicketCreatedEvent
+
+MaintenanceCompletedEvent
+```
+
+Services communicate through events rather than direct dependencies whenever possible.
+
+---
+
+# Security Strategy
+
+* JWT Authentication
+* Refresh Token
+* Role-Based Access Control (RBAC)
+* Request Validation
+* Audit Logging
+* Secure MQTT Authentication
+* API Rate Limiting
+
+---
+
+# Observability
+
+Metrics collected:
+
+* API Response Time
+* MQTT Throughput
+* Redis Hit/Miss Ratio
+* Alarm Processing Time
+* Active WebSocket Connections
+* Database Query Performance
+
+Monitoring Tools:
+
+* Prometheus
+* Grafana
+
+---
+
+# CI/CD Pipeline
+
+```text
+Developer
+   ↓
+GitHub
+   ↓
+GitHub Actions
+   ↓
+Build
+   ↓
+Test
+   ↓
+Docker Image
+   ↓
+Deployment
+```
+
+---
+
+# Scalability Strategy
+
+Future scaling plan:
+
+* EMQX Cluster
+* Redis Cluster
+* Kubernetes Deployment
+* TimescaleDB
+* Kafka Event Streaming
+* Multi-Factory Architecture
+* Multi-Tenant Support
+
+---
+
+# Non-Functional Requirements
+
+* Realtime latency < 1 second
+* Horizontal scaling ready
+* High availability architecture
+* Event-driven processing
+* Observability by design
+* Microservice-ready structure
+
+---
+
+# Project Status
+
+Current Phase: Realtime Monitoring
+
+Completed:
+
+* Authentication
+* RBAC
+* Factory Management
+* MQTT Integration
+* Telemetry Processing
+* Redis Integration
+
+In Progress:
+
+* Alarm Engine
+* WebSocket Dashboard
+
+Planned:
+
+* Maintenance Management
+* Analytics
+* Digital Twin
+* AI Predictive Maintenance
 
 ---
 
@@ -520,5 +453,18 @@ For:
 3. Realtime-First Approach
 4. Microservice-Ready Structure
 5. Scalability by Design
-6. Observability and Monitoring
-7. Clean Architecture and Separation of Concerns
+6. Observability First
+7. Clean Architecture
+8. Separation of Concerns
+
+---
+
+# Author
+
+Truong Vi Huy
+
+Backend Engineer | Fullstack Engineer (Backend Focus)
+
+Tech Stack:
+
+NestJS • PostgreSQL • Redis • MQTT • Socket.IO • Docker • Prometheus • Grafana
