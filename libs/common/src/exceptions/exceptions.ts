@@ -1,5 +1,5 @@
 import { HttpStatus, ValidationError } from '@nestjs/common';
-import { ErrorCode } from '../constants/errors.enum';
+import { ErrorCode } from '../enums/errors.enum';
 import { AppException } from './app.exception';
 
 export class Exceptions {

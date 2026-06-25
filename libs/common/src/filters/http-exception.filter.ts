@@ -1,5 +1,5 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common';
-import { ErrorCode } from '../constants/errors.enum';
+import { ErrorCode } from '../enums/errors.enum';
 import { AppException } from '../exceptions/app.exception';
 import { ApiErrorResponse } from '../interfaces/response.interface';
 
