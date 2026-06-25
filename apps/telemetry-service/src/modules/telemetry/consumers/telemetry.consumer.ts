@@ -11,7 +11,7 @@ export class TelemetryConsumer implements OnModuleInit {
   ) {}
 
   async onModuleInit() {
-    await this.telemetryService.loadInternalBootstrap();
+    this.telemetryService.loadInternalBootstrap();
     await this.mqttService.subscribe('device/+');
 
     let counter = 0;

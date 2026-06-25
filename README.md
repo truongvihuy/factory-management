@@ -1,19 +1,19 @@
-# Digital Twin Factory Platform
+# Factory Management Platform
 
 ## Overview
 
-The Digital Twin Factory Platform is a real-time industrial monitoring and management system designed to provide visibility into factory operations through IoT telemetry, maintenance management, alarms, analytics, and digital twin visualization.
+The Factory Management Platform is a real-time industrial monitoring and management system designed to provide visibility into factory operations through IoT telemetry, maintenance management, alarms, analytics, ...
 
 The platform enables:
 
-* Factory, workshop, machine, and sensor management
+* Factory, workshop, machine, sensor and device management
 * Real-time telemetry collection
 * Equipment monitoring and alarming
 * Maintenance planning and ticket management
 * Production performance analytics
 * Energy consumption analytics
-* Digital Twin visualization
-* Future AI-powered predictive maintenance
+* Digital Twin visualization (expected)
+* Future AI-powered predictive maintenance (expected)
 
 ---
 
@@ -27,7 +27,7 @@ The platform enables:
 
 ## Database
 
-* MariaDB
+* PostgreSQL
 
 ## Realtime Technologies
 
@@ -65,7 +65,7 @@ Redis
 
 Telemetry History
         ↓
-     MariaDB
+     PostgreSQL
 ```
 
 ---
@@ -83,6 +83,7 @@ Telemetry History
 * Workshop Management
 * Machine Management
 * Sensor Management
+* Device Management
 
 ### Objective
 
@@ -136,22 +137,7 @@ Manage preventive and corrective maintenance processes.
 
 ---
 
-## Phase 5 - Digital Twin Visualization
-
-### Modules
-
-* 3D Factory Models
-* Machine Mapping
-* 360° Images
-* Realtime Overlay
-
-### Objective
-
-Provide a visual representation of the factory and machine status.
-
----
-
-## Phase 6 - Analytics & Reporting
+## Phase 5 - Analytics & Reporting
 
 ### Modules
 
@@ -164,6 +150,21 @@ Provide a visual representation of the factory and machine status.
 ### Objective
 
 Provide operational insights and performance measurements.
+
+---
+
+## Phase 6 - Visualization (expected)
+
+### Modules
+
+* 3D Factory Models
+* Machine Mapping
+* 360° Images
+* Realtime Overlay
+
+### Objective
+
+Provide a visual representation of the factory and machine status.
 
 ---
 
@@ -191,7 +192,10 @@ backend/
 ├── libs/
 ├── infrastructure/
 ├── deployments/
-└── docs/
+├── docs/
+├── prisma/
+└── scripts/
+
 ```
 
 ---
@@ -234,7 +238,7 @@ Responsibilities:
 * Login
 * JWT Authentication
 * Refresh Tokens
-* User Permissions
+* User Roles / User Permissions
 
 ---
 
@@ -246,6 +250,7 @@ Responsibilities:
 * Workshops
 * Machines
 * Sensors
+* Devices
 
 ---
 
@@ -315,7 +320,6 @@ libs/
 ├── logger/
 ├── mqtt/
 ├── redis/
-├── websocket/
 ├── auth/
 └── events/
 ```
@@ -328,10 +332,13 @@ Shared code across all services:
 
 * Enums
 * Constants
-* Exceptions
-* Guards
 * Decorators
-* DTOs
+* Middlewares
+* Guards
+* Interceptors
+* Exceptions
+* Filters
+* ~~DTOs~~
 
 ---
 
@@ -340,8 +347,8 @@ Shared code across all services:
 Shared database utilities:
 
 * Database connections
-* Base repositories
-* Shared entities
+* ~~Base repositories~~
+* ~~Shared entities~~
 
 ---
 
@@ -380,7 +387,7 @@ Shared authentication logic:
 
 * JWT Strategies
 * Guards
-* Permission Decorators
+* Role Decorators
 
 ---
 
@@ -406,11 +413,7 @@ Infrastructure resources and local development services.
 ```text
 infrastructure/
 
-├── mqtt/
-├── redis/
-├── mariadb/
-├── grafana/
-└── prometheus/
+└── docker/
 ```
 
 ---
@@ -424,7 +427,7 @@ Workshop
    ↓
 Machine
    ↓
-Sensor
+Sensor / Device
    ↓
 Telemetry
    ↓
@@ -442,9 +445,7 @@ Analytics
 ```text
 Sensor
    ↓
-MQTT Publish
-   ↓
-EMQX Broker
+MQTT Broker
    ↓
 Telemetry Service
    ↓
@@ -461,12 +462,13 @@ Frontend Dashboard
 
 ## Operational Database
 
-MariaDB stores:
+PostgreSQL stores:
 
 * Factories
 * Workshops
 * Machines
 * Sensors
+* Devices
 * Alarms
 * Maintenance Records
 
@@ -477,7 +479,7 @@ MariaDB stores:
 MVP:
 
 ```text
-MariaDB
+PostgreSQL
 ```
 
 Future Scaling:
