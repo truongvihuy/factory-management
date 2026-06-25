@@ -28,7 +28,7 @@ export class DeviceMetadataRepository {
       }),
       {
         maxWait: 5000,
-        timeout: 20000,
+        timeout: devices.length * 5000,
       },
     );
   }

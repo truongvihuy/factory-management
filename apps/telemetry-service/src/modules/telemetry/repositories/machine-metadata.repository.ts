@@ -24,7 +24,7 @@ export class MachineMetadataRepository {
       }),
       {
         maxWait: 5000,
-        timeout: 20000,
+        timeout: machines.length * 5000,
       },
     );
   }

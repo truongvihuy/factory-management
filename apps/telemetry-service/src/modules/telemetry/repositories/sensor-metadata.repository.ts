@@ -30,7 +30,7 @@ export class SensorMetadataRepository {
       }),
       {
         maxWait: 5000,
-        timeout: 20000,
+        timeout: sensors.length * 5000,
       },
     );
   }
