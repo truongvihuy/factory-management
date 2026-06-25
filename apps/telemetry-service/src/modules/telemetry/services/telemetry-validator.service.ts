@@ -67,7 +67,7 @@ export class TelemetryValidatorService {
     const _payload = {
       deviceCode: payload.deviceCode,
       machineCode: payload.machineCode,
-      sensorCoded: payload.sensorCode,
+      sensorCode: payload.sensorCode,
       timestamp: payload.timestamp,
       value: payload.value,
     };

@@ -1,18 +1,31 @@
-import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { Server } from 'socket.io';
+import {
+  ConnectedSocket,
+  MessageBody,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
+} from '@nestjs/websockets';
+import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway({
   cors: true,
 })
-export class TelemetryGateway {
+export class TelemetryGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
 
-  emitTelemetry(payload: any) {
-    this.server.emit('telemetry-updated', payload);
+  handleConnection(client: Socket, ...args: any[]) {
+    console.log(`[${client.id}] Client connected`);
   }
 
-  emitMachineStatus(payload: any) {
-    this.server.emit('machine-status-updated', payload);
+  handleDisconnect(client: Socket) {
+    console.log(`[${client.id}] Client disconnected`);
+  }
+
+  @SubscribeMessage('join-factory')
+  joinFactory(@ConnectedSocket() client: Socket, @MessageBody() factoryCode: string) {
+    client.join(`factory:${factoryCode}`);
   }
 }
