@@ -26,6 +26,10 @@ export class DeviceMetadataRepository {
           },
         });
       }),
+      {
+        maxWait: 5000,
+        timeout: 20000,
+      },
     );
   }
 

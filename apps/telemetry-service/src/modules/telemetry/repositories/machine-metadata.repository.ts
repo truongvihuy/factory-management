@@ -22,6 +22,10 @@ export class MachineMetadataRepository {
           },
         });
       }),
+      {
+        maxWait: 5000,
+        timeout: 20000,
+      },
     );
   }
 

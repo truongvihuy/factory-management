@@ -34,10 +34,8 @@ export class TelemetryValidatorService {
     });
 
     await this.machineMetadataRepository.initMetadata(machines);
-    await Promise.all([
-      this.sensorMetadataRepository.initMetadata(_sensors),
-      this.deviceMetadataRepository.initMetadata(_devices),
-    ]);
+    await this.sensorMetadataRepository.initMetadata(_sensors);
+    await this.deviceMetadataRepository.initMetadata(_devices);
   }
 
   async validate(payload: PayloadSensorDto): Promise<void> {

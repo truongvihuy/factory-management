@@ -1,5 +1,5 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable } from 'rxjs';
 
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
@@ -23,6 +23,14 @@ export class ResponseInterceptor implements NestInterceptor {
           executionTime: ms,
           data,
         };
+      }),
+      catchError((error) => {
+        const now = new Date();
+        const ms = +now - +startTime;
+        console.log(`[${requestId}] ${error.message}`);
+        console.log(`[${requestId}] error, ${ms}ms`);
+
+        throw error;
       }),
     );
   }

@@ -28,6 +28,10 @@ export class SensorMetadataRepository {
           },
         });
       }),
+      {
+        maxWait: 5000,
+        timeout: 20000,
+      },
     );
   }
 

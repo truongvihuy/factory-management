@@ -19,7 +19,7 @@ export * from './filters/rpc-exception.filter';
 export * from './interceptors/response.interceptor';
 
 export * from './interfaces/login.interface';
-export * from './interfaces/request-context.intercace';
+export * from './interfaces/request-context.interface';
 export * from './interfaces/response.interface';
 
 export * from './middleware/request-context.middleware';
