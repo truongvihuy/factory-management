@@ -28,7 +28,7 @@ export class TelemetryConsumer implements OnModuleInit {
       try {
         const payload = await this.decodeMessage(topic, message);
         await this.telemetryService.process(payload);
-        console.log(`[${topic}], completed`);
+        // console.log(`[${topic}], completed`);
       } catch (e: any) {
         console.log(`[${topic}], error ${e.message}`);
       }
@@ -36,7 +36,7 @@ export class TelemetryConsumer implements OnModuleInit {
   }
 
   async decodeMessage(topic: string, message: Buffer) {
-    console.log(`[${topic}] ${message.length} ${message.byteLength}`);
+    // console.log(`[${topic}] ${message.length} ${message.byteLength}`);
     const [_, deviceCode] = topic.split('/');
     const payload = JSON.parse(message.toString()) as PayloadSensorDto;
     payload.deviceCode = deviceCode;
