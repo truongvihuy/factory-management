@@ -1,6 +1,6 @@
-import { AuthHandleModule } from '@libs/auth';
-import { PrismaModule } from '@libs/database';
 import { Module } from '@nestjs/common';
+import { AuthHandleModule } from 'libs/auth';
+import { PrismaModule } from 'libs/database';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 

@@ -1,6 +1,6 @@
-import { IChangePassword, IForgotPassword, IResetPassword, RequestContext } from '@libs/common';
 import { Injectable } from '@nestjs/common';
-import { AuthClient } from '../../clients/auth.client';
+import { IChangePassword, IForgotPassword, IResetPassword, RequestContext } from 'libs/common';
+import { AuthClient } from '../../../../../libs/clients/auth.client';
 
 @Injectable()
 export class AuthService {

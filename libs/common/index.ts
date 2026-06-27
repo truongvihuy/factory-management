@@ -15,6 +15,11 @@ export * from './exceptions/exceptions';
 export * from './exceptions/rpc.exception';
 export * from './filters/http-exception.filter';
 export * from './filters/rpc-exception.filter';
+
+export * from './guards/jwt-auth.guard';
+export * from './guards/local-auth.guard';
+export * from './guards/permission.guard';
+
 export * from './interceptors/response.interceptor';
 
 export * from './interfaces/login.interface';

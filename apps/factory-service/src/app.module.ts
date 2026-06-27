@@ -1,6 +1,6 @@
-import { RequestContextServiceMiddleware } from '@libs/common';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { RequestContextServiceMiddleware } from 'libs/common';
 import { FactoryModule } from './modules/factory/factory.module';
 import { InternalBootstrapModule } from './modules/internal/internal-boostrap.module';
 

@@ -1,7 +1,7 @@
-import { CurrentUser, type IAccessTokenPayload, Permission, PermissionCode, RequestId } from '@libs/common';
 import { Body, Controller, Delete, Get, Param, Post, Put, Req } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import type { Request } from 'express';
+import { CurrentUser, type IAccessTokenPayload, Permission, PermissionCode, RequestId } from 'libs/common';
 import { FactoryService } from './factory.service';
 
 @ApiBearerAuth('access-token')
