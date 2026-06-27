@@ -1,5 +1,9 @@
+import { DEFAULT } from '@libs/common';
+import { RedisModule } from '@libs/redis';
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import Redis from 'ioredis';
+import { TelemetryModule } from './modules/telemetry/telemetry.module';
 
 @Module({
   imports: [
@@ -7,6 +11,17 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
       envFilePath: 'env/.env.telemetry-service',
     }),
+    RedisModule.forRootAsync({
+      isGlobal: true,
+      useFactory: (configServive: ConfigService) => {
+        return new Redis({
+          host: configServive.get('REDIS_HOST', DEFAULT.REDIS_HOST),
+          port: configServive.get('REDIS_PORT', DEFAULT.REDIS_PORT),
+        });
+      },
+      inject: [ConfigService],
+    }),
+    TelemetryModule,
   ],
 })
 export class AppModule {}

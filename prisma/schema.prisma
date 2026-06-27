@@ -191,9 +191,37 @@ model MachineStatus {
 
 model DeviceHeartBear {
   deviceCode String   @id
-  secretKey  String
   lastSeen   DateTime
   updatedAt  DateTime @updatedAt
+}
+
+model MachineMetadata {
+  machineCode    String           @id
+  name           String
+  status         Status_Machine
+  sensorMetadata SensorMetadata[]
+  deviceMetadata DeviceMetadata[]
+}
+
+model SensorMetadata {
+  sensorCode  String        @id
+  machineCode String
+  name        String
+  metric      String
+  unit        String
+  status      Status_Sensor
+
+  machine MachineMetadata @relation(fields: [machineCode], references: [machineCode])
+}
+
+model DeviceMetadata {
+  deviceCode  String        @id
+  machineCode String
+  name        String
+  secretKey   String
+  status      Status_Device
+
+  machine MachineMetadata @relation(fields: [machineCode], references: [machineCode])
 }
 
 enum Severity {

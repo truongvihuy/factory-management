@@ -1,9 +1,9 @@
+import { DEFAULT, Exceptions, HttpExceptionFilter, ResponseInterceptor } from '@libs/common';
+import { TestExceptionFilter, TestGuard, TestInterceptor, TestPipe } from '@libs/common/test';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { DEFAULT, Exceptions, HttpExceptionFilter, ResponseInterceptor } from 'libs/common';
-import { TestExceptionFilter, TestGuard, TestInterceptor, TestPipe } from 'libs/common/test';
 import { AppModule } from './app.module';
 
 async function bootstrap() {

@@ -24,29 +24,47 @@
     "strictPropertyInitialization": false,
     "resolveJsonModule": true,
     "paths": {
+      "@libs/mqtt": [
+        "libs/mqtt"
+      ],
+      "@libs/mqtt/*": [
+        "libs/mqtt/*"
+      ],
       "@libs/auth": [
-        "libs/auth/src"
+        "libs/auth"
       ],
       "@libs/auth/*": [
-        "libs/auth/src/*"
+        "libs/auth/*"
       ],
       "@libs/common": [
-        "libs/common/src"
+        "libs/common"
       ],
       "@libs/common/*": [
-        "libs/common/src/*"
+        "libs/common/*"
       ],
       "@libs/database": [
-        "libs/database/src"
+        "libs/database"
       ],
       "@libs/database/*": [
-        "libs/database/src/*"
+        "libs/database/*"
       ],
       "@libs/events": [
-        "libs/events/src"
+        "libs/events"
       ],
       "@libs/events/*": [
-        "libs/events/src/*"
+        "libs/events/*"
+      ],
+      "@libs/redis": [
+        "libs/redis"
+      ],
+      "@libs/redis/*": [
+        "libs/redis/*"
+      ],
+      "@libs/utils": [
+        "libs/utils"
+      ],
+      "@libs/utils/*": [
+        "libs/utils/*"
       ]
     }
   }

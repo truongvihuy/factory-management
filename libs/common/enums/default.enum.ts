@@ -10,4 +10,10 @@ export enum DEFAULT {
   PORT_AUTH_SERVICE = 3001,
   PORT_FACTORY_SERVICE = 3002,
   PORT_TELEMETRY_SERVICE = 3003,
+
+  REDIS_HOST = 'localhost',
+  REDIS_PORT = 6379,
+
+  MQTT_HOST = 'localhost',
+  MQTT_PORT = 1883,
 }

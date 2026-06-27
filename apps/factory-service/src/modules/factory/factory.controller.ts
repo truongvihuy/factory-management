@@ -27,7 +27,6 @@ export class FactoryController {
 
   @Get(':factoryId/workshop')
   async getWorkshopInFactory(@Param('factoryId') factoryId: string) {
-    console.log({ factoryId });
     return this.factoryService.getWorkshopInFactory(factoryId);
   }
 
