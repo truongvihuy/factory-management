@@ -191,7 +191,6 @@ model MachineStatus {
 
 model DeviceHeartBear {
   deviceCode String   @id
-  secretKey  String
   lastSeen   DateTime
   updatedAt  DateTime @updatedAt
 }

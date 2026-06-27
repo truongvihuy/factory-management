@@ -5,7 +5,6 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as mqtt from 'mqtt';
 import { ClientModule } from '../clients/client.module';
-import { TelemetryConsumer } from './consumers/telemetry.consumer';
 import { DeviceMetadataRepository } from './repositories/device-metadata.repository';
 import { MachineMetadataRepository } from './repositories/machine-metadata.repository';
 import { SensorLatestRepository } from './repositories/sensor-lastest.repository';
@@ -36,7 +35,7 @@ import { TelemetryGateway } from './websockets/telemetry.gateway';
     TelemetryService,
     TelemetryValidatorService,
     TelemetryCacheService,
-    TelemetryConsumer,
+    // TelemetryConsumer,
     TelemetryBroadcastService,
     TelemetryGateway,
     SensorMetadataRepository,

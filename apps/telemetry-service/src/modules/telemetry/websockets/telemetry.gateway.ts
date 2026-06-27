@@ -10,6 +10,7 @@ import {
 import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway({
+  namespace: '/factory',
   cors: true,
 })
 export class TelemetryGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -27,5 +28,6 @@ export class TelemetryGateway implements OnGatewayConnection, OnGatewayDisconnec
   @SubscribeMessage('join-factory')
   joinFactory(@ConnectedSocket() client: Socket, @MessageBody() factoryCode: string) {
     client.join(`factory:${factoryCode}`);
+    client.nsp();
   }
 }

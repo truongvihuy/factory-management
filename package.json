@@ -27,6 +27,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/test/test/jest-e2e.json",
     "test:mqtt": "ts-node scripts/mqtt-load-test.ts",
+    "test:socket": "ts-node scripts/socket.client.ts",
     "prisma:gen": "prisma generate",
     "prisma:mig": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
@@ -68,6 +69,7 @@
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
     "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
