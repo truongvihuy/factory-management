@@ -1,6 +1,6 @@
-import { Exceptions, REQUEST_ID, RequestContext, USER_ID } from '@libs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
+import { Exceptions, REQUEST_ID, RequestContext, USER_ID } from 'libs/common';
 import { firstValueFrom } from 'rxjs';
 
 export class BaseClient {

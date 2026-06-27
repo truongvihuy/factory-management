@@ -1,5 +1,5 @@
-import { RequestContext } from '@libs/common';
 import { Injectable } from '@nestjs/common';
+import { RequestContext } from 'libs/common';
 import { FactoryClient } from '../../clients/factory.client';
 
 @Injectable()

@@ -1,3 +1,6 @@
+import { Body, Controller, Get, Ip, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { ApiBasicAuth, ApiBearerAuth } from '@nestjs/swagger';
+import type { Request } from 'express';
 import {
   CurrentUser,
   Public,
@@ -6,10 +9,7 @@ import {
   type IChangePassword,
   type IForgotPassword,
   type IResetPassword,
-} from '@libs/common';
-import { Body, Controller, Get, Ip, Param, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiBasicAuth, ApiBearerAuth } from '@nestjs/swagger';
-import type { Request } from 'express';
+} from 'libs/common';
 import { LocalAuthGuard } from '../../guards/local-auth.guard';
 import { AuthService } from './auth.service';
 

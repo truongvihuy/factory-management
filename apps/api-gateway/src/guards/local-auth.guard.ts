@@ -1,5 +1,5 @@
-import { Exceptions } from '@libs/common';
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { Exceptions } from 'libs/common';
 
 @Injectable()
 export class LocalAuthGuard implements CanActivate {

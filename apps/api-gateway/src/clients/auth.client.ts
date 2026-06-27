@@ -1,8 +1,8 @@
-import { IChangePassword, IForgotPassword, IResetPassword, RequestContext } from '@libs/common';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Role, User } from 'generated/prisma';
+import { IChangePassword, IForgotPassword, IResetPassword, RequestContext } from 'libs/common';
 import { BaseClient } from './base.client';
 
 @Injectable()

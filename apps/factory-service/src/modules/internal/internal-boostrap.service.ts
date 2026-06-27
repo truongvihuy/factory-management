@@ -1,5 +1,5 @@
-import { PrismaService } from '@libs/database';
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'libs/database';
 
 @Injectable()
 export class InternalBootstrapService {

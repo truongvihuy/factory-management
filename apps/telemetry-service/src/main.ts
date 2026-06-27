@@ -1,6 +1,6 @@
-import { DEFAULT } from '@libs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { DEFAULT } from 'libs/common';
 
 import { AppModule } from './app.module';
 
