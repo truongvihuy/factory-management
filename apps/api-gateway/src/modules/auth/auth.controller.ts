@@ -3,6 +3,7 @@ import { ApiBasicAuth, ApiBearerAuth } from '@nestjs/swagger';
 import type { Request } from 'express';
 import {
   CurrentUser,
+  LocalAuthGuard,
   Public,
   RequestId,
   type IAccessTokenPayload,
@@ -10,7 +11,6 @@ import {
   type IForgotPassword,
   type IResetPassword,
 } from 'libs/common';
-import { LocalAuthGuard } from '../../guards/local-auth.guard';
 import { AuthService } from './auth.service';
 
 @ApiBearerAuth('access-token')
