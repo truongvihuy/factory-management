@@ -1,5 +1,5 @@
 import { RequestContext } from '@libs/common';
-import { BaseClient } from '@libs/utils/base.client';
+import { BaseClient } from '@libs/utils';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
