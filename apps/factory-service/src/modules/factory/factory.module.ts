@@ -1,5 +1,5 @@
+import { PrismaModule } from '@libs/database';
 import { Module } from '@nestjs/common';
-import { PrismaModule } from 'libs/database';
 import { FactoryController } from './factory.controller';
 import { FactoryService } from './factory.service';
 

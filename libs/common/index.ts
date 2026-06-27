@@ -12,9 +12,8 @@ export * from './enums/errors.enum';
 
 export * from './exceptions/app.exception';
 export * from './exceptions/exceptions';
-export * from './exceptions/rpc.exception';
+
 export * from './filters/http-exception.filter';
-export * from './filters/rpc-exception.filter';
 
 export * from './guards/jwt-auth.guard';
 export * from './guards/local-auth.guard';

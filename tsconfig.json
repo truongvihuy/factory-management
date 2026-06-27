@@ -65,6 +65,12 @@
       ],
       "@libs/utils/*": [
         "libs/utils/*"
+      ],
+      "@prisma": [
+        "generated/prisma"
+      ],
+      "@prisma/*": [
+        "generated/prisma/*"
       ]
     }
   }

@@ -3,7 +3,7 @@ import { BaseClient } from '@libs/utils/base.client';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Role, User } from 'generated/prisma';
+import { Role, User } from '@prisma';
 
 @Injectable()
 export class AuthClient extends BaseClient {

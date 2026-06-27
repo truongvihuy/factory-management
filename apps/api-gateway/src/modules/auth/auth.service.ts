@@ -1,4 +1,4 @@
-import { AuthClient } from '@libs/clients/auth.client';
+import { AuthClient } from '@libs/clients';
 import { IChangePassword, IForgotPassword, IResetPassword, RequestContext } from '@libs/common';
 import { Injectable } from '@nestjs/common';
 

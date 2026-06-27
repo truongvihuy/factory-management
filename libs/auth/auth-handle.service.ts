@@ -1,7 +1,7 @@
+import { ILogin } from '@libs/common';
 import { Injectable } from '@nestjs/common';
 import { JwtService, JwtSignOptions, JwtVerifyOptions } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
-import { ILogin } from 'libs/common';
 
 @Injectable()
 export class AuthHandleService {

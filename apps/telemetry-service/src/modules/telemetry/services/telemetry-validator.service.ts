@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { Device, Machine, Sensor } from '@prisma';
 import { createHmac } from 'crypto';
-import { Device, Machine, Sensor } from 'generated/prisma';
 import { PayloadSensorDto } from '../dto/payload-sensor.dto';
 import { DeviceMetadataRepository } from '../repositories/device-metadata.repository';
 import { MachineMetadataRepository } from '../repositories/machine-metadata.repository';

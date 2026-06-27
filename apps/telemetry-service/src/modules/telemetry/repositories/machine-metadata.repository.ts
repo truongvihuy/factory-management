@@ -1,6 +1,6 @@
 import { PrismaService } from '@libs/database';
 import { Injectable } from '@nestjs/common';
-import { Machine } from 'generated/prisma';
+import { Machine } from '@prisma';
 
 @Injectable()
 export class MachineMetadataRepository {

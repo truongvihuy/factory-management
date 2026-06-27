@@ -1,6 +1,6 @@
+import { RequestContextServiceMiddleware } from '@libs/common';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { RequestContextServiceMiddleware } from 'libs/common';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 

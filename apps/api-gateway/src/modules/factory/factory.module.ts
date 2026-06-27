@@ -1,5 +1,5 @@
+import { ClientModule } from '@libs/clients';
 import { Module } from '@nestjs/common';
-import { ClientModule } from '../../../../../libs/clients/client.module';
 import { FactoryController } from './factory.controller';
 import { FactoryService } from './factory.service';
 

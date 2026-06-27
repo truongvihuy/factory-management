@@ -1,7 +1,7 @@
+import { AuthHandleService } from '@libs/auth';
+import type { IChangePassword, ICheckUserRole, IForgotPassword, IResetPassword, IToken } from '@libs/common';
 import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
 import type { Request } from 'express';
-import { AuthHandleService } from 'libs/auth';
-import type { IChangePassword, ICheckUserRole, IForgotPassword, IResetPassword, IToken } from 'libs/common';
 import { AuthService } from './auth.service';
 
 @Controller('auth')

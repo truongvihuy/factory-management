@@ -1,11 +1,9 @@
+import { ClientModule } from '@libs/clients/client.module';
+import { JwtAuthGuard, PermissionGuard, RequestContextGateWayMiddleware } from '@libs/common';
+import { TestMiddleware } from '@libs/common/test';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
-import { RequestContextGateWayMiddleware } from 'libs/common';
-import { TestMiddleware } from 'libs/common/test';
-import { ClientModule } from '../../../libs/clients/client.module';
-import { JwtAuthGuard } from '../../../libs/common/guards/jwt-auth.guard';
-import { PermissionGuard } from '../../../libs/common/guards/permission.guard';
 import { AuthModule } from './modules/auth/auth.module';
 import { FactoryModule } from './modules/factory/factory.module';
 import { UserModule } from './modules/user/user.module';

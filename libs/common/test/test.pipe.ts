@@ -1,5 +1,3 @@
-// common/pipes/logging.pipe.ts
-
 import { Injectable, PipeTransform } from '@nestjs/common';
 
 @Injectable()

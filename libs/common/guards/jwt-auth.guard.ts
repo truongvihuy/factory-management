@@ -1,6 +1,6 @@
+import { Exceptions, IS_PUBLIC_KEY } from '@libs/common';
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Exceptions, IS_PUBLIC_KEY } from 'libs/common';
 import { AuthClient } from '../../clients/auth.client';
 
 @Injectable()
