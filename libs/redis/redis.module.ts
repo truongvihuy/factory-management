@@ -1,42 +1,31 @@
-import { DynamicModule, InjectionToken, Module, OptionalFactoryDependency } from '@nestjs/common';
+import { ModuleInject, ModuleOptions } from '@libs/common';
+import { DynamicModule, Module } from '@nestjs/common';
 import { RedisOptions } from 'ioredis';
-import { REDIS_CLIENT, REDIS_OPTIONS } from './redis.constants';
+import { redisFactoryProvider, redisProvider } from './providers/redis.provider';
+import { REDIS_CLIENT } from './redis.constants';
 import { RedisService } from './redis.service';
 
 @Module({})
 export class RedisModule {
-  static forRoot(options: RedisOptions & { isGlobal?: boolean }): DynamicModule {
+  static forRoot(options: RedisOptions & ModuleOptions): DynamicModule {
     return {
       module: RedisModule,
       global: options.isGlobal || false,
-      providers: [
-        {
-          provide: REDIS_OPTIONS,
-          useValue: options,
-        },
-        RedisService,
-      ],
-      exports: [RedisService],
+      providers: [RedisService, redisProvider(options)],
+      exports: [RedisService, REDIS_CLIENT],
     };
   }
 
   static forRootAsync(options: {
     isGlobal: boolean;
-    useFactory: (...array: any[]) => any;
-    inject: (InjectionToken | OptionalFactoryDependency)[];
+    useFactory: (...array: any[]) => RedisOptions;
+    inject: ModuleInject[];
   }): DynamicModule {
     return {
       module: RedisModule,
       global: options.isGlobal || false,
-      providers: [
-        {
-          provide: REDIS_CLIENT,
-          useFactory: options.useFactory,
-          inject: options.inject ?? [],
-        },
-        RedisService,
-      ],
-      exports: [RedisService],
+      providers: [RedisService, redisFactoryProvider(options.useFactory, options.inject)],
+      exports: [RedisService, REDIS_CLIENT],
     };
   }
 }

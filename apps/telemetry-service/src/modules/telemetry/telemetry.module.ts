@@ -3,7 +3,7 @@ import { PrismaModule } from '@libs/database';
 import { MqttModule } from '@libs/mqtt';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import * as mqtt from 'mqtt';
+import { IClientOptions } from 'mqtt';
 import { ClientModule } from '../clients/client.module';
 import { DeviceMetadataRepository } from './repositories/device-metadata.repository';
 import { MachineMetadataRepository } from './repositories/machine-metadata.repository';
@@ -21,11 +21,11 @@ import { TelemetryGateway } from './websockets/telemetry.gateway';
     PrismaModule,
     MqttModule.forRootAsync({
       isGlobal: false,
-      useFactory: (configServive: ConfigService) => {
-        return mqtt.connect({
+      useFactory: (configServive: ConfigService): IClientOptions => {
+        return {
           host: configServive.get('MQTT_HOST', DEFAULT.MQTT_HOST),
           port: configServive.get('MQTT_PORT', DEFAULT.MQTT_PORT),
-        });
+        };
       },
       inject: [ConfigService],
     }),

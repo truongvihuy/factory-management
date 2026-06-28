@@ -1,13 +1,21 @@
-import { Inject, Injectable, OnModuleDestroy } from '@nestjs/common';
+import { Inject, Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { MqttClient } from 'mqtt';
 import { MQTT_CLIENT } from './mqtt.constants';
 
 @Injectable()
-export class MqttService implements OnModuleDestroy {
+export class MqttService implements OnModuleDestroy, OnModuleInit {
   constructor(
     @Inject(MQTT_CLIENT)
     private readonly client: MqttClient,
   ) {}
+
+  onModuleInit() {
+    this.client.connect();
+  }
+
+  onModuleDestroy() {
+    this.client.end();
+  }
 
   publish(topic: string, payload: Record<string, any>): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -31,9 +39,5 @@ export class MqttService implements OnModuleDestroy {
 
   getClient() {
     return this.client;
-  }
-
-  onModuleDestroy() {
-    this.client.end();
   }
 }

@@ -1,44 +1,31 @@
-import { DynamicModule, InjectionToken, Module, OptionalFactoryDependency } from '@nestjs/common';
+import { ModuleInject, ModuleOptions } from '@libs/common';
+import { DynamicModule, Module } from '@nestjs/common';
 import * as mqtt from 'mqtt';
 import { MQTT_CLIENT } from './mqtt.constants';
 import { MqttService } from './mqtt.service';
+import { mqttClientProvider, mqttFactoryProvider } from './providers/mqtt.provider';
 
 @Module({})
 export class MqttModule {
-  static forRoot(options: { brokerUrl: string; isGlobal?: boolean }): DynamicModule {
+  static forRoot(options: mqtt.IClientOptions & ModuleOptions): DynamicModule {
     return {
       module: MqttModule,
       global: options.isGlobal || false,
-      providers: [
-        {
-          provide: MQTT_CLIENT,
-          useFactory: () => {
-            return mqtt.connect(options.brokerUrl);
-          },
-        },
-        MqttService,
-      ],
-      exports: [MqttService],
+      providers: [MqttService, mqttClientProvider(options)],
+      exports: [MqttService, MQTT_CLIENT],
     };
   }
 
   static forRootAsync(options: {
     isGlobal: boolean;
-    useFactory: (...array: any[]) => any;
-    inject?: (InjectionToken | OptionalFactoryDependency)[];
+    useFactory: (...array: any[]) => mqtt.IClientOptions;
+    inject?: ModuleInject[];
   }): DynamicModule {
     return {
       module: MqttModule,
       global: options.isGlobal || false,
-      providers: [
-        {
-          provide: MQTT_CLIENT,
-          useFactory: options.useFactory,
-          inject: options.inject,
-        },
-        MqttService,
-      ],
-      exports: [MqttService],
+      providers: [MqttService, mqttFactoryProvider(options.useFactory, options.inject)],
+      exports: [MqttService, MQTT_CLIENT],
     };
   }
 }

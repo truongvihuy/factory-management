@@ -22,6 +22,7 @@ export * from './guards/permission.guard';
 export * from './interceptors/response.interceptor';
 
 export * from './interfaces/login.interface';
+export * from './interfaces/module-optons.interface';
 export * from './interfaces/request-context.interface';
 export * from './interfaces/response.interface';
 
