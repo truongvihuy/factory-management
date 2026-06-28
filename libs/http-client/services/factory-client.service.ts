@@ -6,7 +6,7 @@ import { HTTP_CLIENTS } from '../http-client.constants';
 import { HttpClientService } from './http-client.service';
 
 @Injectable()
-export class FactoryClient extends HttpClientService {
+export class FactoryClientService extends HttpClientService {
   constructor(
     @Inject(HTTP_CLIENTS.FACTORY)
     httpService: HttpService,

@@ -1,7 +1,10 @@
-import { AuthClient } from '@libs/clients/auth.client';
-import { Injectable } from '@nestjs/common';
+import { AuthClientService, HTTP_CLIENTS } from '@libs/http-client';
+import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly client: AuthClient) {}
+  constructor(
+    @Inject(HTTP_CLIENTS.AUTH)
+    private readonly client: AuthClientService,
+  ) {}
 }

@@ -1,10 +1,13 @@
-import { FactoryClient } from '@libs/clients/factory.client';
 import { RequestContext } from '@libs/common';
-import { Injectable } from '@nestjs/common';
+import { FactoryClientService, HTTP_CLIENTS } from '@libs/http-client';
+import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class FactoryService {
-  constructor(private readonly client: FactoryClient) {}
+  constructor(
+    @Inject(HTTP_CLIENTS.FACTORY)
+    private readonly client: FactoryClientService,
+  ) {}
 
   getFactoryListAll(options?: RequestContext) {
     return this.client.getFactoryListAll(options);

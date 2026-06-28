@@ -1,6 +1,6 @@
 import { PrismaService } from '@libs/database';
 import { Injectable } from '@nestjs/common';
-import { PayloadSensor } from './payload-sensor.dto';
+import { PayloadSensorDto } from './dto/payload-sensor.dto';
 
 @Injectable()
 export class TelemetryService {
@@ -10,7 +10,7 @@ export class TelemetryService {
     return this.prisma.deviceHeartBear.findUnique({ where: { deviceCode } });
   }
 
-  async processTelemetry(payload: PayloadSensor) {
+  async processTelemetry(payload: PayloadSensorDto) {
     const record = {
       sensorCode: payload.sensorCode,
       value: payload.value,

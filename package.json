@@ -124,7 +124,7 @@
       "^@libs/events(|/.*)$": "<rootDir>/libs/events/$1",
       "^@libs/http-client(|/.*)$": "<rootDir>/libs/http-client/$1",
       "^@libs/mqtt(|/.*)$": "<rootDir>/libs/mqtt/$1",
-      "^@libs/redis(|/.*)$": "<rootDir>/libs/rediss/$1"
+      "^@libs/redis(|/.*)$": "<rootDir>/libs/redis/$1"
     }
   }
 }

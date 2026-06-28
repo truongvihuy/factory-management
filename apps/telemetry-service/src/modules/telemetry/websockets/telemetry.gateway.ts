@@ -28,6 +28,5 @@ export class TelemetryGateway implements OnGatewayConnection, OnGatewayDisconnec
   @SubscribeMessage('join-factory')
   joinFactory(@ConnectedSocket() client: Socket, @MessageBody() factoryCode: string) {
     client.join(`factory:${factoryCode}`);
-    client.nsp();
   }
 }

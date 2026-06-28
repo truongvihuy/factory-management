@@ -4,7 +4,6 @@ import { MqttModule } from '@libs/mqtt';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { IClientOptions } from 'mqtt';
-import { ClientModule } from '../clients/client.module';
 import { DeviceMetadataRepository } from './repositories/device-metadata.repository';
 import { MachineMetadataRepository } from './repositories/machine-metadata.repository';
 import { SensorLatestRepository } from './repositories/sensor-lastest.repository';
@@ -29,7 +28,6 @@ import { TelemetryGateway } from './websockets/telemetry.gateway';
       },
       inject: [ConfigService],
     }),
-    ClientModule,
   ],
   providers: [
     TelemetryService,

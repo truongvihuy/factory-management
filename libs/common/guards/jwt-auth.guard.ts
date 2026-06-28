@@ -1,13 +1,14 @@
 import { Exceptions, IS_PUBLIC_KEY } from '@libs/common';
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { AuthClientService, HTTP_CLIENTS } from '@libs/http-client';
+import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { AuthClient } from '../../http-service/auth.client';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    private readonly authClient: AuthClient,
+    @Inject(HTTP_CLIENTS.AUTH)
+    private readonly authClient: AuthClientService,
   ) {}
 
   async canActivate(context: ExecutionContext) {
