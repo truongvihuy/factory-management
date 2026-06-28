@@ -1,17 +1,9 @@
 import { Exceptions, REQUEST_ID, RequestContext, USER_ID } from '@libs/common';
 import { HttpService } from '@nestjs/axios';
-import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 
-export class BaseClient {
-  private readonly prefixUrl;
-  constructor(
-    protected readonly configService: ConfigService,
-    private readonly httpService: HttpService,
-    KEY_URL: string,
-  ) {
-    this.prefixUrl = this.configService.get(KEY_URL);
-  }
+export class HttpClientService {
+  constructor(private readonly httpService: HttpService) {}
 
   protected async _requestServer(
     method: 'get' | 'post' | 'put' | 'delete',
@@ -20,10 +12,9 @@ export class BaseClient {
     options?: RequestContext,
   ) {
     let axiosRes;
-    const fullUrl = `${this.prefixUrl}${url}`;
     switch (method) {
       case 'get':
-        axiosRes = this.httpService.get(fullUrl, {
+        axiosRes = this.httpService.get(url, {
           headers: {
             [REQUEST_ID]: options?.requestId,
             [USER_ID]: options?.userId,
@@ -31,7 +22,7 @@ export class BaseClient {
         });
         break;
       default:
-        axiosRes = this.httpService[method](fullUrl, body as any, {
+        axiosRes = this.httpService[method](url, body as any, {
           headers: {
             [REQUEST_ID]: options?.requestId,
             [USER_ID]: options?.userId,
@@ -46,6 +37,7 @@ export class BaseClient {
 
       Exceptions.badGateway();
     });
+
     return response.data;
   }
 }

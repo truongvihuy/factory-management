@@ -24,12 +24,6 @@
     "strictPropertyInitialization": false,
     "resolveJsonModule": true,
     "paths": {
-      "@libs/mqtt": [
-        "libs/mqtt"
-      ],
-      "@libs/mqtt/*": [
-        "libs/mqtt/*"
-      ],
       "@libs/auth": [
         "libs/auth"
       ],
@@ -54,17 +48,23 @@
       "@libs/events/*": [
         "libs/events/*"
       ],
+      "@libs/http-client": [
+        "libs/http-client"
+      ],
+      "@libs/http-client/*": [
+        "libs/http-client/*"
+      ],
+      "@libs/mqtt": [
+        "libs/mqtt"
+      ],
+      "@libs/mqtt/*": [
+        "libs/mqtt/*"
+      ],
       "@libs/redis": [
         "libs/redis"
       ],
       "@libs/redis/*": [
         "libs/redis/*"
-      ],
-      "@libs/utils": [
-        "libs/utils"
-      ],
-      "@libs/utils/*": [
-        "libs/utils/*"
       ],
       "@prisma": [
         "generated/prisma"

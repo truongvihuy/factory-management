@@ -40,24 +40,6 @@
         "tsConfigPath": "apps/factory-service/tsconfig.app.json"
       }
     },
-    "mqtt": {
-      "type": "library",
-      "root": "libs/mqtt",
-      "entryFile": "index",
-      "sourceRoot": "libs/mqtt/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/mqtt/tsconfig.lib.json"
-      }
-    },
-    "redis": {
-      "type": "library",
-      "root": "libs/redis",
-      "entryFile": "index",
-      "sourceRoot": "libs/redis/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/redis/tsconfig.lib.json"
-      }
-    },
     "telemetry-service": {
       "type": "application",
       "root": "apps/telemetry-service",

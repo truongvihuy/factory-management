@@ -1,14 +1,17 @@
 import { IChangePassword, IForgotPassword, IResetPassword, RequestContext } from '@libs/common';
-import { BaseClient } from '@libs/utils/base.client';
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Inject, Injectable } from '@nestjs/common';
 import { Role, User } from '@prisma';
+import { HTTP_CLIENTS } from '../http-client.constants';
+import { HttpClientService } from './http-client.service';
 
 @Injectable()
-export class AuthClient extends BaseClient {
-  constructor(configService: ConfigService, httpService: HttpService) {
-    super(configService, httpService, 'AUTH_SERVICE_URL');
+export class AuthClient extends HttpClientService {
+  constructor(
+    @Inject(HTTP_CLIENTS.AUTH)
+    httpService: HttpService,
+  ) {
+    super(httpService);
   }
 
   async login(infoLogin: { basicToken: string; ip: string; userAgent: string | null }, options?: RequestContext) {

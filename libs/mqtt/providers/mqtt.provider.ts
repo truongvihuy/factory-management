@@ -1,9 +1,8 @@
-import { ModuleInject } from '@libs/common';
-import { Provider } from '@nestjs/common';
+import { FactoryProvider, Provider } from '@nestjs/common';
 import { connect, IClientOptions } from 'mqtt';
 import { MQTT_CLIENT } from '../mqtt.constants';
 
-export const mqttClientProvider = (options: IClientOptions, inject?: ModuleInject[]): Provider => ({
+export const mqttClientProvider = (options: IClientOptions, inject?: FactoryProvider['inject']): Provider => ({
   provide: MQTT_CLIENT,
   useFactory: () => {
     return connect(options);
@@ -12,12 +11,12 @@ export const mqttClientProvider = (options: IClientOptions, inject?: ModuleInjec
 });
 
 export const mqttFactoryProvider = (
-  useFactory: (...args: any[]) => IClientOptions,
-  inject?: ModuleInject[],
+  useFactory: (...args: any[]) => Promise<IClientOptions> | IClientOptions,
+  inject?: FactoryProvider['inject'],
 ): Provider => ({
   provide: MQTT_CLIENT,
-  useFactory(...args) {
-    const options = useFactory(...args);
+  useFactory: async (...args) => {
+    const options = await useFactory(...args);
     return connect(options);
   },
   inject,

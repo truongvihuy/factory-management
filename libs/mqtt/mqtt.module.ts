@@ -1,13 +1,13 @@
-import { ModuleInject, ModuleOptions } from '@libs/common';
-import { DynamicModule, Module } from '@nestjs/common';
-import * as mqtt from 'mqtt';
+import { ModuleOptions } from '@libs/common';
+import { DynamicModule, FactoryProvider, Module } from '@nestjs/common';
+import { IClientOptions } from 'mqtt';
 import { MQTT_CLIENT } from './mqtt.constants';
 import { MqttService } from './mqtt.service';
 import { mqttClientProvider, mqttFactoryProvider } from './providers/mqtt.provider';
 
 @Module({})
 export class MqttModule {
-  static forRoot(options: mqtt.IClientOptions & ModuleOptions): DynamicModule {
+  static forRoot(options: IClientOptions & ModuleOptions): DynamicModule {
     return {
       module: MqttModule,
       global: options.isGlobal || false,
@@ -18,8 +18,8 @@ export class MqttModule {
 
   static forRootAsync(options: {
     isGlobal: boolean;
-    useFactory: (...array: any[]) => mqtt.IClientOptions;
-    inject?: ModuleInject[];
+    useFactory: (...array: any[]) => Promise<IClientOptions> | IClientOptions;
+    inject?: FactoryProvider['inject'];
   }): DynamicModule {
     return {
       module: MqttModule,

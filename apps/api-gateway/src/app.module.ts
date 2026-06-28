@@ -1,6 +1,6 @@
-import { ClientModule } from '@libs/clients/client.module';
 import { JwtAuthGuard, PermissionGuard, RequestContextGateWayMiddleware } from '@libs/common';
 import { TestMiddleware } from '@libs/common/test';
+import { HTTP_CLIENTS, HttpClientModule } from '@libs/http-client';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
@@ -14,7 +14,10 @@ import { UserModule } from './modules/user/user.module';
       isGlobal: true,
       envFilePath: 'env/.env.api-gateway',
     }),
-    ClientModule,
+    HttpClientModule.forRootAsync({
+      isGlobal: true,
+      clients: [HTTP_CLIENTS.AUTH, HTTP_CLIENTS.FACTORY, HTTP_CLIENTS.TELEMETRY],
+    }),
     AuthModule,
     UserModule,
     FactoryModule,

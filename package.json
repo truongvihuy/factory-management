@@ -118,12 +118,13 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@libs/auth(|/.*)$": "<rootDir>/libs/auth/src/$1",
-      "^@libs/common(|/.*)$": "<rootDir>/libs/common/src/$1",
-      "^@libs/database(|/.*)$": "<rootDir>/libs/database/src/$1",
-      "^@libs/events(|/.*)$": "<rootDir>/libs/events/src/$1",
-      "^@libs/mqtt(|/.*)$": "<rootDir>/libs/mqtt/src/$1",
-      "^@libs/redis(|/.*)$": "<rootDir>/libs/redis/src/$1"
+      "^@libs/auth(|/.*)$": "<rootDir>/libs/auth/$1",
+      "^@libs/common(|/.*)$": "<rootDir>/libs/common/$1",
+      "^@libs/database(|/.*)$": "<rootDir>/libs/database/$1",
+      "^@libs/events(|/.*)$": "<rootDir>/libs/events/$1",
+      "^@libs/http-client(|/.*)$": "<rootDir>/libs/http-client/$1",
+      "^@libs/mqtt(|/.*)$": "<rootDir>/libs/mqtt/$1",
+      "^@libs/redis(|/.*)$": "<rootDir>/libs/rediss/$1"
     }
   }
 }

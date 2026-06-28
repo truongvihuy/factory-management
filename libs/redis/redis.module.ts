@@ -1,5 +1,5 @@
-import { ModuleInject, ModuleOptions } from '@libs/common';
-import { DynamicModule, Module } from '@nestjs/common';
+import { ModuleOptions } from '@libs/common';
+import { DynamicModule, FactoryProvider, Module } from '@nestjs/common';
 import { RedisOptions } from 'ioredis';
 import { redisFactoryProvider, redisProvider } from './providers/redis.provider';
 import { REDIS_CLIENT } from './redis.constants';
@@ -18,8 +18,8 @@ export class RedisModule {
 
   static forRootAsync(options: {
     isGlobal: boolean;
-    useFactory: (...array: any[]) => RedisOptions;
-    inject: ModuleInject[];
+    useFactory: (...array: any[]) => Promise<RedisOptions> | RedisOptions;
+    inject: FactoryProvider['inject'];
   }): DynamicModule {
     return {
       module: RedisModule,
