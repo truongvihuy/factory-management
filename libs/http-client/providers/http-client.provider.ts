@@ -4,7 +4,7 @@ import axios, { AxiosInstance } from 'axios';
 import { HTTP_CLIENTS } from '../http-client.constants';
 import { AuthClientService } from '../services/auth-client.service';
 import { FactoryClientService } from '../services/factory-client.service';
-import { HttpClientService } from '../services/http-client.service';
+import { TelemetryClientService } from '../services/telemetry.service';
 
 export const HTTP_CLIENTS_CONFIG = {
   [HTTP_CLIENTS.AUTH]: {
@@ -17,7 +17,7 @@ export const HTTP_CLIENTS_CONFIG = {
   },
   [HTTP_CLIENTS.TELEMETRY]: {
     key: 'TELEMETRY_SERVICE_URL',
-    service: HttpClientService,
+    service: TelemetryClientService,
   },
 };
 

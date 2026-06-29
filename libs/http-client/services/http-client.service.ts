@@ -1,5 +1,5 @@
 import { Exceptions, REQUEST_ID, RequestContext, USER_ID } from '@libs/common';
-import { AxiosInstance } from 'axios';
+import { type AxiosInstance } from 'axios';
 import { firstValueFrom, from } from 'rxjs';
 
 export class HttpClientService {
