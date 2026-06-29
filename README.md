@@ -58,11 +58,6 @@ This platform aims to digitize factory operations and provide real-time insights
 * Docker
 * Docker Compose
 
-## Monitoring
-
-* Prometheus
-* Grafana
-
 ---
 
 # Architecture Overview
@@ -367,11 +362,6 @@ Metrics collected:
 * Active WebSocket Connections
 * Database Query Performance
 
-Monitoring Tools:
-
-* Prometheus
-* Grafana
-
 ---
 
 # CI/CD Pipeline
@@ -467,4 +457,4 @@ Backend Engineer | Fullstack Engineer (Backend Focus)
 
 Tech Stack:
 
-NestJS • PostgreSQL • Redis • MQTT • Socket.IO • Docker • Prometheus • Grafana
+NestJS • PostgreSQL • Redis • MQTT • Socket.IO • Docker
