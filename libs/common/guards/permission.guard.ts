@@ -1,13 +1,12 @@
 import { Exceptions, PERMISSION_KEY } from '@libs/common';
-import { AuthClientService, HTTP_CLIENTS } from '@libs/http-client';
-import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common';
+import { AuthClientService } from '@libs/http-client';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
 @Injectable()
 export class PermissionGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    @Inject(HTTP_CLIENTS.AUTH)
     private readonly authClient: AuthClientService,
   ) {}
 
