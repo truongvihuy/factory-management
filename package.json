@@ -40,11 +40,9 @@
     "lint": "eslint \"{apps,libs}/**/*.ts\" --fix"
   },
   "dependencies": {
-    "@nestjs/axios": "^4.0.1",
     "@nestjs/common": "^11.1.26",
     "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.1.26",
-    "@nestjs/event-emitter": "^3.1.0",
     "@nestjs/jwt": "^11.0.2",
     "@nestjs/platform-express": "^11.1.26",
     "@nestjs/platform-socket.io": "^11.1.27",
