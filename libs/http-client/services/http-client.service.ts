@@ -3,7 +3,7 @@ import { type AxiosInstance } from 'axios';
 import { firstValueFrom, from } from 'rxjs';
 
 export class HttpClientService {
-  constructor(public readonly instance: AxiosInstance) {}
+  constructor(private readonly instance: AxiosInstance) {}
 
   protected async _requestServer(
     method: 'get' | 'post' | 'put' | 'delete',
