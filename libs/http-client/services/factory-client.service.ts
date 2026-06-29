@@ -1,7 +1,7 @@
 import { RequestContext } from '@libs/common';
-import { HttpService } from '@nestjs/axios';
 import { Inject, Injectable } from '@nestjs/common';
 import { Factory, Machine, Sensor, Workshop } from '@prisma';
+import { type AxiosInstance } from 'axios';
 import { HTTP_CLIENTS } from '../http-client.constants';
 import { HttpClientService } from './http-client.service';
 
@@ -9,9 +9,9 @@ import { HttpClientService } from './http-client.service';
 export class FactoryClientService extends HttpClientService {
   constructor(
     @Inject(HTTP_CLIENTS.FACTORY)
-    httpService: HttpService,
+    instance: AxiosInstance,
   ) {
-    super(httpService);
+    super(instance);
   }
 
   getFactoryListAll(options?: RequestContext) {

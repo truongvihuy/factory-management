@@ -1,7 +1,7 @@
 import { IChangePassword, IForgotPassword, IResetPassword, RequestContext } from '@libs/common';
-import { HttpService } from '@nestjs/axios';
 import { Inject, Injectable } from '@nestjs/common';
 import { Role, User } from '@prisma';
+import { type AxiosInstance } from 'axios';
 import { HTTP_CLIENTS } from '../http-client.constants';
 import { HttpClientService } from './http-client.service';
 
@@ -9,9 +9,9 @@ import { HttpClientService } from './http-client.service';
 export class AuthClientService extends HttpClientService {
   constructor(
     @Inject(HTTP_CLIENTS.AUTH)
-    httpService: HttpService,
+    instance: AxiosInstance,
   ) {
-    super(httpService);
+    super(instance);
   }
 
   async login(infoLogin: { basicToken: string; ip: string; userAgent: string | null }, options?: RequestContext) {

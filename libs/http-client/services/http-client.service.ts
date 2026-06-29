@@ -1,9 +1,9 @@
 import { Exceptions, REQUEST_ID, RequestContext, USER_ID } from '@libs/common';
-import { HttpService } from '@nestjs/axios';
-import { firstValueFrom } from 'rxjs';
+import { AxiosInstance } from 'axios';
+import { firstValueFrom, from } from 'rxjs';
 
 export class HttpClientService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly instance: AxiosInstance) {}
 
   protected async _requestServer(
     method: 'get' | 'post' | 'put' | 'delete',
@@ -14,7 +14,7 @@ export class HttpClientService {
     let axiosRes;
     switch (method) {
       case 'get':
-        axiosRes = this.httpService.get(url, {
+        axiosRes = this.instance.get(url, {
           headers: {
             [REQUEST_ID]: options?.requestId,
             [USER_ID]: options?.userId,
@@ -22,7 +22,7 @@ export class HttpClientService {
         });
         break;
       default:
-        axiosRes = this.httpService[method](url, body as any, {
+        axiosRes = this.instance[method](url, body as any, {
           headers: {
             [REQUEST_ID]: options?.requestId,
             [USER_ID]: options?.userId,
@@ -30,7 +30,7 @@ export class HttpClientService {
         });
     }
 
-    const response = await firstValueFrom(axiosRes).catch((error) => {
+    const response = await firstValueFrom(from(axiosRes)).catch((error) => {
       if (error.response) {
         throw error;
       }
@@ -38,6 +38,6 @@ export class HttpClientService {
       Exceptions.badGateway();
     });
 
-    return response.data;
+    return (response as any).data;
   }
 }

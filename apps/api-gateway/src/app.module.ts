@@ -14,7 +14,7 @@ import { UserModule } from './modules/user/user.module';
       isGlobal: true,
       envFilePath: 'env/.env.api-gateway',
     }),
-    HttpClientModule.forRootAsync({
+    HttpClientModule.register({
       isGlobal: true,
       clients: [HTTP_CLIENTS.AUTH, HTTP_CLIENTS.FACTORY, HTTP_CLIENTS.TELEMETRY],
     }),
