@@ -1,4 +1,5 @@
 import { DEFAULT } from '@libs/common';
+import { HTTP_CLIENTS, HttpClientModule } from '@libs/http-client';
 import { RedisModule } from '@libs/redis';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -20,6 +21,10 @@ import { TelemetryModule } from './modules/telemetry/telemetry.module';
         };
       },
       inject: [ConfigService],
+    }),
+    HttpClientModule.register({
+      isGlobal: true,
+      clients: [HTTP_CLIENTS.FACTORY],
     }),
     TelemetryModule,
   ],
