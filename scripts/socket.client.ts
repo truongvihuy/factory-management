@@ -11,8 +11,7 @@ const socket: Socket = io(`${SERVER}/factory`, {
   reconnection: true,
   reconnectionAttempts: Infinity,
   reconnectionDelay: 1000,
-}).;
-
+});
 
 socket.on('connect', () => {
   console.log('================================');
