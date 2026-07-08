@@ -1,0 +1,19 @@
+export enum DEFAULT {
+  JWT_SECRET = 'the-secret',
+  JWT_EXPIRATION = '30m',
+  JWT_REFRESH_SECRET = 'the-secret-refreshsss',
+  JWT_REFRESH_EXPIRATION = '30d',
+  SESSION_EXPIRATION = '',
+  MAX_IDLE_DAYS = 7,
+
+  PORT_API_GATEWAY = 3000,
+  PORT_AUTH_SERVICE = 3001,
+  PORT_FACTORY_SERVICE = 3002,
+  PORT_TELEMETRY_SERVICE = 3003,
+
+  REDIS_HOST = 'localhost',
+  REDIS_PORT = 6379,
+
+  MQTT_HOST = 'localhost',
+  MQTT_PORT = 1883,
+}

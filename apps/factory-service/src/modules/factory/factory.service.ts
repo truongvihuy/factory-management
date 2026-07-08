@@ -1,27 +1,51 @@
 import { Exceptions } from '@libs/common';
 import { PrismaService } from '@libs/database';
 import { Injectable } from '@nestjs/common';
-import { Factory, Machine, Sensor, Workshop } from 'generated/prisma';
+import { Device, Factory, Machine, Sensor, Workshop } from '@prisma';
 
 @Injectable()
 export class FactoryService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private async validateOwnership(factoryId: string, workshopId: string, machineId?: string, sensorId?: string) {
+  private async validateOwnership(
+    factoryId: string,
+    workshopId: string,
+    machineId?: string,
+    sensorIdOrDeviceId?: string,
+    type?: 'sensor' | 'device',
+  ) {
     let result: unknown = null;
 
-    if (sensorId) {
-      result = await this.prisma.sensor.findFirst({
-        where: {
-          id: sensorId,
-          machine: {
-            workshop: {
-              factoryId,
+    if (sensorIdOrDeviceId) {
+      switch (type) {
+        case 'sensor': {
+          result = await this.prisma.sensor.findFirst({
+            where: {
+              id: sensorIdOrDeviceId,
+              machine: {
+                workshop: {
+                  factoryId,
+                },
+              },
             },
-          },
-        },
-        select: { id: true },
-      });
+            select: { id: true },
+          });
+          break;
+        }
+        case 'device': {
+          result = await this.prisma.device.findFirst({
+            where: {
+              id: sensorIdOrDeviceId,
+              machine: {
+                workshop: {
+                  factoryId,
+                },
+              },
+            },
+            select: { id: true },
+          });
+        }
+      }
     } else if (machineId) {
       result = await this.prisma.machine.findFirst({
         where: {
@@ -152,7 +176,7 @@ export class FactoryService {
   }
 
   async updateSensor(factoryId: string, workshopId: string, machineId: string, sensorId: string, payload: Sensor) {
-    await this.validateOwnership(factoryId, workshopId, machineId, sensorId);
+    await this.validateOwnership(factoryId, workshopId, machineId, sensorId, 'sensor');
 
     payload.machineId = machineId;
     return this.prisma.sensor.update({
@@ -162,7 +186,39 @@ export class FactoryService {
   }
 
   async deleteSensor(factoryId: string, workshopId: string, machineId: string, sensorId: string) {
-    await this.validateOwnership(factoryId, workshopId, machineId, sensorId);
+    await this.validateOwnership(factoryId, workshopId, machineId, sensorId, 'sensor');
     return this.prisma.sensor.delete({ where: { id: sensorId } });
+  }
+
+  async getDevice(factoryId: string, workshopId: string, machineId: string) {
+    await this.validateOwnership(factoryId, workshopId, machineId);
+
+    return this.prisma.device.findMany({
+      where: { machineId },
+    });
+  }
+
+  async addDevice(factoryId: string, workshopId: string, machineId: string, payload: Device) {
+    await this.validateOwnership(factoryId, workshopId, machineId);
+
+    payload.machineId = machineId;
+    return this.prisma.device.create({
+      data: payload,
+    });
+  }
+
+  async updateDevice(factoryId: string, workshopId: string, machineId: string, deviceId: string, payload: Device) {
+    await this.validateOwnership(factoryId, workshopId, machineId, deviceId, 'device');
+
+    payload.machineId = machineId;
+    return this.prisma.device.update({
+      where: { id: deviceId },
+      data: payload,
+    });
+  }
+
+  async deleteDevice(factoryId: string, workshopId: string, machineId: string, deviceId: string) {
+    await this.validateOwnership(factoryId, workshopId, machineId, deviceId, 'device');
+    return this.prisma.device.delete({ where: { id: deviceId } });
   }
 }

@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ClientModule } from '../../clients/client.module';
 import { FactoryController } from './factory.controller';
 import { FactoryService } from './factory.service';
 
 @Module({
-  imports: [ClientModule],
+  imports: [],
   controllers: [FactoryController],
   providers: [FactoryService],
 })

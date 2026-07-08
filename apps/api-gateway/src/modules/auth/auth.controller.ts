@@ -1,5 +1,6 @@
 import {
   CurrentUser,
+  LocalAuthGuard,
   Public,
   RequestId,
   type IAccessTokenPayload,
@@ -10,7 +11,6 @@ import {
 import { Body, Controller, Get, Ip, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBasicAuth, ApiBearerAuth } from '@nestjs/swagger';
 import type { Request } from 'express';
-import { LocalAuthGuard } from '../../guards/local-auth.guard';
 import { AuthService } from './auth.service';
 
 @ApiBearerAuth('access-token')

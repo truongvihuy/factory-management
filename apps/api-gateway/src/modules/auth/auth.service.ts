@@ -1,10 +1,10 @@
 import { IChangePassword, IForgotPassword, IResetPassword, RequestContext } from '@libs/common';
+import { AuthClientService } from '@libs/http-client';
 import { Injectable } from '@nestjs/common';
-import { AuthClient } from '../../clients/auth.client';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly client: AuthClient) {}
+  constructor(private readonly client: AuthClientService) {}
 
   login(payload: { basicToken: string; ip: string; userAgent: string | null }, options: RequestContext) {
     return this.client.login(payload, options);

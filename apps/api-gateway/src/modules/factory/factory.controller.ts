@@ -60,6 +60,7 @@ export class FactoryController {
   async deleteWorkshopInFactory(@Param('factoryId') factoryId: string, @Param('workshopId') workshopId: string) {}
 
   @Get(':factoryId/workshop/:workshopId/machine')
+  @Permission(PermissionCode.MACHINE_READ)
   async getMachineInWorkshop(
     @Param('factoryId') factoryId: string,
     @Param('workshopId') workshopId: string,
@@ -70,6 +71,7 @@ export class FactoryController {
   }
 
   @Post(':factoryId/workshop/:workshopId/machine')
+  @Permission(PermissionCode.MACHINE_CREATE)
   async addMachine(
     @Param('factoryId') factoryId: string,
     @Param('workshopId') workshopId: string,
@@ -77,6 +79,7 @@ export class FactoryController {
   ) {}
 
   @Put(':factoryId/workshop/:workshopId/machine/:machineId')
+  @Permission(PermissionCode.MACHINE_UPDATE)
   async updateMachine(
     @Param('factoryId') factoryId: string,
     @Param('workshopId') workshopId: string,
@@ -85,6 +88,7 @@ export class FactoryController {
   ) {}
 
   @Delete(':factoryId/workshop/:workshopId/machine/:machineId')
+  @Permission(PermissionCode.MACHINE_DELETE)
   async deleteMachine(
     @Param('factoryId') factoryId: string,
     @Param('workshopId') workshopId: string,
@@ -92,6 +96,7 @@ export class FactoryController {
   ) {}
 
   @Get(':factoryId/workshop/:workshopId/machine/:machineId/sensor')
+  @Permission(PermissionCode.SENSOR_READ)
   async getSensor(
     @Param('factoryId') factoryId: string,
     @Param('workshopId') workshopId: string,
@@ -99,6 +104,7 @@ export class FactoryController {
   ) {}
 
   @Post(':factoryId/workshop/:workshopId/machine/:machineId/sensor')
+  @Permission(PermissionCode.SENSOR_CREATE)
   async addSensor(
     @Param('factoryId') factoryId: string,
     @Param('workshopId') workshopId: string,
@@ -107,6 +113,7 @@ export class FactoryController {
   ) {}
 
   @Put(':factoryId/workshop/:workshopId/machine/:machineId/sensor/:sensorId')
+  @Permission(PermissionCode.SENSOR_UPDATE)
   async updateSensor(
     @Param('factoryId') factoryId: string,
     @Param('workshopId') workshopId: string,
@@ -116,10 +123,47 @@ export class FactoryController {
   ) {}
 
   @Delete(':factoryId/workshop/:workshopId/machine/:machineId/sensor/:sensorId')
+  @Permission(PermissionCode.SENSOR_DELETE)
   async deleteSensor(
     @Param('factoryId') factoryId: string,
     @Param('workshopId') workshopId: string,
     @Param('machineId') machineId: string,
     @Param('sensorId') sensorId: string,
+  ) {}
+
+  @Get(':factoryId/workshop/:workshopId/machine/:machineId/device')
+  @Permission(PermissionCode.DEVICE_READ)
+  async getDevice(
+    @Param('factoryId') factoryId: string,
+    @Param('workshopId') workshopId: string,
+    @Param('machineId') machineId: string,
+  ) {}
+
+  @Post(':factoryId/workshop/:workshopId/machine/:machineId/device')
+  @Permission(PermissionCode.DEVICE_CREATE)
+  async addDevice(
+    @Param('factoryId') factoryId: string,
+    @Param('workshopId') workshopId: string,
+    @Param('machineId') machineId: string,
+    @Body() body: unknown,
+  ) {}
+
+  @Put(':factoryId/workshop/:workshopId/machine/:machineId/device/:deviceId')
+  @Permission(PermissionCode.DEVICE_UPDATE)
+  async updateDevice(
+    @Param('factoryId') factoryId: string,
+    @Param('workshopId') workshopId: string,
+    @Param('machineId') machineId: string,
+    @Param('deviceId') deviceId: string,
+    @Body() body: unknown,
+  ) {}
+
+  @Delete(':factoryId/workshop/:workshopId/machine/:machineId/device/:deviceId')
+  @Permission(PermissionCode.DEVICE_DELETE)
+  async deleteDevice(
+    @Param('factoryId') factoryId: string,
+    @Param('workshopId') workshopId: string,
+    @Param('machineId') machineId: string,
+    @Param('deviceId') deviceId: string,
   ) {}
 }
