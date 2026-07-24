@@ -1,0 +1,56 @@
+Requirement
+
+↓
+
+Update BUSINESS_RULES.md
+
+↓
+
+Update ARCHITECTURE.md (nếu cần)
+
+↓
+
+AI phân tích
+
+↓
+
+AI thiết kế
+
+↓
+
+AI viết code
+
+↓
+
+AI viết test
+
+↓
+
+AI review
+
+↓
+
+AI cập nhật tài liệu
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+PROJECT_CONTEXT
+        ↓
+BUSINESS_RULES
+        ↓
+ARCHITECTURE
+        ↓
+Requirement
+        ↓
+AI Analysis
+        ↓
+AI Design
+        ↓
+AI Coding
+        ↓
+AI Testing
+        ↓
+AI Review
+        ↓
+AI Documentation

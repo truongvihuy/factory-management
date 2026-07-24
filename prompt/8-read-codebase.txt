@@ -1,0 +1,113 @@
+You are a Senior Software Architect.
+
+Analyze this project.
+
+Do not explain line-by-line.
+
+First explain:
+
+- Project purpose
+- Architecture
+- Main modules
+- Request lifecycle
+- Data flow
+- Technologies used
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Explain the folder structure.
+
+For each folder explain:
+
+Purpose
+
+Responsibilities
+
+Typical files
+
+Dependencies
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Explain Machine Module.
+
+Include:
+
+Responsibilities
+
+Public APIs
+
+Dependencies
+
+Database
+
+Events
+
+Business Rules
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+
+Trace the request lifecycle.
+
+Request:
+
+POST /machines
+
+Explain every step until response.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Explain dependency graph.
+
+Which modules depend on this module?
+
+Which modules use it?
+
+Possible coupling?  
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~```
+
+Explain the business logic.
+
+Ignore implementation details.
+
+Focus on business rules.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~````
+
+Explain this function.
+
+Include:
+
+Purpose
+
+Input
+
+Output
+
+Business Rules
+
+Side Effects
+
+Possible Bugs
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+Where should I start reading
+if I need to understand Machine Creation?
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Based on the project,
+
+where are the possible places causing this issue?
+
+Rank them.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Generate Mermaid diagram.
+
+Show module dependency.

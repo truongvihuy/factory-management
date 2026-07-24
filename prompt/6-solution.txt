@@ -1,0 +1,96 @@
+You are a Senior Solution Architect.
+
+Based on the requirement, design the overall solution.
+
+Do not write code.
+
+Include:
+
+- High-level architecture
+- Components
+- Responsibilities
+- Data flow
+- Possible risks
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+Design the modules for this project.
+
+For each module explain:
+
+- Responsibility
+- Public APIs
+- Dependencies
+- Data ownership
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+Design PostgreSQL schema.
+
+Explain:
+
+- Tables
+- Relationships
+- Constraints
+- Indexes
+
+Explain WHY.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Design REST APIs.
+
+Include:
+
+- Endpoint
+- HTTP Method
+- Request DTO
+- Response DTO
+- Status Codes
+- Error Handling
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+
+Generate a sequence diagram for creating a Machine.
+
+Describe interaction between:
+
+Client
+
+API
+
+Service
+
+Repository
+
+Database
+
+MQTT
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Analyze the proposed design.
+
+Identify:
+
+- Scalability issues
+- Security risks
+- Performance bottlenecks
+- Single points of failure
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~```
+
+Compare at least three design options.
+
+Explain:
+
+Pros
+
+Cons
+
+Trade-offs
+
+Recommendation

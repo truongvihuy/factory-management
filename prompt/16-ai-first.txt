@@ -1,0 +1,175 @@
+Requirement
+
+↓
+
+Requirement Analysis (AI)
+
+↓
+
+Questions (AI)
+
+↓
+
+Solution Design (AI)
+
+↓
+
+Risk Analysis (AI)
+
+↓
+
+Task Breakdown (AI)
+
+↓
+
+Implementation (AI + Dev)
+
+↓
+
+Testing (AI + Dev)
+
+↓
+
+Review (AI)
+
+↓
+
+Documentation (AI)
+
+↓
+
+Pull Request
+
+↓
+
+Deploy
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+
+Analyze this requirement.
+
+Identify:
+
+Business Rules
+
+Missing Information
+
+Edge Cases
+
+Questions
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Design the solution.
+
+Do not write code.
+
+Explain:
+
+Architecture
+
+Database
+
+API
+
+Modules
+
+Events
+
+Trade-offs
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Break this feature into
+small development tasks.
+
+Each task should be
+independently reviewable.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Generate only CreateMachineDto.
+
+Explain validation.
+
+Do not generate Service.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Review your own code.
+
+Find:
+
+Code Smells
+
+SOLID violations
+
+Security issues
+
+Missing validation
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Generate test cases
+from business rules.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Review this feature
+as a Pull Request.
+
+Would you approve it?
+
+Why?
+
+What should be changed?
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Update documentation.
+
+List every document
+that should change.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Review this feature development process.
+
+Identify:
+
+What went well.
+
+What was inefficient.
+
+How can the workflow
+be improved next time?
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| Giai đoạn     | Vai trò AI         |
+| ------------- | ------------------ |
+| Requirement   | Business Analyst   |
+| Architecture  | Solution Architect |
+| Coding        | Senior Developer   |
+| Testing       | QA Engineer        |
+| Review        | Tech Lead          |
+| Documentation | Technical Writer   |
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+10 nguyên tắc vàng khi dùng AI để phát triển phần mềm
+Phân tích trước khi code.
+Thiết kế trước khi triển khai.
+Chia nhỏ công việc để AI xử lý.
+Luôn yêu cầu AI giải thích lý do, không chỉ đưa đáp án.
+Review mọi đoạn code AI sinh ra.
+Viết test dựa trên business rule, không chỉ theo code.
+Cập nhật tài liệu cùng với code.
+Coi AI là người phản biện, không chỉ là người sinh code.
+Lưu các prompt và tài liệu dùng chung cho cả đội.
+Quyết định cuối cùng luôn thuộc về kỹ sư.

@@ -1,0 +1,107 @@
+ You are a Senior QA Engineer.
+
+Based on the business rules,
+
+generate all possible test cases.
+
+Group by:
+
+Positive
+
+Negative
+
+Edge Cases
+
+Security
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Generate Jest Unit Tests.
+
+Only test Service.
+
+Mock Repository.
+
+Mock External Services.
+
+Explain every test.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Generate realistic mock data.
+
+Factory
+
+Workshop
+
+Machine
+
+Sensor
+
+User
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~```
+
+Generate reusable fixtures.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Generate Integration Tests.
+
+Include:
+
+API
+
+Database
+
+Authentication
+
+Validation
+
+Transaction
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+List every edge case
+
+I should test.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Suggest security test cases.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Suggest performance tests.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Review my unit tests.
+
+What important scenarios
+are still missing?
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+You are a Senior QA Engineer.
+
+Analyze my business rules.
+
+Generate:
+
+1 Test Cases
+
+2 Unit Tests
+
+3 Integration Tests
+
+4 Edge Cases
+
+5 Security Tests
+
+6 Performance Tests
+
+7 Missing Coverage
+
+Explain why every test exists.

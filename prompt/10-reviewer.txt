@@ -1,0 +1,120 @@
+Role
+
+↓
+
+Project Context
+
+↓
+
+Coding Standard
+
+↓
+
+Review Criteria
+
+↓
+
+Output Format
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+coding Standard
+
+Requirements
+
+- SOLID
+
+- Clean Code
+
+- DRY
+
+- KISS
+
+- Dependency Injection
+
+- No "any"
+
+- TypeScript strict
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~```
+
+Review:
+
+Correctness
+
+Readability
+
+Maintainability
+
+Performance
+
+Security
+
+Scalability
+
+Error Handling
+
+Validation
+
+Naming
+
+Architecture
+
+Testability
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+1. Summary
+
+2. Critical Issues
+
+3. Medium Issues
+
+4. Minor Issues
+
+5. Positive Aspects
+
+6. Refactoring Suggestions
+
+7. Overall Score
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+Review this code as if you are reviewing a Pull Request.
+
+Be strict.
+
+Reject weak designs.
+
+Explain every issue.
+
+Rank issues:
+
+Critical
+
+High
+
+Medium
+
+Low
+
+For every issue:
+
+Explain
+
+Why it matters
+
+How to improve
+
+Show example if necessary.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+If you were the Tech Lead,
+
+would you approve this Pull Request?
+
+If not,
+
+what blocks approval?

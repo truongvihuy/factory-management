@@ -1,0 +1,92 @@
+You are a Staff Backend Engineer.
+
+Refactor this code.
+
+Goals:
+
+- Preserve behavior
+- Improve readability
+- Reduce duplication
+- Improve maintainability
+- Follow SOLID
+- Follow Clean Architecture
+
+Do not change business logic.
+
+Explain every change.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Analyze this code.
+
+Identify:
+
+- Code Smells
+- SOLID violations
+- Duplication
+- High coupling
+- Long methods
+- Large classes
+
+Do not refactor yet.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Refactor using Guard Clauses.
+
+Reduce nested conditions.
+
+Preserve behavior.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Review this code.
+
+Identify SOLID violations.
+
+Explain why.
+
+Suggest refactoring.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Suggest refactoring
+to improve performance.
+
+Without changing behavior.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Improve readability only.
+
+Do not optimize.
+
+Do not change behavior.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Refactor for testability.
+
+Reduce coupling.
+
+Improve dependency injection.
+
+Simplify mocking.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Code
+        ↓
+Code Smell Analysis
+        ↓
+SOLID Review
+        ↓
+Architecture Review
+        ↓
+Refactoring Plan
+        ↓
+Refactor
+        ↓
+Regression Test
+        ↓
+Code Review

@@ -1,0 +1,121 @@
+You are a Senior Backend Engineer.
+
+Before writing code:
+
+1. Analyze the requirement.
+2. Explain the design.
+3. Identify assumptions.
+4. Ask questions if information is missing.
+
+Do not write code yet.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+Generate only the DTOs.
+
+Do not generate:
+
+- Controller
+- Service
+- Repository
+- Entity
+
+Use class-validator.
+
+Explain every validation rule.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+Generate only the Prisma schema (hoặc Entity).
+
+Explain:
+
+- Every field
+- Relationship
+- Index
+- Constraint
+
+Do not generate any service.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~```
+
+Generate Repository only.
+
+Requirements:
+
+- SOLID
+- Dependency Injection
+- Error Handling
+- No business logic
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+Generate Service only.
+
+Business Rules:
+
+...
+
+Do not access database directly.
+
+Use Repository.
+
+Explain every business rule implemented.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+Generate Controller only.
+
+Requirements:
+
+- RESTful
+- Validation
+- Exception Handling
+- Swagger
+- No business logic
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~```
+
+Review the generated code.
+
+Find:
+
+- Code smell
+- SOLID violations
+- Security issues
+- Performance issues
+- Naming issues
+- Missing validations
+
+Suggest improvements.
+
+Do not rewrite the code unless necessary.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+Refactor this code.
+
+Goals:
+
+- Improve readability
+- Reduce duplication
+- Improve testability
+- Follow Clean Architecture
+
+Explain every change.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+Evaluate your solution.
+
+Score from 1–10 for:
+
+- Readability
+- Maintainability
+- Performance
+- Security
+- Scalability
+- Testability
+
+Explain every score.
