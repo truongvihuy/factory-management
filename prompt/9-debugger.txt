@@ -1,0 +1,56 @@
+Role
+
+↓
+
+Context
+
+↓
+
+Expected Behavior
+
+↓
+
+Actual Behavior
+
+↓
+
+Logs
+
+↓
+
+Recent Changes
+
+↓
+
+Relevant Code
+
+↓
+
+Task
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Analyze the root cause.
+
+List possible causes ranked by probability.
+
+Explain why.
+
+Suggest debugging steps before suggesting a fix.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Do not fix the bug immediately.
+
+First:
+
+1. Explain the problem.
+
+2. List possible causes.
+
+3. Rank by probability.
+
+4. Explain how to verify each cause.
+
+5. Only then suggest the fix. 

@@ -1,0 +1,209 @@
+Analyze the workload.
+
+Calculate:
+
+Requests per second
+
+Messages per second
+
+Daily storage
+
+Possible bottlenecks
+
+Do not design yet.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+Design a scalable architecture.
+
+Include:
+
+Gateway
+
+Microservices
+
+Database
+
+Cache
+
+Message Queue
+
+Realtime
+
+Monitoring
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Compare:
+
+Redis
+
+RabbitMQ
+
+Kafka
+
+NATS
+
+For this requirement.
+
+Explain trade-offs.
+
+Recommend one.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+Design database strategy.
+
+Include:
+
+Primary Database
+
+Read Replica
+
+Partitioning
+
+Indexing
+
+Archiving
+
+Backup
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Design cache strategy.
+
+Include:
+
+What to cache
+
+TTL
+
+Invalidation
+
+Fallback
+
+Consistency
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Design message flow.
+
+Include:
+
+Producer
+
+Broker
+
+Consumer
+
+Retry
+
+Dead Letter Queue
+
+Idempotency
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+Design realtime communication.
+
+Compare:
+
+Polling
+
+SSE
+
+WebSocket
+
+MQTT
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~```
+
+
+Assume every component can fail.
+
+Explain:
+
+Failure impact
+
+Recovery strategy
+
+Fallback
+
+Monitoring
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+Assume traffic grows 100x.
+
+Explain:
+
+Current bottlenecks
+
+Required changes
+
+Migration strategy
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+Compare operational cost.
+
+Estimate:
+
+Infrastructure
+
+Maintenance
+
+Complexity
+
+Development effort
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+You are a Solution Architect.
+
+Project:
+
+NestJS
+
+PostgreSQL
+
+Redis
+
+RabbitMQ
+
+MQTT
+
+Requirement:
+
+<Requirement>
+
+Analyze:
+
+1. Traffic
+
+2. Scalability
+
+3. Architecture
+
+4. Database
+
+5. Cache
+
+6. Queue
+
+7. Security
+
+8. Monitoring
+
+9. Failure Recovery
+
+10. Trade-offs
+
+11. Estimated Bottlenecks
+
+12. Recommended Design
+
+Do not write code.

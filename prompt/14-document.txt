@@ -1,0 +1,218 @@
+You are a Senior Software Engineer.
+
+Generate a professional README.
+
+Include:
+
+- Project overview
+- Tech stack
+- Folder structure
+- Installation
+- Configuration
+- Environment variables
+- Running locally
+- Running tests
+- Docker
+- Common commands
+- Troubleshooting
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Generate Architecture Documentation.
+
+Include:
+
+System Overview
+
+Modules
+
+Dependencies
+
+Data Flow
+
+External Systems
+
+Scalability
+
+Trade-offs
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Generate API Documentation.
+
+For every endpoint:
+
+Purpose
+
+Request
+
+Response
+
+Validation
+
+Errors
+
+Authorization
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+Generate an ADR.
+
+Decision:
+
+Use RabbitMQ instead of Kafka.
+
+Explain:
+
+Context
+
+Decision
+
+Alternatives
+
+Trade-offs
+
+Consequences
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+Generate Mermaid sequence diagram.
+
+Feature:
+
+Create Machine.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+
+Generate Entity Relationship Diagram.
+
+Explain:
+
+Tables
+
+Relationships
+
+Cardinality
+
+Indexes
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Generate deployment guide.
+
+Environment:
+
+Docker
+
+Docker Compose
+
+Ubuntu
+
+Include:
+
+Setup
+
+Configuration
+
+Migration
+
+Rollback
+
+Health Check
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Generate operational runbook.
+
+Scenarios:
+
+Database down
+
+Redis down
+
+RabbitMQ down
+
+MQTT disconnected
+
+High CPU
+
+High Memory
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Generate onboarding guide.
+
+Explain:
+
+Project overview
+
+Architecture
+
+How to run locally
+
+Development workflow
+
+Coding standards
+
+Git workflow
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Generate release notes.
+
+Summarize:
+
+New features
+
+Bug fixes
+
+Breaking changes
+
+Migration notes
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+You are a Senior Technical Writer.
+
+Based on this project,
+
+generate professional technical documentation.
+
+Do not copy code.
+
+Explain:
+
+Architecture
+
+Business
+
+Modules
+
+Data Flow
+
+API
+
+Deployment
+
+Monitoring
+
+Troubleshooting
+
+Use Markdown.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+Update all documentation
+based on this new module.
+
+List every document
+that should change.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Compare the implementation
+with the documentation.
+
+Identify outdated sections.
+
+Suggest updates.

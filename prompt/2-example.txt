@@ -1,0 +1,27 @@
+Project:
+NestJS
+
+Problem:
+Login API returns 401.
+
+Relevant files:
+
+- auth.service.ts
+- jwt.guard.ts
+- auth.controller.ts
+
+Recent Changes:
+
+Migrated JWT library.
+
+Stack Trace:
+
+...
+
+Expected:
+
+User should login successfully.
+
+Actual:
+
+Always returns 401.

@@ -1,0 +1,13 @@
+format 
+
+Role
+    ↓
+Context
+    ↓
+Task
+    ↓
+Constraints
+    ↓
+Output Format
+
+
