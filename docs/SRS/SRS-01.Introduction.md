@@ -1,10 +1,11 @@
+
 # SRS-01. Introduction
 
 **Document Name:** Software Requirements Specification (SRS)  
 **Section:** SRS-01 Introduction  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft
+**Status:** Draft  
 
 ---
 
@@ -38,13 +39,17 @@ The system provides centralized management of organizational structures, industr
 The MVP includes the following business capabilities:
 
 - Organization Management
+- Factory Management
+- Workshop Management
+- Production Line Management
 - Machine Management
 - Sensor Management
-- Telemetry Monitoring
+- Telemetry Management
 - Alert Management
 - Maintenance Management
 - Incident Management
-- User & Authorization Management
+- User Management
+- Authorization Management
 - Dashboard
 - Reporting
 - Audit Logging
@@ -72,7 +77,8 @@ The Factory Management System aims to achieve the following objectives:
 - Support data-driven decision making.
 - Reduce maintenance costs.
 - Reduce energy consumption.
-- Build a scalable platform for future business growth.
+- Maintain historical operational traceability.
+- Provide a scalable foundation for future business expansion.
 
 ---
 
@@ -81,7 +87,7 @@ The Factory Management System aims to achieve the following objectives:
 This document is intended for the following stakeholders.
 
 | Stakeholder | Purpose |
-|--------------|---------|
+| ----------- | ------- |
 | Product Owner | Validate software requirements |
 | Business Analyst | Maintain and refine requirements |
 | Solution Architect | Design system architecture |
@@ -116,16 +122,16 @@ Company
 │
 ├── Factory
 │
-├──── Workshop
+├── Workshop
 │
-├──────── Production Line
+├── Production Line
 │
-├──────────── Machine
+├── Machine
 │
-├──────────────── Sensor
+├── Sensor
 │
-└──────────────────── Telemetry
-```
+└── Telemetry
+````
 
 Machine telemetry is continuously collected and analyzed to detect abnormal operating conditions and support maintenance activities.
 
@@ -135,115 +141,117 @@ Machine telemetry is continuously collected and analyzed to detect abnormal oper
 
 ### Organization Management
 
-- Company Management
-- Factory Management
-- Workshop Management
-- Production Line Management
+* Company Management
+* Factory Management
+* Workshop Management
+* Production Line Management
 
 ### Asset Management
 
-- Machine Registration
-- Machine Assignment
-- Machine Lifecycle Management
-- Sensor Assignment
-- Sensor Lifecycle Management
+* Machine Registration
+* Machine Assignment
+* Machine Lifecycle Management
+* Sensor Registration
+* Sensor Assignment
+* Sensor Lifecycle Management
 
 ### Monitoring
 
-- Real-time Telemetry Collection
-- Machine Health Monitoring
-- Historical Telemetry
-- Dashboard Monitoring
+* Real-time Telemetry Collection
+* Machine Status Monitoring
+* Machine Health Monitoring
+* Historical Telemetry Tracking
+* Dashboard Monitoring
 
 ### Alert Management
 
-- Threshold Monitoring
-- Alert Generation
-- Alert Notification
-- Alert Acknowledgement
-- Alert Escalation
+* Alert Rule Configuration
+* Threshold Monitoring
+* Alert Generation
+* Alert Notification
+* Alert Acknowledgement
+* Alert Escalation
+* Alert History Tracking
 
 ### Maintenance Management
 
-- Preventive Maintenance
-- Corrective Maintenance
-- Predictive Maintenance
-- Maintenance Scheduling
-- Work Orders
-- Maintenance Checklist
-- Spare Part Tracking
+* Preventive Maintenance
+* Corrective Maintenance
+* Predictive Maintenance
+* Maintenance Scheduling
+* Work Orders
+* Maintenance Checklist
+* Maintenance History
 
 ### Incident Management
 
-- Incident Tracking
-- SLA Monitoring
-- Major Incident Management
+* Incident Creation
+* Incident Assignment
+* Incident Tracking
+* SLA Monitoring
+* Incident Resolution
 
 ### Reporting
 
-- Operational Dashboard
-- Machine Reports
-- Maintenance Reports
-- Incident Reports
-- Energy Reports
-- KPI Dashboard
+* Operational Dashboard
+* Machine Reports
+* Maintenance Reports
+* Incident Reports
+* Energy Reports
+* KPI Dashboard
 
 ---
 
 ## 1.8 Definitions
 
-| Term | Definition |
-|------|------------|
-| Company | Organization that owns one or more factories |
-| Factory | Manufacturing facility |
-| Workshop | Production area inside a factory |
-| Production Line | Group of machines performing a manufacturing process |
-| Machine | Industrial equipment monitored by the system |
-| Sensor | IoT device attached to a machine |
-| Gateway | Device that collects and forwards telemetry from machines |
-| Telemetry | Real-time operational data collected from machines |
-| Alert | Notification generated when business rules detect abnormal conditions |
-| Incident | Operational issue requiring investigation and resolution |
-| Maintenance | Planned or unplanned work performed on a machine |
-| Work Order | Task assigned for maintenance execution |
-| KPI | Key Performance Indicator |
-| OEE | Overall Equipment Effectiveness |
-| MTBF | Mean Time Between Failures |
-| MTTR | Mean Time To Repair |
-| SLA | Service Level Agreement |
+| Term            | Definition                                                   |
+| --------------- | ------------------------------------------------------------ |
+| Company         | Organization that owns one or more factories                 |
+| Factory         | Manufacturing facility                                       |
+| Workshop        | Production area inside a factory                             |
+| Production Line | Group of machines performing manufacturing operations        |
+| Machine         | Industrial equipment monitored by the system                 |
+| Sensor          | IoT device attached to a machine                             |
+| Gateway         | Device that collects and forwards telemetry data             |
+| Telemetry       | Real-time operational data collected from machines           |
+| Alert           | Notification generated when abnormal conditions are detected |
+| Incident        | Operational issue requiring investigation and resolution     |
+| Maintenance     | Planned or unplanned activity performed on machines          |
+| Work Order      | Assigned task for maintenance execution                      |
+| KPI             | Key Performance Indicator                                    |
+| OEE             | Overall Equipment Effectiveness                              |
+| MTBF            | Mean Time Between Failures                                   |
+| MTTR            | Mean Time To Repair                                          |
+| SLA             | Service Level Agreement                                      |
 
 ---
 
 ## 1.9 Acronyms
 
-| Acronym | Meaning |
-|----------|---------|
-| API | Application Programming Interface |
-| BRD | Business Requirements Document |
-| CRUD | Create, Read, Update, Delete |
-| CSV | Comma-Separated Values |
-| ERP | Enterprise Resource Planning |
-| FMS | Factory Management System |
-| HTTP | Hypertext Transfer Protocol |
-| IoT | Internet of Things |
-| JSON | JavaScript Object Notation |
-| JWT | JSON Web Token |
-| KPI | Key Performance Indicator |
-| MES | Manufacturing Execution System |
-| MQTT | Message Queuing Telemetry Transport |
-| MTBF | Mean Time Between Failures |
-| MTTR | Mean Time To Repair |
-| OPC-UA | Open Platform Communications Unified Architecture |
-| PDF | Portable Document Format |
-| REST | Representational State Transfer |
-| RPO | Recovery Point Objective |
-| RTO | Recovery Time Objective |
-| SLA | Service Level Agreement |
-| SRS | Software Requirements Specification |
-| TCP | Transmission Control Protocol |
-| UI | User Interface |
-| UUID | Universally Unique Identifier |
-| XML | Extensible Markup Language |
+| Acronym | Meaning                                           |
+| ------- | ------------------------------------------------- |
+| API     | Application Programming Interface                 |
+| BRD     | Business Requirements Document                    |
+| CRUD    | Create, Read, Update, Delete                      |
+| ERP     | Enterprise Resource Planning                      |
+| FMS     | Factory Management System                         |
+| HTTP    | Hypertext Transfer Protocol                       |
+| IoT     | Internet of Things                                |
+| JSON    | JavaScript Object Notation                        |
+| KPI     | Key Performance Indicator                         |
+| MES     | Manufacturing Execution System                    |
+| MQTT    | Message Queuing Telemetry Transport               |
+| MTBF    | Mean Time Between Failures                        |
+| MTTR    | Mean Time To Repair                               |
+| OPC-UA  | Open Platform Communications Unified Architecture |
+| PDF     | Portable Document Format                          |
+| REST    | Representational State Transfer                   |
+| SLA     | Service Level Agreement                           |
+| SRS     | Software Requirements Specification               |
+| TCP     | Transmission Control Protocol                     |
+| UI      | User Interface                                    |
+| UUID    | Universally Unique Identifier                     |
+| XML     | Extensible Markup Language                        |
 
 ---
 
@@ -251,18 +259,17 @@ Machine telemetry is continuously collected and analyzed to detect abnormal oper
 
 This document references the following materials.
 
-| Reference | Description |
-|------------|-------------|
-| BRD-01 | Project Introduction |
-| BRD-02 | Business Overview |
-| BRD-03 | Business Scope |
-| BRD-04 | Business Process |
-| BRD-05 | Functional Requirements |
-| BRD-06 | Business Rules |
-| IEEE 29148 | Systems and Software Engineering – Requirements Engineering |
-| BABOK v3 | Business Analysis Body of Knowledge |
-| MQTT Specification v5.0 | MQTT Protocol Standard |
-| OPC-UA Specification | Industrial Communication Standard |
+| Reference               | Description                                                 |
+| ----------------------- | ----------------------------------------------------------- |
+| BRD-01                  | Project Introduction                                        |
+| BRD-02                  | Business Overview                                           |
+| BRD-03                  | Business Scope                                              |
+| BRD-04                  | Business Process                                            |
+| BRD-05                  | Functional Requirements                                     |
+| IEEE 29148              | Systems and Software Engineering – Requirements Engineering |
+| BABOK v3                | Business Analysis Body of Knowledge                         |
+| MQTT Specification v5.0 | MQTT Protocol Standard                                      |
+| OPC-UA Specification    | Industrial Communication Standard                           |
 
 ---
 
@@ -270,13 +277,13 @@ This document references the following materials.
 
 The following assumptions apply:
 
-- All factories follow a similar organizational structure.
-- Machines continuously transmit telemetry through supported protocols.
-- Gateways buffer telemetry during temporary network failures.
-- Historical operational data must remain immutable.
-- Local Account authentication is used in the MVP.
-- Authorization is managed at the Factory level.
-- Production Management is outside the MVP scope.
+* All factories follow a similar organizational structure.
+* Machines continuously transmit telemetry through supported protocols.
+* Gateways buffer telemetry during temporary network failures.
+* Historical operational data must remain immutable.
+* Local Account authentication is used in the MVP.
+* Authorization is managed at the Factory level.
+* Production Management is outside the MVP scope.
 
 ---
 
@@ -284,13 +291,13 @@ The following assumptions apply:
 
 The following constraints apply to the MVP:
 
-- Local Account authentication only.
-- One Machine belongs to one Production Line at any point in time.
-- One Sensor belongs to one Machine at any point in time.
-- Historical telemetry cannot be modified.
-- Historical assignment records cannot be deleted.
-- Raw telemetry data is retained for six months before archival.
-- Production execution is not supported.
+* Local Account authentication only.
+* One Machine belongs to one Production Line at any point in time.
+* One Sensor belongs to one Machine at any point in time.
+* Historical telemetry cannot be modified.
+* Historical assignment records cannot be deleted.
+* Raw telemetry data is retained for six months before archival.
+* Production execution is not supported.
 
 ---
 
@@ -298,25 +305,25 @@ The following constraints apply to the MVP:
 
 This Software Requirements Specification (SRS) is organized into the following sections.
 
-| Section | Description |
-|----------|-------------|
-| SRS-01 | Introduction |
-| SRS-02 | Overall Description |
-| SRS-03 | System Architecture Overview |
-| SRS-04 | Functional Requirements |
-| SRS-05 | Use Case Specification |
-| SRS-06 | Data Requirements |
-| SRS-07 | Interface Requirements |
-| SRS-08 | Non-functional Requirements |
-| SRS-09 | Business Rules Reference |
-| SRS-10 | Error Handling |
-| SRS-11 | Acceptance Criteria |
-| SRS-12 | Requirements Traceability Matrix |
+| Section | Description                      |
+| ------- | -------------------------------- |
+| SRS-01  | Introduction                     |
+| SRS-02  | Overall Description              |
+| SRS-03  | System Architecture Overview     |
+| SRS-04  | Functional Requirements          |
+| SRS-05  | Use Case Specification           |
+| SRS-06  | Data Requirements                |
+| SRS-07  | Interface Requirements           |
+| SRS-08  | Non-functional Requirements      |
+| SRS-09  | Business Rules Reference         |
+| SRS-10  | Error Handling                   |
+| SRS-11  | Acceptance Criteria              |
+| SRS-12  | Requirements Traceability Matrix |
 
 ---
 
 # Revision History
 
-| Version | Date | Author | Description |
-|----------|------------|------------------|----------------|
-| 1.0 | 2026-08-04 | Business Analyst | Initial version |
+| Version | Date       | Author           | Description     |
+| ------- | ---------- | ---------------- | --------------- |
+| 1.0     | 2026-08-07 | Business Analyst | Initial version |

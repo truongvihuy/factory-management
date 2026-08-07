@@ -4,7 +4,7 @@
 **Section:** SRS-02 Overall Description  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft
+**Status:** Draft  
 
 ---
 
@@ -12,434 +12,558 @@
 
 ## 2.1 Product Perspective
 
-The Factory Management System (FMS) is an enterprise software platform designed to centralize the monitoring and management of industrial assets across multiple companies and factories.
+The Factory Management System (FMS) is an enterprise-level industrial monitoring and asset management platform designed to support manufacturing organizations in managing multiple companies, factories, workshops, production lines, machines, sensors, and operational activities.
 
-The system collects telemetry from industrial machines through IoT gateways, continuously monitors equipment health, generates alerts for abnormal conditions, manages maintenance and incidents, and provides operational dashboards and analytical reports.
+The system provides a centralized platform for:
 
-The MVP focuses on operational monitoring and maintenance management. Manufacturing execution, production planning, inventory management, and ERP integration are intentionally excluded and may be implemented in future releases.
+- Managing factory organizational structures.
+- Monitoring industrial machines.
+- Collecting IoT telemetry data.
+- Detecting abnormal machine conditions.
+- Managing alerts.
+- Supporting maintenance activities.
+- Managing operational incidents.
+- Providing dashboards and reports.
 
----
+The system acts as a central operational monitoring platform between industrial devices and business users.
 
-## 2.2 Product Goals
-
-The Factory Management System aims to achieve the following business objectives:
-
-- Reduce machine downtime.
-- Detect abnormal machine conditions as early as possible.
-- Improve equipment availability.
-- Improve maintenance efficiency.
-- Reduce maintenance costs.
-- Improve operational visibility.
-- Reduce energy consumption.
-- Provide reliable historical operational data.
-- Support future business expansion.
-
----
-
-## 2.3 Product Functions
-
-The system provides the following high-level functional capabilities.
-
-### Organization Management
-
-- Company Management
-- Factory Management
-- Workshop Management
-- Production Line Management
-
----
-
-### Asset Management
-
-- Machine Registration
-- Machine Assignment
-- Machine Relocation
-- Sensor Registration
-- Sensor Assignment
-- Sensor Relocation
-
----
-
-### Monitoring
-
-- Telemetry Collection
-- Real-time Monitoring
-- Historical Telemetry
-- Machine Status Monitoring
-
----
-
-### Alert Management
-
-- Threshold Configuration
-- Alert Detection
-- Alert Notification
-- Alert Escalation
-- Alert Acknowledgement
-
----
-
-### Maintenance Management
-
-- Maintenance Scheduling
-- Work Orders
-- Maintenance Checklist
-- Spare Part Tracking
-- Maintenance History
-
----
-
-### Incident Management
-
-- Incident Registration
-- Incident Assignment
-- SLA Tracking
-- Major Incident Management
-
----
-
-### User Management
-
-- User Accounts
-- Authentication
-- Authorization
-- Factory-Level Permission
-
----
-
-### Reporting
-
-- Operational Dashboard
-- KPI Dashboard
-- Machine Reports
-- Maintenance Reports
-- Incident Reports
-- Energy Reports
-- PDF Export
-- Excel Export
-
----
-
-## 2.4 User Classes
-
-The following user roles interact with the system.
-
-| User Role | Responsibilities |
-|------------|------------------|
-| Factory Manager | Monitor overall factory operations |
-| Production Supervisor | Monitor workshops and production lines |
-| Maintenance Planner | Create maintenance schedules |
-| Maintenance Engineer | Execute maintenance work orders |
-| Operator | Monitor assigned machines and acknowledge alerts |
-| Director | Review KPIs and management reports |
-| System Administrator | Manage users, permissions, and system configuration |
-
----
-
-## 2.5 Operating Environment
-
-The system is expected to operate in the following environment.
-
-### Client
-
-- Modern Web Browser
-- Desktop Computer
-- Tablet
-- Mobile Browser (Responsive)
-
-### Server
-
-- Linux Operating System
-- Containerized Deployment
-- Docker
-- Kubernetes (Future)
-
-### Database
-
-- PostgreSQL
-- MongoDB (Telemetry Storage)
-
-### Communication
-
-- REST API
-- WebSocket
-- MQTT
-- OPC-UA
-- Modbus TCP
-
----
-
-## 2.6 System Context
-
-The Factory Management System communicates with several external systems.
+High-level system context:
 
 ```text
-+----------------------+
-|     Users            |
-+----------+-----------+
-           |
-           |
-      Web Browser
-           |
-           |
-+----------v-----------+
-| Factory Management   |
-|      System          |
-+----------+-----------+
-           |
-    +------+------+--------------------+
-    |             |                    |
-    |             |                    |
- REST API     WebSocket             MQTT
-    |             |                    |
-    |             |                    |
- PostgreSQL   Dashboard         IoT Gateway
-                                     |
-                          +----------+----------+
-                          |                     |
-                      OPC-UA              Modbus TCP
-                          |                     |
-                      Industrial Machines & Sensors
++----------------+
+| Industrial     |
+| Machines       |
++-------+--------+
+        |
+        |
++-------v--------+
+| Sensors        |
+| IoT Devices    |
++-------+--------+
+        |
+        |
++-------v--------+
+| IoT Gateway    |
++-------+--------+
+        |
+        |
++-------v--------+
+| Factory        |
+| Management     |
+| System (FMS)   |
++-------+--------+
+        |
+        |
++-------v--------+
+| Business Users |
++----------------+
+````
+
+---
+
+# 2.2 Product Functions
+
+The Factory Management System provides the following major functions.
+
+---
+
+# 2.2.1 Organization Management
+
+The system shall provide capabilities to manage factory organizational structures.
+
+Functions include:
+
+* Company management.
+* Factory management.
+* Workshop management.
+* Production Line management.
+
+Business hierarchy:
+
+```text
+Company
+    |
+    +-- Factory
+            |
+            +-- Workshop
+                    |
+                    +-- Production Line
+                            |
+                            +-- Machine
+                                    |
+                                    +-- Sensor
 ```
 
 ---
 
-## 2.7 User Characteristics
+# 2.2.2 Machine Management
 
-### Factory Manager
+The system shall provide machine lifecycle management.
 
-- Operational management experience.
-- Requires dashboards and KPIs.
-- Limited technical knowledge.
+Functions include:
 
----
+* Register machines.
+* Update machine information.
+* Assign machines to production lines.
+* Move machines between production lines.
+* Track machine assignment history.
+* View machine status.
+* View machine history.
 
-### Production Supervisor
+Machine information includes:
 
-- Monitors machine operations.
-- Reviews alerts.
-- Coordinates maintenance activities.
-
----
-
-### Maintenance Planner
-
-- Creates maintenance schedules.
-- Plans preventive maintenance.
-- Reviews maintenance history.
-
----
-
-### Maintenance Engineer
-
-- Performs maintenance activities.
-- Completes work orders.
-- Updates maintenance checklists.
+* Machine code.
+* Machine name.
+* Machine type.
+* Model.
+* Serial number.
+* Manufacturer.
+* Installation date.
+* Warranty information.
+* Operational status.
 
 ---
 
-### Operator
+# 2.2.3 Sensor Management
 
-- Monitors assigned machines.
-- Acknowledges alerts.
-- Reports machine abnormalities.
+The system shall provide IoT sensor management.
 
----
+Functions include:
 
-### Director
+* Register sensors.
+* Assign sensors to machines.
+* Replace sensors.
+* Move sensors.
+* Maintain sensor assignment history.
 
-- Reviews business KPIs.
-- Makes strategic decisions.
-- Requires summarized reports.
+Sensor information includes:
 
----
-
-### System Administrator
-
-- Configures users.
-- Manages permissions.
-- Maintains system configuration.
+* Sensor code.
+* Sensor type.
+* Communication protocol.
+* Connection status.
+* Assigned machine.
 
 ---
 
-## 2.8 Assumptions
+# 2.2.4 Telemetry Management
 
-The following assumptions apply.
+The system shall collect and manage machine telemetry data.
 
-- All factories use a similar organizational structure.
-- Each Company owns one or more Factories.
-- Each Factory contains one or more Workshops.
-- Each Workshop contains one or more Production Lines.
-- Each Machine belongs to one Production Line at a time.
-- Each Sensor belongs to one Machine at a time.
-- IoT Gateways buffer telemetry during temporary network failures.
-- Historical operational data is immutable.
-- Local Account authentication is used for the MVP.
+Supported protocols:
+
+* MQTT.
+* OPC-UA.
+* Modbus TCP.
+
+Telemetry data includes:
+
+* Temperature.
+* Vibration.
+* Pressure.
+* Speed.
+* Current.
+* Voltage.
+* Power.
+* Energy consumption.
+* Machine status.
+
+Functions include:
+
+* Receive telemetry.
+* Validate telemetry.
+* Store telemetry.
+* Display real-time telemetry.
+* Query telemetry history.
+* Archive historical telemetry.
 
 ---
 
-## 2.9 Constraints
+# 2.2.5 Alert Management
+
+The system shall detect abnormal machine conditions.
+
+Functions include:
+
+* Configure alert rules.
+* Evaluate telemetry values.
+* Generate alerts.
+* Assign severity levels.
+* Notify responsible users.
+* Acknowledge alerts.
+* Resolve alerts.
+* Maintain alert history.
+
+Alert levels:
+
+* Info.
+* Warning.
+* Critical.
+
+---
+
+# 2.2.6 Maintenance Management
+
+The system shall support maintenance activities.
+
+Functions include:
+
+* Create maintenance schedules.
+* Manage maintenance work orders.
+* Assign maintenance engineers.
+* Execute maintenance activities.
+* Complete maintenance checklists.
+* Record maintenance history.
+
+Maintenance types:
+
+* Preventive Maintenance.
+* Corrective Maintenance.
+* Predictive Maintenance.
+
+---
+
+# 2.2.7 Incident Management
+
+The system shall support operational incident management.
+
+Functions include:
+
+* Create incidents.
+* Assign incidents.
+* Track incident status.
+* Monitor SLA.
+* Verify resolution.
+* Close incidents.
+* Maintain incident history.
+
+Incident lifecycle:
+
+```text
+Open
+ |
+Assigned
+ |
+In Progress
+ |
+Resolved
+ |
+Verified
+ |
+Closed
+```
+
+---
+
+# 2.2.8 User Management
+
+The system shall support user account management.
+
+Functions include:
+
+* Create users.
+* Update users.
+* Disable users.
+* Reset passwords.
+* Change passwords.
+* Lock and unlock accounts.
+
+---
+
+# 2.2.9 Authorization Management
+
+The system shall provide role-based access control.
+
+Functions include:
+
+* Assign roles.
+* Assign factory access.
+* Grant permissions.
+* Revoke permissions.
+
+Authorization scope:
+
+```text
+User
+ |
+Role
+ |
+Factory Access
+ |
+Permission
+```
+
+---
+
+# 2.2.10 Dashboard Monitoring
+
+The system shall provide operational dashboards.
+
+Dashboard information includes:
+
+* Machine status.
+* Active alerts.
+* Maintenance summary.
+* Incident summary.
+* Operational KPIs.
+* Energy consumption.
+
+---
+
+# 2.2.11 Reporting
+
+The system shall provide operational reporting capabilities.
+
+Reports include:
+
+* Machine status reports.
+* Maintenance reports.
+* Incident reports.
+* Energy reports.
+* KPI reports.
+
+Export formats:
+
+* PDF.
+* Excel.
+
+---
+
+# 2.2.12 Audit Management
+
+The system shall record important system activities.
+
+Audit events include:
+
+* User login.
+* User logout.
+* Entity creation.
+* Entity update.
+* Entity deletion.
+* Permission changes.
+* Configuration changes.
+
+---
+
+# 2.3 User Classes and Characteristics
+
+The system supports different user groups.
+
+| User Role             | Description                                         |
+| --------------------- | --------------------------------------------------- |
+| System Administrator  | Manage system configuration, users, and permissions |
+| Factory Manager       | Monitor factory operations and review reports       |
+| Production Supervisor | Monitor workshops and production lines              |
+| Maintenance Planner   | Create and manage maintenance schedules             |
+| Maintenance Engineer  | Execute maintenance activities                      |
+| Operator              | Monitor machines and acknowledge alerts             |
+| Director              | Review operational performance and reports          |
+
+---
+
+# 2.4 Operating Environment
+
+The system operates in an industrial manufacturing environment.
+
+## User Environment
+
+Users access the system through:
+
+* Web browsers.
+* Desktop computers.
+* Mobile devices (future compatibility).
+
+---
+
+## Industrial Environment
+
+The system integrates with:
+
+* Industrial machines.
+* IoT sensors.
+* IoT gateways.
+* Industrial communication protocols.
+
+Supported communication protocols:
+
+* MQTT.
+* OPC-UA.
+* Modbus TCP.
+
+---
+
+# 2.5 Design and Implementation Constraints
 
 The following constraints apply.
 
-### Business Constraints
+## Business Constraints
 
-- Production Management is outside the MVP scope.
-- Manufacturing Execution (MES) is excluded.
-- Inventory Management is excluded.
-- ERP integration is excluded.
-
-### Technical Constraints
-
-- Local Account authentication only.
-- Authorization is enforced at the Factory level.
-- Historical telemetry cannot be modified.
-- Historical assignment records cannot be deleted.
+* Production Management is outside MVP scope.
+* ERP integration is outside MVP scope.
+* Historical operational data must remain traceable.
 
 ---
 
-## 2.10 Dependencies
+## Functional Constraints
 
-The system depends on the following external components.
-
-### IoT Infrastructure
-
-- MQTT Broker
-- OPC-UA Server
-- Modbus TCP Devices
-- IoT Gateway
+* One Machine belongs to one Production Line at a time.
+* One Sensor belongs to one Machine at a time.
+* Historical assignment records cannot be deleted.
+* Telemetry data is immutable.
 
 ---
 
-### Communication Services
+## Authentication Constraints
 
-- SMTP Email Server
-- Push Notification Service
-- SMS Provider (Critical Alerts)
-
----
-
-### Database Services
-
-- PostgreSQL
-- MongoDB
+* MVP uses Local Account authentication.
+* External identity providers are not included.
 
 ---
 
-## 2.11 Data Characteristics
+# 2.6 Assumptions and Dependencies
 
-The system manages two major categories of data.
+## Assumptions
 
-### Master Data
+The following assumptions apply:
 
-- Company
-- Factory
-- Workshop
-- Production Line
-- Machine
-- Sensor
-- User
-- Role
+* Machines continuously generate telemetry data.
+* Sensors are correctly installed.
+* IoT gateways provide connectivity between devices and the system.
+* Users receive appropriate permissions before accessing data.
+* Factory structures are maintained accurately.
 
 ---
 
-### Transactional Data
+## Dependencies
 
-- Telemetry
-- Alerts
-- Maintenance Records
-- Incident Records
-- Audit Logs
+The system depends on:
 
----
-
-### Historical Data
-
-Historical records include:
-
-- Telemetry History
-- Machine Assignment History
-- Sensor Assignment History
-- Maintenance History
-- Incident History
-- Alert History
-
-Historical records shall be immutable.
+| Dependency                | Purpose                         |
+| ------------------------- | ------------------------------- |
+| IoT Gateway               | Collect telemetry from machines |
+| MQTT Broker               | Message communication           |
+| OPC-UA Server             | Industrial data communication   |
+| Modbus TCP Device         | Machine communication           |
+| Email Service             | Alert notification              |
+| Push Notification Service | User notification               |
+| SMS Provider              | Critical alert notification     |
 
 ---
 
-## 2.12 Data Retention
+# 2.7 General System Characteristics
 
-| Data Type | Retention |
-|------------|-----------|
-| Raw Telemetry | 6 Months |
-| Summary Data | 5 Years |
-| Audit Logs | Configurable |
-| Maintenance History | Permanent |
-| Incident History | Permanent |
+The system shall provide:
 
-Archived telemetry data shall remain searchable.
+## Reliability
+
+* Maintain historical operational data.
+* Prevent unauthorized data modification.
+* Ensure consistent asset relationships.
 
 ---
 
-## 2.13 Scalability Expectations
+## Scalability
 
-The system should support future business growth.
+The system shall support:
 
-### Initial Deployment
-
-- 3 Companies
-- 10 Factories
-- Approximately 500 Machines
-- 30–50 Million Telemetry Records per Day
-
-### Future Growth
-
-- Multiple Companies
-- Additional Factories
-- Approximately 5,000 Machines
-- Up to 500 Million Telemetry Records per Day
-
-The software architecture should support horizontal scaling with minimal impact on existing functionality.
+* Multiple companies.
+* Multiple factories.
+* Multiple workshops.
+* Multiple production lines.
+* Multiple machines.
+* Multiple sensors.
 
 ---
 
-## 2.14 Future Expansion
+## Availability
 
-Future versions of the system may include:
-
-- Manufacturing Execution System (MES)
-- Production Order Management
-- Product Management
-- Warehouse Management
-- Inventory Management
-- ERP Integration
-- AI-Based Predictive Analytics
-- Digital Twin
-- Mobile Maintenance Application
-- Multi-site Analytics
+The system shall support continuous monitoring operations.
 
 ---
 
-## 2.15 General System Characteristics
+## Security
 
-The Factory Management System is expected to be:
+The system shall provide:
 
-- Modular
-- Scalable
-- Highly Available
-- Secure
-- Maintainable
-- Extensible
-- Fault Tolerant
-- Event-Driven
-- Cloud Ready
-- Suitable for Enterprise Deployment
+* Authentication.
+* Authorization.
+* Access control.
+* Audit tracking.
+
+---
+
+## Maintainability
+
+The system shall support:
+
+* Clear module separation.
+* Requirement traceability.
+* Operational monitoring.
+* System maintenance.
+
+---
+
+# 2.8 System Boundaries
+
+The Factory Management System is responsible for:
+
+```text
++--------------------------------+
+| Factory Management System      |
+|                                |
+| - Organization Management      |
+| - Machine Management           |
+| - Sensor Management            |
+| - Telemetry Management         |
+| - Alert Management             |
+| - Maintenance Management       |
+| - Incident Management          |
+| - User Management              |
+| - Authorization                |
+| - Dashboard                    |
+| - Reporting                    |
+| - Audit Log                    |
++--------------------------------+
+```
+
+External systems are responsible for:
+
+```text
++----------------+
+| IoT Devices    |
++----------------+
+
++----------------+
+| IoT Gateway    |
++----------------+
+
++----------------+
+| Notification   |
+| Services       |
++----------------+
+```
+
+---
+
+# 2.9 Summary
+
+The Factory Management System provides a centralized platform for industrial asset monitoring and operational management.
+
+The system enables organizations to:
+
+* Improve machine visibility.
+* Detect abnormal conditions.
+* Reduce downtime.
+* Standardize maintenance activities.
+* Improve incident response.
+* Analyze operational performance.
+
+This SRS section establishes the overall product understanding before defining detailed architecture, functional requirements, interfaces, and technical specifications in subsequent sections.
 
 ---
 
 # Revision History
 
-| Version | Date | Author | Description |
-|----------|------------|------------------|----------------|
-| 1.0 | 2026-08-04 | Business Analyst | Initial version |
+| Version | Date       | Author           | Description     |
+| ------- | ---------- | ---------------- | --------------- |
+| 1.0     | 2026-08-07 | Business Analyst | Initial version |
