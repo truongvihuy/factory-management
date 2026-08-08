@@ -1,5 +1,6 @@
 {
-  "name": "factory-management",
+  "name": "fms",
+  "private": true,
   "version": "1.0.0",
   "description": "",
   "author": {
@@ -7,122 +8,18 @@
     "email": "truongvihuy@gmail.com"
   },
   "license": "MIT",
+  "packageManager": "yarn@4.18.0",
   "scripts": {
-    "dev:gateway": "nest start api-gateway --watch",
-    "dev:auth": "nest start auth-service --watch",
-    "dev:factory": "nest start factory-service --watch",
-    "dev:telemetry": "nest start telemetry-service --watch",
-    "start:gateway": "nest start api-gateway",
-    "start:auth": "nest start auth-service",
-    "start:factory": "nest start factory-service",
-    "start:telemetry": "nest start telemetry-service",
-    "build": "concurrently \"yarn build:gateway\" \"yarn build:auth\" \"yarn build:factory\" \"yarn build:telemetry\"",
-    "build:gateway": "nest build api-gateway",
-    "build:auth": "nest build auth-service",
-    "build:factory": "nest build factory-service",
-    "build:telemetry": "nest build telemetry-service",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./apps/test/test/jest-e2e.json",
-    "test:mqtt": "ts-node scripts/mqtt-load-test.ts",
-    "test:socket": "ts-node scripts/socket.client.ts",
-    "prisma:gen": "prisma generate",
-    "prisma:mig": "prisma migrate dev",
-    "prisma:deploy": "prisma migrate deploy",
-    "prisma:studio": "prisma studio",
-    "prisma:reset": "prisma migrate reset",
-    "prisma:seed": "prisma db seed",
-    "infra:up": "docker compose --env-file .env -f infrastructure/docker/docker-compose.yml up -d",
-    "infra:down": "docker compose --env-file .env -f infrastructure/docker/docker-compose.yml down",
-    "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
-    "lint": "eslint \"{apps,libs}/**/*.ts\" --fix"
+    "build": "yarn workspaces foreach -A run build",
+    "test": "yarn workspaces foreach -A run test",
+    "lint": "yarn workspaces foreach -A run lint",
+    "typecheck": "yarn workspaces foreach -A run typecheck"
   },
-  "dependencies": {
-    "@nestjs/common": "^11.1.26",
-    "@nestjs/config": "^4.0.4",
-    "@nestjs/core": "^11.1.26",
-    "@nestjs/jwt": "^11.0.2",
-    "@nestjs/platform-express": "^11.1.26",
-    "@nestjs/platform-socket.io": "^11.1.27",
-    "@nestjs/swagger": "^11.4.4",
-    "@nestjs/websockets": "^11.1.27",
-    "@prisma/adapter-pg": "^7.8.0",
-    "@prisma/client": "^7.8.0",
-    "axios": "^1.17.0",
-    "bcrypt": "^6.0.0",
-    "class-transformer": "^0.5.1",
-    "class-validator": "^0.15.1",
-    "date-fns": "^4.4.0",
-    "ioredis": "^5.11.1",
-    "mqtt": "^5.15.1",
-    "ms": "^2.1.3",
-    "pg": "^8.21.0",
-    "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.2",
-    "socket.io": "^4.8.3",
-    "socket.io-client": "^4.8.3",
-    "swagger-ui-express": "^5.0.1"
-  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.5",
-    "@eslint/js": "^10.0.1",
-    "@nestjs/cli": "^11.0.23",
-    "@nestjs/schematics": "^11.1.0",
-    "@nestjs/testing": "^11.1.26",
-    "@types/bcrypt": "^6.0.0",
-    "@types/express": "^5.0.6",
-    "@types/jest": "^30.0.0",
-    "@types/node": "^25.9.3",
-    "@types/supertest": "^7.2.0",
-    "concurrently": "^10.0.3",
-    "dotenv": "^17.4.2",
-    "eslint": "^10.4.1",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.6",
-    "globals": "^17.6.0",
-    "jest": "^30.4.2",
-    "prettier": "^3.8.4",
-    "prisma": "^7.8.0",
-    "source-map-support": "^0.5.21",
-    "supertest": "^7.2.2",
-    "ts-jest": "^29.4.11",
-    "ts-loader": "^9.6.0",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
-    "tsx": "^4.22.4",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.61.0"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "apps",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node",
-    "roots": [
-      "<rootDir>/apps/",
-      "<rootDir>/libs/"
-    ],
-    "moduleNameMapper": {
-      "^@libs/auth(|/.*)$": "<rootDir>/libs/auth/$1",
-      "^@libs/common(|/.*)$": "<rootDir>/libs/common/$1",
-      "^@libs/database(|/.*)$": "<rootDir>/libs/database/$1",
-      "^@libs/events(|/.*)$": "<rootDir>/libs/events/$1",
-      "^@libs/http-client(|/.*)$": "<rootDir>/libs/http-client/$1",
-      "^@libs/mqtt(|/.*)$": "<rootDir>/libs/mqtt/$1",
-      "^@libs/redis(|/.*)$": "<rootDir>/libs/redis/$1"
-    }
+    "typescript": "^7.0.2"
   }
 }
