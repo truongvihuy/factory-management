@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+  }
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AlertSeverity {
+  INFO
+  WARNING
+  CRITICAL
+}
+
+enum AlertStatus {
+  OPEN
+  ACKNOWLEDGED
+  RESOLVED
+  CLOSED
+}
+
+model AlertRule {
+  id          String   @id @default(uuid()) @db.Uuid
+  factoryId   String   @db.Uuid
+  machineId   String?  @db.Uuid
+  sensorId    String?  @db.Uuid
+  name        String   @db.VarChar(255)
+  metric      String   @db.VarChar(100)
+  operator    String   @db.VarChar(20)
+  threshold   Decimal  @db.Decimal(18, 6)
+  severity    AlertSeverity
+  enabled     Boolean  @default(true)
+  escalationMinutes Int?
+  createdBy   String   @db.Uuid
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  alerts Alert[]
+
+  @@index([factoryId, enabled])
+  @@index([machineId, enabled])
+  @@index([sensorId, enabled])
+}
+
+model Alert {
+  id          String       @id @default(uuid()) @db.Uuid
+  ruleId      String?      @db.Uuid
+  factoryId   String       @db.Uuid
+  machineId   String       @db.Uuid
+  sensorId    String?      @db.Uuid
+  severity    AlertSeverity
+  status      AlertStatus  @default(OPEN)
+  title       String       @db.VarChar(255)
+  message     String       @db.Text
+  triggeredAt DateTime     @default(now())
+  acknowledgedAt DateTime?
+  acknowledgedBy String?   @db.Uuid
+  resolvedAt  DateTime?
+  resolvedBy  String?      @db.Uuid
+  closedAt    DateTime?
+  closedBy    String?      @db.Uuid
+
+  rule AlertRule? @relation(fields: [ruleId], references: [id])
+
+  notifications AlertNotification[]
+  escalations   AlertEscalation[]
+
+  @@index([factoryId, status])
+  @@index([machineId, triggeredAt])
+  @@index([status, triggeredAt])
+}
+
+enum NotificationChannel {
+  DASHBOARD
+  EMAIL
+  PUSH
+  SMS
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+model AlertNotification {
+  id        String @id @default(uuid()) @db.Uuid
+  alertId   String @db.Uuid
+  userId    String @db.Uuid
+  channel   NotificationChannel
+  status    NotificationStatus @default(PENDING)
+  sentAt    DateTime?
+  failureReason String? @db.Text
+  createdAt DateTime @default(now())
+
+  alert Alert @relation(fields: [alertId], references: [id], onDelete: Cascade)
+
+  @@index([alertId])
+  @@index([userId, status])
+}
+
+model AlertEscalation {
+  id          String   @id @default(uuid()) @db.Uuid
+  alertId     String   @db.Uuid
+  fromUserId  String?  @db.Uuid
+  toUserId    String   @db.Uuid
+  escalatedAt DateTime @default(now())
+  reason      String?  @db.Text
+
+  alert Alert @relation(fields: [alertId], references: [id], onDelete: Cascade)
+
+  @@index([alertId, escalatedAt])
+}

@@ -1,0 +1,127 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum MaintenanceType {
+  PREVENTIVE
+  CORRECTIVE
+  PREDICTIVE
+}
+
+enum ScheduleStatus {
+  DRAFT
+  PENDING_APPROVAL
+  APPROVED
+  CANCELLED
+}
+
+enum WorkOrderStatus {
+  OPEN
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+  VERIFIED
+  CLOSED
+  CANCELLED
+}
+
+model MaintenanceSchedule {
+  id            String @id @default(uuid()) @db.Uuid
+  factoryId     String @db.Uuid
+  machineId     String @db.Uuid
+  type          MaintenanceType
+  title         String @db.VarChar(255)
+  description   String? @db.Text
+  plannedDate   DateTime
+  status        ScheduleStatus @default(DRAFT)
+  createdBy     String @db.Uuid
+  approvedBy    String? @db.Uuid
+  approvedAt    DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  workOrders WorkOrder[]
+
+  @@index([factoryId, plannedDate])
+  @@index([machineId, plannedDate])
+}
+
+model WorkOrder {
+  id           String @id @default(uuid()) @db.Uuid
+  scheduleId   String? @db.Uuid
+  factoryId    String @db.Uuid
+  machineId    String @db.Uuid
+  type         MaintenanceType
+  title        String @db.VarChar(255)
+  description  String? @db.Text
+  priority     Int @default(3)
+  plannedDate  DateTime?
+  startedAt    DateTime?
+  completedAt  DateTime?
+  status       WorkOrderStatus @default(OPEN)
+  assignedTo   String? @db.Uuid
+  createdBy    String @db.Uuid
+  verifiedBy   String? @db.Uuid
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  schedule MaintenanceSchedule? @relation(fields: [scheduleId], references: [id])
+  checklist WorkOrderChecklistItem[]
+  parts     WorkOrderPart[]
+  history   MaintenanceHistory[]
+
+  @@index([factoryId, status])
+  @@index([machineId, createdAt])
+  @@index([assignedTo, status])
+}
+
+model WorkOrderChecklistItem {
+  id          String @id @default(uuid()) @db.Uuid
+  workOrderId String @db.Uuid
+  item        String @db.VarChar(500)
+  result      String? @db.VarChar(100)
+  notes       String? @db.Text
+  completedAt DateTime?
+  createdAt   DateTime @default(now())
+
+  workOrder WorkOrder @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+
+  @@index([workOrderId])
+}
+
+model WorkOrderPart {
+  id          String @id @default(uuid()) @db.Uuid
+  workOrderId String @db.Uuid
+  partCode    String @db.VarChar(100)
+  partName    String @db.VarChar(255)
+  quantity    Decimal @db.Decimal(12, 3)
+  unitCost    Decimal? @db.Decimal(18, 2)
+  createdAt   DateTime @default(now())
+
+  workOrder WorkOrder @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+
+  @@index([workOrderId])
+}
+
+model MaintenanceHistory {
+  id          String @id @default(uuid()) @db.Uuid
+  workOrderId String @db.Uuid
+  factoryId   String @db.Uuid
+  machineId   String @db.Uuid
+  type        MaintenanceType
+  performedBy String? @db.Uuid
+  result      String? @db.Text
+  cost        Decimal? @db.Decimal(18, 2)
+  completedAt DateTime
+  createdAt   DateTime @default(now())
+
+  workOrder WorkOrder @relation(fields: [workOrderId], references: [id])
+
+  @@index([machineId, completedAt])
+  @@index([factoryId, completedAt])
+}

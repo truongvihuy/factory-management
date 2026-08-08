@@ -1,0 +1,138 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma/fsm-auth"
+}
+
+datasource db {
+  provider = "postgresql"
+  // url      = env("DATABASE_URL")
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  LOCKED
+}
+
+enum RoleStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum PermissionStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model User {
+  id                  String     @id @default(uuid()) @db.Uuid
+  username            String     @unique @db.VarChar(100)
+  email               String     @unique @db.VarChar(255)
+  passwordHash        String     @db.VarChar(255)
+  firstName           String     @db.VarChar(100)
+  lastName            String     @db.VarChar(100)
+  status              UserStatus @default(ACTIVE)
+  failedLoginAttempts Int        @default(0)
+  lockedUntil         DateTime?
+  lastLoginAt         DateTime?
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+  deletedAt           DateTime?
+
+  userRoles          UserRole[]
+  factoryAccesses    UserFactoryAccess[]
+  createdRoles       Role[]              @relation("RoleCreatedBy")
+  updatedRoles       Role[]              @relation("RoleUpdatedBy")
+  createdPermissions Permission[]        @relation("PermissionCreatedBy")
+  updatedPermissions Permission[]        @relation("PermissionUpdatedBy")
+
+  @@index([status])
+  @@index([deletedAt])
+  @@map("users")
+}
+
+model Role {
+  id          String     @id @default(uuid()) @db.Uuid
+  code        String     @unique @db.VarChar(100)
+  name        String     @db.VarChar(150)
+  description String?    @db.VarChar(500)
+  status      RoleStatus @default(ACTIVE)
+  createdById String?    @db.Uuid
+  updatedById String?    @db.Uuid
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?
+
+  userRoles       UserRole[]
+  rolePermissions RolePermission[]
+  createdBy       User?            @relation("RoleCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedBy       User?            @relation("RoleUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([deletedAt])
+  @@map("roles")
+}
+
+model Permission {
+  id          String           @id @default(uuid()) @db.Uuid
+  code        String           @unique @db.VarChar(150)
+  name        String           @db.VarChar(150)
+  description String?          @db.VarChar(500)
+  status      PermissionStatus @default(ACTIVE)
+  createdById String?          @db.Uuid
+  updatedById String?          @db.Uuid
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  deletedAt   DateTime?
+
+  rolePermissions RolePermission[]
+  createdBy       User?            @relation("PermissionCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedBy       User?            @relation("PermissionUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([deletedAt])
+  @@map("permissions")
+}
+
+model UserRole {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  roleId    String   @db.Uuid
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roleId])
+  @@index([roleId])
+  @@map("user_roles")
+}
+
+model RolePermission {
+  id           String   @id @default(uuid()) @db.Uuid
+  roleId       String   @db.Uuid
+  permissionId String   @db.Uuid
+  createdAt    DateTime @default(now())
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, permissionId])
+  @@index([permissionId])
+  @@map("role_permissions")
+}
+
+model UserFactoryAccess {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @db.Uuid
+  factoryId String    @db.Uuid
+  createdAt DateTime  @default(now())
+  revokedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, factoryId])
+  @@index([factoryId])
+  @@index([revokedAt])
+  @@map("user_factory_access")
+}

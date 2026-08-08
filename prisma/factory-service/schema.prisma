@@ -1,0 +1,161 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum EntityStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum MachineStatus {
+  DRAFT
+  INSTALLED
+  RUNNING
+  IDLE
+  MAINTENANCE
+  OFFLINE
+  ERROR
+  RETIRED
+}
+
+model Company {
+  id        String   @id @default(uuid()) @db.Uuid
+  code      String   @unique @db.VarChar(50)
+  name      String   @db.VarChar(255)
+  status    EntityStatus @default(ACTIVE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  factories Factory[]
+
+  @@index([status])
+}
+
+model Factory {
+  id        String   @id @default(uuid()) @db.Uuid
+  companyId String   @db.Uuid
+  code      String   @db.VarChar(50)
+  name      String   @db.VarChar(255)
+  location  String?  @db.VarChar(500)
+  status    EntityStatus @default(ACTIVE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company   Company   @relation(fields: [companyId], references: [id])
+  workshops Workshop[]
+
+  @@unique([companyId, code])
+  @@index([companyId])
+  @@index([status])
+}
+
+model Workshop {
+  id        String   @id @default(uuid()) @db.Uuid
+  factoryId String   @db.Uuid
+  code      String   @db.VarChar(50)
+  name      String   @db.VarChar(255)
+  status    EntityStatus @default(ACTIVE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  factory Factory @relation(fields: [factoryId], references: [id])
+  productionLines ProductionLine[]
+
+  @@unique([factoryId, code])
+  @@index([factoryId])
+}
+
+model ProductionLine {
+  id         String   @id @default(uuid()) @db.Uuid
+  workshopId String   @db.Uuid
+  code       String   @db.VarChar(50)
+  name       String   @db.VarChar(255)
+  status     EntityStatus @default(ACTIVE)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  workshop Workshop @relation(fields: [workshopId], references: [id])
+  machines Machine[]
+
+  @@unique([workshopId, code])
+  @@index([workshopId])
+}
+
+model Machine {
+  id              String        @id @default(uuid()) @db.Uuid
+  productionLineId String       @db.Uuid
+  code            String        @db.VarChar(50)
+  name            String        @db.VarChar(255)
+  type            String?       @db.VarChar(100)
+  model           String?       @db.VarChar(100)
+  serialNumber    String?       @unique @db.VarChar(150)
+  manufacturer    String?       @db.VarChar(255)
+  installationDate DateTime?
+  warrantyExpiry  DateTime?
+  runningHours    Decimal?      @db.Decimal(14, 2)
+  status          MachineStatus @default(DRAFT)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  productionLine ProductionLine @relation(fields: [productionLineId], references: [id])
+  assignments    MachineAssignment[]
+  sensors        Sensor[]
+
+  @@unique([productionLineId, code])
+  @@index([productionLineId])
+  @@index([status])
+}
+
+model MachineAssignment {
+  id               String   @id @default(uuid()) @db.Uuid
+  machineId        String   @db.Uuid
+  productionLineId String   @db.Uuid
+  assignedAt       DateTime @default(now())
+  unassignedAt     DateTime?
+  assignedBy       String?  @db.Uuid
+  reason           String?  @db.VarChar(500)
+
+  machine Machine @relation(fields: [machineId], references: [id], onDelete: Cascade)
+
+  @@index([machineId, assignedAt])
+  @@index([productionLineId, assignedAt])
+}
+
+model Sensor {
+  id          String   @id @default(uuid()) @db.Uuid
+  machineId   String?  @db.Uuid
+  code        String   @unique @db.VarChar(100)
+  name        String   @db.VarChar(255)
+  type        String?  @db.VarChar(100)
+  protocol    String?  @db.VarChar(50)
+  unit        String?  @db.VarChar(50)
+  status      EntityStatus @default(ACTIVE)
+  installedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  machine     Machine? @relation(fields: [machineId], references: [id])
+  assignments SensorAssignment[]
+
+  @@index([machineId])
+}
+
+model SensorAssignment {
+  id         String   @id @default(uuid()) @db.Uuid
+  sensorId   String   @db.Uuid
+  machineId  String   @db.Uuid
+  assignedAt DateTime @default(now())
+  unassignedAt DateTime?
+  assignedBy String?  @db.Uuid
+  reason     String?  @db.VarChar(500)
+
+  sensor Sensor @relation(fields: [sensorId], references: [id], onDelete: Cascade)
+
+  @@index([sensorId, assignedAt])
+  @@index([machineId, assignedAt])
+}
