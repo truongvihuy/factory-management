@@ -1,5 +1,6 @@
 import { Injectable, LoggerService } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { CorrelationContextService } from '../tracing/correlation-context.service';
 
 interface LogContext {
   service: string;
@@ -12,7 +13,10 @@ interface LogContext {
 
 @Injectable()
 export class AppLoggerService implements LoggerService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly correlationContextService: CorrelationContextService,
+  ) {}
 
   private get service(): string {
     return this.configService.getOrThrow<string>('app.name');
@@ -69,12 +73,6 @@ export class AppLoggerService implements LoggerService {
     this.write('verbose', message, this.buildContext(context));
   }
 
-  setRequestContext(requestId?: string, traceId?: string): void {
-    // Reserved for P0.5.17 correlation foundation.
-    void requestId;
-    void traceId;
-  }
-
   private buildContext(context?: string): Partial<LogContext> | undefined {
     if (context === undefined) {
       return undefined;
@@ -90,12 +88,15 @@ export class AppLoggerService implements LoggerService {
     message: unknown,
     context?: Partial<LogContext>,
   ): void {
+    const correlationContext = this.correlationContextService.get();
     const entry = {
       timestamp: new Date().toISOString(),
       level,
       service: this.service,
       environment: this.environment,
       message: this.serializeMessage(message),
+      ...(correlationContext?.requestId !== undefined && { requestId: correlationContext.requestId }),
+      ...(correlationContext?.traceId !== undefined && { traceId: correlationContext.traceId }),
       ...context,
     };
 
