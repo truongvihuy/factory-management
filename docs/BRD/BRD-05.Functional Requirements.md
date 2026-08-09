@@ -18,20 +18,20 @@ Each functional requirement describes **what the system shall do** from a busine
 
 # 5.2 Functional Modules
 
-| Module ID | Module |
-|------------|----------------------------|
-| FR-01 | Organization Management |
-| FR-02 | Machine Management |
-| FR-03 | Sensor Management |
-| FR-04 | Telemetry Management |
-| FR-05 | Alert Management |
-| FR-06 | Maintenance Management |
-| FR-07 | Incident Management |
-| FR-08 | User Management |
-| FR-09 | Authorization |
-| FR-10 | Dashboard |
-| FR-11 | Reporting |
-| FR-12 | Audit Log |
+| Module ID | Module                  |
+| --------- | ----------------------- |
+| FR-01     | Organization Management |
+| FR-02     | Machine Management      |
+| FR-03     | Sensor Management       |
+| FR-04     | Telemetry Management    |
+| FR-05     | Alert Management        |
+| FR-06     | Maintenance Management  |
+| FR-07     | Incident Management     |
+| FR-08     | User Management         |
+| FR-09     | Authorization           |
+| FR-10     | Dashboard               |
+| FR-11     | Reporting               |
+| FR-12     | Audit Log               |
 
 ---
 
@@ -517,14 +517,14 @@ Record configuration changes.
 
 # 5.3 Functional Requirement Traceability
 
-| Business Goal | Functional Modules |
-|---------------|--------------------|
-| Reduce Downtime | FR-04, FR-05, FR-06, FR-07 |
-| Improve Monitoring | FR-02, FR-03, FR-04, FR-10 |
-| Improve Maintenance | FR-06 |
-| Improve Incident Response | FR-05, FR-07 |
-| Operational Reporting | FR-10, FR-11 |
-| Secure Access | FR-08, FR-09, FR-12 |
+| Business Goal             | Functional Modules         |
+| ------------------------- | -------------------------- |
+| Reduce Downtime           | FR-04, FR-05, FR-06, FR-07 |
+| Improve Monitoring        | FR-02, FR-03, FR-04, FR-10 |
+| Improve Maintenance       | FR-06                      |
+| Improve Incident Response | FR-05, FR-07               |
+| Operational Reporting     | FR-10, FR-11               |
+| Secure Access             | FR-08, FR-09, FR-12        |
 
 ---
 

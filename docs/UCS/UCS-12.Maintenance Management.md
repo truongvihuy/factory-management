@@ -5,7 +5,7 @@
 **Use Case Name:** Maintenance Management  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -30,14 +30,14 @@ The purpose of Maintenance Management is to:
 
 # 2. Actors
 
-| Actor | Description |
-| --- | --- |
-| System | Generates maintenance activities based on schedules or machine conditions |
-| Maintenance Planner | Creates and manages maintenance schedules |
-| Maintenance Engineer | Executes maintenance activities |
-| Factory Manager | Approves and monitors maintenance activities |
-| Production Supervisor | Coordinates machine availability |
-| Operator | Reports machine issues and supports maintenance activities |
+| Actor                 | Description                                                               |
+| --------------------- | ------------------------------------------------------------------------- |
+| System                | Generates maintenance activities based on schedules or machine conditions |
+| Maintenance Planner   | Creates and manages maintenance schedules                                 |
+| Maintenance Engineer  | Executes maintenance activities                                           |
+| Factory Manager       | Approves and monitors maintenance activities                              |
+| Production Supervisor | Coordinates machine availability                                          |
+| Operator              | Reports machine issues and supports maintenance activities                |
 
 ---
 
@@ -104,11 +104,11 @@ The use case is triggered when:
 
 The system supports:
 
-| Type | Description |
-| --- | --- |
-| Preventive Maintenance | Planned maintenance performed periodically |
+| Type                   | Description                                   |
+| ---------------------- | --------------------------------------------- |
+| Preventive Maintenance | Planned maintenance performed periodically    |
 | Corrective Maintenance | Maintenance performed after equipment failure |
-| Predictive Maintenance | Maintenance based on machine condition data |
+| Predictive Maintenance | Maintenance based on machine condition data   |
 
 ---
 
@@ -145,89 +145,89 @@ Closed
 
 # 8.1 Create Maintenance Schedule
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Planner opens Maintenance Management | System displays maintenance schedules |
-| 2 | Planner creates schedule | System displays maintenance form |
-| 3 | Planner enters information | System validates input |
-| 4 | Planner selects machine | System links schedule to machine |
-| 5 | Planner submits schedule | System creates maintenance plan |
-| 6 | System records activity | Audit history is created |
+| Step | Actor Action                         | System Response                       |
+| ---- | ------------------------------------ | ------------------------------------- |
+| 1    | Planner opens Maintenance Management | System displays maintenance schedules |
+| 2    | Planner creates schedule             | System displays maintenance form      |
+| 3    | Planner enters information           | System validates input                |
+| 4    | Planner selects machine              | System links schedule to machine      |
+| 5    | Planner submits schedule             | System creates maintenance plan       |
+| 6    | System records activity              | Audit history is created              |
 
 ---
 
 # 8.2 Approve Maintenance Schedule
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Manager reviews maintenance plan | System displays details |
-| 2 | Manager approves schedule | System updates status |
-| 3 | System activates schedule | Future work orders can be generated |
+| Step | Actor Action                     | System Response                     |
+| ---- | -------------------------------- | ----------------------------------- |
+| 1    | Manager reviews maintenance plan | System displays details             |
+| 2    | Manager approves schedule        | System updates status               |
+| 3    | System activates schedule        | Future work orders can be generated |
 
 ---
 
 # 8.3 Generate Work Order
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Maintenance schedule reaches planned date | System creates work order |
-| 2 | System assigns machine information | Work order is linked |
-| 3 | System sets priority | Work order priority is calculated |
-| 4 | System assigns status | Status becomes Assigned |
+| Step | Actor Action                              | System Response                   |
+| ---- | ----------------------------------------- | --------------------------------- |
+| 1    | Maintenance schedule reaches planned date | System creates work order         |
+| 2    | System assigns machine information        | Work order is linked              |
+| 3    | System sets priority                      | Work order priority is calculated |
+| 4    | System assigns status                     | Status becomes Assigned           |
 
 ---
 
 # 8.4 Assign Maintenance Engineer
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Planner selects engineer | System validates user permission |
-| 2 | Planner confirms assignment | Engineer is assigned |
-| 3 | System updates work order | Status becomes Assigned |
-| 4 | System records assignment history | Assignment is stored |
+| Step | Actor Action                      | System Response                  |
+| ---- | --------------------------------- | -------------------------------- |
+| 1    | Planner selects engineer          | System validates user permission |
+| 2    | Planner confirms assignment       | Engineer is assigned             |
+| 3    | System updates work order         | Status becomes Assigned          |
+| 4    | System records assignment history | Assignment is stored             |
 
 ---
 
 # 8.5 Execute Maintenance
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Engineer starts work order | Status changes to In Progress |
-| 2 | Engineer performs maintenance | Activities are recorded |
-| 3 | Engineer completes checklist | Checklist results are stored |
-| 4 | Engineer records notes | Maintenance information is updated |
+| Step | Actor Action                  | System Response                    |
+| ---- | ----------------------------- | ---------------------------------- |
+| 1    | Engineer starts work order    | Status changes to In Progress      |
+| 2    | Engineer performs maintenance | Activities are recorded            |
+| 3    | Engineer completes checklist  | Checklist results are stored       |
+| 4    | Engineer records notes        | Maintenance information is updated |
 
 ---
 
 # 8.6 Record Spare Parts Usage
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Engineer selects used spare parts | System displays available parts |
-| 2 | Engineer enters quantity | System validates data |
-| 3 | System records usage | Spare part usage history is stored |
+| Step | Actor Action                      | System Response                    |
+| ---- | --------------------------------- | ---------------------------------- |
+| 1    | Engineer selects used spare parts | System displays available parts    |
+| 2    | Engineer enters quantity          | System validates data              |
+| 3    | System records usage              | Spare part usage history is stored |
 
 ---
 
 # 8.7 Complete Maintenance Work Order
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Engineer completes tasks | Completion information is entered |
-| 2 | Engineer submits work order | System validates checklist |
-| 3 | System updates status | Status becomes Completed |
-| 4 | System stores maintenance history | Historical record created |
+| Step | Actor Action                      | System Response                   |
+| ---- | --------------------------------- | --------------------------------- |
+| 1    | Engineer completes tasks          | Completion information is entered |
+| 2    | Engineer submits work order       | System validates checklist        |
+| 3    | System updates status             | Status becomes Completed          |
+| 4    | System stores maintenance history | Historical record created         |
 
 ---
 
 # 8.8 Verify and Close Work Order
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Manager reviews completion | System displays results |
-| 2 | Manager verifies maintenance | Verification recorded |
-| 3 | User closes work order | Status becomes Closed |
-| 4 | System updates machine history | Maintenance record finalized |
+| Step | Actor Action                   | System Response              |
+| ---- | ------------------------------ | ---------------------------- |
+| 1    | Manager reviews completion     | System displays results      |
+| 2    | Manager verifies maintenance   | Verification recorded        |
+| 3    | User closes work order         | Status becomes Closed        |
+| 4    | System updates machine history | Maintenance record finalized |
 
 ---
 
@@ -241,11 +241,11 @@ Machine failure requires immediate repair.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User reports failure | System creates corrective maintenance |
-| 2 | Priority is set to Critical | Work order created immediately |
-| 3 | Engineer is assigned | Maintenance begins |
+| Step | Actor Action                | System Response                       |
+| ---- | --------------------------- | ------------------------------------- |
+| 1    | User reports failure        | System creates corrective maintenance |
+| 2    | Priority is set to Critical | Work order created immediately        |
+| 3    | Engineer is assigned        | Maintenance begins                    |
 
 ---
 
@@ -257,10 +257,10 @@ Planned maintenance cannot be performed.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Planner changes schedule | System validates new date |
-| 2 | Schedule updated | History recorded |
+| Step | Actor Action             | System Response           |
+| ---- | ------------------------ | ------------------------- |
+| 1    | Planner changes schedule | System validates new date |
+| 2    | Schedule updated         | History recorded          |
 
 ---
 
@@ -272,11 +272,11 @@ Approval is rejected.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Manager reviews schedule | Approval rejected |
-| 2 | System updates status | Schedule returns to Draft |
-| 3 | Reason is stored | Rejection history recorded |
+| Step | Actor Action             | System Response            |
+| ---- | ------------------------ | -------------------------- |
+| 1    | Manager reviews schedule | Approval rejected          |
+| 2    | System updates status    | Schedule returns to Draft  |
+| 3    | Reason is stored         | Rejection history recorded |
 
 ---
 
@@ -290,10 +290,10 @@ Assigned engineer cannot execute maintenance.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Work order assigned | System detects unavailable user |
-| 2 | Assignment fails | System requests reassignment |
+| Step | Actor Action        | System Response                 |
+| ---- | ------------------- | ------------------------------- |
+| 1    | Work order assigned | System detects unavailable user |
+| 2    | Assignment fails    | System requests reassignment    |
 
 ---
 
@@ -305,11 +305,11 @@ Maintenance checklist is incomplete.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Engineer submits work order | System validates checklist |
-| 2 | Missing items detected | Submission rejected |
-| 3 | Engineer completes checklist | Work order continues |
+| Step | Actor Action                 | System Response            |
+| ---- | ---------------------------- | -------------------------- |
+| 1    | Engineer submits work order  | System validates checklist |
+| 2    | Missing items detected       | Submission rejected        |
+| 3    | Engineer completes checklist | Work order continues       |
 
 ---
 
@@ -403,56 +403,56 @@ Running
 
 ## Maintenance Schedule Entity
 
-| Field | Description |
-| --- | --- |
-| Schedule ID | Unique identifier |
-| Machine ID | Related machine |
+| Field            | Description                      |
+| ---------------- | -------------------------------- |
+| Schedule ID      | Unique identifier                |
+| Machine ID       | Related machine                  |
 | Maintenance Type | Preventive/Corrective/Predictive |
-| Planned Date | Scheduled date |
-| Frequency | Maintenance interval |
-| Status | Schedule status |
+| Planned Date     | Scheduled date                   |
+| Frequency        | Maintenance interval             |
+| Status           | Schedule status                  |
 
 ---
 
 ## Work Order Entity
 
-| Field | Description |
-| --- | --- |
-| Work Order ID | Unique identifier |
-| Machine ID | Related machine |
-| Schedule ID | Related schedule |
+| Field            | Description          |
+| ---------------- | -------------------- |
+| Work Order ID    | Unique identifier    |
+| Machine ID       | Related machine      |
+| Schedule ID      | Related schedule     |
 | Maintenance Type | Maintenance category |
-| Priority | Work priority |
-| Assigned User | Technician |
-| Status | Lifecycle status |
-| Created Date | Creation date |
-| Completed Date | Completion date |
+| Priority         | Work priority        |
+| Assigned User    | Technician           |
+| Status           | Lifecycle status     |
+| Created Date     | Creation date        |
+| Completed Date   | Completion date      |
 
 ---
 
 ## Maintenance Checklist Entity
 
-| Field | Description |
-| --- | --- |
-| Checklist ID | Unique identifier |
-| Work Order ID | Related work order |
-| Item | Inspection item |
-| Result | Inspection result |
-| Note | Additional information |
+| Field         | Description            |
+| ------------- | ---------------------- |
+| Checklist ID  | Unique identifier      |
+| Work Order ID | Related work order     |
+| Item          | Inspection item        |
+| Result        | Inspection result      |
+| Note          | Additional information |
 
 ---
 
 # 13. Input Requirements
 
-| Input | Required |
-| --- | --- |
-| Machine ID | Yes |
-| Maintenance Type | Yes |
-| Planned Date | Yes |
-| Technician | Optional |
-| Checklist | Yes |
-| Spare Parts | Optional |
-| Notes | Optional |
+| Input            | Required |
+| ---------------- | -------- |
+| Machine ID       | Yes      |
+| Maintenance Type | Yes      |
+| Planned Date     | Yes      |
+| Technician       | Optional |
+| Checklist        | Yes      |
+| Spare Parts      | Optional |
+| Notes            | Optional |
 
 ---
 
@@ -576,20 +576,20 @@ Then:
 
 # 17. Related Requirements
 
-| Requirement | Reference |
-| --- | --- |
-| Machine Management | UCS-07 |
-| Telemetry Management | UCS-09 |
-| Alert Management | UCS-10 |
-| Incident Management | UCS-11 |
-| Spare Part Inventory Management | UCS-13 |
-| Reporting & Analytics | UCS-15 |
-| Audit Log | UCS-23 |
+| Requirement                     | Reference |
+| ------------------------------- | --------- |
+| Machine Management              | UCS-07    |
+| Telemetry Management            | UCS-09    |
+| Alert Management                | UCS-10    |
+| Incident Management             | UCS-11    |
+| Spare Part Inventory Management | UCS-13    |
+| Reporting & Analytics           | UCS-15    |
+| Audit Log                       | UCS-23    |
 
 ---
 
 # Revision History
 
-| Version | Date | Author | Description |
-| --- | --- | --- | --- |
-| 1.0 | 2026-08-07 | Business Analyst | Initial version |
+| Version | Date       | Author           | Description     |
+| ------- | ---------- | ---------------- | --------------- |
+| 1.0     | 2026-08-07 | Business Analyst | Initial version |

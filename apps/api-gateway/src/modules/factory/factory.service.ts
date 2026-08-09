@@ -1,5 +1,6 @@
-import { RequestContext } from '@libs/common';
-import { FactoryClientService, HTTP_CLIENTS } from '@libs/http-client';
+import type { RequestContext } from '@libs/common';
+import type { FactoryClientService} from '@libs/http-client';
+import { HTTP_CLIENTS } from '@libs/http-client';
 import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()

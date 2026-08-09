@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { Device, Machine, Sensor } from '@prisma';
+import type { Device, Machine, Sensor } from '@prisma';
 import { createHmac } from 'crypto';
-import { PayloadSensorDto } from '../dto/payload-sensor.dto';
-import { DeviceMetadataRepository } from '../repositories/device-metadata.repository';
-import { MachineMetadataRepository } from '../repositories/machine-metadata.repository';
-import { SensorMetadataRepository } from '../repositories/sensor-metadata.repository';
+import type { PayloadSensorDto } from '../dto/payload-sensor.dto';
+import type { DeviceMetadataRepository } from '../repositories/device-metadata.repository';
+import type { MachineMetadataRepository } from '../repositories/machine-metadata.repository';
+import type { SensorMetadataRepository } from '../repositories/sensor-metadata.repository';
 
 @Injectable()
 export class TelemetryValidatorService {
@@ -15,18 +15,18 @@ export class TelemetryValidatorService {
   ) {}
 
   async updateMetadata(machines: Machine[], devices: Device[], sensors: Sensor[]) {
-    let _mapIdMachineCode = {} as any;
+    const _mapIdMachineCode = {} as any;
     machines.map((machine) => {
       _mapIdMachineCode[machine.id] = machine.code;
     });
-    let _sensors = sensors.map((sen) => {
+    const _sensors = sensors.map((sen) => {
       return {
         ...sen,
         machineCode: _mapIdMachineCode[sen.machineId],
       };
     });
 
-    let _devices = devices.map((dev) => {
+    const _devices = devices.map((dev) => {
       return {
         ...dev,
         machineCode: _mapIdMachineCode[dev.machineId],

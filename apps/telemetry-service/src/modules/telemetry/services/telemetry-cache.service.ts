@@ -1,6 +1,6 @@
-import { RedisService } from '@libs/redis';
+import type { RedisService } from '@libs/redis';
 import { Injectable } from '@nestjs/common';
-import { PayloadSensorDto } from '../dto/payload-sensor.dto';
+import type { PayloadSensorDto } from '../dto/payload-sensor.dto';
 
 @Injectable()
 export class TelemetryCacheService {

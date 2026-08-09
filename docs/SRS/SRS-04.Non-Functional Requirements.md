@@ -4,7 +4,7 @@
 **Section:** SRS-05 Use Case Specification  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -32,23 +32,23 @@ Each Use Case includes:
 
 # 5.2 Use Case List
 
-| Use Case ID | Use Case Name |
-| ----------- | ------------- |
-| UCS-01 | Organization Management |
-| UCS-02 | Factory Management |
-| UCS-03 | Workshop Management |
-| UCS-04 | Production Line Management |
-| UCS-05 | Machine Management |
-| UCS-06 | Sensor Management |
-| UCS-07 | Telemetry Management |
-| UCS-08 | Alert Management |
-| UCS-09 | Maintenance Management |
-| UCS-10 | Incident Management |
-| UCS-11 | User Management |
-| UCS-12 | Authorization Management |
-| UCS-13 | Dashboard Monitoring |
-| UCS-14 | Reporting |
-| UCS-15 | Audit Log Management |
+| Use Case ID | Use Case Name              |
+| ----------- | -------------------------- |
+| UCS-01      | Organization Management    |
+| UCS-02      | Factory Management         |
+| UCS-03      | Workshop Management        |
+| UCS-04      | Production Line Management |
+| UCS-05      | Machine Management         |
+| UCS-06      | Sensor Management          |
+| UCS-07      | Telemetry Management       |
+| UCS-08      | Alert Management           |
+| UCS-09      | Maintenance Management     |
+| UCS-10      | Incident Management        |
+| UCS-11      | User Management            |
+| UCS-12      | Authorization Management   |
+| UCS-13      | Dashboard Monitoring       |
+| UCS-14      | Reporting                  |
+| UCS-15      | Audit Log Management       |
 
 ---
 
@@ -766,6 +766,6 @@ View Audit Logs
 
 # Revision History
 
-| Version | Date | Author | Description |
-| ------- | ---- | ------ | ----------- |
-| 1.0 | 2026-08-07 | Business Analyst | Initial version |
+| Version | Date       | Author           | Description     |
+| ------- | ---------- | ---------------- | --------------- |
+| 1.0     | 2026-08-07 | Business Analyst | Initial version |

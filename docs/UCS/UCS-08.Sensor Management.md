@@ -5,7 +5,7 @@
 **Use Case Name:** Sensor Management  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -31,13 +31,13 @@ Sensor Management provides the foundation for:
 
 # 2. Actors
 
-| Actor | Description |
-| --- | --- |
-| System Administrator | Manages sensor information and configuration |
-| Factory Manager | Manages sensors within assigned factories |
-| Production Supervisor | Views sensors assigned to production machines |
-| Maintenance Engineer | Uses sensor information during maintenance activities |
-| Operator | Monitors sensor status of assigned machines |
+| Actor                 | Description                                           |
+| --------------------- | ----------------------------------------------------- |
+| System Administrator  | Manages sensor information and configuration          |
+| Factory Manager       | Manages sensors within assigned factories             |
+| Production Supervisor | Views sensors assigned to production machines         |
+| Maintenance Engineer  | Uses sensor information during maintenance activities |
+| Operator              | Monitors sensor status of assigned machines           |
 
 ---
 
@@ -102,24 +102,24 @@ The use case is triggered when:
 
 # 6.1 Register Sensor
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User opens Sensor Management | System displays sensor list |
-| 2 | User selects Create Sensor | System displays sensor registration form |
-| 3 | User enters sensor information | System validates input |
-| 4 | User submits request | System checks duplicate sensor |
-| 5 | System creates sensor record | Sensor information is stored |
-| 6 | System records audit log | Creation activity is stored |
-| 7 | System displays success message | Sensor becomes available |
+| Step | Actor Action                    | System Response                          |
+| ---- | ------------------------------- | ---------------------------------------- |
+| 1    | User opens Sensor Management    | System displays sensor list              |
+| 2    | User selects Create Sensor      | System displays sensor registration form |
+| 3    | User enters sensor information  | System validates input                   |
+| 4    | User submits request            | System checks duplicate sensor           |
+| 5    | System creates sensor record    | Sensor information is stored             |
+| 6    | System records audit log        | Creation activity is stored              |
+| 7    | System displays success message | Sensor becomes available                 |
 
 ---
 
 # 6.2 View Sensor Information
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects sensor | System retrieves sensor information |
-| 2 | User views details | System displays sensor data |
+| Step | Actor Action        | System Response                     |
+| ---- | ------------------- | ----------------------------------- |
+| 1    | User selects sensor | System retrieves sensor information |
+| 2    | User views details  | System displays sensor data         |
 
 Displayed information includes:
 
@@ -140,74 +140,74 @@ Displayed information includes:
 
 # 6.3 Update Sensor Information
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects sensor | System displays sensor details |
-| 2 | User modifies information | System validates changes |
-| 3 | User submits update | System updates sensor information |
-| 4 | System records audit log | Modification history is stored |
+| Step | Actor Action              | System Response                   |
+| ---- | ------------------------- | --------------------------------- |
+| 1    | User selects sensor       | System displays sensor details    |
+| 2    | User modifies information | System validates changes          |
+| 3    | User submits update       | System updates sensor information |
+| 4    | System records audit log  | Modification history is stored    |
 
 ---
 
 # 6.4 Assign Sensor To Machine
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects available sensor | System displays active machines |
-| 2 | User selects machine | System validates machine |
-| 3 | User confirms assignment | System creates assignment record |
-| 4 | System links sensor with machine | Sensor becomes active |
-| 5 | System records assignment history | Assignment is stored |
-| 6 | System records audit log | Change is tracked |
+| Step | Actor Action                      | System Response                  |
+| ---- | --------------------------------- | -------------------------------- |
+| 1    | User selects available sensor     | System displays active machines  |
+| 2    | User selects machine              | System validates machine         |
+| 3    | User confirms assignment          | System creates assignment record |
+| 4    | System links sensor with machine  | Sensor becomes active            |
+| 5    | System records assignment history | Assignment is stored             |
+| 6    | System records audit log          | Change is tracked                |
 
 ---
 
 # 6.5 Replace Sensor
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects existing sensor | System displays current assignment |
-| 2 | User requests replacement | System validates replacement sensor |
-| 3 | User selects new sensor | System closes old assignment |
-| 4 | System creates new assignment | New sensor is linked to machine |
-| 5 | System preserves history | Previous sensor assignment remains |
-| 6 | System records audit log | Replacement activity is stored |
+| Step | Actor Action                  | System Response                     |
+| ---- | ----------------------------- | ----------------------------------- |
+| 1    | User selects existing sensor  | System displays current assignment  |
+| 2    | User requests replacement     | System validates replacement sensor |
+| 3    | User selects new sensor       | System closes old assignment        |
+| 4    | System creates new assignment | New sensor is linked to machine     |
+| 5    | System preserves history      | Previous sensor assignment remains  |
+| 6    | System records audit log      | Replacement activity is stored      |
 
 ---
 
 # 6.6 Move Sensor Between Machines
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects sensor | System displays current machine |
-| 2 | User selects new machine | System validates machine |
-| 3 | User confirms movement | System closes previous assignment |
-| 4 | System creates new assignment | Sensor is assigned to new machine |
-| 5 | System preserves assignment history | Historical records remain unchanged |
-| 6 | System records audit log | Movement is tracked |
+| Step | Actor Action                        | System Response                     |
+| ---- | ----------------------------------- | ----------------------------------- |
+| 1    | User selects sensor                 | System displays current machine     |
+| 2    | User selects new machine            | System validates machine            |
+| 3    | User confirms movement              | System closes previous assignment   |
+| 4    | System creates new assignment       | Sensor is assigned to new machine   |
+| 5    | System preserves assignment history | Historical records remain unchanged |
+| 6    | System records audit log            | Movement is tracked                 |
 
 ---
 
 # 6.7 Activate Sensor
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects inactive sensor | System displays sensor information |
-| 2 | User activates sensor | System validates conditions |
-| 3 | System changes status | Sensor becomes active |
-| 4 | System records audit log | Status change stored |
+| Step | Actor Action                 | System Response                    |
+| ---- | ---------------------------- | ---------------------------------- |
+| 1    | User selects inactive sensor | System displays sensor information |
+| 2    | User activates sensor        | System validates conditions        |
+| 3    | System changes status        | Sensor becomes active              |
+| 4    | System records audit log     | Status change stored               |
 
 ---
 
 # 6.8 Deactivate Sensor
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects active sensor | System displays sensor details |
-| 2 | User requests deactivation | System validates dependencies |
-| 3 | System changes sensor status | Sensor becomes inactive |
-| 4 | System keeps historical data | Telemetry history remains available |
-| 5 | System records audit log | Status change stored |
+| Step | Actor Action                 | System Response                     |
+| ---- | ---------------------------- | ----------------------------------- |
+| 1    | User selects active sensor   | System displays sensor details      |
+| 2    | User requests deactivation   | System validates dependencies       |
+| 3    | System changes sensor status | Sensor becomes inactive             |
+| 4    | System keeps historical data | Telemetry history remains available |
+| 5    | System records audit log     | Status change stored                |
 
 ---
 
@@ -221,11 +221,11 @@ Sensor Code already exists.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User submits sensor information | System validates uniqueness |
-| 2 | Duplicate detected | System rejects request |
-| 3 | System displays validation error | User updates information |
+| Step | Actor Action                     | System Response             |
+| ---- | -------------------------------- | --------------------------- |
+| 1    | User submits sensor information  | System validates uniqueness |
+| 2    | Duplicate detected               | System rejects request      |
+| 3    | System displays validation error | User updates information    |
 
 ---
 
@@ -237,11 +237,11 @@ Sensor already belongs to another Machine.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User assigns sensor | System checks current assignment |
-| 2 | Active assignment exists | System prevents duplicate assignment |
-| 3 | User must perform replacement or movement | Operation rejected |
+| Step | Actor Action                              | System Response                      |
+| ---- | ----------------------------------------- | ------------------------------------ |
+| 1    | User assigns sensor                       | System checks current assignment     |
+| 2    | Active assignment exists                  | System prevents duplicate assignment |
+| 3    | User must perform replacement or movement | Operation rejected                   |
 
 ---
 
@@ -253,11 +253,11 @@ Selected Machine is inactive.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects machine | System validates machine status |
-| 2 | Machine inactive | Assignment rejected |
-| 3 | System requests active machine | User retries |
+| Step | Actor Action                   | System Response                 |
+| ---- | ------------------------------ | ------------------------------- |
+| 1    | User selects machine           | System validates machine status |
+| 2    | Machine inactive               | Assignment rejected             |
+| 3    | System requests active machine | User retries                    |
 
 ---
 
@@ -271,11 +271,11 @@ System cannot store sensor information.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User submits request | System processes transaction |
-| 2 | Database error occurs | Transaction rollback |
-| 3 | System records error | User receives failure message |
+| Step | Actor Action          | System Response               |
+| ---- | --------------------- | ----------------------------- |
+| 1    | User submits request  | System processes transaction  |
+| 2    | Database error occurs | Transaction rollback          |
+| 3    | System records error  | User receives failure message |
 
 ---
 
@@ -287,11 +287,11 @@ User does not have Sensor Management permission.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User accesses sensor module | System validates permission |
-| 2 | Permission denied | Operation blocked |
-| 3 | Security event recorded | Access rejected |
+| Step | Actor Action                | System Response             |
+| ---- | --------------------------- | --------------------------- |
+| 1    | User accesses sensor module | System validates permission |
+| 2    | Permission denied           | Operation blocked           |
+| 3    | Security event recorded     | Access rejected             |
 
 ---
 
@@ -308,7 +308,7 @@ Machine A
  ├── Temperature Sensor
  ├── Vibration Sensor
  └── Pressure Sensor
-````
+```
 
 ---
 
@@ -322,9 +322,9 @@ Each Sensor must have a unique sensor code.
 
 When a Sensor is moved:
 
-* Previous assignment must be preserved.
-* New assignment must be created.
-* Historical telemetry remains unchanged.
+- Previous assignment must be preserved.
+- New assignment must be created.
+- Historical telemetry remains unchanged.
 
 ---
 
@@ -332,9 +332,9 @@ When a Sensor is moved:
 
 When replacing a Sensor:
 
-* Old sensor assignment is closed.
-* New sensor assignment is created.
-* Historical telemetry remains linked to the original sensor and machine.
+- Old sensor assignment is closed.
+- New sensor assignment is created.
+- Historical telemetry remains linked to the original sensor and machine.
 
 ---
 
@@ -357,9 +357,9 @@ Retired
 
 Sensor deactivation must not remove:
 
-* Telemetry history.
-* Assignment history.
-* Maintenance references.
+- Telemetry history.
+- Assignment history.
+- Maintenance references.
 
 ---
 
@@ -422,11 +422,11 @@ A Sensor can only be assigned to an existing active Machine.
 
 The system provides:
 
-* Sensor list.
-* Sensor details.
-* Sensor assignment information.
-* Sensor assignment history.
-* Sensor status.
+- Sensor list.
+- Sensor details.
+- Sensor assignment information.
+- Sensor assignment history.
+- Sensor status.
 
 ---
 
@@ -436,10 +436,10 @@ The system provides:
 
 After completion:
 
-* Sensor information is stored.
-* Sensor assignment is created correctly.
-* Assignment history is maintained.
-* Audit log is generated.
+- Sensor information is stored.
+- Sensor assignment is created correctly.
+- Assignment history is maintained.
+- Audit log is generated.
 
 ---
 
@@ -447,9 +447,9 @@ After completion:
 
 After failure:
 
-* Sensor data remains unchanged.
-* Transaction is rolled back.
-* Error is recorded.
+- Sensor data remains unchanged.
+- Transaction is rolled back.
+- Error is recorded.
 
 ---
 
@@ -459,17 +459,17 @@ After failure:
 
 Given:
 
-* User has permission.
-* Sensor information is valid.
+- User has permission.
+- Sensor information is valid.
 
 When:
 
-* User creates a sensor.
+- User creates a sensor.
 
 Then:
 
-* Sensor is created successfully.
-* Sensor becomes available.
+- Sensor is created successfully.
+- Sensor becomes available.
 
 ---
 
@@ -477,16 +477,16 @@ Then:
 
 Given:
 
-* Active Machine exists.
+- Active Machine exists.
 
 When:
 
-* User assigns sensor.
+- User assigns sensor.
 
 Then:
 
-* Sensor is linked to Machine.
-* Assignment history is created.
+- Sensor is linked to Machine.
+- Assignment history is created.
 
 ---
 
@@ -494,16 +494,16 @@ Then:
 
 Given:
 
-* Sensor belongs to a Machine.
+- Sensor belongs to a Machine.
 
 When:
 
-* User moves sensor.
+- User moves sensor.
 
 Then:
 
-* Previous assignment is preserved.
-* New assignment is created.
+- Previous assignment is preserved.
+- New assignment is created.
 
 ---
 
@@ -511,16 +511,16 @@ Then:
 
 Given:
 
-* Existing sensor is installed.
+- Existing sensor is installed.
 
 When:
 
-* User replaces sensor.
+- User replaces sensor.
 
 Then:
 
-* Old assignment is closed.
-* New sensor becomes active.
+- Old assignment is closed.
+- New sensor becomes active.
 
 ---
 
@@ -528,15 +528,15 @@ Then:
 
 Given:
 
-* User lacks permission.
+- User lacks permission.
 
 When:
 
-* User accesses Sensor Management.
+- User accesses Sensor Management.
 
 Then:
 
-* System denies access.
+- System denies access.
 
 ---
 

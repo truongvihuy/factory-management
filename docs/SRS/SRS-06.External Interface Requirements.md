@@ -4,7 +4,7 @@
 **Section:** SRS-06 External Interface Requirements  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -33,16 +33,16 @@ This document does not define implementation technologies or architecture decisi
 
 The Factory Management System contains the following external interfaces.
 
-| Interface ID | Interface Type |
-| ------------ | -------------- |
-| INT-01 | User Interface |
-| INT-02 | IoT Device Interface |
-| INT-03 | Gateway Interface |
-| INT-04 | Telemetry Communication Interface |
-| INT-05 | Notification Interface |
-| INT-06 | File Export Interface |
-| INT-07 | Authentication Interface |
-| INT-08 | API Interface |
+| Interface ID | Interface Type                    |
+| ------------ | --------------------------------- |
+| INT-01       | User Interface                    |
+| INT-02       | IoT Device Interface              |
+| INT-03       | Gateway Interface                 |
+| INT-04       | Telemetry Communication Interface |
+| INT-05       | Notification Interface            |
+| INT-06       | File Export Interface             |
+| INT-07       | Authentication Interface          |
+| INT-08       | API Interface                     |
 
 ---
 
@@ -254,15 +254,15 @@ Used for:
 
 Telemetry messages shall contain:
 
-| Field | Description |
-| ----- | ----------- |
-| Device ID | Source device identifier |
-| Sensor ID | Sensor identifier |
-| Machine ID | Related machine |
-| Timestamp | Data collection time |
-| Metric Name | Measurement type |
-| Value | Measurement value |
-| Unit | Measurement unit |
+| Field       | Description              |
+| ----------- | ------------------------ |
+| Device ID   | Source device identifier |
+| Sensor ID   | Sensor identifier        |
+| Machine ID  | Related machine          |
+| Timestamp   | Data collection time     |
+| Metric Name | Measurement type         |
+| Value       | Measurement value        |
+| Unit        | Measurement unit         |
 
 ---
 
@@ -498,32 +498,32 @@ The system shall handle interface failures.
 
 Examples:
 
-| Error Type | Expected Behavior |
-| ---------- | ----------------- |
-| Invalid Message | Reject and log error |
-| Device Offline | Mark device unavailable |
-| Network Failure | Retry or buffer data |
-| Authentication Failure | Reject request |
+| Error Type             | Expected Behavior       |
+| ---------------------- | ----------------------- |
+| Invalid Message        | Reject and log error    |
+| Device Offline         | Mark device unavailable |
+| Network Failure        | Retry or buffer data    |
+| Authentication Failure | Reject request          |
 
 ---
 
 # 6.15 Interface Summary
 
-| Interface | Purpose |
-| --------- | ------- |
-| User Interface | User interaction |
-| IoT Device Interface | Machine data collection |
-| Gateway Interface | Industrial data forwarding |
-| MQTT / OPC-UA / Modbus | Telemetry communication |
-| Notification Interface | Operational notifications |
-| File Export Interface | Report generation |
-| Authentication Interface | User security |
-| API Interface | External system communication |
+| Interface                | Purpose                       |
+| ------------------------ | ----------------------------- |
+| User Interface           | User interaction              |
+| IoT Device Interface     | Machine data collection       |
+| Gateway Interface        | Industrial data forwarding    |
+| MQTT / OPC-UA / Modbus   | Telemetry communication       |
+| Notification Interface   | Operational notifications     |
+| File Export Interface    | Report generation             |
+| Authentication Interface | User security                 |
+| API Interface            | External system communication |
 
 ---
 
 # Revision History
 
-| Version | Date | Author | Description |
-| ------- | ---- | ------ | ----------- |
-| 1.0 | 2026-08-07 | Business Analyst | Initial version |
+| Version | Date       | Author           | Description     |
+| ------- | ---------- | ---------------- | --------------- |
+| 1.0     | 2026-08-07 | Business Analyst | Initial version |

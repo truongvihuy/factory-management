@@ -4,7 +4,7 @@
 **Section:** SRS-02 Overall Description  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -57,7 +57,7 @@ High-level system context:
 +-------v--------+
 | Business Users |
 +----------------+
-````
+```
 
 ---
 
@@ -73,10 +73,10 @@ The system shall provide capabilities to manage factory organizational structure
 
 Functions include:
 
-* Company management.
-* Factory management.
-* Workshop management.
-* Production Line management.
+- Company management.
+- Factory management.
+- Workshop management.
+- Production Line management.
 
 Business hierarchy:
 
@@ -102,25 +102,25 @@ The system shall provide machine lifecycle management.
 
 Functions include:
 
-* Register machines.
-* Update machine information.
-* Assign machines to production lines.
-* Move machines between production lines.
-* Track machine assignment history.
-* View machine status.
-* View machine history.
+- Register machines.
+- Update machine information.
+- Assign machines to production lines.
+- Move machines between production lines.
+- Track machine assignment history.
+- View machine status.
+- View machine history.
 
 Machine information includes:
 
-* Machine code.
-* Machine name.
-* Machine type.
-* Model.
-* Serial number.
-* Manufacturer.
-* Installation date.
-* Warranty information.
-* Operational status.
+- Machine code.
+- Machine name.
+- Machine type.
+- Model.
+- Serial number.
+- Manufacturer.
+- Installation date.
+- Warranty information.
+- Operational status.
 
 ---
 
@@ -130,19 +130,19 @@ The system shall provide IoT sensor management.
 
 Functions include:
 
-* Register sensors.
-* Assign sensors to machines.
-* Replace sensors.
-* Move sensors.
-* Maintain sensor assignment history.
+- Register sensors.
+- Assign sensors to machines.
+- Replace sensors.
+- Move sensors.
+- Maintain sensor assignment history.
 
 Sensor information includes:
 
-* Sensor code.
-* Sensor type.
-* Communication protocol.
-* Connection status.
-* Assigned machine.
+- Sensor code.
+- Sensor type.
+- Communication protocol.
+- Connection status.
+- Assigned machine.
 
 ---
 
@@ -152,30 +152,30 @@ The system shall collect and manage machine telemetry data.
 
 Supported protocols:
 
-* MQTT.
-* OPC-UA.
-* Modbus TCP.
+- MQTT.
+- OPC-UA.
+- Modbus TCP.
 
 Telemetry data includes:
 
-* Temperature.
-* Vibration.
-* Pressure.
-* Speed.
-* Current.
-* Voltage.
-* Power.
-* Energy consumption.
-* Machine status.
+- Temperature.
+- Vibration.
+- Pressure.
+- Speed.
+- Current.
+- Voltage.
+- Power.
+- Energy consumption.
+- Machine status.
 
 Functions include:
 
-* Receive telemetry.
-* Validate telemetry.
-* Store telemetry.
-* Display real-time telemetry.
-* Query telemetry history.
-* Archive historical telemetry.
+- Receive telemetry.
+- Validate telemetry.
+- Store telemetry.
+- Display real-time telemetry.
+- Query telemetry history.
+- Archive historical telemetry.
 
 ---
 
@@ -185,20 +185,20 @@ The system shall detect abnormal machine conditions.
 
 Functions include:
 
-* Configure alert rules.
-* Evaluate telemetry values.
-* Generate alerts.
-* Assign severity levels.
-* Notify responsible users.
-* Acknowledge alerts.
-* Resolve alerts.
-* Maintain alert history.
+- Configure alert rules.
+- Evaluate telemetry values.
+- Generate alerts.
+- Assign severity levels.
+- Notify responsible users.
+- Acknowledge alerts.
+- Resolve alerts.
+- Maintain alert history.
 
 Alert levels:
 
-* Info.
-* Warning.
-* Critical.
+- Info.
+- Warning.
+- Critical.
 
 ---
 
@@ -208,18 +208,18 @@ The system shall support maintenance activities.
 
 Functions include:
 
-* Create maintenance schedules.
-* Manage maintenance work orders.
-* Assign maintenance engineers.
-* Execute maintenance activities.
-* Complete maintenance checklists.
-* Record maintenance history.
+- Create maintenance schedules.
+- Manage maintenance work orders.
+- Assign maintenance engineers.
+- Execute maintenance activities.
+- Complete maintenance checklists.
+- Record maintenance history.
 
 Maintenance types:
 
-* Preventive Maintenance.
-* Corrective Maintenance.
-* Predictive Maintenance.
+- Preventive Maintenance.
+- Corrective Maintenance.
+- Predictive Maintenance.
 
 ---
 
@@ -229,13 +229,13 @@ The system shall support operational incident management.
 
 Functions include:
 
-* Create incidents.
-* Assign incidents.
-* Track incident status.
-* Monitor SLA.
-* Verify resolution.
-* Close incidents.
-* Maintain incident history.
+- Create incidents.
+- Assign incidents.
+- Track incident status.
+- Monitor SLA.
+- Verify resolution.
+- Close incidents.
+- Maintain incident history.
 
 Incident lifecycle:
 
@@ -261,12 +261,12 @@ The system shall support user account management.
 
 Functions include:
 
-* Create users.
-* Update users.
-* Disable users.
-* Reset passwords.
-* Change passwords.
-* Lock and unlock accounts.
+- Create users.
+- Update users.
+- Disable users.
+- Reset passwords.
+- Change passwords.
+- Lock and unlock accounts.
 
 ---
 
@@ -276,10 +276,10 @@ The system shall provide role-based access control.
 
 Functions include:
 
-* Assign roles.
-* Assign factory access.
-* Grant permissions.
-* Revoke permissions.
+- Assign roles.
+- Assign factory access.
+- Grant permissions.
+- Revoke permissions.
 
 Authorization scope:
 
@@ -301,12 +301,12 @@ The system shall provide operational dashboards.
 
 Dashboard information includes:
 
-* Machine status.
-* Active alerts.
-* Maintenance summary.
-* Incident summary.
-* Operational KPIs.
-* Energy consumption.
+- Machine status.
+- Active alerts.
+- Maintenance summary.
+- Incident summary.
+- Operational KPIs.
+- Energy consumption.
 
 ---
 
@@ -316,16 +316,16 @@ The system shall provide operational reporting capabilities.
 
 Reports include:
 
-* Machine status reports.
-* Maintenance reports.
-* Incident reports.
-* Energy reports.
-* KPI reports.
+- Machine status reports.
+- Maintenance reports.
+- Incident reports.
+- Energy reports.
+- KPI reports.
 
 Export formats:
 
-* PDF.
-* Excel.
+- PDF.
+- Excel.
 
 ---
 
@@ -335,13 +335,13 @@ The system shall record important system activities.
 
 Audit events include:
 
-* User login.
-* User logout.
-* Entity creation.
-* Entity update.
-* Entity deletion.
-* Permission changes.
-* Configuration changes.
+- User login.
+- User logout.
+- Entity creation.
+- Entity update.
+- Entity deletion.
+- Permission changes.
+- Configuration changes.
 
 ---
 
@@ -369,9 +369,9 @@ The system operates in an industrial manufacturing environment.
 
 Users access the system through:
 
-* Web browsers.
-* Desktop computers.
-* Mobile devices (future compatibility).
+- Web browsers.
+- Desktop computers.
+- Mobile devices (future compatibility).
 
 ---
 
@@ -379,16 +379,16 @@ Users access the system through:
 
 The system integrates with:
 
-* Industrial machines.
-* IoT sensors.
-* IoT gateways.
-* Industrial communication protocols.
+- Industrial machines.
+- IoT sensors.
+- IoT gateways.
+- Industrial communication protocols.
 
 Supported communication protocols:
 
-* MQTT.
-* OPC-UA.
-* Modbus TCP.
+- MQTT.
+- OPC-UA.
+- Modbus TCP.
 
 ---
 
@@ -398,25 +398,25 @@ The following constraints apply.
 
 ## Business Constraints
 
-* Production Management is outside MVP scope.
-* ERP integration is outside MVP scope.
-* Historical operational data must remain traceable.
+- Production Management is outside MVP scope.
+- ERP integration is outside MVP scope.
+- Historical operational data must remain traceable.
 
 ---
 
 ## Functional Constraints
 
-* One Machine belongs to one Production Line at a time.
-* One Sensor belongs to one Machine at a time.
-* Historical assignment records cannot be deleted.
-* Telemetry data is immutable.
+- One Machine belongs to one Production Line at a time.
+- One Sensor belongs to one Machine at a time.
+- Historical assignment records cannot be deleted.
+- Telemetry data is immutable.
 
 ---
 
 ## Authentication Constraints
 
-* MVP uses Local Account authentication.
-* External identity providers are not included.
+- MVP uses Local Account authentication.
+- External identity providers are not included.
 
 ---
 
@@ -426,11 +426,11 @@ The following constraints apply.
 
 The following assumptions apply:
 
-* Machines continuously generate telemetry data.
-* Sensors are correctly installed.
-* IoT gateways provide connectivity between devices and the system.
-* Users receive appropriate permissions before accessing data.
-* Factory structures are maintained accurately.
+- Machines continuously generate telemetry data.
+- Sensors are correctly installed.
+- IoT gateways provide connectivity between devices and the system.
+- Users receive appropriate permissions before accessing data.
+- Factory structures are maintained accurately.
 
 ---
 
@@ -456,9 +456,9 @@ The system shall provide:
 
 ## Reliability
 
-* Maintain historical operational data.
-* Prevent unauthorized data modification.
-* Ensure consistent asset relationships.
+- Maintain historical operational data.
+- Prevent unauthorized data modification.
+- Ensure consistent asset relationships.
 
 ---
 
@@ -466,12 +466,12 @@ The system shall provide:
 
 The system shall support:
 
-* Multiple companies.
-* Multiple factories.
-* Multiple workshops.
-* Multiple production lines.
-* Multiple machines.
-* Multiple sensors.
+- Multiple companies.
+- Multiple factories.
+- Multiple workshops.
+- Multiple production lines.
+- Multiple machines.
+- Multiple sensors.
 
 ---
 
@@ -485,10 +485,10 @@ The system shall support continuous monitoring operations.
 
 The system shall provide:
 
-* Authentication.
-* Authorization.
-* Access control.
-* Audit tracking.
+- Authentication.
+- Authorization.
+- Access control.
+- Audit tracking.
 
 ---
 
@@ -496,10 +496,10 @@ The system shall provide:
 
 The system shall support:
 
-* Clear module separation.
-* Requirement traceability.
-* Operational monitoring.
-* System maintenance.
+- Clear module separation.
+- Requirement traceability.
+- Operational monitoring.
+- System maintenance.
 
 ---
 
@@ -551,12 +551,12 @@ The Factory Management System provides a centralized platform for industrial ass
 
 The system enables organizations to:
 
-* Improve machine visibility.
-* Detect abnormal conditions.
-* Reduce downtime.
-* Standardize maintenance activities.
-* Improve incident response.
-* Analyze operational performance.
+- Improve machine visibility.
+- Detect abnormal conditions.
+- Reduce downtime.
+- Standardize maintenance activities.
+- Improve incident response.
+- Analyze operational performance.
 
 This SRS section establishes the overall product understanding before defining detailed architecture, functional requirements, interfaces, and technical specifications in subsequent sections.
 

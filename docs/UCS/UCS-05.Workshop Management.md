@@ -5,7 +5,7 @@
 **Use Case Name:** Workshop Management  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -30,10 +30,10 @@ Workshop Management provides the foundation for:
 
 # 2. Actors
 
-| Actor | Description |
-| --- | --- |
-| System Administrator | Manages workshop information and configuration |
-| Factory Manager | Manages workshops within assigned factories |
+| Actor                 | Description                                           |
+| --------------------- | ----------------------------------------------------- |
+| System Administrator  | Manages workshop information and configuration        |
+| Factory Manager       | Manages workshops within assigned factories           |
 | Production Supervisor | Views workshop information for operational monitoring |
 
 ---
@@ -93,26 +93,26 @@ The use case is triggered when:
 
 ## 6.1 Create Workshop
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User opens Workshop Management | System displays workshop list |
-| 2 | User selects Create Workshop | System displays workshop creation form |
-| 3 | User selects Factory | System loads available factories |
-| 4 | User enters workshop information | System validates input data |
-| 5 | User submits creation request | System checks duplicate workshop information |
-| 6 | System creates Workshop | Workshop is stored successfully |
-| 7 | System links Workshop to Factory | Organization hierarchy is updated |
-| 8 | System records audit log | Creation activity is stored |
-| 9 | System displays success message | Workshop becomes available |
+| Step | Actor Action                     | System Response                              |
+| ---- | -------------------------------- | -------------------------------------------- |
+| 1    | User opens Workshop Management   | System displays workshop list                |
+| 2    | User selects Create Workshop     | System displays workshop creation form       |
+| 3    | User selects Factory             | System loads available factories             |
+| 4    | User enters workshop information | System validates input data                  |
+| 5    | User submits creation request    | System checks duplicate workshop information |
+| 6    | System creates Workshop          | Workshop is stored successfully              |
+| 7    | System links Workshop to Factory | Organization hierarchy is updated            |
+| 8    | System records audit log         | Creation activity is stored                  |
+| 9    | System displays success message  | Workshop becomes available                   |
 
 ---
 
 ## 6.2 View Workshop Information
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects a workshop | System retrieves workshop data |
-| 2 | User views details | System displays workshop information |
+| Step | Actor Action            | System Response                      |
+| ---- | ----------------------- | ------------------------------------ |
+| 1    | User selects a workshop | System retrieves workshop data       |
+| 2    | User views details      | System displays workshop information |
 
 Displayed information includes:
 
@@ -129,34 +129,34 @@ Displayed information includes:
 
 ## 6.3 Update Workshop Information
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects workshop | System displays workshop details |
-| 2 | User modifies information | System validates changes |
-| 3 | User submits update request | System updates workshop information |
-| 4 | System records audit log | Modification history is stored |
+| Step | Actor Action                | System Response                     |
+| ---- | --------------------------- | ----------------------------------- |
+| 1    | User selects workshop       | System displays workshop details    |
+| 2    | User modifies information   | System validates changes            |
+| 3    | User submits update request | System updates workshop information |
+| 4    | System records audit log    | Modification history is stored      |
 
 ---
 
 ## 6.4 Activate Workshop
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects inactive workshop | System displays workshop status |
-| 2 | User activates workshop | System validates factory status |
-| 3 | System changes status to Active | Workshop becomes operational |
-| 4 | System records audit log | Status change is stored |
+| Step | Actor Action                    | System Response                 |
+| ---- | ------------------------------- | ------------------------------- |
+| 1    | User selects inactive workshop  | System displays workshop status |
+| 2    | User activates workshop         | System validates factory status |
+| 3    | System changes status to Active | Workshop becomes operational    |
+| 4    | System records audit log        | Status change is stored         |
 
 ---
 
 ## 6.5 Deactivate Workshop
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects active workshop | System displays workshop information |
-| 2 | User requests deactivation | System checks dependencies |
-| 3 | System changes status to Inactive | Workshop cannot be used for new assignments |
-| 4 | System records audit log | Status change is stored |
+| Step | Actor Action                      | System Response                             |
+| ---- | --------------------------------- | ------------------------------------------- |
+| 1    | User selects active workshop      | System displays workshop information        |
+| 2    | User requests deactivation        | System checks dependencies                  |
+| 3    | System changes status to Inactive | Workshop cannot be used for new assignments |
+| 4    | System records audit log          | Status change is stored                     |
 
 ---
 
@@ -170,11 +170,11 @@ Workshop code already exists.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User submits workshop information | System checks existing workshops |
-| 2 | Duplicate code detected | System rejects request |
-| 3 | System displays validation message | User updates information |
+| Step | Actor Action                       | System Response                  |
+| ---- | ---------------------------------- | -------------------------------- |
+| 1    | User submits workshop information  | System checks existing workshops |
+| 2    | Duplicate code detected            | System rejects request           |
+| 3    | System displays validation message | User updates information         |
 
 ---
 
@@ -186,11 +186,11 @@ Selected Factory does not exist or is inactive.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects Factory | System validates factory |
-| 2 | Factory is invalid | System rejects workshop creation |
-| 3 | System requests valid Factory | User selects another Factory |
+| Step | Actor Action                  | System Response                  |
+| ---- | ----------------------------- | -------------------------------- |
+| 1    | User selects Factory          | System validates factory         |
+| 2    | Factory is invalid            | System rejects workshop creation |
+| 3    | System requests valid Factory | User selects another Factory     |
 
 ---
 
@@ -202,12 +202,12 @@ Workshop contains active production lines.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User requests workshop deactivation | System checks related entities |
-| 2 | Active production lines detected | System displays warning |
-| 3 | User confirms action | System changes workshop status |
-| 4 | Historical data remains unchanged | Operation completes |
+| Step | Actor Action                        | System Response                |
+| ---- | ----------------------------------- | ------------------------------ |
+| 1    | User requests workshop deactivation | System checks related entities |
+| 2    | Active production lines detected    | System displays warning        |
+| 3    | User confirms action                | System changes workshop status |
+| 4    | Historical data remains unchanged   | Operation completes            |
 
 ---
 
@@ -221,11 +221,11 @@ System cannot save workshop information.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User submits request | System processes transaction |
-| 2 | Database error occurs | Transaction rollback |
-| 3 | System records error | User receives failure notification |
+| Step | Actor Action          | System Response                    |
+| ---- | --------------------- | ---------------------------------- |
+| 1    | User submits request  | System processes transaction       |
+| 2    | Database error occurs | Transaction rollback               |
+| 3    | System records error  | User receives failure notification |
 
 ---
 
@@ -237,11 +237,11 @@ User does not have Workshop Management permission.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User accesses Workshop Management | System checks permission |
-| 2 | Permission denied | System blocks operation |
-| 3 | Security event is recorded | Access rejected |
+| Step | Actor Action                      | System Response          |
+| ---- | --------------------------------- | ------------------------ |
+| 1    | User accesses Workshop Management | System checks permission |
+| 2    | Permission denied                 | System blocks operation  |
+| 3    | Security event is recorded        | Access rejected          |
 
 ---
 
@@ -316,30 +316,30 @@ A Workshop can only exist under an active Factory.
 
 ## Workshop Entity
 
-| Field | Description |
-| --- | --- |
-| Workshop ID | Unique workshop identifier |
-| Factory ID | Parent factory identifier |
-| Workshop Code | Unique workshop code |
-| Workshop Name | Workshop name |
-| Description | Workshop description |
-| Location | Workshop location |
-| Status | Active / Inactive |
-| Created Date | Creation timestamp |
-| Updated Date | Last modification timestamp |
+| Field         | Description                 |
+| ------------- | --------------------------- |
+| Workshop ID   | Unique workshop identifier  |
+| Factory ID    | Parent factory identifier   |
+| Workshop Code | Unique workshop code        |
+| Workshop Name | Workshop name               |
+| Description   | Workshop description        |
+| Location      | Workshop location           |
+| Status        | Active / Inactive           |
+| Created Date  | Creation timestamp          |
+| Updated Date  | Last modification timestamp |
 
 ---
 
 # 11. Input Requirements
 
-| Input | Required |
-| --- | --- |
-| Factory ID | Yes |
-| Workshop Code | Yes |
-| Workshop Name | Yes |
-| Description | No |
-| Location | No |
-| Status | Yes |
+| Input         | Required |
+| ------------- | -------- |
+| Factory ID    | Yes      |
+| Workshop Code | Yes      |
+| Workshop Name | Yes      |
+| Description   | No       |
+| Location      | No       |
+| Status        | Yes      |
 
 ---
 
@@ -464,20 +464,20 @@ Then:
 
 # 15. Related Requirements
 
-| Requirement | Reference |
-| --- | --- |
-| Organization Management | FR-01 |
-| Workshop Management | FR-03 |
-| Factory Management | FR-02 |
-| Production Line Management | FR-04 |
-| Authorization | FR-09 |
-| Audit Log | FR-12 |
-| Factory Management | UCS-04 |
+| Requirement                | Reference |
+| -------------------------- | --------- |
+| Organization Management    | FR-01     |
+| Workshop Management        | FR-03     |
+| Factory Management         | FR-02     |
+| Production Line Management | FR-04     |
+| Authorization              | FR-09     |
+| Audit Log                  | FR-12     |
+| Factory Management         | UCS-04    |
 
 ---
 
 # Revision History
 
-| Version | Date | Author | Description |
-| --- | --- | --- | --- |
-| 1.0 | 2026-08-07 | Business Analyst | Initial version |
+| Version | Date       | Author           | Description     |
+| ------- | ---------- | ---------------- | --------------- |
+| 1.0     | 2026-08-07 | Business Analyst | Initial version |

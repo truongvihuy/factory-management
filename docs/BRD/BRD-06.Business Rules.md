@@ -129,11 +129,11 @@ The system shall support:
 
 Typical telemetry transmission intervals are:
 
-| Sensor Type | Frequency |
-|-------------|-----------|
-| Critical Sensors | Every 1 second |
-| Normal Sensors | Every 5 seconds |
-| Energy Sensors | Every 30 seconds |
+| Sensor Type      | Frequency        |
+| ---------------- | ---------------- |
+| Critical Sensors | Every 1 second   |
+| Normal Sensors   | Every 5 seconds  |
+| Energy Sensors   | Every 30 seconds |
 
 ---
 
@@ -147,10 +147,10 @@ Historical telemetry shall never be modified or deleted.
 
 ## BR-015 Telemetry Retention
 
-| Data Type | Retention Period |
-|------------|-----------------|
-| Raw Telemetry | 6 Months |
-| Summary Data | 5 Years |
+| Data Type     | Retention Period |
+| ------------- | ---------------- |
+| Raw Telemetry | 6 Months         |
+| Summary Data  | 5 Years          |
 
 ---
 

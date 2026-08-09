@@ -5,7 +5,7 @@
 **Use Case Name:** Factory Management  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -31,11 +31,11 @@ A Factory represents a physical manufacturing facility owned by a Company.
 
 # 2. Actors
 
-| Actor | Description |
-| --- | --- |
-| System Administrator | Manages factory information and configuration |
-| Director | Views factory information for business monitoring |
-| Factory Manager | Manages assigned factory operational information |
+| Actor                | Description                                       |
+| -------------------- | ------------------------------------------------- |
+| System Administrator | Manages factory information and configuration     |
+| Director             | Views factory information for business monitoring |
+| Factory Manager      | Manages assigned factory operational information  |
 
 ---
 
@@ -94,25 +94,25 @@ The use case is triggered when:
 
 ## 6.1 Create Factory
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User opens Factory Management | System displays factory list |
-| 2 | User selects Create Factory | System displays factory creation form |
-| 3 | User selects Company | System loads available companies |
-| 4 | User enters factory information | System validates input data |
-| 5 | User submits creation request | System checks duplicate factory information |
-| 6 | System creates Factory | Factory is stored successfully |
-| 7 | System creates audit record | Creation activity is recorded |
-| 8 | System displays success message | Factory becomes available |
+| Step | Actor Action                    | System Response                             |
+| ---- | ------------------------------- | ------------------------------------------- |
+| 1    | User opens Factory Management   | System displays factory list                |
+| 2    | User selects Create Factory     | System displays factory creation form       |
+| 3    | User selects Company            | System loads available companies            |
+| 4    | User enters factory information | System validates input data                 |
+| 5    | User submits creation request   | System checks duplicate factory information |
+| 6    | System creates Factory          | Factory is stored successfully              |
+| 7    | System creates audit record     | Creation activity is recorded               |
+| 8    | System displays success message | Factory becomes available                   |
 
 ---
 
 ## 6.2 View Factory Information
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects a factory | System retrieves factory information |
-| 2 | User views details | System displays factory information |
+| Step | Actor Action           | System Response                      |
+| ---- | ---------------------- | ------------------------------------ |
+| 1    | User selects a factory | System retrieves factory information |
+| 2    | User views details     | System displays factory information  |
 
 Displayed information includes:
 
@@ -130,34 +130,34 @@ Displayed information includes:
 
 ## 6.3 Update Factory Information
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects factory | System displays factory details |
-| 2 | User modifies information | System validates changes |
-| 3 | User submits update request | System updates factory information |
-| 4 | System records audit log | Modification history is stored |
+| Step | Actor Action                | System Response                    |
+| ---- | --------------------------- | ---------------------------------- |
+| 1    | User selects factory        | System displays factory details    |
+| 2    | User modifies information   | System validates changes           |
+| 3    | User submits update request | System updates factory information |
+| 4    | System records audit log    | Modification history is stored     |
 
 ---
 
 ## 6.4 Activate Factory
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects inactive factory | System displays factory status |
-| 2 | User activates factory | System validates activation |
-| 3 | System changes status to Active | Factory becomes operational |
-| 4 | System records audit log | Status change is stored |
+| Step | Actor Action                    | System Response                |
+| ---- | ------------------------------- | ------------------------------ |
+| 1    | User selects inactive factory   | System displays factory status |
+| 2    | User activates factory          | System validates activation    |
+| 3    | System changes status to Active | Factory becomes operational    |
+| 4    | System records audit log        | Status change is stored        |
 
 ---
 
 ## 6.5 Deactivate Factory
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects active factory | System displays factory information |
-| 2 | User deactivates factory | System checks dependencies |
-| 3 | System changes status to Inactive | Factory becomes unavailable for new operations |
-| 4 | System records audit log | Status change is stored |
+| Step | Actor Action                      | System Response                                |
+| ---- | --------------------------------- | ---------------------------------------------- |
+| 1    | User selects active factory       | System displays factory information            |
+| 2    | User deactivates factory          | System checks dependencies                     |
+| 3    | System changes status to Inactive | Factory becomes unavailable for new operations |
+| 4    | System records audit log          | Status change is stored                        |
 
 ---
 
@@ -171,11 +171,11 @@ Factory code already exists.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User submits factory information | System checks existing records |
-| 2 | Duplicate code detected | System rejects request |
-| 3 | System displays validation message | User updates information |
+| Step | Actor Action                       | System Response                |
+| ---- | ---------------------------------- | ------------------------------ |
+| 1    | User submits factory information   | System checks existing records |
+| 2    | Duplicate code detected            | System rejects request         |
+| 3    | System displays validation message | User updates information       |
 
 ---
 
@@ -187,11 +187,11 @@ Selected Company does not exist or is inactive.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects Company | System validates company status |
-| 2 | Company invalid | System rejects factory creation |
-| 3 | System requests valid Company selection | User selects another Company |
+| Step | Actor Action                            | System Response                 |
+| ---- | --------------------------------------- | ------------------------------- |
+| 1    | User selects Company                    | System validates company status |
+| 2    | Company invalid                         | System rejects factory creation |
+| 3    | System requests valid Company selection | User selects another Company    |
 
 ---
 
@@ -209,12 +209,12 @@ Examples:
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User requests factory deactivation | System checks related entities |
-| 2 | Active dependencies detected | System displays warning |
-| 3 | User confirms action | System deactivates factory |
-| 4 | Historical data remains unchanged | System completes operation |
+| Step | Actor Action                       | System Response                |
+| ---- | ---------------------------------- | ------------------------------ |
+| 1    | User requests factory deactivation | System checks related entities |
+| 2    | Active dependencies detected       | System displays warning        |
+| 3    | User confirms action               | System deactivates factory     |
+| 4    | Historical data remains unchanged  | System completes operation     |
 
 ---
 
@@ -228,11 +228,11 @@ System cannot save factory information.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User submits request | System processes transaction |
-| 2 | Database error occurs | Transaction rollback is performed |
-| 3 | System records error | User receives failure notification |
+| Step | Actor Action          | System Response                    |
+| ---- | --------------------- | ---------------------------------- |
+| 1    | User submits request  | System processes transaction       |
+| 2    | Database error occurs | Transaction rollback is performed  |
+| 3    | System records error  | User receives failure notification |
 
 ---
 
@@ -244,11 +244,11 @@ User does not have Factory Management permission.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User accesses Factory Management | System checks permission |
-| 2 | Permission denied | System blocks operation |
-| 3 | Security event is recorded | Access rejected |
+| Step | Actor Action                     | System Response          |
+| ---- | -------------------------------- | ------------------------ |
+| 1    | User accesses Factory Management | System checks permission |
+| 2    | Permission denied                | System blocks operation  |
+| 3    | Security event is recorded       | Access rejected          |
 
 ---
 
@@ -337,31 +337,31 @@ Factory 02
 
 ## Factory Entity
 
-| Field | Description |
-| --- | --- |
-| Factory ID | Unique factory identifier |
-| Company ID | Parent company identifier |
-| Factory Code | Unique factory code |
-| Factory Name | Factory name |
-| Description | Factory description |
-| Address | Factory address |
-| Location | Geographic location |
-| Status | Active / Inactive |
-| Created Date | Creation timestamp |
+| Field        | Description                 |
+| ------------ | --------------------------- |
+| Factory ID   | Unique factory identifier   |
+| Company ID   | Parent company identifier   |
+| Factory Code | Unique factory code         |
+| Factory Name | Factory name                |
+| Description  | Factory description         |
+| Address      | Factory address             |
+| Location     | Geographic location         |
+| Status       | Active / Inactive           |
+| Created Date | Creation timestamp          |
 | Updated Date | Last modification timestamp |
 
 ---
 
 # 11. Input Requirements
 
-| Input | Required |
-| --- | --- |
-| Company ID | Yes |
-| Factory Code | Yes |
-| Factory Name | Yes |
-| Address | No |
-| Description | No |
-| Status | Yes |
+| Input        | Required |
+| ------------ | -------- |
+| Company ID   | Yes      |
+| Factory Code | Yes      |
+| Factory Name | Yes      |
+| Address      | No       |
+| Description  | No       |
+| Status       | Yes      |
 
 ---
 
@@ -486,19 +486,19 @@ Then:
 
 # 15. Related Requirements
 
-| Requirement | Reference |
-| --- | --- |
-| Organization Management | FR-01 |
-| Factory Management | FR-02 |
-| Workshop Management | FR-03 |
-| Authorization | FR-09 |
-| Audit Log | FR-12 |
-| Organization Management | UCS-03 |
+| Requirement             | Reference |
+| ----------------------- | --------- |
+| Organization Management | FR-01     |
+| Factory Management      | FR-02     |
+| Workshop Management     | FR-03     |
+| Authorization           | FR-09     |
+| Audit Log               | FR-12     |
+| Organization Management | UCS-03    |
 
 ---
 
 # Revision History
 
-| Version | Date | Author | Description |
-| --- | --- | --- | --- |
-| 1.0 | 2026-08-07 | Business Analyst | Initial version |
+| Version | Date       | Author           | Description     |
+| ------- | ---------- | ---------------- | --------------- |
+| 1.0     | 2026-08-07 | Business Analyst | Initial version |

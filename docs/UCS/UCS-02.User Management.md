@@ -5,7 +5,7 @@
 **Use Case Name:** User Management  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -23,11 +23,11 @@ This use case ensures that users have valid accounts before accessing the Factor
 
 # 2. Actors
 
-| Actor | Description |
-| --- | --- |
-| System Administrator | Manages user accounts and account status |
-| User | Updates personal account information and password |
-| Authentication System | Uses user account information for authentication |
+| Actor                 | Description                                       |
+| --------------------- | ------------------------------------------------- |
+| System Administrator  | Manages user accounts and account status          |
+| User                  | Updates personal account information and password |
+| Authentication System | Uses user account information for authentication  |
 
 ---
 
@@ -80,56 +80,56 @@ The use case is triggered when:
 
 ## 6.1 Create User Account
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Administrator opens User Management page | System displays user list |
-| 2 | Administrator selects Create User | System displays user creation form |
-| 3 | Administrator enters user information | System validates input data |
-| 4 | Administrator submits request | System checks duplicate user information |
-| 5 | System creates user account | User account is stored |
-| 6 | System records user creation activity | Audit log is created |
-| 7 | System displays successful creation message | User account becomes available |
+| Step | Actor Action                                | System Response                          |
+| ---- | ------------------------------------------- | ---------------------------------------- |
+| 1    | Administrator opens User Management page    | System displays user list                |
+| 2    | Administrator selects Create User           | System displays user creation form       |
+| 3    | Administrator enters user information       | System validates input data              |
+| 4    | Administrator submits request               | System checks duplicate user information |
+| 5    | System creates user account                 | User account is stored                   |
+| 6    | System records user creation activity       | Audit log is created                     |
+| 7    | System displays successful creation message | User account becomes available           |
 
 ---
 
 ## 6.2 Update User Information
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Administrator selects existing user | System displays user details |
-| 2 | Administrator modifies information | System validates changes |
-| 3 | Administrator submits update | System updates user information |
-| 4 | System records modification activity | Audit log is created |
+| Step | Actor Action                         | System Response                 |
+| ---- | ------------------------------------ | ------------------------------- |
+| 1    | Administrator selects existing user  | System displays user details    |
+| 2    | Administrator modifies information   | System validates changes        |
+| 3    | Administrator submits update         | System updates user information |
+| 4    | System records modification activity | Audit log is created            |
 
 ---
 
 ## 6.3 Activate User Account
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Administrator selects inactive user | System displays account status |
-| 2 | Administrator activates account | System updates status to Active |
-| 3 | System saves change | User can authenticate |
+| Step | Actor Action                        | System Response                 |
+| ---- | ----------------------------------- | ------------------------------- |
+| 1    | Administrator selects inactive user | System displays account status  |
+| 2    | Administrator activates account     | System updates status to Active |
+| 3    | System saves change                 | User can authenticate           |
 
 ---
 
 ## 6.4 Deactivate User Account
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Administrator selects active user | System displays account information |
-| 2 | Administrator disables account | System changes status to Disabled |
-| 3 | System saves change | User cannot authenticate |
+| Step | Actor Action                      | System Response                     |
+| ---- | --------------------------------- | ----------------------------------- |
+| 1    | Administrator selects active user | System displays account information |
+| 2    | Administrator disables account    | System changes status to Disabled   |
+| 3    | System saves change               | User cannot authenticate            |
 
 ---
 
 ## 6.5 Reset Password
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Administrator selects user account | System displays account information |
-| 2 | Administrator requests password reset | System generates reset process |
-| 3 | System updates password information | User can login using new password |
+| Step | Actor Action                          | System Response                     |
+| ---- | ------------------------------------- | ----------------------------------- |
+| 1    | Administrator selects user account    | System displays account information |
+| 2    | Administrator requests password reset | System generates reset process      |
+| 3    | System updates password information   | User can login using new password   |
 
 ---
 
@@ -143,11 +143,11 @@ Username already exists in the system.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Administrator enters username | System checks existing accounts |
-| 2 | Duplicate username detected | System rejects request |
-| 3 | System displays duplicate warning | Administrator enters another username |
+| Step | Actor Action                      | System Response                       |
+| ---- | --------------------------------- | ------------------------------------- |
+| 1    | Administrator enters username     | System checks existing accounts       |
+| 2    | Duplicate username detected       | System rejects request                |
+| 3    | System displays duplicate warning | Administrator enters another username |
 
 Result:
 
@@ -163,11 +163,11 @@ Email address already exists.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Administrator submits user information | System validates email |
-| 2 | Existing email found | System rejects request |
-| 3 | System displays validation error | Administrator updates information |
+| Step | Actor Action                           | System Response                   |
+| ---- | -------------------------------------- | --------------------------------- |
+| 1    | Administrator submits user information | System validates email            |
+| 2    | Existing email found                   | System rejects request            |
+| 3    | System displays validation error       | Administrator updates information |
 
 ---
 
@@ -179,11 +179,11 @@ Required user information is missing or invalid.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Administrator submits form | System validates data |
-| 2 | Validation fails | System displays validation errors |
-| 3 | Administrator corrects information | Request can be submitted again |
+| Step | Actor Action                       | System Response                   |
+| ---- | ---------------------------------- | --------------------------------- |
+| 1    | Administrator submits form         | System validates data             |
+| 2    | Validation fails                   | System displays validation errors |
+| 3    | Administrator corrects information | Request can be submitted again    |
 
 ---
 
@@ -197,11 +197,11 @@ System cannot save user information.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Administrator submits request | System processes request |
-| 2 | Database error occurs | System rolls back transaction |
-| 3 | System records error log | User receives failure notification |
+| Step | Actor Action                  | System Response                    |
+| ---- | ----------------------------- | ---------------------------------- |
+| 1    | Administrator submits request | System processes request           |
+| 2    | Database error occurs         | System rolls back transaction      |
+| 3    | System records error log      | User receives failure notification |
 
 ---
 
@@ -213,11 +213,11 @@ User without permission attempts user management.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User accesses User Management | System checks permission |
-| 2 | Permission denied | System rejects access |
-| 3 | System records security event | User cannot continue |
+| Step | Actor Action                  | System Response          |
+| ---- | ----------------------------- | ------------------------ |
+| 1    | User accesses User Management | System checks permission |
+| 2    | Permission denied             | System rejects access    |
+| 3    | System records security event | User cannot continue     |
 
 ---
 
@@ -240,7 +240,7 @@ User account can have the following statuses:
 Active
 Disabled
 Locked
-````
+```
 
 ---
 
@@ -248,8 +248,8 @@ Locked
 
 Disabled users:
 
-* Cannot authenticate.
-* Cannot access system functions.
+- Cannot authenticate.
+- Cannot access system functions.
 
 ---
 
@@ -259,8 +259,8 @@ User accounts shall not be permanently deleted if historical activities exist.
 
 The system shall:
 
-* Disable account instead.
-* Preserve audit history.
+- Disable account instead.
+- Preserve audit history.
 
 ---
 
@@ -268,9 +268,9 @@ The system shall:
 
 The system shall:
 
-* Store passwords securely.
-* Never display original passwords.
-* Require password validation during change/reset.
+- Store passwords securely.
+- Never display original passwords.
+- Require password validation during change/reset.
 
 ---
 
@@ -278,12 +278,12 @@ The system shall:
 
 The system shall record:
 
-* User creation.
-* User update.
-* Password reset.
-* Account activation.
-* Account deactivation.
-* Account locking.
+- User creation.
+- User update.
+- Password reset.
+- Account activation.
+- Account deactivation.
+- Account locking.
 
 ---
 
@@ -325,11 +325,11 @@ The system shall record:
 
 The system provides:
 
-* User list.
-* User details.
-* Account status.
-* Operation result message.
-* Audit information.
+- User list.
+- User details.
+- Account status.
+- Operation result message.
+- Audit information.
 
 ---
 
@@ -339,9 +339,9 @@ The system provides:
 
 After completion:
 
-* User account is created or updated.
-* Account status is changed if requested.
-* Audit record is generated.
+- User account is created or updated.
+- Account status is changed if requested.
+- Audit record is generated.
 
 ---
 
@@ -349,9 +349,9 @@ After completion:
 
 After failure:
 
-* No invalid data is stored.
-* Error information is returned.
-* Failure is logged.
+- No invalid data is stored.
+- Error information is returned.
+- Failure is logged.
 
 ---
 
@@ -361,16 +361,16 @@ After failure:
 
 Given:
 
-* Administrator has user management permission.
+- Administrator has user management permission.
 
 When:
 
-* Administrator enters valid user information.
+- Administrator enters valid user information.
 
 Then:
 
-* System creates a new user account.
-* User can authenticate.
+- System creates a new user account.
+- User can authenticate.
 
 ---
 
@@ -378,16 +378,16 @@ Then:
 
 Given:
 
-* User account exists.
+- User account exists.
 
 When:
 
-* Administrator updates user information.
+- Administrator updates user information.
 
 Then:
 
-* System saves updated information.
-* Change is recorded.
+- System saves updated information.
+- Change is recorded.
 
 ---
 
@@ -395,15 +395,15 @@ Then:
 
 Given:
 
-* User account is active.
+- User account is active.
 
 When:
 
-* Administrator disables the account.
+- Administrator disables the account.
 
 Then:
 
-* User cannot login.
+- User cannot login.
 
 ---
 
@@ -411,15 +411,15 @@ Then:
 
 Given:
 
-* User account exists.
+- User account exists.
 
 When:
 
-* Administrator resets password.
+- Administrator resets password.
 
 Then:
 
-* User can authenticate using new credentials.
+- User can authenticate using new credentials.
 
 ---
 
@@ -427,15 +427,15 @@ Then:
 
 Given:
 
-* Administrator performs user management action.
+- Administrator performs user management action.
 
 When:
 
-* Action completes.
+- Action completes.
 
 Then:
 
-* System creates audit record.
+- System creates audit record.
 
 ---
 
@@ -456,4 +456,3 @@ Then:
 | Version | Date       | Author           | Description     |
 | ------- | ---------- | ---------------- | --------------- |
 | 1.0     | 2026-08-07 | Business Analyst | Initial version |
-

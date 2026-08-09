@@ -5,7 +5,7 @@
 **Use Case Name:** Telemetry Management  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -31,15 +31,15 @@ Telemetry Management ensures that operational data is stored consistently, trace
 
 # 2. Actors
 
-| Actor | Description |
-| --- | --- |
-| IoT Gateway | Sends telemetry data from industrial devices |
-| Sensor | Generates machine measurement data |
-| System | Receives, validates, processes, and stores telemetry |
-| Factory Manager | Views telemetry information within authorized factories |
-| Production Supervisor | Monitors machine operational conditions |
-| Maintenance Engineer | Uses telemetry data for troubleshooting |
-| Operator | Monitors assigned machine status |
+| Actor                 | Description                                             |
+| --------------------- | ------------------------------------------------------- |
+| IoT Gateway           | Sends telemetry data from industrial devices            |
+| Sensor                | Generates machine measurement data                      |
+| System                | Receives, validates, processes, and stores telemetry    |
+| Factory Manager       | Views telemetry information within authorized factories |
+| Production Supervisor | Monitors machine operational conditions                 |
+| Maintenance Engineer  | Uses telemetry data for troubleshooting                 |
+| Operator              | Monitors assigned machine status                        |
 
 ---
 
@@ -103,11 +103,11 @@ The use case is triggered when:
 
 The system supports telemetry collection through:
 
-| Protocol | Description |
-| --- | --- |
-| MQTT | Lightweight IoT messaging protocol |
-| OPC-UA | Industrial machine communication protocol |
-| Modbus TCP | Industrial device communication protocol |
+| Protocol   | Description                               |
+| ---------- | ----------------------------------------- |
+| MQTT       | Lightweight IoT messaging protocol        |
+| OPC-UA     | Industrial machine communication protocol |
+| Modbus TCP | Industrial device communication protocol  |
 
 ---
 
@@ -115,49 +115,49 @@ The system supports telemetry collection through:
 
 # 7.1 Receive Telemetry Data
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Sensor collects machine data | Sensor generates telemetry message |
-| 2 | Gateway receives telemetry | Gateway forwards data to system |
-| 3 | System receives telemetry message | System validates message format |
-| 4 | System identifies sensor | System verifies sensor ownership |
-| 5 | System identifies machine | System links telemetry to machine |
-| 6 | System stores telemetry data | Telemetry record is created |
-| 7 | System updates machine status | Latest machine condition is updated |
-| 8 | System evaluates alert conditions | Alert processing is triggered |
+| Step | Actor Action                      | System Response                     |
+| ---- | --------------------------------- | ----------------------------------- |
+| 1    | Sensor collects machine data      | Sensor generates telemetry message  |
+| 2    | Gateway receives telemetry        | Gateway forwards data to system     |
+| 3    | System receives telemetry message | System validates message format     |
+| 4    | System identifies sensor          | System verifies sensor ownership    |
+| 5    | System identifies machine         | System links telemetry to machine   |
+| 6    | System stores telemetry data      | Telemetry record is created         |
+| 7    | System updates machine status     | Latest machine condition is updated |
+| 8    | System evaluates alert conditions | Alert processing is triggered       |
 
 ---
 
 # 7.2 Validate Telemetry Data
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | System receives telemetry | System validates payload |
-| 2 | System checks required fields | Validation is performed |
-| 3 | System checks timestamp | Timestamp validity is verified |
-| 4 | System checks sensor status | Sensor availability is verified |
-| 5 | System accepts valid data | Telemetry continues processing |
+| Step | Actor Action                  | System Response                 |
+| ---- | ----------------------------- | ------------------------------- |
+| 1    | System receives telemetry     | System validates payload        |
+| 2    | System checks required fields | Validation is performed         |
+| 3    | System checks timestamp       | Timestamp validity is verified  |
+| 4    | System checks sensor status   | Sensor availability is verified |
+| 5    | System accepts valid data     | Telemetry continues processing  |
 
 ---
 
 # 7.3 Store Telemetry Data
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Valid telemetry is received | System prepares storage |
-| 2 | System creates telemetry record | Data is stored |
-| 3 | System associates data | Sensor and Machine relationship is maintained |
-| 4 | System records timestamp | Historical traceability is ensured |
+| Step | Actor Action                    | System Response                               |
+| ---- | ------------------------------- | --------------------------------------------- |
+| 1    | Valid telemetry is received     | System prepares storage                       |
+| 2    | System creates telemetry record | Data is stored                                |
+| 3    | System associates data          | Sensor and Machine relationship is maintained |
+| 4    | System records timestamp        | Historical traceability is ensured            |
 
 ---
 
 # 7.4 View Real-Time Telemetry
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects machine | System retrieves latest telemetry |
-| 2 | User requests monitoring data | System returns current values |
-| 3 | System displays information | Latest machine condition is shown |
+| Step | Actor Action                  | System Response                   |
+| ---- | ----------------------------- | --------------------------------- |
+| 1    | User selects machine          | System retrieves latest telemetry |
+| 2    | User requests monitoring data | System returns current values     |
+| 3    | System displays information   | Latest machine condition is shown |
 
 Displayed information includes:
 
@@ -176,11 +176,11 @@ Displayed information includes:
 
 # 7.5 View Historical Telemetry
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects machine | System loads telemetry history |
-| 2 | User specifies time range | System filters data |
-| 3 | System retrieves records | Historical telemetry is displayed |
+| Step | Actor Action              | System Response                   |
+| ---- | ------------------------- | --------------------------------- |
+| 1    | User selects machine      | System loads telemetry history    |
+| 2    | User specifies time range | System filters data               |
+| 3    | System retrieves records  | Historical telemetry is displayed |
 
 Search criteria:
 
@@ -193,12 +193,12 @@ Search criteria:
 
 # 7.6 Archive Telemetry Data
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Retention period is reached | Scheduled process starts |
-| 2 | System identifies old telemetry | Data is selected |
-| 3 | System archives telemetry | Data is moved to archive storage |
-| 4 | System maintains references | Historical query remains available |
+| Step | Actor Action                    | System Response                    |
+| ---- | ------------------------------- | ---------------------------------- |
+| 1    | Retention period is reached     | Scheduled process starts           |
+| 2    | System identifies old telemetry | Data is selected                   |
+| 3    | System archives telemetry       | Data is moved to archive storage   |
+| 4    | System maintains references     | Historical query remains available |
 
 ---
 
@@ -212,11 +212,11 @@ Telemetry message does not match required format.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Gateway sends telemetry | System validates payload |
-| 2 | Invalid structure detected | Message rejected |
-| 3 | System records error | Validation failure logged |
+| Step | Actor Action               | System Response           |
+| ---- | -------------------------- | ------------------------- |
+| 1    | Gateway sends telemetry    | System validates payload  |
+| 2    | Invalid structure detected | Message rejected          |
+| 3    | System records error       | Validation failure logged |
 
 ---
 
@@ -228,11 +228,11 @@ Telemetry is received from an unregistered sensor.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | System receives telemetry | Sensor identification starts |
-| 2 | Sensor not found | Data ingestion rejected |
-| 3 | System records warning | Unknown device event logged |
+| Step | Actor Action              | System Response              |
+| ---- | ------------------------- | ---------------------------- |
+| 1    | System receives telemetry | Sensor identification starts |
+| 2    | Sensor not found          | Data ingestion rejected      |
+| 3    | System records warning    | Unknown device event logged  |
 
 ---
 
@@ -244,11 +244,11 @@ Gateway loses connection.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Gateway disconnects | System detects communication loss |
-| 2 | Telemetry stops receiving | Machine status updated |
-| 3 | System records event | Connectivity issue stored |
+| Step | Actor Action              | System Response                   |
+| ---- | ------------------------- | --------------------------------- |
+| 1    | Gateway disconnects       | System detects communication loss |
+| 2    | Telemetry stops receiving | Machine status updated            |
+| 3    | System records event      | Connectivity issue stored         |
 
 ---
 
@@ -262,11 +262,11 @@ System cannot store telemetry data.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Valid telemetry received | Storage transaction starts |
-| 2 | Storage failure occurs | Transaction rollback |
-| 3 | System records error | Failure is logged |
+| Step | Actor Action             | System Response            |
+| ---- | ------------------------ | -------------------------- |
+| 1    | Valid telemetry received | Storage transaction starts |
+| 2    | Storage failure occurs   | Transaction rollback       |
+| 3    | System records error     | Failure is logged          |
 
 ---
 
@@ -278,11 +278,11 @@ Telemetry service is unavailable.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | Gateway sends telemetry | System unavailable |
-| 2 | Gateway buffers data | Data temporarily stored |
-| 3 | System recovers | Buffered telemetry is processed |
+| Step | Actor Action            | System Response                 |
+| ---- | ----------------------- | ------------------------------- |
+| 1    | Gateway sends telemetry | System unavailable              |
+| 2    | Gateway buffers data    | Data temporarily stored         |
+| 3    | System recovers         | Buffered telemetry is processed |
 
 ---
 
@@ -351,10 +351,10 @@ Every telemetry record must contain:
 
 Telemetry retention policy:
 
-| Data Type | Retention |
-| --- | --- |
-| Raw Telemetry | 6 Months |
-| Summary Data | 5 Years |
+| Data Type     | Retention |
+| ------------- | --------- |
+| Raw Telemetry | 6 Months  |
+| Summary Data  | 5 Years   |
 
 ---
 
@@ -379,41 +379,41 @@ The system supports:
 
 ## Telemetry Entity
 
-| Field | Description |
-| --- | --- |
-| Telemetry ID | Unique identifier |
-| Machine ID | Related machine |
-| Sensor ID | Source sensor |
-| Metric Type | Measurement type |
-| Metric Value | Measurement value |
-| Unit | Measurement unit |
-| Device Timestamp | Timestamp from device |
-| Received Timestamp | System received time |
-| Created Date | Storage timestamp |
+| Field              | Description           |
+| ------------------ | --------------------- |
+| Telemetry ID       | Unique identifier     |
+| Machine ID         | Related machine       |
+| Sensor ID          | Source sensor         |
+| Metric Type        | Measurement type      |
+| Metric Value       | Measurement value     |
+| Unit               | Measurement unit      |
+| Device Timestamp   | Timestamp from device |
+| Received Timestamp | System received time  |
+| Created Date       | Storage timestamp     |
 
 ---
 
 ## Telemetry Archive Entity
 
-| Field | Description |
-| --- | --- |
-| Archive ID | Unique identifier |
+| Field               | Description        |
+| ------------------- | ------------------ |
+| Archive ID          | Unique identifier  |
 | Telemetry Reference | Original telemetry |
-| Archive Date | Archived date |
-| Storage Location | Archive location |
+| Archive Date        | Archived date      |
+| Storage Location    | Archive location   |
 
 ---
 
 # 12. Input Requirements
 
-| Input | Required |
-| --- | --- |
-| Sensor ID | Yes |
-| Machine ID | Yes |
-| Metric Type | Yes |
-| Metric Value | Yes |
-| Timestamp | Yes |
-| Unit | No |
+| Input        | Required |
+| ------------ | -------- |
+| Sensor ID    | Yes      |
+| Machine ID   | Yes      |
+| Metric Type  | Yes      |
+| Metric Value | Yes      |
+| Timestamp    | Yes      |
+| Unit         | No       |
 
 ---
 
@@ -537,19 +537,19 @@ Then:
 
 # 16. Related Requirements
 
-| Requirement | Reference |
-| --- | --- |
-| Sensor Management | UCS-08 |
-| Machine Management | UCS-07 |
-| Alert Management | UCS-10 |
-| Dashboard & Monitoring | UCS-14 |
-| Reporting & Analytics | UCS-15 |
-| Data Retention | UCS-21 |
+| Requirement            | Reference |
+| ---------------------- | --------- |
+| Sensor Management      | UCS-08    |
+| Machine Management     | UCS-07    |
+| Alert Management       | UCS-10    |
+| Dashboard & Monitoring | UCS-14    |
+| Reporting & Analytics  | UCS-15    |
+| Data Retention         | UCS-21    |
 
 ---
 
 # Revision History
 
-| Version | Date | Author | Description |
-| --- | --- | --- | --- |
-| 1.0 | 2026-08-07 | Business Analyst | Initial version |
+| Version | Date       | Author           | Description     |
+| ------- | ---------- | ---------------- | --------------- |
+| 1.0     | 2026-08-07 | Business Analyst | Initial version |

@@ -4,7 +4,7 @@
 **Section:** SRS-09 Requirement Traceability Matrix  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -44,7 +44,7 @@ Test Cases
         |
         ▼
 Acceptance Criteria
-````
+```
 
 ---
 
@@ -190,11 +190,11 @@ When requirements change, the following impact analysis shall be performed.
 
 The Requirement Traceability Matrix shall:
 
-* Be maintained throughout the project lifecycle.
-* Be updated whenever requirements change.
-* Maintain one-to-one traceability between requirements and tests.
-* Ensure no requirement is implemented without validation.
-* Ensure no implemented feature exists without a business justification.
+- Be maintained throughout the project lifecycle.
+- Be updated whenever requirements change.
+- Maintain one-to-one traceability between requirements and tests.
+- Ensure no requirement is implemented without validation.
+- Ensure no implemented feature exists without a business justification.
 
 ---
 

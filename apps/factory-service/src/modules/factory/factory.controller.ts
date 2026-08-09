@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { FactoryService } from './factory.service';
+import type { FactoryService } from './factory.service';
 
 @Controller('factory')
 export class FactoryController {

@@ -5,7 +5,7 @@
 **Use Case Name:** Reporting & Analytics  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -30,14 +30,14 @@ The purpose of Reporting & Analytics is to:
 
 # 2. Actors
 
-| Actor | Description |
-| --- | --- |
-| Director | Reviews business performance and KPI reports |
-| Factory Manager | Reviews factory operational reports |
-| Production Supervisor | Reviews production line and machine reports |
-| Maintenance Planner | Reviews maintenance performance |
-| Maintenance Engineer | Reviews maintenance history |
-| System | Aggregates and generates reports |
+| Actor                 | Description                                  |
+| --------------------- | -------------------------------------------- |
+| Director              | Reviews business performance and KPI reports |
+| Factory Manager       | Reviews factory operational reports          |
+| Production Supervisor | Reviews production line and machine reports  |
+| Maintenance Planner   | Reviews maintenance performance              |
+| Maintenance Engineer  | Reviews maintenance history                  |
+| System                | Aggregates and generates reports             |
 
 ---
 
@@ -164,25 +164,25 @@ Provides operational indicators:
 
 # 7.1 Generate Report
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User opens Reporting module | System displays available reports |
-| 2 | User selects report type | System displays filter options |
-| 3 | User enters filter criteria | System validates input |
-| 4 | User submits request | System retrieves required data |
-| 5 | System processes data | Report is generated |
-| 6 | System displays result | User reviews information |
+| Step | Actor Action                | System Response                   |
+| ---- | --------------------------- | --------------------------------- |
+| 1    | User opens Reporting module | System displays available reports |
+| 2    | User selects report type    | System displays filter options    |
+| 3    | User enters filter criteria | System validates input            |
+| 4    | User submits request        | System retrieves required data    |
+| 5    | System processes data       | Report is generated               |
+| 6    | System displays result      | User reviews information          |
 
 ---
 
 # 7.2 Filter Report Data
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects filters | System displays available filters |
-| 2 | User chooses criteria | System validates access |
-| 3 | User confirms filter | System retrieves matching data |
-| 4 | System refreshes report | Updated report is displayed |
+| Step | Actor Action            | System Response                   |
+| ---- | ----------------------- | --------------------------------- |
+| 1    | User selects filters    | System displays available filters |
+| 2    | User chooses criteria   | System validates access           |
+| 3    | User confirms filter    | System retrieves matching data    |
+| 4    | System refreshes report | Updated report is displayed       |
 
 Supported filters:
 
@@ -198,12 +198,12 @@ Supported filters:
 
 # 7.3 Export Report
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects Export | System displays export options |
-| 2 | User selects format | System prepares report |
-| 3 | System generates file | Export file is created |
-| 4 | User downloads report | Report is provided |
+| Step | Actor Action          | System Response                |
+| ---- | --------------------- | ------------------------------ |
+| 1    | User selects Export   | System displays export options |
+| 2    | User selects format   | System prepares report         |
+| 3    | System generates file | Export file is created         |
+| 4    | User downloads report | Report is provided             |
 
 Supported formats:
 
@@ -214,21 +214,21 @@ Supported formats:
 
 # 7.4 Analyze Machine Performance
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects machine report | System retrieves machine data |
-| 2 | System calculates metrics | Performance indicators are generated |
-| 3 | User reviews result | Machine performance is analyzed |
+| Step | Actor Action                | System Response                      |
+| ---- | --------------------------- | ------------------------------------ |
+| 1    | User selects machine report | System retrieves machine data        |
+| 2    | System calculates metrics   | Performance indicators are generated |
+| 3    | User reviews result         | Machine performance is analyzed      |
 
 ---
 
 # 7.5 Analyze Maintenance Performance
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects maintenance report | System retrieves maintenance data |
-| 2 | System aggregates information | Maintenance statistics are calculated |
-| 3 | User reviews report | Maintenance effectiveness is evaluated |
+| Step | Actor Action                    | System Response                        |
+| ---- | ------------------------------- | -------------------------------------- |
+| 1    | User selects maintenance report | System retrieves maintenance data      |
+| 2    | System aggregates information   | Maintenance statistics are calculated  |
+| 3    | User reviews report             | Maintenance effectiveness is evaluated |
 
 ---
 
@@ -242,11 +242,11 @@ No data exists for selected criteria.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User requests report | System searches data |
-| 2 | No data found | System displays empty result |
-| 3 | User changes filter | Report can be regenerated |
+| Step | Actor Action         | System Response              |
+| ---- | -------------------- | ---------------------------- |
+| 1    | User requests report | System searches data         |
+| 2    | No data found        | System displays empty result |
+| 3    | User changes filter  | Report can be regenerated    |
 
 ---
 
@@ -258,11 +258,11 @@ Report contains large amount of data.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User requests report | System evaluates data size |
-| 2 | Large dataset detected | System processes request |
-| 3 | Report generation completed | User receives result |
+| Step | Actor Action                | System Response            |
+| ---- | --------------------------- | -------------------------- |
+| 1    | User requests report        | System evaluates data size |
+| 2    | Large dataset detected      | System processes request   |
+| 3    | Report generation completed | User receives result       |
 
 ---
 
@@ -274,11 +274,11 @@ User requests unauthorized factory data.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects factory | System validates permission |
-| 2 | Permission denied | Data is excluded |
-| 3 | Access event is recorded | Audit log created |
+| Step | Actor Action             | System Response             |
+| ---- | ------------------------ | --------------------------- |
+| 1    | User selects factory     | System validates permission |
+| 2    | Permission denied        | Data is excluded            |
+| 3    | Access event is recorded | Audit log created           |
 
 ---
 
@@ -292,11 +292,11 @@ System cannot generate report.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User requests report | System processes data |
-| 2 | Processing fails | Error detected |
-| 3 | System displays error | Failure is logged |
+| Step | Actor Action          | System Response       |
+| ---- | --------------------- | --------------------- |
+| 1    | User requests report  | System processes data |
+| 2    | Processing fails      | Error detected        |
+| 3    | System displays error | Failure is logged     |
 
 ---
 
@@ -308,11 +308,11 @@ File generation fails.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User exports report | System generates file |
-| 2 | File creation fails | Error occurs |
-| 3 | System notifies user | Export can be retried |
+| Step | Actor Action         | System Response       |
+| ---- | -------------------- | --------------------- |
+| 1    | User exports report  | System generates file |
+| 2    | File creation fails  | Error occurs          |
+| 3    | System notifies user | Export can be retried |
 
 ---
 
@@ -375,39 +375,39 @@ Supported KPI:
 
 ## Report Entity
 
-| Field | Description |
-| --- | --- |
-| Report ID | Unique identifier |
-| Report Type | Report category |
-| User ID | Requesting user |
-| Factory ID | Data scope |
-| Created Time | Generation time |
-| Status | Report status |
+| Field        | Description       |
+| ------------ | ----------------- |
+| Report ID    | Unique identifier |
+| Report Type  | Report category   |
+| User ID      | Requesting user   |
+| Factory ID   | Data scope        |
+| Created Time | Generation time   |
+| Status       | Report status     |
 
 ---
 
 ## Report Filter Entity
 
-| Field | Description |
-| --- | --- |
-| Filter ID | Unique identifier |
-| Report ID | Related report |
-| Time Range | Selected period |
-| Factory | Factory scope |
-| Machine | Machine scope |
+| Field      | Description       |
+| ---------- | ----------------- |
+| Filter ID  | Unique identifier |
+| Report ID  | Related report    |
+| Time Range | Selected period   |
+| Factory    | Factory scope     |
+| Machine    | Machine scope     |
 
 ---
 
 # 12. Input Requirements
 
-| Input | Required |
-| --- | --- |
-| User ID | Yes |
-| Report Type | Yes |
-| Factory ID | Yes |
-| Time Range | Optional |
+| Input           | Required |
+| --------------- | -------- |
+| User ID         | Yes      |
+| Report Type     | Yes      |
+| Factory ID      | Yes      |
+| Time Range      | Optional |
 | Filter Criteria | Optional |
-| Export Format | Optional |
+| Export Format   | Optional |
 
 ---
 
@@ -529,20 +529,20 @@ Then:
 
 # 16. Related Requirements
 
-| Requirement | Reference |
-| --- | --- |
-| Machine Management | UCS-07 |
-| Telemetry Management | UCS-09 |
-| Alert Management | UCS-10 |
-| Incident Management | UCS-11 |
-| Maintenance Management | UCS-12 |
-| Dashboard & Monitoring | UCS-13 |
-| Audit Log | UCS-23 |
+| Requirement            | Reference |
+| ---------------------- | --------- |
+| Machine Management     | UCS-07    |
+| Telemetry Management   | UCS-09    |
+| Alert Management       | UCS-10    |
+| Incident Management    | UCS-11    |
+| Maintenance Management | UCS-12    |
+| Dashboard & Monitoring | UCS-13    |
+| Audit Log              | UCS-23    |
 
 ---
 
 # Revision History
 
-| Version | Date | Author | Description |
-| --- | --- | --- | --- |
-| 1.0 | 2026-08-07 | Business Analyst | Initial version |
+| Version | Date       | Author           | Description     |
+| ------- | ---------- | ---------------- | --------------- |
+| 1.0     | 2026-08-07 | Business Analyst | Initial version |

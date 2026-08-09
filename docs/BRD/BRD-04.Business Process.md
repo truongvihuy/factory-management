@@ -430,10 +430,10 @@ Historical Query
 
 ## Data Retention Policy
 
-| Data Type | Retention |
-|------------|-----------|
-| Raw Telemetry | 6 Months |
-| Summary Data | 5 Years |
+| Data Type     | Retention |
+| ------------- | --------- |
+| Raw Telemetry | 6 Months  |
+| Summary Data  | 5 Years   |
 
 Archived data shall remain searchable.
 

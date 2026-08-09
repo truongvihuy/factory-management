@@ -1,11 +1,12 @@
-import { FactoryClientService, HTTP_CLIENTS } from '@libs/http-client';
+import type { FactoryClientService} from '@libs/http-client';
+import { HTTP_CLIENTS } from '@libs/http-client';
 import { Inject, Injectable } from '@nestjs/common';
-import { PayloadSensorDto } from '../dto/payload-sensor.dto';
-import { SensorLatestRepository } from '../repositories/sensor-lastest.repository';
-import { SensorReadingRepository } from '../repositories/sensor-reading.repository';
-import { TelemetryBroadcastService } from '../websockets/telemetry-broacast.service';
-import { TelemetryCacheService } from './telemetry-cache.service';
-import { TelemetryValidatorService } from './telemetry-validator.service';
+import type { PayloadSensorDto } from '../dto/payload-sensor.dto';
+import type { SensorLatestRepository } from '../repositories/sensor-lastest.repository';
+import type { SensorReadingRepository } from '../repositories/sensor-reading.repository';
+import type { TelemetryBroadcastService } from '../websockets/telemetry-broacast.service';
+import type { TelemetryCacheService } from './telemetry-cache.service';
+import type { TelemetryValidatorService } from './telemetry-validator.service';
 
 @Injectable()
 export class TelemetryService {

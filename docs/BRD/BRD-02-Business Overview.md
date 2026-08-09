@@ -7,6 +7,7 @@ Section: BRD-02 Business Overview
 Project: Factory Management System (FMS)
 
 # 2. Business Overview
+
 ## 2.1 Business Overview
 
 The Factory Management System (FMS) is an enterprise platform designed to centralize the management and monitoring of industrial assets across multiple companies and factories.
@@ -34,17 +35,17 @@ The long-term vision includes:
 
 The system is expected to achieve the following business goals.
 
-| Priority | Goal |
-|----------|------|
-| High | Reduce machine downtime |
-| High | Detect abnormal machine conditions as early as possible |
-| High | Improve asset availability |
-| High | Standardize maintenance processes |
-| Medium | Reduce maintenance costs |
-| Medium | Improve equipment utilization |
-| Medium | Reduce energy consumption |
-| Medium | Improve operational visibility |
-| Low | Provide historical operational data for business analysis |
+| Priority | Goal                                                      |
+| -------- | --------------------------------------------------------- |
+| High     | Reduce machine downtime                                   |
+| High     | Detect abnormal machine conditions as early as possible   |
+| High     | Improve asset availability                                |
+| High     | Standardize maintenance processes                         |
+| Medium   | Reduce maintenance costs                                  |
+| Medium   | Improve equipment utilization                             |
+| Medium   | Reduce energy consumption                                 |
+| Medium   | Improve operational visibility                            |
+| Low      | Provide historical operational data for business analysis |
 
 ## 2.4 Business Scope
 
@@ -75,6 +76,7 @@ Company
     │
     └── Reporting
 ```
+
 ## 2.5 Organizational Structure
 
 The business hierarchy is defined as follows.
@@ -94,7 +96,6 @@ Company
 ```
 
 ### Company
-
 
 Represents an organization that owns one or more factories.
 
@@ -134,6 +135,7 @@ Each machine contains:
 - Maintenance History
 - Incident History
 - Telemetry History
+
 ### Sensor
 
 Represents an IoT device attached to a machine.
@@ -149,20 +151,22 @@ When a Sensor is moved:
 
 The following stakeholders interact with the system.
 
-| Role | Responsibilities |
-|------|------------------|
-| Factory Manager | Monitor overall factory operations |
-| Production Supervisor | Monitor workshops and production lines |
-| Maintenance Planner | Schedule maintenance activities |
-| Maintenance Engineer | Execute maintenance work orders |
-| Operator | Monitor assigned machines and acknowledge alerts |
-| Director | Review KPIs and management reports |
-| System Administrator | Configure users, permissions, and system settings |
+| Role                  | Responsibilities                                  |
+| --------------------- | ------------------------------------------------- |
+| Factory Manager       | Monitor overall factory operations                |
+| Production Supervisor | Monitor workshops and production lines            |
+| Maintenance Planner   | Schedule maintenance activities                   |
+| Maintenance Engineer  | Execute maintenance work orders                   |
+| Operator              | Monitor assigned machines and acknowledge alerts  |
+| Director              | Review KPIs and management reports                |
+| System Administrator  | Configure users, permissions, and system settings |
+
 ## 2.7 Business Capabilities
 
 The system provides the following business capabilities.
 
 ### Asset Management
+
 - Company Management
 - Factory Management
 - Workshop Management
@@ -177,12 +181,14 @@ The system provides the following business capabilities.
 - Alert Management
 
 ### Threshold monitoring
+
 - Alert generation
 - Alert acknowledgment
 - Alert escalation
 - Alert history
 
 ### Maintenance Management
+
 - Maintenance scheduling
 - Preventive maintenance
 - Corrective maintenance
@@ -193,6 +199,7 @@ The system provides the following business capabilities.
 - Maintenance history
 
 ### Incident Management
+
 - Incident creation
 - Incident assignment
 - SLA tracking
@@ -200,6 +207,7 @@ The system provides the following business capabilities.
 - Major Incident grouping
 
 ### Reporting
+
 - Operational Dashboard
 - Machine Status Report
 - Maintenance Report
@@ -214,6 +222,7 @@ The system provides the following business capabilities.
 The MVP supports the following core business processes.
 
 ### Asset Lifecycle
+
 ```
 Create Machine
         │
@@ -231,6 +240,7 @@ Retirement
 ```
 
 ### Monitoring Process
+
 ```
 Sensor
 
@@ -250,7 +260,9 @@ Monitoring
 
 Dashboard
 ```
+
 ### Alert Process
+
 ```
 Telemetry
 
@@ -278,7 +290,9 @@ Resolution
 
 Close
 ```
+
 ### Maintenance Process
+
 ```
 Maintenance Schedule
 
@@ -304,6 +318,7 @@ Maintenance History
 ```
 
 ### Incident Process
+
 ```
 Incident
 
@@ -333,33 +348,41 @@ Closure
 The following business policies govern system operations.
 
 ### Asset Policy
+
 - Every Machine must belong to one Production Line.
 - Every Sensor must belong to one Machine.
 - Assignment history must never be deleted.
 
 ### Monitoring Policy
+
 - Telemetry data is append-only.
 - Historical telemetry cannot be modified.
 - Real-time monitoring must always reflect the latest machine status.
 
 ### Maintenance Policy
+
 - Maintenance activities require an approved Work Order.
 - Every completed maintenance activity must include a checklist.
 - Maintenance history must be permanently retained.
 
 ### Incident Policy
+
 - Every Incident is associated with one Machine.
 - Critical Incidents must comply with SLA requirements.
 - Every Incident must follow the defined lifecycle.
 
 ### Security Policy
+
 - Users authenticate using Local Accounts.
 - A user may access multiple Factories.
 - Authorization is enforced at the Factory level.
+
 ### Data Retention Policy
+
 - Raw telemetry data is retained for six months.
 - After the retention period, raw telemetry data is archived.
 - Summary data is retained for five years.
+
 ## 2.10 Business Assumptions
 
 The following assumptions apply throughout the project.

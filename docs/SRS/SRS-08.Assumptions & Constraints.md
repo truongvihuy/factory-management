@@ -4,7 +4,7 @@
 **Section:** SRS-08 Assumptions & Constraints  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -44,7 +44,7 @@ Company
                             └── Machine
                                     |
                                     └── Sensor
-````
+```
 
 ---
 
@@ -52,8 +52,8 @@ Company
 
 The system assumes:
 
-* One Company can own multiple Factories.
-* Each Factory belongs to one Company.
+- One Company can own multiple Factories.
+- Each Factory belongs to one Company.
 
 ---
 
@@ -61,9 +61,9 @@ The system assumes:
 
 The system assumes:
 
-* One Factory can contain multiple Workshops.
-* One Workshop can contain multiple Production Lines.
-* One Production Line can contain multiple Machines.
+- One Factory can contain multiple Workshops.
+- One Workshop can contain multiple Production Lines.
+- One Production Line can contain multiple Machines.
 
 ---
 
@@ -73,8 +73,8 @@ The system assumes:
 
 The system assumes:
 
-* Each Machine belongs to only one Production Line at any point in time.
-* Machine relocation is an occasional business activity.
+- Each Machine belongs to only one Production Line at any point in time.
+- Machine relocation is an occasional business activity.
 
 ---
 
@@ -84,12 +84,12 @@ The system assumes users provide accurate machine information.
 
 Required information includes:
 
-* Machine Code.
-* Machine Name.
-* Machine Type.
-* Manufacturer.
-* Serial Number.
-* Installation Information.
+- Machine Code.
+- Machine Name.
+- Machine Type.
+- Manufacturer.
+- Serial Number.
+- Installation Information.
 
 ---
 
@@ -117,9 +117,9 @@ Retired
 
 The system assumes:
 
-* Each Sensor belongs to one Machine at a time.
-* Sensor replacement occurs periodically.
-* Sensor assignment history must be preserved.
+- Each Sensor belongs to one Machine at a time.
+- Sensor replacement occurs periodically.
+- Sensor assignment history must be preserved.
 
 ---
 
@@ -127,9 +127,9 @@ The system assumes:
 
 The system assumes sensors:
 
-* Continuously collect operational data.
-* Provide valid measurement values.
-* Have unique identifiers.
+- Continuously collect operational data.
+- Provide valid measurement values.
+- Have unique identifiers.
 
 ---
 
@@ -139,9 +139,9 @@ The system assumes sensors:
 
 The system assumes:
 
-* Machines continuously transmit telemetry data.
-* Gateway devices collect and forward telemetry.
-* Network interruptions may occur.
+- Machines continuously transmit telemetry data.
+- Gateway devices collect and forward telemetry.
+- Network interruptions may occur.
 
 ---
 
@@ -149,8 +149,8 @@ The system assumes:
 
 The system assumes gateways are responsible for:
 
-* Temporary data buffering.
-* Data forwarding after network recovery.
+- Temporary data buffering.
+- Data forwarding after network recovery.
 
 ---
 
@@ -158,9 +158,9 @@ The system assumes gateways are responsible for:
 
 The system assumes industrial devices support:
 
-* MQTT.
-* OPC-UA.
-* Modbus TCP.
+- MQTT.
+- OPC-UA.
+- Modbus TCP.
 
 ---
 
@@ -170,8 +170,8 @@ The system assumes industrial devices support:
 
 The system assumes:
 
-* Users have valid accounts before accessing the system.
-* User information is maintained by administrators.
+- Users have valid accounts before accessing the system.
+- User information is maintained by administrators.
 
 ---
 
@@ -179,9 +179,9 @@ The system assumes:
 
 The system assumes:
 
-* User access is controlled at Factory level.
-* Users may have access to multiple Factories.
-* Users receive appropriate roles before operation.
+- User access is controlled at Factory level.
+- Users may have access to multiple Factories.
+- Users receive appropriate roles before operation.
 
 ---
 
@@ -189,8 +189,8 @@ The system assumes:
 
 The MVP assumes:
 
-* Local Account authentication is used.
-* External identity providers are not required.
+- Local Account authentication is used.
+- External identity providers are not required.
 
 ---
 
@@ -200,9 +200,9 @@ The MVP assumes:
 
 The system assumes:
 
-* Maintenance activities follow defined workflows.
-* Maintenance engineers are assigned before execution.
-* Completed maintenance records are retained.
+- Maintenance activities follow defined workflows.
+- Maintenance engineers are assigned before execution.
+- Completed maintenance records are retained.
 
 ---
 
@@ -210,10 +210,10 @@ The system assumes:
 
 The system assumes users provide:
 
-* Maintenance schedule.
-* Checklist information.
-* Completion results.
-* Maintenance notes.
+- Maintenance schedule.
+- Checklist information.
+- Completion results.
+- Maintenance notes.
 
 ---
 
@@ -223,8 +223,8 @@ The system assumes users provide:
 
 The system assumes:
 
-* Required operational data exists before generating reports.
-* Historical data is available for analysis.
+- Required operational data exists before generating reports.
+- Historical data is available for analysis.
 
 ---
 
@@ -232,10 +232,10 @@ The system assumes:
 
 The system assumes KPI calculations depend on:
 
-* Machine status.
-* Telemetry data.
-* Maintenance records.
-* Incident records.
+- Machine status.
+- Telemetry data.
+- Maintenance records.
+- Incident records.
 
 ---
 
@@ -247,7 +247,7 @@ The system assumes KPI calculations depend on:
 
 The MVP supports only:
 
-* Local Account authentication.
+- Local Account authentication.
 
 External authentication systems are not included.
 
@@ -257,10 +257,10 @@ External authentication systems are not included.
 
 The system shall enforce:
 
-* Historical telemetry cannot be modified.
-* Historical assignment records cannot be deleted.
-* Maintenance history cannot be deleted.
-* Incident history cannot be deleted.
+- Historical telemetry cannot be modified.
+- Historical assignment records cannot be deleted.
+- Maintenance history cannot be deleted.
+- Incident history cannot be deleted.
 
 ---
 
@@ -268,7 +268,7 @@ The system shall enforce:
 
 The system shall enforce:
 
-* One Machine belongs to one Production Line at a time.
+- One Machine belongs to one Production Line at a time.
 
 ---
 
@@ -276,7 +276,7 @@ The system shall enforce:
 
 The system shall enforce:
 
-* One Sensor belongs to one Machine at a time.
+- One Sensor belongs to one Machine at a time.
 
 ---
 
@@ -286,10 +286,10 @@ The system shall enforce:
 
 The MVP does not support:
 
-* Production Orders.
-* Production Planning.
-* Production Scheduling.
-* Production Execution.
+- Production Orders.
+- Production Planning.
+- Production Scheduling.
+- Production Execution.
 
 ---
 
@@ -297,9 +297,9 @@ The MVP does not support:
 
 The MVP does not include:
 
-* Manufacturing workflow.
-* Work instructions.
-* Process tracking.
+- Manufacturing workflow.
+- Work instructions.
+- Process tracking.
 
 ---
 
@@ -307,9 +307,9 @@ The MVP does not include:
 
 The MVP does not include:
 
-* Quality inspection.
-* Quality control.
-* Reject analysis.
+- Quality inspection.
+- Quality control.
+- Reject analysis.
 
 ---
 
@@ -317,9 +317,9 @@ The MVP does not include:
 
 The MVP does not include:
 
-* Inventory management.
-* Material tracking.
-* Warehouse operation.
+- Inventory management.
+- Material tracking.
+- Warehouse operation.
 
 ---
 
@@ -327,9 +327,9 @@ The MVP does not include:
 
 The MVP does not include:
 
-* SAP integration.
-* Oracle ERP integration.
-* Other ERP systems.
+- SAP integration.
+- Oracle ERP integration.
+- Other ERP systems.
 
 ---
 
@@ -350,11 +350,11 @@ The system shall apply:
 
 The following data shall be immutable:
 
-* Telemetry data.
-* Assignment history.
-* Maintenance history.
-* Incident history.
-* Audit logs.
+- Telemetry data.
+- Assignment history.
+- Maintenance history.
+- Incident history.
+- Audit logs.
 
 ---
 
@@ -364,8 +364,8 @@ The following data shall be immutable:
 
 The system shall provide:
 
-* Near real-time machine status.
-* Near real-time alert updates.
+- Near real-time machine status.
+- Near real-time alert updates.
 
 ---
 
@@ -373,9 +373,9 @@ The system shall provide:
 
 The system depends on:
 
-* Stable network connectivity.
-* Gateway communication.
-* Industrial device availability.
+- Stable network connectivity.
+- Gateway communication.
+- Industrial device availability.
 
 ---
 
@@ -383,9 +383,9 @@ The system depends on:
 
 The system depends on:
 
-* Accurate machine configuration.
-* Correct sensor assignment.
-* Correct alert threshold configuration.
+- Accurate machine configuration.
+- Correct sensor assignment.
+- Correct alert threshold configuration.
 
 ---
 
@@ -395,9 +395,9 @@ The system depends on:
 
 The system shall enforce:
 
-* User authentication.
-* Role-based permissions.
-* Factory-level data isolation.
+- User authentication.
+- Role-based permissions.
+- Factory-level data isolation.
 
 ---
 
@@ -405,9 +405,9 @@ The system shall enforce:
 
 The system shall record:
 
-* User activities.
-* Configuration changes.
-* Permission changes.
+- User activities.
+- Configuration changes.
+- Permission changes.
 
 Audit records shall not be modified by normal users.
 

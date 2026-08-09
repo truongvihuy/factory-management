@@ -6,7 +6,7 @@ Suggest verification.
 
 Do not fix immediately.
 
-~~~~~~~~~~~~~~~~~~~~~~~`
+````
 
 Review:
 
@@ -25,3 +25,4 @@ Preserve behavior.
 Improve readability.
 
 Reduce duplication.
+```

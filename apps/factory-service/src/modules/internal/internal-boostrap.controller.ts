@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { InternalBootstrapService } from './internal-boostrap.service';
+import type { InternalBootstrapService } from './internal-boostrap.service';
 
 @Controller('internal-bootstrap')
 export class InternalBootstrapController {

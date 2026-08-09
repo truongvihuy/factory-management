@@ -1,7 +1,8 @@
 import { JwtAuthGuard, PermissionGuard, RequestContextGateWayMiddleware } from '@libs/common';
 import { TestMiddleware } from '@libs/common/test';
 import { HTTP_CLIENTS, HttpClientModule } from '@libs/http-client';
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import type { MiddlewareConsumer, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthModule } from './modules/auth/auth.module';

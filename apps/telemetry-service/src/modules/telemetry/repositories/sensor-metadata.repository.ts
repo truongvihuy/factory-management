@@ -1,6 +1,6 @@
-import { PrismaService } from '@libs/database';
+import type { PrismaService } from '@libs/database';
 import { Injectable } from '@nestjs/common';
-import { Sensor } from '@prisma';
+import type { Sensor } from '@prisma';
 
 @Injectable()
 export class SensorMetadataRepository {

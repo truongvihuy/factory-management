@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TelemetryGateway } from './telemetry.gateway';
+import type { TelemetryGateway } from './telemetry.gateway';
 
 @Injectable()
 export class TelemetryBroadcastService {

@@ -1,7 +1,8 @@
-import { MqttService } from '@libs/mqtt';
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { PayloadSensorDto } from '../dto/payload-sensor.dto';
-import { TelemetryService } from '../services/telemetry.service';
+import type { MqttService } from '@libs/mqtt';
+import type { OnModuleInit } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import type { PayloadSensorDto } from '../dto/payload-sensor.dto';
+import type { TelemetryService } from '../services/telemetry.service';
 
 @Injectable()
 export class TelemetryConsumer implements OnModuleInit {

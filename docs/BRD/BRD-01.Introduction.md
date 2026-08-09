@@ -13,6 +13,7 @@ Author: Business Analyst
 Last Updated: 2026-08-04
 
 # 1. Introduction
+
 ## 1.1 Purpose
 
 This Business Requirements Document (BRD) defines the business requirements for the Factory Management System (FMS).
@@ -44,27 +45,32 @@ To address these challenges, the company requires a centralized Factory Manageme
 The organization currently faces the following business challenges.
 
 ### Asset Management
+
 - Difficulty managing a large number of machines and equipment.
 - No centralized history of machine location changes.
 - Limited traceability of sensor assignments.
 
 ### Operational Monitoring
+
 - Inability to monitor machine status in real time.
 - Delayed detection of abnormal operating conditions.
 - IoT data is collected from different protocols without centralized management.
 
 ### Maintenance Management
+
 - Maintenance schedules are managed manually.
 - No standardized maintenance checklist.
 - Difficult to track maintenance history.
 - Unable to evaluate maintenance effectiveness.
 
 ### Incident Management
+
 - No standardized incident management workflow.
 - Difficult to monitor SLA compliance.
 - No escalation mechanism for critical incidents.
 
 ### Reporting
+
 - Operational data is fragmented.
 - Reports require manual consolidation.
 - No real-time operational dashboard.
@@ -74,6 +80,7 @@ The organization currently faces the following business challenges.
 The Factory Management System aims to achieve the following business objectives.
 
 ### Primary Objectives
+
 - Reduce machine downtime.
 - Detect equipment abnormalities as early as possible.
 - Improve operational visibility.
@@ -82,6 +89,7 @@ The Factory Management System aims to achieve the following business objectives.
 - Centralize operational data across multiple factories.
 
 ### Long-Term Objectives
+
 - Establish the foundation for a Smart Factory platform.
 - Enable data-driven decision making.
 - Reduce operational costs.
@@ -116,21 +124,23 @@ The system includes:
 The following business domains are excluded from the MVP.
 
 ### Production Management
+
 - Production Order Management
 - Product Management
 - Production Planning
 - Production Scheduling
 
 ### Quality Management
+
 - Quality Inspection
 - Quality Control
 - Reject Analysis
 
 ### Warehouse Management
+
 - Inventory Management
 - Material Management
 - Bill of Materials (BOM)
-
 
 ### ERP Integration
 
@@ -141,6 +151,7 @@ Integration with ERP systems is not included in the MVP.
 MES functionality is outside the current project scope.
 
 ### Financial Management
+
 - Cost Accounting
 - Purchasing
 - Financial Reporting
@@ -152,6 +163,7 @@ These capabilities may be considered in future project phases.
 The project will be considered successful when the following objectives are achieved.
 
 ### Business
+
 - Support multiple companies.
 - Support multiple factories.
 - Support multiple workshops.
@@ -160,28 +172,31 @@ The project will be considered successful when the following objectives are achi
 - Support multiple sensors.
 
 ### Monitoring
+
 - Display real-time machine status.
 - Continuously collect IoT telemetry.
 - Generate alerts based on configured business rules.
 - Provide near real-time dashboards.
 
 ### Maintenance
+
 - Manage maintenance schedules.
 - Manage maintenance work orders.
 - Support maintenance checklists.
 - Maintain complete maintenance history.
 
 ### Incident Management
+
 - Manage incident lifecycle.
 - Track SLA compliance.
 - Maintain incident history.
 
 ### Reporting
+
 - Provide operational dashboards.
 - Generate KPI reports.
 - Export reports to PDF.
 - Export reports to Excel.
-
 
 ## 1.8 Assumptions
 
@@ -201,6 +216,7 @@ The following assumptions apply to the project.
 - A user may have access to multiple Factories.
 - Authorization is managed at the Factory level.
 - Raw telemetry data will be archived after the configured retention period rather than immediately deleted.
+
 ## 1.9 Constraints
 
 The project is subject to the following constraints.
@@ -212,18 +228,17 @@ The project is subject to the following constraints.
 - The system must support future scaling to multiple factories and thousands of machines.
 - Production management functionality is excluded from the MVP.
 
-
 ## 1.10 Intended Audience
 
 This document is intended for the following stakeholders.
 
-| Role | Responsibility |
-|------|----------------|
-| Product Owner | Validate business requirements |
-| Business Analyst | Analyze and document requirements |
-| Solution Architect | Design the overall solution architecture |
-| Technical Lead | Define technical implementation strategy |
-| Backend Developer | Implement backend services |
-| Frontend Developer | Develop user interfaces |
-| QA Engineer | Prepare test scenarios and validate functionality |
-| Project Manager | Manage project scope and delivery |
+| Role               | Responsibility                                    |
+| ------------------ | ------------------------------------------------- |
+| Product Owner      | Validate business requirements                    |
+| Business Analyst   | Analyze and document requirements                 |
+| Solution Architect | Design the overall solution architecture          |
+| Technical Lead     | Define technical implementation strategy          |
+| Backend Developer  | Implement backend services                        |
+| Frontend Developer | Develop user interfaces                           |
+| QA Engineer        | Prepare test scenarios and validate functionality |
+| Project Manager    | Manage project scope and delivery                 |

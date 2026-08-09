@@ -5,7 +5,7 @@
 **Use Case Name:** Organization Management  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -28,11 +28,11 @@ The organization hierarchy provides the foundation for asset management, user au
 
 # 2. Actors
 
-| Actor | Description |
-| --- | --- |
-| System Administrator | Manages organizational structure |
-| Factory Manager | Views and manages assigned factory information |
-| Director | Views organization information for reporting purposes |
+| Actor                | Description                                           |
+| -------------------- | ----------------------------------------------------- |
+| System Administrator | Manages organizational structure                      |
+| Factory Manager      | Views and manages assigned factory information        |
+| Director             | Views organization information for reporting purposes |
 
 ---
 
@@ -82,7 +82,7 @@ Company
                     └── Production Line
                             │
                             └── Machine
-````
+```
 
 ---
 
@@ -96,9 +96,9 @@ Before executing this use case:
 
 Examples:
 
-* Factory requires existing Company.
-* Workshop requires existing Factory.
-* Production Line requires existing Workshop.
+- Factory requires existing Company.
+- Workshop requires existing Factory.
+- Production Line requires existing Workshop.
 
 ---
 
@@ -106,9 +106,9 @@ Examples:
 
 The use case is triggered when:
 
-* Administrator needs to configure factory organization structure.
-* Organization information changes.
-* A new company, factory, workshop, or production line is created.
+- Administrator needs to configure factory organization structure.
+- Organization information changes.
+- A new company, factory, workshop, or production line is created.
 
 ---
 
@@ -215,8 +215,8 @@ Required parent entity does not exist.
 
 Examples:
 
-* Creating Factory without Company.
-* Creating Workshop without Factory.
+- Creating Factory without Company.
+- Creating Workshop without Factory.
 
 Flow:
 
@@ -321,10 +321,10 @@ Inactive entities cannot be used for new assignments.
 
 Deactivating organization entities must not remove:
 
-* Historical machine assignments.
-* Historical telemetry.
-* Historical maintenance records.
-* Historical incidents.
+- Historical machine assignments.
+- Historical telemetry.
+- Historical maintenance records.
+- Historical incidents.
 
 ---
 
@@ -395,11 +395,11 @@ Deactivating organization entities must not remove:
 
 The system provides:
 
-* Organization hierarchy view.
-* Organization details.
-* Creation result.
-* Update result.
-* Status change result.
+- Organization hierarchy view.
+- Organization details.
+- Creation result.
+- Update result.
+- Status change result.
 
 ---
 
@@ -409,9 +409,9 @@ The system provides:
 
 After completion:
 
-* Organization entity is created or updated.
-* Hierarchy relationship is maintained.
-* Audit record is generated.
+- Organization entity is created or updated.
+- Hierarchy relationship is maintained.
+- Audit record is generated.
 
 ---
 
@@ -419,9 +419,9 @@ After completion:
 
 After failure:
 
-* No invalid organization data is stored.
-* Error information is returned.
-* Failure is logged.
+- No invalid organization data is stored.
+- Error information is returned.
+- Failure is logged.
 
 ---
 
@@ -431,16 +431,16 @@ After failure:
 
 Given:
 
-* User has organization management permission.
+- User has organization management permission.
 
 When:
 
-* User creates a valid company.
+- User creates a valid company.
 
 Then:
 
-* Company is created successfully.
-* Company appears in organization hierarchy.
+- Company is created successfully.
+- Company appears in organization hierarchy.
 
 ---
 
@@ -448,15 +448,15 @@ Then:
 
 Given:
 
-* Company exists.
+- Company exists.
 
 When:
 
-* User creates a factory.
+- User creates a factory.
 
 Then:
 
-* Factory is linked to the correct company.
+- Factory is linked to the correct company.
 
 ---
 
@@ -464,15 +464,15 @@ Then:
 
 Given:
 
-* Factory exists.
+- Factory exists.
 
 When:
 
-* User creates workshop.
+- User creates workshop.
 
 Then:
 
-* Workshop belongs to selected factory.
+- Workshop belongs to selected factory.
 
 ---
 
@@ -480,15 +480,15 @@ Then:
 
 Given:
 
-* Workshop exists.
+- Workshop exists.
 
 When:
 
-* User creates production line.
+- User creates production line.
 
 Then:
 
-* Production line belongs to selected workshop.
+- Production line belongs to selected workshop.
 
 ---
 
@@ -496,15 +496,15 @@ Then:
 
 Given:
 
-* Organization entity contains historical data.
+- Organization entity contains historical data.
 
 When:
 
-* Entity is deactivated.
+- Entity is deactivated.
 
 Then:
 
-* Historical records remain unchanged.
+- Historical records remain unchanged.
 
 ---
 

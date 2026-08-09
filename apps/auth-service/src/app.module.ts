@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { Module, type MiddlewareConsumer } from '@nestjs/common';
 import { LoggerModule } from './common/logger/logger.module';
 import { CorrelationMiddleware } from './common/tracing/correlation.middleware';
 import { TracingModule } from './common/tracing/tracing.module';

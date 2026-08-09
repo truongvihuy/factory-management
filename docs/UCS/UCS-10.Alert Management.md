@@ -5,7 +5,7 @@
 **Use Case Name:** Alert Management  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -29,14 +29,14 @@ The purpose of Alert Management is to:
 
 # 2. Actors
 
-| Actor | Description |
-| --- | --- |
-| System | Evaluates telemetry data and generates alerts |
-| Factory Manager | Monitors and manages alerts within factories |
+| Actor                 | Description                                   |
+| --------------------- | --------------------------------------------- |
+| System                | Evaluates telemetry data and generates alerts |
+| Factory Manager       | Monitors and manages alerts within factories  |
 | Production Supervisor | Reviews machine alerts and operational issues |
-| Maintenance Engineer | Handles technical issues related to alerts |
-| Operator | Acknowledges assigned alerts |
-| Maintenance Planner | Creates follow-up maintenance activities |
+| Maintenance Engineer  | Handles technical issues related to alerts    |
+| Operator              | Acknowledges assigned alerts                  |
+| Maintenance Planner   | Creates follow-up maintenance activities      |
 
 ---
 
@@ -101,10 +101,10 @@ The use case is triggered when:
 
 The system supports the following alert levels:
 
-| Severity | Description |
-| --- | --- |
-| Info | Informational condition |
-| Warning | Abnormal condition requiring attention |
+| Severity | Description                                  |
+| -------- | -------------------------------------------- |
+| Info     | Informational condition                      |
+| Warning  | Abnormal condition requiring attention       |
 | Critical | Serious condition requiring immediate action |
 
 ---
@@ -128,7 +128,7 @@ Resolved
     │
     ▼
 Closed
-````
+```
 
 ---
 
@@ -307,9 +307,9 @@ Machine
 
 Every alert must contain a severity level:
 
-* Info.
-* Warning.
-* Critical.
+- Info.
+- Warning.
+- Critical.
 
 ---
 
@@ -331,11 +331,11 @@ Closed
 
 The system must maintain:
 
-* Creation time.
-* Acknowledgement time.
-* Resolution time.
-* Closure time.
-* User activities.
+- Creation time.
+- Acknowledgement time.
+- Resolution time.
+- Closure time.
+- User activities.
 
 ---
 
@@ -343,9 +343,9 @@ The system must maintain:
 
 Critical alerts must:
 
-* Notify responsible users immediately.
-* Support escalation.
-* Be tracked until closure.
+- Notify responsible users immediately.
+- Support escalation.
+- Be tracked until closure.
 
 ---
 
@@ -424,11 +424,11 @@ Historical alerts cannot be deleted.
 
 The system provides:
 
-* Active alert list.
-* Alert details.
-* Alert history.
-* Alert status.
-* Alert escalation history.
+- Active alert list.
+- Alert details.
+- Alert history.
+- Alert status.
+- Alert escalation history.
 
 ---
 
@@ -438,10 +438,10 @@ The system provides:
 
 After completion:
 
-* Alert is generated correctly.
-* Responsible users are notified.
-* Alert lifecycle is tracked.
-* Historical records are maintained.
+- Alert is generated correctly.
+- Responsible users are notified.
+- Alert lifecycle is tracked.
+- Historical records are maintained.
 
 ---
 
@@ -449,9 +449,9 @@ After completion:
 
 After failure:
 
-* Alert generation failure is recorded.
-* Existing data remains unchanged.
-* System retries where applicable.
+- Alert generation failure is recorded.
+- Existing data remains unchanged.
+- System retries where applicable.
 
 ---
 
@@ -461,15 +461,15 @@ After failure:
 
 Given:
 
-* Telemetry exceeds configured threshold.
+- Telemetry exceeds configured threshold.
 
 When:
 
-* Alert evaluation runs.
+- Alert evaluation runs.
 
 Then:
 
-* System creates an alert.
+- System creates an alert.
 
 ---
 
@@ -477,15 +477,15 @@ Then:
 
 Given:
 
-* Critical alert exists.
+- Critical alert exists.
 
 When:
 
-* Alert is generated.
+- Alert is generated.
 
 Then:
 
-* Responsible users receive notification.
+- Responsible users receive notification.
 
 ---
 
@@ -493,15 +493,15 @@ Then:
 
 Given:
 
-* Active alert exists.
+- Active alert exists.
 
 When:
 
-* User acknowledges alert.
+- User acknowledges alert.
 
 Then:
 
-* Alert status changes to Acknowledged.
+- Alert status changes to Acknowledged.
 
 ---
 
@@ -509,15 +509,15 @@ Then:
 
 Given:
 
-* Alert requires action.
+- Alert requires action.
 
 When:
 
-* User completes resolution.
+- User completes resolution.
 
 Then:
 
-* Alert status changes to Resolved.
+- Alert status changes to Resolved.
 
 ---
 
@@ -525,15 +525,15 @@ Then:
 
 Given:
 
-* Alert lifecycle changes.
+- Alert lifecycle changes.
 
 When:
 
-* User performs actions.
+- User performs actions.
 
 Then:
 
-* System stores complete history.
+- System stores complete history.
 
 ---
 

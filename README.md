@@ -8,16 +8,16 @@ The platform provides end-to-end visibility across factories, workshops, machine
 
 ### Key Capabilities
 
-* Factory Asset Management
-* Realtime Telemetry Collection
-* Equipment Monitoring
-* Alarm Detection & Notification
-* Maintenance Management
-* Production Analytics
-* Energy Analytics
-* KPI & OEE Dashboards
-* Digital Twin Visualization (Planned)
-* AI Predictive Maintenance (Planned)
+- Factory Asset Management
+- Realtime Telemetry Collection
+- Equipment Monitoring
+- Alarm Detection & Notification
+- Maintenance Management
+- Production Analytics
+- Energy Analytics
+- KPI & OEE Dashboards
+- Digital Twin Visualization (Planned)
+- AI Predictive Maintenance (Planned)
 
 ---
 
@@ -25,11 +25,11 @@ The platform provides end-to-end visibility across factories, workshops, machine
 
 Many factories still rely on manual monitoring processes, resulting in:
 
-* Delayed incident detection
-* Unplanned equipment downtime
-* High maintenance costs
-* Limited operational visibility
-* Inefficient energy consumption
+- Delayed incident detection
+- Unplanned equipment downtime
+- High maintenance costs
+- Limited operational visibility
+- Inefficient energy consumption
 
 This platform aims to digitize factory operations and provide real-time insights for operational excellence.
 
@@ -39,24 +39,24 @@ This platform aims to digitize factory operations and provide real-time insights
 
 ## Backend
 
-* Node.js
-* NestJS
-* TypeScript
+- Node.js
+- NestJS
+- TypeScript
 
 ## Database
 
-* PostgreSQL
+- PostgreSQL
 
 ## Realtime
 
-* MQTT (EMQX)
-* Redis
-* Socket.IO
+- MQTT (EMQX)
+- Redis
+- Socket.IO
 
 ## Infrastructure
 
-* Docker
-* Docker Compose
+- Docker
+- Docker Compose
 
 ---
 
@@ -89,36 +89,36 @@ Telemetry History
 
 Selected because:
 
-* Lightweight protocol for IoT devices
-* Low bandwidth usage
-* Publish / Subscribe model
-* High scalability
+- Lightweight protocol for IoT devices
+- Low bandwidth usage
+- Publish / Subscribe model
+- High scalability
 
 ## Redis
 
 Selected because:
 
-* Sub-millisecond latency
-* Realtime caching
-* Pub/Sub support
-* Fast alarm evaluation
+- Sub-millisecond latency
+- Realtime caching
+- Pub/Sub support
+- Fast alarm evaluation
 
 ## PostgreSQL
 
 Selected because:
 
-* ACID compliance
-* Strong relational modeling
-* Reliable transactional processing
+- ACID compliance
+- Strong relational modeling
+- Reliable transactional processing
 
 ## NestJS
 
 Selected because:
 
-* Modular architecture
-* Dependency Injection
-* Enterprise-grade scalability
-* Strong TypeScript support
+- Modular architecture
+- Dependency Injection
+- Enterprise-grade scalability
+- Strong TypeScript support
 
 ---
 
@@ -170,14 +170,14 @@ Frontend Dashboard
 
 ### Modules
 
-* Authentication
-* User Management
-* RBAC
-* Factory Management
-* Workshop Management
-* Machine Management
-* Sensor Management
-* Device Management
+- Authentication
+- User Management
+- RBAC
+- Factory Management
+- Workshop Management
+- Machine Management
+- Sensor Management
+- Device Management
 
 ### Objective
 
@@ -189,11 +189,11 @@ Build the core factory hierarchy and asset structure.
 
 ### Modules
 
-* MQTT Integration
-* Telemetry Processing
-* Redis Cache
-* WebSocket Gateway
-* Realtime Dashboard
+- MQTT Integration
+- Telemetry Processing
+- Redis Cache
+- WebSocket Gateway
+- Realtime Dashboard
 
 ### Objective
 
@@ -205,10 +205,10 @@ Collect and visualize sensor data in real time.
 
 ### Modules
 
-* Alarm Rules
-* Alarm Engine
-* Alarm Dashboard
-* Notification Service
+- Alarm Rules
+- Alarm Engine
+- Alarm Dashboard
+- Notification Service
 
 ### Objective
 
@@ -220,10 +220,10 @@ Automatically detect abnormal equipment behavior.
 
 ### Modules
 
-* Maintenance Plans
-* Maintenance Tickets
-* Scheduling
-* Maintenance History
+- Maintenance Plans
+- Maintenance Tickets
+- Scheduling
+- Maintenance History
 
 ### Objective
 
@@ -235,11 +235,11 @@ Support preventive and corrective maintenance workflows.
 
 ### Modules
 
-* Production Analytics
-* Energy Analytics
-* KPI Dashboard
-* OEE Dashboard
-* Export Reports
+- Production Analytics
+- Energy Analytics
+- KPI Dashboard
+- OEE Dashboard
+- Export Reports
 
 ### Objective
 
@@ -251,10 +251,10 @@ Deliver operational insights and performance measurements.
 
 ### Modules
 
-* Factory Mapping
-* Machine Mapping
-* 3D Visualization
-* Realtime Overlay
+- Factory Mapping
+- Machine Mapping
+- 3D Visualization
+- Realtime Overlay
 
 ---
 
@@ -262,10 +262,10 @@ Deliver operational insights and performance measurements.
 
 ### Modules
 
-* Predictive Maintenance
-* AI Anomaly Detection
-* Failure Prediction
-* Energy Optimization
+- Predictive Maintenance
+- AI Anomaly Detection
+- Failure Prediction
+- Energy Optimization
 
 ---
 
@@ -341,13 +341,13 @@ Services communicate through events rather than direct dependencies whenever pos
 
 # Security Strategy
 
-* JWT Authentication
-* Refresh Token
-* Role-Based Access Control (RBAC)
-* Request Validation
-* Audit Logging
-* Secure MQTT Authentication
-* API Rate Limiting
+- JWT Authentication
+- Refresh Token
+- Role-Based Access Control (RBAC)
+- Request Validation
+- Audit Logging
+- Secure MQTT Authentication
+- API Rate Limiting
 
 ---
 
@@ -355,12 +355,12 @@ Services communicate through events rather than direct dependencies whenever pos
 
 Metrics collected:
 
-* API Response Time
-* MQTT Throughput
-* Redis Hit/Miss Ratio
-* Alarm Processing Time
-* Active WebSocket Connections
-* Database Query Performance
+- API Response Time
+- MQTT Throughput
+- Redis Hit/Miss Ratio
+- Alarm Processing Time
+- Active WebSocket Connections
+- Database Query Performance
 
 ---
 
@@ -388,24 +388,24 @@ Deployment
 
 Future scaling plan:
 
-* EMQX Cluster
-* Redis Cluster
-* Kubernetes Deployment
-* TimescaleDB
-* Kafka Event Streaming
-* Multi-Factory Architecture
-* Multi-Tenant Support
+- EMQX Cluster
+- Redis Cluster
+- Kubernetes Deployment
+- TimescaleDB
+- Kafka Event Streaming
+- Multi-Factory Architecture
+- Multi-Tenant Support
 
 ---
 
 # Non-Functional Requirements
 
-* Realtime latency < 1 second
-* Horizontal scaling ready
-* High availability architecture
-* Event-driven processing
-* Observability by design
-* Microservice-ready structure
+- Realtime latency < 1 second
+- Horizontal scaling ready
+- High availability architecture
+- Event-driven processing
+- Observability by design
+- Microservice-ready structure
 
 ---
 
@@ -415,24 +415,24 @@ Current Phase: Realtime Monitoring
 
 Completed:
 
-* Authentication
-* RBAC
-* Factory Management
-* MQTT Integration
-* Telemetry Processing
-* Redis Integration
+- Authentication
+- RBAC
+- Factory Management
+- MQTT Integration
+- Telemetry Processing
+- Redis Integration
 
 In Progress:
 
-* Alarm Engine
-* WebSocket Dashboard
+- Alarm Engine
+- WebSocket Dashboard
 
 Planned:
 
-* Maintenance Management
-* Analytics
-* Digital Twin
-* AI Predictive Maintenance
+- Maintenance Management
+- Analytics
+- Digital Twin
+- AI Predictive Maintenance
 
 ---
 

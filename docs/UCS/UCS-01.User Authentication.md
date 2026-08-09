@@ -5,7 +5,7 @@
 **Use Case Name:** User Authentication  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -23,10 +23,10 @@ This use case ensures that only authorized users can access system functions and
 
 # 2. Actors
 
-| Actor | Description |
-| --- | --- |
-| User | A person who accesses the Factory Management System |
-| System Administrator | Responsible for managing user accounts and access permissions |
+| Actor                 | Description                                                     |
+| --------------------- | --------------------------------------------------------------- |
+| User                  | A person who accesses the Factory Management System             |
+| System Administrator  | Responsible for managing user accounts and access permissions   |
 | Authentication System | Internal system component responsible for credential validation |
 
 ---
@@ -77,16 +77,16 @@ The use case is triggered when:
 
 # 6. Main Success Flow
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User opens the login page | System displays login form |
-| 2 | User enters username and password | System receives authentication request |
-| 3 | User submits login request | System validates input format |
-| 4 | System verifies user credentials | System checks username and password validity |
-| 5 | System checks user account status | System verifies account is active |
-| 6 | System retrieves user roles and factory access permissions | System loads authorization information |
-| 7 | System creates user session | User is authenticated successfully |
-| 8 | System redirects user to dashboard | User can access permitted functions |
+| Step | Actor Action                                               | System Response                              |
+| ---- | ---------------------------------------------------------- | -------------------------------------------- |
+| 1    | User opens the login page                                  | System displays login form                   |
+| 2    | User enters username and password                          | System receives authentication request       |
+| 3    | User submits login request                                 | System validates input format                |
+| 4    | System verifies user credentials                           | System checks username and password validity |
+| 5    | System checks user account status                          | System verifies account is active            |
+| 6    | System retrieves user roles and factory access permissions | System loads authorization information       |
+| 7    | System creates user session                                | User is authenticated successfully           |
+| 8    | System redirects user to dashboard                         | User can access permitted functions          |
 
 ---
 
@@ -100,11 +100,11 @@ User enters incorrect username or password.
 
 ### Flow
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User submits login request | System validates credentials |
-| 2 | Credentials are invalid | System rejects authentication |
-| 3 | System displays error message | User is requested to retry |
+| Step | Actor Action                  | System Response               |
+| ---- | ----------------------------- | ----------------------------- |
+| 1    | User submits login request    | System validates credentials  |
+| 2    | Credentials are invalid       | System rejects authentication |
+| 3    | System displays error message | User is requested to retry    |
 
 Result:
 
@@ -120,11 +120,11 @@ User account exists but is disabled.
 
 ### Flow
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User submits credentials | System validates account |
-| 2 | System detects disabled account | Authentication is rejected |
-| 3 | System displays account disabled message | User cannot access system |
+| Step | Actor Action                             | System Response            |
+| ---- | ---------------------------------------- | -------------------------- |
+| 1    | User submits credentials                 | System validates account   |
+| 2    | System detects disabled account          | Authentication is rejected |
+| 3    | System displays account disabled message | User cannot access system  |
 
 Result:
 
@@ -140,11 +140,11 @@ User account is locked due to security policy.
 
 ### Flow
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User submits credentials | System checks account status |
-| 2 | System detects locked account | Authentication is rejected |
-| 3 | System informs user to contact administrator | Access is denied |
+| Step | Actor Action                                 | System Response              |
+| ---- | -------------------------------------------- | ---------------------------- |
+| 1    | User submits credentials                     | System checks account status |
+| 2    | System detects locked account                | Authentication is rejected   |
+| 3    | System informs user to contact administrator | Access is denied             |
 
 ---
 
@@ -158,11 +158,11 @@ Authentication service is unavailable.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User submits login request | System attempts authentication |
-| 2 | Authentication service fails | System returns service unavailable response |
-| 3 | System displays error notification | User retries later |
+| Step | Actor Action                       | System Response                             |
+| ---- | ---------------------------------- | ------------------------------------------- |
+| 1    | User submits login request         | System attempts authentication              |
+| 2    | Authentication service fails       | System returns service unavailable response |
+| 3    | System displays error notification | User retries later                          |
 
 ---
 
@@ -174,11 +174,11 @@ Unexpected system error occurs.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User submits credentials | System processes request |
-| 2 | Internal error occurs | System logs error |
-| 3 | System displays generic error message | User cannot login |
+| Step | Actor Action                          | System Response          |
+| ---- | ------------------------------------- | ------------------------ |
+| 1    | User submits credentials              | System processes request |
+| 2    | Internal error occurs                 | System logs error        |
+| 3    | System displays generic error message | User cannot login        |
 
 ---
 
@@ -248,16 +248,16 @@ After exceeding the configured limit:
 
 ## User Authentication Data
 
-| Field | Description |
-| --- | --- |
-| User ID | Unique user identifier |
-| Username | Login username |
-| Password | Encrypted password |
-| Account Status | Active / Disabled / Locked |
-| Role | User permission role |
-| Factory Access | Assigned factories |
-| Last Login Time | Latest successful login |
-| Failed Login Count | Number of failed attempts |
+| Field              | Description                |
+| ------------------ | -------------------------- |
+| User ID            | Unique user identifier     |
+| Username           | Login username             |
+| Password           | Encrypted password         |
+| Account Status     | Active / Disabled / Locked |
+| Role               | User permission role       |
+| Factory Access     | Assigned factories         |
+| Last Login Time    | Latest successful login    |
+| Failed Login Count | Number of failed attempts  |
 
 ---
 
@@ -265,10 +265,10 @@ After exceeding the configured limit:
 
 The system receives:
 
-| Input | Required |
-| --- | --- |
-| Username | Yes |
-| Password | Yes |
+| Input    | Required |
+| -------- | -------- |
+| Username | Yes      |
+| Password | Yes      |
 
 ---
 
@@ -397,17 +397,17 @@ Then:
 
 # 15. Related Requirements
 
-| Requirement | Reference |
-| --- | --- |
-| User Management | FR-08 |
-| Authorization | FR-09 |
-| Audit Log | FR-12 |
-| Security Rules | SRS-07 Business Rules |
+| Requirement     | Reference             |
+| --------------- | --------------------- |
+| User Management | FR-08                 |
+| Authorization   | FR-09                 |
+| Audit Log       | FR-12                 |
+| Security Rules  | SRS-07 Business Rules |
 
 ---
 
 # Revision History
 
-| Version | Date | Author | Description |
-| --- | --- | --- | --- |
-| 1.0 | 2026-08-07 | Business Analyst | Initial version |
+| Version | Date       | Author           | Description     |
+| ------- | ---------- | ---------------- | --------------- |
+| 1.0     | 2026-08-07 | Business Analyst | Initial version |

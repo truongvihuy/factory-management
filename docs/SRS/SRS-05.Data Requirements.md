@@ -4,7 +4,7 @@
 **Section:** SRS-05 Data Requirements  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -87,24 +87,24 @@ Company
 
 The Factory Management System manages the following major data entities.
 
-| Entity ID | Entity Name |
-| --------- | ----------- |
-| ENT-01 | Company |
-| ENT-02 | Factory |
-| ENT-03 | Workshop |
-| ENT-04 | Production Line |
-| ENT-05 | Machine |
-| ENT-06 | Sensor |
-| ENT-07 | Telemetry |
-| ENT-08 | Alert |
-| ENT-09 | Maintenance |
-| ENT-10 | Incident |
-| ENT-11 | User |
-| ENT-12 | Role |
-| ENT-13 | Permission |
-| ENT-14 | Dashboard Configuration |
-| ENT-15 | Report |
-| ENT-16 | Audit Log |
+| Entity ID | Entity Name             |
+| --------- | ----------------------- |
+| ENT-01    | Company                 |
+| ENT-02    | Factory                 |
+| ENT-03    | Workshop                |
+| ENT-04    | Production Line         |
+| ENT-05    | Machine                 |
+| ENT-06    | Sensor                  |
+| ENT-07    | Telemetry               |
+| ENT-08    | Alert                   |
+| ENT-09    | Maintenance             |
+| ENT-10    | Incident                |
+| ENT-11    | User                    |
+| ENT-12    | Role                    |
+| ENT-13    | Permission              |
+| ENT-14    | Dashboard Configuration |
+| ENT-15    | Report                  |
+| ENT-16    | Audit Log               |
 
 ---
 
@@ -118,13 +118,13 @@ Represents an organization that owns factories.
 
 ## Data Attributes
 
-| Attribute | Description |
-| --------- | ----------- |
-| Company ID | Unique identifier |
-| Company Code | Business identifier |
-| Company Name | Company name |
-| Status | Active / Inactive |
-| Created Date | Creation timestamp |
+| Attribute    | Description           |
+| ------------ | --------------------- |
+| Company ID   | Unique identifier     |
+| Company Code | Business identifier   |
+| Company Name | Company name          |
+| Status       | Active / Inactive     |
+| Created Date | Creation timestamp    |
 | Updated Date | Last update timestamp |
 
 ## Relationships
@@ -147,14 +147,14 @@ Represents a manufacturing facility.
 
 ## Data Attributes
 
-| Attribute | Description |
-| --------- | ----------- |
-| Factory ID | Unique identifier |
-| Factory Code | Factory identifier |
-| Factory Name | Factory name |
-| Address | Factory location |
-| Status | Active / Inactive |
-| Created Date | Creation timestamp |
+| Attribute    | Description           |
+| ------------ | --------------------- |
+| Factory ID   | Unique identifier     |
+| Factory Code | Factory identifier    |
+| Factory Name | Factory name          |
+| Address      | Factory location      |
+| Status       | Active / Inactive     |
+| Created Date | Creation timestamp    |
 | Updated Date | Last update timestamp |
 
 ## Relationships
@@ -179,13 +179,13 @@ Represents a production area inside a factory.
 
 ## Data Attributes
 
-| Attribute | Description |
-| --------- | ----------- |
-| Workshop ID | Unique identifier |
-| Workshop Code | Workshop identifier |
-| Workshop Name | Workshop name |
-| Description | Workshop information |
-| Status | Active / Inactive |
+| Attribute     | Description          |
+| ------------- | -------------------- |
+| Workshop ID   | Unique identifier    |
+| Workshop Code | Workshop identifier  |
+| Workshop Name | Workshop name        |
+| Description   | Workshop information |
+| Status        | Active / Inactive    |
 
 ## Relationships
 
@@ -207,12 +207,12 @@ Represents a group of machines operating together.
 
 ## Data Attributes
 
-| Attribute | Description |
-| --------- | ----------- |
-| Production Line ID | Unique identifier |
-| Line Code | Production line identifier |
-| Line Name | Production line name |
-| Status | Active / Inactive |
+| Attribute          | Description                |
+| ------------------ | -------------------------- |
+| Production Line ID | Unique identifier          |
+| Line Code          | Production line identifier |
+| Line Name          | Production line name       |
+| Status             | Active / Inactive          |
 
 ## Relationships
 
@@ -238,21 +238,21 @@ Represents an industrial machine monitored by the system.
 
 ## Data Attributes
 
-| Attribute | Description |
-| --------- | ----------- |
-| Machine ID | Unique identifier |
-| Machine Code | Machine identifier |
-| Machine Name | Machine name |
-| Machine Type | Machine category |
-| Model | Machine model |
-| Serial Number | Manufacturer serial number |
-| Manufacturer | Manufacturer information |
-| Installation Date | Installation date |
-| Warranty Expiry | Warranty date |
-| Status | Machine operational status |
-| Running Hours | Total operating hours |
-| Created Date | Creation timestamp |
-| Updated Date | Last update timestamp |
+| Attribute         | Description                |
+| ----------------- | -------------------------- |
+| Machine ID        | Unique identifier          |
+| Machine Code      | Machine identifier         |
+| Machine Name      | Machine name               |
+| Machine Type      | Machine category           |
+| Model             | Machine model              |
+| Serial Number     | Manufacturer serial number |
+| Manufacturer      | Manufacturer information   |
+| Installation Date | Installation date          |
+| Warranty Expiry   | Warranty date              |
+| Status            | Machine operational status |
+| Running Hours     | Total operating hours      |
+| Created Date      | Creation timestamp         |
+| Updated Date      | Last update timestamp      |
 
 ---
 
@@ -297,16 +297,16 @@ Represents an IoT device attached to a machine.
 
 ## Data Attributes
 
-| Attribute | Description |
-| --------- | ----------- |
-| Sensor ID | Unique identifier |
-| Sensor Code | Sensor identifier |
-| Sensor Type | Sensor category |
-| Serial Number | Sensor serial number |
-| Protocol | Communication protocol |
-| Status | Sensor status |
-| Installation Date | Installation date |
-| Created Date | Creation timestamp |
+| Attribute         | Description            |
+| ----------------- | ---------------------- |
+| Sensor ID         | Unique identifier      |
+| Sensor Code       | Sensor identifier      |
+| Sensor Type       | Sensor category        |
+| Serial Number     | Sensor serial number   |
+| Protocol          | Communication protocol |
+| Status            | Sensor status          |
+| Installation Date | Installation date      |
+| Created Date      | Creation timestamp     |
 
 ---
 
@@ -328,7 +328,7 @@ Machine
 |
 └── Telemetry
 
-````
+```
 
 ---
 
@@ -344,15 +344,15 @@ Represents operational data collected from machines.
 
 ## Data Attributes
 
-| Attribute | Description |
-| --------- | ----------- |
+| Attribute    | Description       |
+| ------------ | ----------------- |
 | Telemetry ID | Unique identifier |
-| Machine ID | Related machine |
-| Sensor ID | Source sensor |
-| Timestamp | Collection time |
-| Data Type | Metric type |
-| Value | Measurement value |
-| Unit | Measurement unit |
+| Machine ID   | Related machine   |
+| Sensor ID    | Source sensor     |
+| Timestamp    | Collection time   |
+| Data Type    | Metric type       |
+| Value        | Measurement value |
+| Unit         | Measurement unit  |
 
 ---
 
@@ -394,16 +394,16 @@ Represents abnormal machine conditions.
 
 ## Data Attributes
 
-| Attribute | Description |
-| --------- | ----------- |
-| Alert ID | Unique identifier |
-| Machine ID | Related machine |
-| Alert Type | Alert category |
-| Severity | Alert level |
-| Message | Alert description |
-| Status | Alert status |
-| Created Time | Alert creation time |
-| Resolved Time | Resolution time |
+| Attribute     | Description         |
+| ------------- | ------------------- |
+| Alert ID      | Unique identifier   |
+| Machine ID    | Related machine     |
+| Alert Type    | Alert category      |
+| Severity      | Alert level         |
+| Message       | Alert description   |
+| Status        | Alert status        |
+| Created Time  | Alert creation time |
+| Resolved Time | Resolution time     |
 
 ---
 
@@ -427,16 +427,16 @@ Represents machine maintenance activities.
 
 ## Data Attributes
 
-| Attribute | Description |
-| --------- | ----------- |
-| Maintenance ID | Unique identifier |
-| Machine ID | Related machine |
-| Maintenance Type | Preventive / Corrective / Predictive |
-| Planned Date | Scheduled date |
-| Assigned Engineer | Responsible person |
-| Status | Maintenance status |
-| Completion Date | Completed date |
-| Notes | Maintenance notes |
+| Attribute         | Description                          |
+| ----------------- | ------------------------------------ |
+| Maintenance ID    | Unique identifier                    |
+| Machine ID        | Related machine                      |
+| Maintenance Type  | Preventive / Corrective / Predictive |
+| Planned Date      | Scheduled date                       |
+| Assigned Engineer | Responsible person                   |
+| Status            | Maintenance status                   |
+| Completion Date   | Completed date                       |
+| Notes             | Maintenance notes                    |
 
 ---
 
@@ -464,17 +464,17 @@ Represents operational issues requiring investigation.
 
 ## Data Attributes
 
-| Attribute | Description |
-| --------- | ----------- |
-| Incident ID | Unique identifier |
-| Machine ID | Related machine |
-| Title | Incident title |
-| Description | Incident details |
-| Priority | Incident priority |
-| Status | Incident lifecycle status |
-| Assigned User | Responsible person |
-| Created Date | Creation timestamp |
-| Closed Date | Closure timestamp |
+| Attribute     | Description               |
+| ------------- | ------------------------- |
+| Incident ID   | Unique identifier         |
+| Machine ID    | Related machine           |
+| Title         | Incident title            |
+| Description   | Incident details          |
+| Priority      | Incident priority         |
+| Status        | Incident lifecycle status |
+| Assigned User | Responsible person        |
+| Created Date  | Creation timestamp        |
+| Closed Date   | Closure timestamp         |
 
 ---
 
@@ -501,14 +501,14 @@ Represents system users.
 
 ## Data Attributes
 
-| Attribute | Description |
-| --------- | ----------- |
-| User ID | Unique identifier |
-| Username | Login username |
-| Email | User email |
+| Attribute     | Description        |
+| ------------- | ------------------ |
+| User ID       | Unique identifier  |
+| Username      | Login username     |
+| Email         | User email         |
 | Password Hash | Encrypted password |
-| Status | Account status |
-| Created Date | Creation timestamp |
+| Status        | Account status     |
+| Created Date  | Creation timestamp |
 
 ---
 
@@ -586,15 +586,15 @@ Records system activities.
 
 ## Data Attributes
 
-| Attribute | Description |
-| --------- | ----------- |
-| Audit ID | Unique identifier |
-| User ID | User performing action |
-| Action | Activity type |
-| Entity | Modified object |
-| Old Value | Previous data |
-| New Value | Updated data |
-| Timestamp | Activity time |
+| Attribute | Description            |
+| --------- | ---------------------- |
+| Audit ID  | Unique identifier      |
+| User ID   | User performing action |
+| Action    | Activity type          |
+| Entity    | Modified object        |
+| Old Value | Previous data          |
+| New Value | Updated data           |
+| Timestamp | Activity time          |
 
 ---
 
@@ -602,14 +602,14 @@ Records system activities.
 
 The system shall maintain data according to retention policies.
 
-| Data Type | Retention |
-| --------- | --------- |
-| Raw Telemetry | 6 Months |
-| Summary Data | 5 Years |
+| Data Type           | Retention |
+| ------------------- | --------- |
+| Raw Telemetry       | 6 Months  |
+| Summary Data        | 5 Years   |
 | Maintenance History | Permanent |
-| Incident History | Permanent |
-| Audit Log | Permanent |
-| Assignment History | Permanent |
+| Incident History    | Permanent |
+| Audit Log           | Permanent |
+| Assignment History  | Permanent |
 
 ---
 
@@ -670,7 +670,7 @@ Archive (Telemetry Only)
       ↓
 
 Long-term Retention
-````
+```
 
 ---
 

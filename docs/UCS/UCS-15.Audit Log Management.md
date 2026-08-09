@@ -5,7 +5,7 @@
 **Use Case Name:** Audit Log Management  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -29,12 +29,12 @@ The system records activities related to authentication, data modification, conf
 
 # 2. Actors
 
-| Actor | Description |
-| --- | --- |
-| System Administrator | Reviews and manages audit information |
-| Factory Manager | Reviews operational changes within authorized factories |
-| System | Automatically records system activities |
-| Security Administrator | Investigates security-related activities |
+| Actor                  | Description                                             |
+| ---------------------- | ------------------------------------------------------- |
+| System Administrator   | Reviews and manages audit information                   |
+| Factory Manager        | Reviews operational changes within authorized factories |
+| System                 | Automatically records system activities                 |
+| Security Administrator | Investigates security-related activities                |
 
 ---
 
@@ -161,23 +161,23 @@ Includes:
 
 # 7.1 Record Audit Event
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User performs an auditable action | System receives action event |
-| 2 | System identifies user and activity | Audit information is collected |
-| 3 | System creates audit record | Audit log is stored |
-| 4 | Action completes successfully | User receives operation result |
+| Step | Actor Action                        | System Response                |
+| ---- | ----------------------------------- | ------------------------------ |
+| 1    | User performs an auditable action   | System receives action event   |
+| 2    | System identifies user and activity | Audit information is collected |
+| 3    | System creates audit record         | Audit log is stored            |
+| 4    | Action completes successfully       | User receives operation result |
 
 ---
 
 # 7.2 Search Audit Logs
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User opens Audit Log module | System displays search interface |
-| 2 | User enters search criteria | System validates input |
-| 3 | User submits request | System searches audit records |
-| 4 | System displays matching logs | User reviews information |
+| Step | Actor Action                  | System Response                  |
+| ---- | ----------------------------- | -------------------------------- |
+| 1    | User opens Audit Log module   | System displays search interface |
+| 2    | User enters search criteria   | System validates input           |
+| 3    | User submits request          | System searches audit records    |
+| 4    | System displays matching logs | User reviews information         |
 
 Supported filters:
 
@@ -193,10 +193,10 @@ Supported filters:
 
 # 7.3 View Audit Detail
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects audit record | System retrieves details |
-| 2 | System displays audit information | User reviews activity history |
+| Step | Actor Action                      | System Response               |
+| ---- | --------------------------------- | ----------------------------- |
+| 1    | User selects audit record         | System retrieves details      |
+| 2    | System displays audit information | User reviews activity history |
 
 Audit details include:
 
@@ -221,11 +221,11 @@ No audit records match search criteria.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User searches audit logs | System processes request |
-| 2 | No matching records found | System displays empty result |
-| 3 | User changes criteria | Search can be executed again |
+| Step | Actor Action              | System Response              |
+| ---- | ------------------------- | ---------------------------- |
+| 1    | User searches audit logs  | System processes request     |
+| 2    | No matching records found | System displays empty result |
+| 3    | User changes criteria     | Search can be executed again |
 
 ---
 
@@ -237,11 +237,11 @@ Search result contains many records.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User performs search | System evaluates result size |
-| 2 | Large result detected | System applies pagination |
-| 3 | User navigates pages | System displays audit records |
+| Step | Actor Action          | System Response               |
+| ---- | --------------------- | ----------------------------- |
+| 1    | User performs search  | System evaluates result size  |
+| 2    | Large result detected | System applies pagination     |
+| 3    | User navigates pages  | System displays audit records |
 
 ---
 
@@ -255,11 +255,11 @@ System cannot save audit information.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User performs action | System processes operation |
-| 2 | Audit creation fails | Error is detected |
-| 3 | System records failure | Administrator can investigate |
+| Step | Actor Action           | System Response               |
+| ---- | ---------------------- | ----------------------------- |
+| 1    | User performs action   | System processes operation    |
+| 2    | Audit creation fails   | Error is detected             |
+| 3    | System records failure | Administrator can investigate |
 
 ---
 
@@ -271,11 +271,11 @@ User does not have permission.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User requests audit logs | System validates permission |
-| 2 | Permission denied | Access is rejected |
-| 3 | Unauthorized attempt is recorded | Security event is created |
+| Step | Actor Action                     | System Response             |
+| ---- | -------------------------------- | --------------------------- |
+| 1    | User requests audit logs         | System validates permission |
+| 2    | Permission denied                | Access is rejected          |
+| 3    | Unauthorized attempt is recorded | Security event is created   |
 
 ---
 
@@ -328,32 +328,32 @@ Audit records must be retained according to system retention policy.
 
 ## Audit Log Entity
 
-| Field | Description |
-| --- | --- |
-| Audit ID | Unique identifier |
-| User ID | User performing action |
-| Username | User display information |
-| Action Type | Activity performed |
-| Entity Type | Affected entity |
-| Entity ID | Affected object |
-| Old Value | Previous data state |
-| New Value | New data state |
-| Factory ID | Data scope |
-| IP Address | Client address |
-| Timestamp | Event time |
-| Status | Success or failure |
+| Field       | Description              |
+| ----------- | ------------------------ |
+| Audit ID    | Unique identifier        |
+| User ID     | User performing action   |
+| Username    | User display information |
+| Action Type | Activity performed       |
+| Entity Type | Affected entity          |
+| Entity ID   | Affected object          |
+| Old Value   | Previous data state      |
+| New Value   | New data state           |
+| Factory ID  | Data scope               |
+| IP Address  | Client address           |
+| Timestamp   | Event time               |
+| Status      | Success or failure       |
 
 ---
 
 # 12. Input Requirements
 
-| Input | Required |
-| --- | --- |
-| User Action | Yes |
-| User ID | Yes |
+| Input              | Required |
+| ------------------ | -------- |
+| User Action        | Yes      |
+| User ID            | Yes      |
 | Entity Information | Optional |
 | Change Information | Optional |
-| Timestamp | Yes |
+| Timestamp          | Yes      |
 
 ---
 
@@ -474,22 +474,22 @@ Then:
 
 # 16. Related Requirements
 
-| Requirement | Reference |
-| --- | --- |
-| User Authentication | UCS-01 |
-| User Management | UCS-02 |
-| Authorization Management | UCS-09 |
-| Organization Management | UCS-03 |
-| Factory Management | UCS-04 |
-| Machine Management | UCS-07 |
-| Sensor Management | UCS-08 |
-| Alert Management | UCS-10 |
-| Maintenance Management | UCS-12 |
+| Requirement              | Reference |
+| ------------------------ | --------- |
+| User Authentication      | UCS-01    |
+| User Management          | UCS-02    |
+| Authorization Management | UCS-09    |
+| Organization Management  | UCS-03    |
+| Factory Management       | UCS-04    |
+| Machine Management       | UCS-07    |
+| Sensor Management        | UCS-08    |
+| Alert Management         | UCS-10    |
+| Maintenance Management   | UCS-12    |
 
 ---
 
 # Revision History
 
-| Version | Date | Author | Description |
-| --- | --- | --- | --- |
-| 1.0 | 2026-08-07 | Business Analyst | Initial version |
+| Version | Date       | Author           | Description     |
+| ------- | ---------- | ---------------- | --------------- |
+| 1.0     | 2026-08-07 | Business Analyst | Initial version |

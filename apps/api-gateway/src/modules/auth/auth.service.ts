@@ -1,5 +1,5 @@
-import { IChangePassword, IForgotPassword, IResetPassword, RequestContext } from '@libs/common';
-import { AuthClientService } from '@libs/http-client';
+import type { IChangePassword, IForgotPassword, IResetPassword, RequestContext } from '@libs/common';
+import type { AuthClientService } from '@libs/http-client';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

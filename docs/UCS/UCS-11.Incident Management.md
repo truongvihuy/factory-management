@@ -5,7 +5,7 @@
 **Use Case Name:** Incident Management  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -29,14 +29,14 @@ The purpose of Incident Management is to:
 
 # 2. Actors
 
-| Actor | Description |
-| --- | --- |
-| System | Creates incidents from alerts or system events |
-| Factory Manager | Oversees incidents within factories |
-| Production Supervisor | Reports and monitors operational incidents |
-| Maintenance Engineer | Investigates and resolves technical incidents |
-| Operator | Reports machine problems and follows incident status |
-| Maintenance Planner | Coordinates maintenance activities |
+| Actor                 | Description                                          |
+| --------------------- | ---------------------------------------------------- |
+| System                | Creates incidents from alerts or system events       |
+| Factory Manager       | Oversees incidents within factories                  |
+| Production Supervisor | Reports and monitors operational incidents           |
+| Maintenance Engineer  | Investigates and resolves technical incidents        |
+| Operator              | Reports machine problems and follows incident status |
+| Maintenance Planner   | Coordinates maintenance activities                   |
 
 ---
 
@@ -115,7 +115,7 @@ Verified
  │
  ▼
 Closed
-````
+```
 
 ---
 
@@ -344,12 +344,12 @@ Closed
 
 The system must maintain:
 
-* Creation history.
-* Assignment history.
-* Status changes.
-* Investigation notes.
-* Resolution information.
-* Closure information.
+- Creation history.
+- Assignment history.
+- Status changes.
+- Investigation notes.
+- Resolution information.
+- Closure information.
 
 ---
 
@@ -370,10 +370,10 @@ Example:
 
 Every incident must have:
 
-* Priority.
-* Severity.
-* Responsible user.
-* Related machine.
+- Priority.
+- Severity.
+- Responsible user.
+- Related machine.
 
 ---
 
@@ -452,12 +452,12 @@ Closed incidents cannot be deleted.
 
 The system provides:
 
-* Incident list.
-* Incident details.
-* Incident status.
-* SLA status.
-* Incident history.
-* Resolution information.
+- Incident list.
+- Incident details.
+- Incident status.
+- SLA status.
+- Incident history.
+- Resolution information.
 
 ---
 
@@ -467,10 +467,10 @@ The system provides:
 
 After completion:
 
-* Incident lifecycle is completed.
-* Resolution is verified.
-* History is maintained.
-* SLA information is recorded.
+- Incident lifecycle is completed.
+- Resolution is verified.
+- History is maintained.
+- SLA information is recorded.
 
 ---
 
@@ -478,9 +478,9 @@ After completion:
 
 After failure:
 
-* Incident remains unchanged.
-* Error is logged.
-* Existing historical data is preserved.
+- Incident remains unchanged.
+- Error is logged.
+- Existing historical data is preserved.
 
 ---
 
@@ -490,15 +490,15 @@ After failure:
 
 Given:
 
-* A machine exists.
+- A machine exists.
 
 When:
 
-* User creates an incident.
+- User creates an incident.
 
 Then:
 
-* System creates incident successfully.
+- System creates incident successfully.
 
 ---
 
@@ -506,15 +506,15 @@ Then:
 
 Given:
 
-* Incident is Open.
+- Incident is Open.
 
 When:
 
-* User assigns engineer.
+- User assigns engineer.
 
 Then:
 
-* Incident status changes to Assigned.
+- Incident status changes to Assigned.
 
 ---
 
@@ -522,15 +522,15 @@ Then:
 
 Given:
 
-* Critical incident exists.
+- Critical incident exists.
 
 When:
 
-* SLA timer runs.
+- SLA timer runs.
 
 Then:
 
-* System calculates SLA status.
+- System calculates SLA status.
 
 ---
 
@@ -538,15 +538,15 @@ Then:
 
 Given:
 
-* Engineer completes investigation.
+- Engineer completes investigation.
 
 When:
 
-* Resolution is submitted.
+- Resolution is submitted.
 
 Then:
 
-* Incident changes to Resolved.
+- Incident changes to Resolved.
 
 ---
 
@@ -554,15 +554,15 @@ Then:
 
 Given:
 
-* Resolution is verified.
+- Resolution is verified.
 
 When:
 
-* User closes incident.
+- User closes incident.
 
 Then:
 
-* Incident status changes to Closed.
+- Incident status changes to Closed.
 
 ---
 

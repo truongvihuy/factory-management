@@ -4,7 +4,7 @@
 **Section:** SRS-04 Non-Functional Requirements  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -38,13 +38,13 @@ The system shall provide acceptable response times for normal user operations.
 
 Target response time:
 
-| Operation | Expected Response Time |
-| --------- | ---------------------- |
-| User login | ≤ 2 seconds |
-| Query master data | ≤ 2 seconds |
-| View machine detail | ≤ 3 seconds |
-| Load dashboard | ≤ 5 seconds |
-| Generate standard report | ≤ 10 seconds |
+| Operation                | Expected Response Time |
+| ------------------------ | ---------------------- |
+| User login               | ≤ 2 seconds            |
+| Query master data        | ≤ 2 seconds            |
+| View machine detail      | ≤ 3 seconds            |
+| Load dashboard           | ≤ 5 seconds            |
+| Generate standard report | ≤ 10 seconds           |
 
 ---
 
@@ -355,10 +355,10 @@ The system shall manage telemetry retention.
 
 Policy:
 
-| Data Type | Retention |
-| --------- | --------- |
-| Raw Telemetry | 6 Months |
-| Summary Data | 5 Years |
+| Data Type     | Retention |
+| ------------- | --------- |
+| Raw Telemetry | 6 Months  |
+| Summary Data  | 5 Years   |
 
 ---
 
@@ -442,10 +442,10 @@ The system shall support restoration from backup.
 
 Target recovery objectives:
 
-| Metric | Target |
-| ------ | ------ |
-| RTO | ≤ 4 hours |
-| RPO | ≤ 1 hour |
+| Metric | Target    |
+| ------ | --------- |
+| RTO    | ≤ 4 hours |
+| RPO    | ≤ 1 hour  |
 
 ---
 
@@ -474,23 +474,23 @@ The system shall ensure:
 
 # 4.14 Non-Functional Requirement Summary
 
-| Category | Main Requirement |
-| -------- | ---------------- |
-| Performance | Fast response and near real-time monitoring |
-| Scalability | Support multiple factories and machines |
-| Availability | Continuous monitoring capability |
-| Reliability | Preserve operational data integrity |
-| Security | Authentication and authorization control |
-| Maintainability | Modular and traceable system design |
-| Usability | Simple operational experience |
-| Data Management | Historical data preservation |
-| Monitoring | Logging and operational visibility |
-| Recovery | Backup and disaster recovery |
+| Category        | Main Requirement                            |
+| --------------- | ------------------------------------------- |
+| Performance     | Fast response and near real-time monitoring |
+| Scalability     | Support multiple factories and machines     |
+| Availability    | Continuous monitoring capability            |
+| Reliability     | Preserve operational data integrity         |
+| Security        | Authentication and authorization control    |
+| Maintainability | Modular and traceable system design         |
+| Usability       | Simple operational experience               |
+| Data Management | Historical data preservation                |
+| Monitoring      | Logging and operational visibility          |
+| Recovery        | Backup and disaster recovery                |
 
 ---
 
 # Revision History
 
-| Version | Date | Author | Description |
-| ------- | ---- | ------ | ----------- |
-| 1.0 | 2026-08-07 | Business Analyst | Initial version |
+| Version | Date       | Author           | Description     |
+| ------- | ---------- | ---------------- | --------------- |
+| 1.0     | 2026-08-07 | Business Analyst | Initial version |

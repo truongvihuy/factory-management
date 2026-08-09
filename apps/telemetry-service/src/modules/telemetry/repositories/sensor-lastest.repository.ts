@@ -1,6 +1,6 @@
-import { PrismaService } from '@libs/database';
+import type { PrismaService } from '@libs/database';
 import { Injectable } from '@nestjs/common';
-import { PayloadSensorDto } from '../dto/payload-sensor.dto';
+import type { PayloadSensorDto } from '../dto/payload-sensor.dto';
 
 @Injectable()
 export class SensorLatestRepository {

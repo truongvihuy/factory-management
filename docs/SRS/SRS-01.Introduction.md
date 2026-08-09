@@ -1,11 +1,10 @@
-
 # SRS-01. Introduction
 
 **Document Name:** Software Requirements Specification (SRS)  
 **Section:** SRS-01 Introduction  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -86,18 +85,18 @@ The Factory Management System aims to achieve the following objectives:
 
 This document is intended for the following stakeholders.
 
-| Stakeholder | Purpose |
-| ----------- | ------- |
-| Product Owner | Validate software requirements |
-| Business Analyst | Maintain and refine requirements |
-| Solution Architect | Design system architecture |
-| Software Architect | Define technical architecture |
-| Backend Developer | Implement business logic and APIs |
-| Frontend Developer | Develop user interfaces |
-| QA Engineer | Create test plans and test cases |
-| DevOps Engineer | Deploy and operate the system |
-| Project Manager | Manage project scope and delivery |
-| Support Team | Maintain production environments |
+| Stakeholder        | Purpose                           |
+| ------------------ | --------------------------------- |
+| Product Owner      | Validate software requirements    |
+| Business Analyst   | Maintain and refine requirements  |
+| Solution Architect | Design system architecture        |
+| Software Architect | Define technical architecture     |
+| Backend Developer  | Implement business logic and APIs |
+| Frontend Developer | Develop user interfaces           |
+| QA Engineer        | Create test plans and test cases  |
+| DevOps Engineer    | Deploy and operate the system     |
+| Project Manager    | Manage project scope and delivery |
+| Support Team       | Maintain production environments  |
 
 ---
 
@@ -131,7 +130,7 @@ Company
 ├── Sensor
 │
 └── Telemetry
-````
+```
 
 Machine telemetry is continuously collected and analyzed to detect abnormal operating conditions and support maintenance activities.
 
@@ -141,64 +140,64 @@ Machine telemetry is continuously collected and analyzed to detect abnormal oper
 
 ### Organization Management
 
-* Company Management
-* Factory Management
-* Workshop Management
-* Production Line Management
+- Company Management
+- Factory Management
+- Workshop Management
+- Production Line Management
 
 ### Asset Management
 
-* Machine Registration
-* Machine Assignment
-* Machine Lifecycle Management
-* Sensor Registration
-* Sensor Assignment
-* Sensor Lifecycle Management
+- Machine Registration
+- Machine Assignment
+- Machine Lifecycle Management
+- Sensor Registration
+- Sensor Assignment
+- Sensor Lifecycle Management
 
 ### Monitoring
 
-* Real-time Telemetry Collection
-* Machine Status Monitoring
-* Machine Health Monitoring
-* Historical Telemetry Tracking
-* Dashboard Monitoring
+- Real-time Telemetry Collection
+- Machine Status Monitoring
+- Machine Health Monitoring
+- Historical Telemetry Tracking
+- Dashboard Monitoring
 
 ### Alert Management
 
-* Alert Rule Configuration
-* Threshold Monitoring
-* Alert Generation
-* Alert Notification
-* Alert Acknowledgement
-* Alert Escalation
-* Alert History Tracking
+- Alert Rule Configuration
+- Threshold Monitoring
+- Alert Generation
+- Alert Notification
+- Alert Acknowledgement
+- Alert Escalation
+- Alert History Tracking
 
 ### Maintenance Management
 
-* Preventive Maintenance
-* Corrective Maintenance
-* Predictive Maintenance
-* Maintenance Scheduling
-* Work Orders
-* Maintenance Checklist
-* Maintenance History
+- Preventive Maintenance
+- Corrective Maintenance
+- Predictive Maintenance
+- Maintenance Scheduling
+- Work Orders
+- Maintenance Checklist
+- Maintenance History
 
 ### Incident Management
 
-* Incident Creation
-* Incident Assignment
-* Incident Tracking
-* SLA Monitoring
-* Incident Resolution
+- Incident Creation
+- Incident Assignment
+- Incident Tracking
+- SLA Monitoring
+- Incident Resolution
 
 ### Reporting
 
-* Operational Dashboard
-* Machine Reports
-* Maintenance Reports
-* Incident Reports
-* Energy Reports
-* KPI Dashboard
+- Operational Dashboard
+- Machine Reports
+- Maintenance Reports
+- Incident Reports
+- Energy Reports
+- KPI Dashboard
 
 ---
 
@@ -277,13 +276,13 @@ This document references the following materials.
 
 The following assumptions apply:
 
-* All factories follow a similar organizational structure.
-* Machines continuously transmit telemetry through supported protocols.
-* Gateways buffer telemetry during temporary network failures.
-* Historical operational data must remain immutable.
-* Local Account authentication is used in the MVP.
-* Authorization is managed at the Factory level.
-* Production Management is outside the MVP scope.
+- All factories follow a similar organizational structure.
+- Machines continuously transmit telemetry through supported protocols.
+- Gateways buffer telemetry during temporary network failures.
+- Historical operational data must remain immutable.
+- Local Account authentication is used in the MVP.
+- Authorization is managed at the Factory level.
+- Production Management is outside the MVP scope.
 
 ---
 
@@ -291,13 +290,13 @@ The following assumptions apply:
 
 The following constraints apply to the MVP:
 
-* Local Account authentication only.
-* One Machine belongs to one Production Line at any point in time.
-* One Sensor belongs to one Machine at any point in time.
-* Historical telemetry cannot be modified.
-* Historical assignment records cannot be deleted.
-* Raw telemetry data is retained for six months before archival.
-* Production execution is not supported.
+- Local Account authentication only.
+- One Machine belongs to one Production Line at any point in time.
+- One Sensor belongs to one Machine at any point in time.
+- Historical telemetry cannot be modified.
+- Historical assignment records cannot be deleted.
+- Raw telemetry data is retained for six months before archival.
+- Production execution is not supported.
 
 ---
 

@@ -1,4 +1,4 @@
-import { AuthClientService } from '@libs/http-client';
+import type { AuthClientService } from '@libs/http-client';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

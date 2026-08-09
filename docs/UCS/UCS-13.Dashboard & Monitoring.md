@@ -5,7 +5,7 @@
 **Use Case Name:** Dashboard & Monitoring  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -30,14 +30,14 @@ The purpose of Dashboard & Monitoring is to:
 
 # 2. Actors
 
-| Actor | Description |
-| --- | --- |
-| Factory Manager | Monitors overall factory performance |
-| Production Supervisor | Monitors workshops and production lines |
-| Maintenance Engineer | Reviews machine conditions and maintenance status |
-| Operator | Monitors assigned machines |
-| Director | Reviews operational overview and KPIs |
-| System | Collects and displays operational data |
+| Actor                 | Description                                       |
+| --------------------- | ------------------------------------------------- |
+| Factory Manager       | Monitors overall factory performance              |
+| Production Supervisor | Monitors workshops and production lines           |
+| Maintenance Engineer  | Reviews machine conditions and maintenance status |
+| Operator              | Monitors assigned machines                        |
+| Director              | Reviews operational overview and KPIs             |
+| System                | Collects and displays operational data            |
 
 ---
 
@@ -119,7 +119,7 @@ Company
                         └── Machine
                                │
                                └── Sensor
-````
+```
 
 ---
 
@@ -136,13 +136,13 @@ Company
 
 Dashboard displays:
 
-* Total machines.
-* Running machines.
-* Offline machines.
-* Error machines.
-* Active alerts.
-* Maintenance activities.
-* Incident summary.
+- Total machines.
+- Running machines.
+- Offline machines.
+- Error machines.
+- Active alerts.
+- Maintenance activities.
+- Incident summary.
 
 ---
 
@@ -157,12 +157,12 @@ Dashboard displays:
 
 Machine monitoring includes:
 
-* Machine status.
-* Sensor status.
-* Latest telemetry.
-* Alert status.
-* Maintenance history summary.
-* Incident history summary.
+- Machine status.
+- Sensor status.
+- Latest telemetry.
+- Alert status.
+- Maintenance history summary.
+- Incident history summary.
 
 ---
 
@@ -187,13 +187,13 @@ Machine monitoring includes:
 
 Supported filters:
 
-* Company.
-* Factory.
-* Workshop.
-* Production Line.
-* Machine.
-* Time range.
-* Status.
+- Company.
+- Factory.
+- Workshop.
+- Production Line.
+- Machine.
+- Time range.
+- Status.
 
 ---
 
@@ -207,11 +207,11 @@ Supported filters:
 
 Displayed information:
 
-* Alert severity.
-* Machine.
-* Alert type.
-* Created time.
-* Current status.
+- Alert severity.
+- Machine.
+- Alert type.
+- Created time.
+- Current status.
 
 ---
 
@@ -224,10 +224,10 @@ Displayed information:
 
 Displayed information:
 
-* Planned maintenance.
-* In-progress maintenance.
-* Completed maintenance.
-* Overdue maintenance.
+- Planned maintenance.
+- In-progress maintenance.
+- Completed maintenance.
+- Overdue maintenance.
 
 ---
 
@@ -240,10 +240,10 @@ Displayed information:
 
 Displayed information:
 
-* Open incidents.
-* Critical incidents.
-* Resolved incidents.
-* SLA violations.
+- Open incidents.
+- Critical incidents.
+- Resolved incidents.
+- SLA violations.
 
 ---
 
@@ -381,9 +381,9 @@ Status: Running
 
 Active alerts must be visible according to:
 
-* User permission.
-* Factory access.
-* Alert severity.
+- User permission.
+- Factory access.
+- Alert severity.
 
 ---
 
@@ -439,14 +439,14 @@ Historical operational data must remain available for analysis.
 
 The system provides:
 
-* Factory dashboard.
-* Workshop dashboard.
-* Production line dashboard.
-* Machine dashboard.
-* Real-time telemetry view.
-* Alert overview.
-* Maintenance summary.
-* Incident summary.
+- Factory dashboard.
+- Workshop dashboard.
+- Production line dashboard.
+- Machine dashboard.
+- Real-time telemetry view.
+- Alert overview.
+- Maintenance summary.
+- Incident summary.
 
 ---
 
@@ -456,9 +456,9 @@ The system provides:
 
 After completion:
 
-* Dashboard information is displayed.
-* User can monitor operational status.
-* Latest machine information is available.
+- Dashboard information is displayed.
+- User can monitor operational status.
+- Latest machine information is available.
 
 ---
 
@@ -466,9 +466,9 @@ After completion:
 
 After failure:
 
-* Error is recorded.
-* Existing operational data remains unchanged.
-* User receives appropriate notification.
+- Error is recorded.
+- Existing operational data remains unchanged.
+- User receives appropriate notification.
 
 ---
 
@@ -478,15 +478,15 @@ After failure:
 
 Given:
 
-* User has factory access.
+- User has factory access.
 
 When:
 
-* User opens dashboard.
+- User opens dashboard.
 
 Then:
 
-* Factory operational information is displayed.
+- Factory operational information is displayed.
 
 ---
 
@@ -494,15 +494,15 @@ Then:
 
 Given:
 
-* Machine exists.
+- Machine exists.
 
 When:
 
-* User opens machine monitoring.
+- User opens machine monitoring.
 
 Then:
 
-* Current machine status is displayed.
+- Current machine status is displayed.
 
 ---
 
@@ -510,15 +510,15 @@ Then:
 
 Given:
 
-* Machine has telemetry data.
+- Machine has telemetry data.
 
 When:
 
-* User opens monitoring page.
+- User opens monitoring page.
 
 Then:
 
-* Latest telemetry values are displayed.
+- Latest telemetry values are displayed.
 
 ---
 
@@ -526,15 +526,15 @@ Then:
 
 Given:
 
-* Active alerts exist.
+- Active alerts exist.
 
 When:
 
-* User views dashboard.
+- User views dashboard.
 
 Then:
 
-* Active alerts are displayed.
+- Active alerts are displayed.
 
 ---
 
@@ -542,15 +542,15 @@ Then:
 
 Given:
 
-* User does not have factory permission.
+- User does not have factory permission.
 
 When:
 
-* User accesses dashboard.
+- User accesses dashboard.
 
 Then:
 
-* System denies access.
+- System denies access.
 
 ---
 

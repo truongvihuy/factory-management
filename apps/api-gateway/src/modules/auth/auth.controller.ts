@@ -11,7 +11,7 @@ import {
 import { Body, Controller, Get, Ip, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBasicAuth, ApiBearerAuth } from '@nestjs/swagger';
 import type { Request } from 'express';
-import { AuthService } from './auth.service';
+import type { AuthService } from './auth.service';
 
 @ApiBearerAuth('access-token')
 @Controller('auth')
@@ -20,7 +20,7 @@ export class AuthController {
 
   @Get('profile')
   getProfile(@CurrentUser() user: IAccessTokenPayload, @RequestId() requestId: string) {
-    return this.authService.getUser(user.sub, { requestId: requestId, userId: user.sub });
+    return this.authService.getUser(user.sub, { requestId, userId: user.sub });
   }
 
   @ApiBasicAuth('basic-token')

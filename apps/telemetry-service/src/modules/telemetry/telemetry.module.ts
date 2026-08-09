@@ -3,7 +3,7 @@ import { PrismaModule } from '@libs/database';
 import { MqttModule } from '@libs/mqtt';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { IClientOptions } from 'mqtt';
+import type { IClientOptions } from 'mqtt';
 import { DeviceMetadataRepository } from './repositories/device-metadata.repository';
 import { MachineMetadataRepository } from './repositories/machine-metadata.repository';
 import { SensorLatestRepository } from './repositories/sensor-lastest.repository';

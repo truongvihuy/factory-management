@@ -4,7 +4,7 @@
 **Section:** SRS-07 Business Rules  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -31,18 +31,18 @@ Business rules are independent of technical implementation.
 
 The system business rules are categorized as follows:
 
-| Rule Category | Description |
-| ------------- | ----------- |
-| BR-ORG | Organization Rules |
-| BR-ASSET | Asset Management Rules |
-| BR-SENSOR | Sensor Management Rules |
-| BR-TELEMETRY | Telemetry Rules |
-| BR-ALERT | Alert Management Rules |
-| BR-MAINT | Maintenance Rules |
-| BR-INCIDENT | Incident Rules |
-| BR-USER | User & Authorization Rules |
-| BR-DATA | Data Management Rules |
-| BR-AUDIT | Audit Rules |
+| Rule Category | Description                |
+| ------------- | -------------------------- |
+| BR-ORG        | Organization Rules         |
+| BR-ASSET      | Asset Management Rules     |
+| BR-SENSOR     | Sensor Management Rules    |
+| BR-TELEMETRY  | Telemetry Rules            |
+| BR-ALERT      | Alert Management Rules     |
+| BR-MAINT      | Maintenance Rules          |
+| BR-INCIDENT   | Incident Rules             |
+| BR-USER       | User & Authorization Rules |
+| BR-DATA       | Data Management Rules      |
+| BR-AUDIT      | Audit Rules                |
 
 ---
 
@@ -298,10 +298,10 @@ Generate Critical Alert
 
 Alert severity levels:
 
-| Level | Description |
-| ----- | ----------- |
-| Info | Informational event |
-| Warning | Abnormal condition |
+| Level    | Description                  |
+| -------- | ---------------------------- |
+| Info     | Informational event          |
+| Warning  | Abnormal condition           |
 | Critical | Immediate attention required |
 
 ---
@@ -412,10 +412,10 @@ Critical incidents must comply with defined SLA.
 
 Example:
 
-| Priority | Requirement |
-| -------- | ----------- |
-| Critical | Response within 15 minutes |
-| High | Response within defined SLA |
+| Priority | Requirement                 |
+| -------- | --------------------------- |
+| Critical | Response within 15 minutes  |
+| High     | Response within defined SLA |
 
 ---
 
@@ -531,23 +531,23 @@ Audit records:
 
 # 7.13 Business Rule Traceability
 
-| Business Domain | Related Rules |
-| --------------- | ------------- |
-| Organization Management | BR-ORG |
-| Machine Management | BR-ASSET |
-| Sensor Management | BR-SENSOR |
-| Telemetry Management | BR-TELEMETRY |
-| Alert Management | BR-ALERT |
-| Maintenance Management | BR-MAINT |
-| Incident Management | BR-INCIDENT |
-| User Management | BR-USER |
-| Data Management | BR-DATA |
-| Audit Management | BR-AUDIT |
+| Business Domain         | Related Rules |
+| ----------------------- | ------------- |
+| Organization Management | BR-ORG        |
+| Machine Management      | BR-ASSET      |
+| Sensor Management       | BR-SENSOR     |
+| Telemetry Management    | BR-TELEMETRY  |
+| Alert Management        | BR-ALERT      |
+| Maintenance Management  | BR-MAINT      |
+| Incident Management     | BR-INCIDENT   |
+| User Management         | BR-USER       |
+| Data Management         | BR-DATA       |
+| Audit Management        | BR-AUDIT      |
 
 ---
 
 # Revision History
 
-| Version | Date | Author | Description |
-| ------- | ---- | ------ | ----------- |
-| 1.0 | 2026-08-07 | Business Analyst | Initial version |
+| Version | Date       | Author           | Description     |
+| ------- | ---------- | ---------------- | --------------- |
+| 1.0     | 2026-08-07 | Business Analyst | Initial version |

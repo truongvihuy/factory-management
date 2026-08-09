@@ -1,7 +1,7 @@
 import { Exceptions } from '@libs/common';
-import { PrismaService } from '@libs/database';
+import type { PrismaService } from '@libs/database';
 import { Injectable } from '@nestjs/common';
-import { Device, Factory, Machine, Sensor, Workshop } from '@prisma';
+import type { Device, Factory, Machine, Sensor, Workshop } from '@prisma';
 
 @Injectable()
 export class FactoryService {

@@ -47,7 +47,7 @@ Strict TypeScript
 ## Response Format
 
 {
- success,
- data,
- error
+success,
+data,
+error
 }

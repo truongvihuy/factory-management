@@ -5,7 +5,7 @@
 **Use Case Name:** Machine Management  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -32,13 +32,13 @@ Machine Management provides the foundation for:
 
 # 2. Actors
 
-| Actor | Description |
-| --- | --- |
-| System Administrator | Manages machine information and configuration |
-| Factory Manager | Manages machines within assigned factories |
-| Production Supervisor | Views and manages machines within production lines |
-| Maintenance Engineer | Views machine information for maintenance activities |
-| Operator | Monitors assigned machines |
+| Actor                 | Description                                          |
+| --------------------- | ---------------------------------------------------- |
+| System Administrator  | Manages machine information and configuration        |
+| Factory Manager       | Manages machines within assigned factories           |
+| Production Supervisor | Views and manages machines within production lines   |
+| Maintenance Engineer  | Views machine information for maintenance activities |
+| Operator              | Monitors assigned machines                           |
 
 ---
 
@@ -105,26 +105,26 @@ The use case is triggered when:
 
 # 6.1 Register Machine
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User opens Machine Management | System displays machine list |
-| 2 | User selects Create Machine | System displays machine registration form |
-| 3 | User enters machine information | System validates input |
-| 4 | User selects Production Line | System validates production line |
-| 5 | User submits request | System checks duplicate machine |
-| 6 | System creates machine record | Machine information is stored |
-| 7 | System assigns machine to Production Line | Relationship is created |
-| 8 | System records audit log | Creation activity is stored |
-| 9 | System displays success message | Machine becomes available |
+| Step | Actor Action                              | System Response                           |
+| ---- | ----------------------------------------- | ----------------------------------------- |
+| 1    | User opens Machine Management             | System displays machine list              |
+| 2    | User selects Create Machine               | System displays machine registration form |
+| 3    | User enters machine information           | System validates input                    |
+| 4    | User selects Production Line              | System validates production line          |
+| 5    | User submits request                      | System checks duplicate machine           |
+| 6    | System creates machine record             | Machine information is stored             |
+| 7    | System assigns machine to Production Line | Relationship is created                   |
+| 8    | System records audit log                  | Creation activity is stored               |
+| 9    | System displays success message           | Machine becomes available                 |
 
 ---
 
 # 6.2 View Machine Information
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects machine | System retrieves machine information |
-| 2 | User views details | System displays machine data |
+| Step | Actor Action         | System Response                      |
+| ---- | -------------------- | ------------------------------------ |
+| 1    | User selects machine | System retrieves machine information |
+| 2    | User views details   | System displays machine data         |
 
 Displayed information includes:
 
@@ -148,60 +148,60 @@ Displayed information includes:
 
 # 6.3 Update Machine Information
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects machine | System displays details |
-| 2 | User modifies information | System validates changes |
-| 3 | User submits update | System updates machine information |
-| 4 | System records audit log | Modification history is stored |
+| Step | Actor Action              | System Response                    |
+| ---- | ------------------------- | ---------------------------------- |
+| 1    | User selects machine      | System displays details            |
+| 2    | User modifies information | System validates changes           |
+| 3    | User submits update       | System updates machine information |
+| 4    | System records audit log  | Modification history is stored     |
 
 ---
 
 # 6.4 Assign Machine To Production Line
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects unassigned machine | System displays available production lines |
-| 2 | User selects production line | System validates assignment |
-| 3 | User confirms assignment | System creates assignment record |
-| 4 | System updates machine location | Machine becomes part of production line |
-| 5 | System records history | Assignment history is stored |
+| Step | Actor Action                    | System Response                            |
+| ---- | ------------------------------- | ------------------------------------------ |
+| 1    | User selects unassigned machine | System displays available production lines |
+| 2    | User selects production line    | System validates assignment                |
+| 3    | User confirms assignment        | System creates assignment record           |
+| 4    | System updates machine location | Machine becomes part of production line    |
+| 5    | System records history          | Assignment history is stored               |
 
 ---
 
 # 6.5 Move Machine Between Production Lines
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects existing machine | System displays current assignment |
-| 2 | User selects new production line | System validates new assignment |
-| 3 | User confirms relocation | System closes previous assignment |
-| 4 | System creates new assignment | Machine location is updated |
-| 5 | System preserves history | Previous assignment remains available |
-| 6 | System records audit log | Change is tracked |
+| Step | Actor Action                     | System Response                       |
+| ---- | -------------------------------- | ------------------------------------- |
+| 1    | User selects existing machine    | System displays current assignment    |
+| 2    | User selects new production line | System validates new assignment       |
+| 3    | User confirms relocation         | System closes previous assignment     |
+| 4    | System creates new assignment    | Machine location is updated           |
+| 5    | System preserves history         | Previous assignment remains available |
+| 6    | System records audit log         | Change is tracked                     |
 
 ---
 
 # 6.6 Activate Machine
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects inactive machine | System displays machine status |
-| 2 | User activates machine | System validates conditions |
-| 3 | System changes status to Active | Machine becomes operational |
-| 4 | System records audit log | Status change stored |
+| Step | Actor Action                    | System Response                |
+| ---- | ------------------------------- | ------------------------------ |
+| 1    | User selects inactive machine   | System displays machine status |
+| 2    | User activates machine          | System validates conditions    |
+| 3    | System changes status to Active | Machine becomes operational    |
+| 4    | System records audit log        | Status change stored           |
 
 ---
 
 # 6.7 Deactivate Machine
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects active machine | System displays machine details |
-| 2 | User requests deactivation | System validates dependencies |
-| 3 | System changes status | Machine becomes inactive |
-| 4 | System keeps historical data | Data remains available |
-| 5 | System records audit log | Status change stored |
+| Step | Actor Action                 | System Response                 |
+| ---- | ---------------------------- | ------------------------------- |
+| 1    | User selects active machine  | System displays machine details |
+| 2    | User requests deactivation   | System validates dependencies   |
+| 3    | System changes status        | Machine becomes inactive        |
+| 4    | System keeps historical data | Data remains available          |
+| 5    | System records audit log     | Status change stored            |
 
 ---
 
@@ -215,11 +215,11 @@ Machine Code already exists.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User submits machine information | System validates uniqueness |
-| 2 | Duplicate detected | System rejects request |
-| 3 | System displays validation error | User updates information |
+| Step | Actor Action                     | System Response             |
+| ---- | -------------------------------- | --------------------------- |
+| 1    | User submits machine information | System validates uniqueness |
+| 2    | Duplicate detected               | System rejects request      |
+| 3    | System displays validation error | User updates information    |
 
 ---
 
@@ -231,11 +231,11 @@ Selected Production Line does not exist or is inactive.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects Production Line | System validates status |
-| 2 | Invalid Production Line detected | Assignment rejected |
-| 3 | System requests another selection | User retries |
+| Step | Actor Action                      | System Response         |
+| ---- | --------------------------------- | ----------------------- |
+| 1    | User selects Production Line      | System validates status |
+| 2    | Invalid Production Line detected  | Assignment rejected     |
+| 3    | System requests another selection | User retries            |
 
 ---
 
@@ -247,11 +247,11 @@ Machine already has an active assignment.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User requests relocation | System checks current assignment |
-| 2 | Active assignment found | System closes previous assignment |
-| 3 | New assignment created | History preserved |
+| Step | Actor Action             | System Response                   |
+| ---- | ------------------------ | --------------------------------- |
+| 1    | User requests relocation | System checks current assignment  |
+| 2    | Active assignment found  | System closes previous assignment |
+| 3    | New assignment created   | History preserved                 |
 
 ---
 
@@ -265,11 +265,11 @@ System cannot store machine information.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User submits request | System processes transaction |
-| 2 | Database error occurs | Transaction rollback |
-| 3 | System logs error | User receives failure message |
+| Step | Actor Action          | System Response               |
+| ---- | --------------------- | ----------------------------- |
+| 1    | User submits request  | System processes transaction  |
+| 2    | Database error occurs | Transaction rollback          |
+| 3    | System logs error     | User receives failure message |
 
 ---
 
@@ -281,11 +281,11 @@ User does not have Machine Management permission.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User accesses machine module | System validates permission |
-| 2 | Permission denied | Operation blocked |
-| 3 | Security event recorded | Access rejected |
+| Step | Actor Action                 | System Response             |
+| ---- | ---------------------------- | --------------------------- |
+| 1    | User accesses machine module | System validates permission |
+| 2    | Permission denied            | Operation blocked           |
+| 3    | Security event recorded      | Access rejected             |
 
 ---
 
@@ -307,7 +307,7 @@ Factory A
             ├── Machine A
             ├── Machine B
             └── Machine C
-````
+```
 
 ---
 
@@ -321,9 +321,9 @@ Each Machine must have a unique machine code.
 
 When a Machine moves:
 
-* Previous assignment must be preserved.
-* New assignment must be created.
-* Historical telemetry remains unchanged.
+- Previous assignment must be preserved.
+- New assignment must be created.
+- Historical telemetry remains unchanged.
 
 ---
 
@@ -348,10 +348,10 @@ Retired
 
 Machine deactivation must not remove:
 
-* Telemetry history.
-* Maintenance history.
-* Incident history.
-* Assignment history.
+- Telemetry history.
+- Maintenance history.
+- Incident history.
+- Assignment history.
 
 ---
 
@@ -418,11 +418,11 @@ A Machine can only be assigned to an active Production Line.
 
 The system provides:
 
-* Machine list.
-* Machine details.
-* Machine assignment history.
-* Machine status.
-* Machine operational information.
+- Machine list.
+- Machine details.
+- Machine assignment history.
+- Machine status.
+- Machine operational information.
 
 ---
 
@@ -432,10 +432,10 @@ The system provides:
 
 After completion:
 
-* Machine information is stored.
-* Machine belongs to correct Production Line.
-* Assignment history is maintained.
-* Audit log is generated.
+- Machine information is stored.
+- Machine belongs to correct Production Line.
+- Assignment history is maintained.
+- Audit log is generated.
 
 ---
 
@@ -443,9 +443,9 @@ After completion:
 
 After failure:
 
-* Machine data remains unchanged.
-* Transaction is rolled back.
-* Error is recorded.
+- Machine data remains unchanged.
+- Transaction is rolled back.
+- Error is recorded.
 
 ---
 
@@ -455,16 +455,16 @@ After failure:
 
 Given:
 
-* Active Production Line exists.
+- Active Production Line exists.
 
 When:
 
-* User creates valid Machine information.
+- User creates valid Machine information.
 
 Then:
 
-* Machine is created successfully.
-* Machine is assigned to Production Line.
+- Machine is created successfully.
+- Machine is assigned to Production Line.
 
 ---
 
@@ -472,16 +472,16 @@ Then:
 
 Given:
 
-* Machine exists.
+- Machine exists.
 
 When:
 
-* User updates machine information.
+- User updates machine information.
 
 Then:
 
-* Information is updated.
-* Audit log is generated.
+- Information is updated.
+- Audit log is generated.
 
 ---
 
@@ -489,16 +489,16 @@ Then:
 
 Given:
 
-* Machine belongs to a Production Line.
+- Machine belongs to a Production Line.
 
 When:
 
-* User moves Machine.
+- User moves Machine.
 
 Then:
 
-* Previous assignment is preserved.
-* New assignment is created.
+- Previous assignment is preserved.
+- New assignment is created.
 
 ---
 
@@ -506,16 +506,16 @@ Then:
 
 Given:
 
-* Machine exists.
+- Machine exists.
 
 When:
 
-* Status changes.
+- Status changes.
 
 Then:
 
-* New status is recorded.
-* Historical data remains available.
+- New status is recorded.
+- Historical data remains available.
 
 ---
 
@@ -523,15 +523,15 @@ Then:
 
 Given:
 
-* User lacks permission.
+- User lacks permission.
 
 When:
 
-* User accesses Machine Management.
+- User accesses Machine Management.
 
 Then:
 
-* System denies access.
+- System denies access.
 
 ---
 

@@ -5,7 +5,7 @@
 **Use Case Name:** Production Line Management  
 **Project:** Factory Management System (FMS)  
 **Version:** 1.0  
-**Status:** Draft  
+**Status:** Draft
 
 ---
 
@@ -30,11 +30,11 @@ Production Line Management provides the organizational foundation for:
 
 # 2. Actors
 
-| Actor | Description |
-| --- | --- |
-| System Administrator | Manages production line information and configuration |
-| Factory Manager | Manages production lines within assigned factories |
-| Production Supervisor | Views and manages production line operations |
+| Actor                 | Description                                           |
+| --------------------- | ----------------------------------------------------- |
+| System Administrator  | Manages production line information and configuration |
+| Factory Manager       | Manages production lines within assigned factories    |
+| Production Supervisor | Views and manages production line operations          |
 
 ---
 
@@ -91,26 +91,26 @@ The use case is triggered when:
 
 ## 6.1 Create Production Line
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User opens Production Line Management | System displays production line list |
-| 2 | User selects Create Production Line | System displays creation form |
-| 3 | User selects Workshop | System loads available workshops |
-| 4 | User enters production line information | System validates input data |
-| 5 | User submits creation request | System checks duplicate information |
-| 6 | System creates Production Line | Production line is stored |
-| 7 | System links Production Line to Workshop | Organization hierarchy is updated |
-| 8 | System records audit log | Creation activity is stored |
-| 9 | System displays success message | Production line becomes available |
+| Step | Actor Action                             | System Response                      |
+| ---- | ---------------------------------------- | ------------------------------------ |
+| 1    | User opens Production Line Management    | System displays production line list |
+| 2    | User selects Create Production Line      | System displays creation form        |
+| 3    | User selects Workshop                    | System loads available workshops     |
+| 4    | User enters production line information  | System validates input data          |
+| 5    | User submits creation request            | System checks duplicate information  |
+| 6    | System creates Production Line           | Production line is stored            |
+| 7    | System links Production Line to Workshop | Organization hierarchy is updated    |
+| 8    | System records audit log                 | Creation activity is stored          |
+| 9    | System displays success message          | Production line becomes available    |
 
 ---
 
 ## 6.2 View Production Line Information
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects production line | System retrieves information |
-| 2 | User views details | System displays production line data |
+| Step | Actor Action                 | System Response                      |
+| ---- | ---------------------------- | ------------------------------------ |
+| 1    | User selects production line | System retrieves information         |
+| 2    | User views details           | System displays production line data |
 
 Displayed information includes:
 
@@ -128,34 +128,34 @@ Displayed information includes:
 
 ## 6.3 Update Production Line Information
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects production line | System displays details |
-| 2 | User modifies information | System validates changes |
-| 3 | User submits update request | System updates information |
-| 4 | System records audit log | Modification history is stored |
+| Step | Actor Action                 | System Response                |
+| ---- | ---------------------------- | ------------------------------ |
+| 1    | User selects production line | System displays details        |
+| 2    | User modifies information    | System validates changes       |
+| 3    | User submits update request  | System updates information     |
+| 4    | System records audit log     | Modification history is stored |
 
 ---
 
 ## 6.4 Activate Production Line
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects inactive production line | System displays status |
-| 2 | User activates production line | System validates workshop status |
-| 3 | System changes status to Active | Production line becomes operational |
-| 4 | System records audit log | Status change is stored |
+| Step | Actor Action                          | System Response                     |
+| ---- | ------------------------------------- | ----------------------------------- |
+| 1    | User selects inactive production line | System displays status              |
+| 2    | User activates production line        | System validates workshop status    |
+| 3    | System changes status to Active       | Production line becomes operational |
+| 4    | System records audit log              | Status change is stored             |
 
 ---
 
 ## 6.5 Deactivate Production Line
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects active production line | System displays information |
-| 2 | User requests deactivation | System checks dependencies |
-| 3 | System changes status to Inactive | Production line cannot receive new assignments |
-| 4 | System records audit log | Status change is stored |
+| Step | Actor Action                        | System Response                                |
+| ---- | ----------------------------------- | ---------------------------------------------- |
+| 1    | User selects active production line | System displays information                    |
+| 2    | User requests deactivation          | System checks dependencies                     |
+| 3    | System changes status to Inactive   | Production line cannot receive new assignments |
+| 4    | System records audit log            | Status change is stored                        |
 
 ---
 
@@ -169,11 +169,11 @@ Production Line Code already exists.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User submits information | System validates uniqueness |
-| 2 | Duplicate detected | System rejects request |
-| 3 | System displays validation message | User updates data |
+| Step | Actor Action                       | System Response             |
+| ---- | ---------------------------------- | --------------------------- |
+| 1    | User submits information           | System validates uniqueness |
+| 2    | Duplicate detected                 | System rejects request      |
+| 3    | System displays validation message | User updates data           |
 
 ---
 
@@ -185,11 +185,11 @@ Selected Workshop does not exist or is inactive.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User selects Workshop | System validates workshop |
-| 2 | Workshop is invalid | System rejects creation |
-| 3 | System requests valid Workshop | User selects another Workshop |
+| Step | Actor Action                   | System Response               |
+| ---- | ------------------------------ | ----------------------------- |
+| 1    | User selects Workshop          | System validates workshop     |
+| 2    | Workshop is invalid            | System rejects creation       |
+| 3    | System requests valid Workshop | User selects another Workshop |
 
 ---
 
@@ -201,12 +201,12 @@ Production Line contains active machines.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User requests deactivation | System checks machine assignments |
-| 2 | Active machines detected | System displays warning |
-| 3 | User confirms action | System changes status |
-| 4 | Historical machine data remains unchanged | Operation completes |
+| Step | Actor Action                              | System Response                   |
+| ---- | ----------------------------------------- | --------------------------------- |
+| 1    | User requests deactivation                | System checks machine assignments |
+| 2    | Active machines detected                  | System displays warning           |
+| 3    | User confirms action                      | System changes status             |
+| 4    | Historical machine data remains unchanged | Operation completes               |
 
 ---
 
@@ -220,11 +220,11 @@ System cannot save production line information.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User submits request | System processes transaction |
-| 2 | Database failure occurs | Transaction rollback |
-| 3 | System logs error | User receives failure message |
+| Step | Actor Action            | System Response               |
+| ---- | ----------------------- | ----------------------------- |
+| 1    | User submits request    | System processes transaction  |
+| 2    | Database failure occurs | Transaction rollback          |
+| 3    | System logs error       | User receives failure message |
 
 ---
 
@@ -236,11 +236,11 @@ User does not have Production Line Management permission.
 
 Flow:
 
-| Step | Actor Action | System Response |
-| --- | --- | --- |
-| 1 | User accesses Production Line Management | System checks permission |
-| 2 | Permission denied | Operation is blocked |
-| 3 | Security event is recorded | Access rejected |
+| Step | Actor Action                             | System Response          |
+| ---- | ---------------------------------------- | ------------------------ |
+| 1    | User accesses Production Line Management | System checks permission |
+| 2    | Permission denied                        | Operation is blocked     |
+| 3    | Security event is recorded               | Access rejected          |
 
 ---
 
@@ -259,7 +259,7 @@ Factory A
         ├── Production Line A
         ├── Production Line B
         └── Production Line C
-````
+```
 
 ---
 
@@ -290,10 +290,10 @@ A Machine can only be assigned to an active Production Line.
 
 Deactivating a Production Line must not remove:
 
-* Machine assignment history.
-* Telemetry history.
-* Maintenance history.
-* Incident history.
+- Machine assignment history.
+- Telemetry history.
+- Maintenance history.
+- Incident history.
 
 ---
 
@@ -338,11 +338,11 @@ A Production Line can only exist under an active Workshop.
 
 The system provides:
 
-* Production Line list.
-* Production Line details.
-* Workshop hierarchy.
-* Machine count.
-* Operation result messages.
+- Production Line list.
+- Production Line details.
+- Workshop hierarchy.
+- Machine count.
+- Operation result messages.
 
 ---
 
@@ -352,9 +352,9 @@ The system provides:
 
 After completion:
 
-* Production Line is created or updated.
-* Production Line remains linked to correct Workshop.
-* Audit record is generated.
+- Production Line is created or updated.
+- Production Line remains linked to correct Workshop.
+- Audit record is generated.
 
 ---
 
@@ -362,9 +362,9 @@ After completion:
 
 After failure:
 
-* Production Line data remains unchanged.
-* Error information is returned.
-* Failure is logged.
+- Production Line data remains unchanged.
+- Error information is returned.
+- Failure is logged.
 
 ---
 
@@ -374,16 +374,16 @@ After failure:
 
 Given:
 
-* An active Workshop exists.
+- An active Workshop exists.
 
 When:
 
-* User creates a valid Production Line.
+- User creates a valid Production Line.
 
 Then:
 
-* Production Line is created successfully.
-* Production Line belongs to selected Workshop.
+- Production Line is created successfully.
+- Production Line belongs to selected Workshop.
 
 ---
 
@@ -391,16 +391,16 @@ Then:
 
 Given:
 
-* Production Line exists.
+- Production Line exists.
 
 When:
 
-* User updates information.
+- User updates information.
 
 Then:
 
-* Information is updated.
-* Audit log is generated.
+- Information is updated.
+- Audit log is generated.
 
 ---
 
@@ -408,16 +408,16 @@ Then:
 
 Given:
 
-* Production Line exists.
+- Production Line exists.
 
 When:
 
-* User deactivates it.
+- User deactivates it.
 
 Then:
 
-* Status changes to Inactive.
-* Historical data remains available.
+- Status changes to Inactive.
+- Historical data remains available.
 
 ---
 
@@ -425,15 +425,15 @@ Then:
 
 Given:
 
-* Production Line belongs to Workshop.
+- Production Line belongs to Workshop.
 
 When:
 
-* User views organization hierarchy.
+- User views organization hierarchy.
 
 Then:
 
-* Production Line appears under correct Workshop.
+- Production Line appears under correct Workshop.
 
 ---
 
@@ -441,15 +441,15 @@ Then:
 
 Given:
 
-* User does not have permission.
+- User does not have permission.
 
 When:
 
-* User accesses Production Line Management.
+- User accesses Production Line Management.
 
 Then:
 
-* System denies access.
+- System denies access.
 
 ---
 

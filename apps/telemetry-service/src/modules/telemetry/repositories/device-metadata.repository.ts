@@ -1,6 +1,6 @@
-import { PrismaService } from '@libs/database';
+import type { PrismaService } from '@libs/database';
 import { Injectable } from '@nestjs/common';
-import { Device } from '@prisma';
+import type { Device } from '@prisma';
 
 @Injectable()
 export class DeviceMetadataRepository {
