@@ -1,460 +1,466 @@
-# Factory Management Platform
+# Factory Management System
+
+Factory Management System (FMS) is a multi-tenant platform for monitoring and managing factory assets, machine telemetry, alerts, incidents, maintenance activities, reporting, and audit data.
+
+The system is designed as a modular microservice architecture with clear service boundaries, asynchronous event-driven communication, and independent data ownership.
+
+---
 
 ## Overview
 
-Factory Management Platform is a modern Industrial IoT platform designed to monitor, manage, and analyze factory operations in real time.
+The system focuses on the following core capabilities:
 
-The platform provides end-to-end visibility across factories, workshops, machines, sensors, and devices through a scalable event-driven architecture.
+- Organization and factory management
+- Machine and asset management
+- Sensor and telemetry management
+- Alert management
+- Incident management
+- Maintenance management
+- Dashboard and monitoring
+- Reporting and analytics
+- Audit logging
+- Authentication and authorization
 
-### Key Capabilities
-
-- Factory Asset Management
-- Realtime Telemetry Collection
-- Equipment Monitoring
-- Alarm Detection & Notification
-- Maintenance Management
-- Production Analytics
-- Energy Analytics
-- KPI & OEE Dashboards
-- Digital Twin Visualization (Planned)
-- AI Predictive Maintenance (Planned)
+The initial MVP focuses on factory monitoring, asset management, telemetry, alert, incident, maintenance, reporting, and audit capabilities.
 
 ---
 
-# Business Problem
+## Architecture
 
-Many factories still rely on manual monitoring processes, resulting in:
+The backend follows a microservice architecture.
 
-- Delayed incident detection
-- Unplanned equipment downtime
-- High maintenance costs
-- Limited operational visibility
-- Inefficient energy consumption
+```text
+                         ┌─────────────────┐
+                         │   API Gateway   │
+                         └────────┬────────┘
+                                  │
+          ┌───────────────────────┼────────────────────────┐
+          │                       │                        │
+          ▼                       ▼                        ▼
+   ┌──────────────┐       ┌──────────────┐       ┌──────────────┐
+   │ Auth Service │       │Factory Service│       │Telemetry     │
+   │              │       │              │       │Service       │
+   └──────┬───────┘       └──────┬───────┘       └──────┬───────┘
+          │                      │                       │
+          │                      │                       │
+          └──────────────────────┼───────────────────────┘
+                                 │
+                         ┌───────▼────────┐
+                         │    RabbitMQ    │
+                         │ Event Bus       │
+                         └───────┬────────┘
+                                 │
+             ┌───────────────────┼───────────────────┐
+             │                   │                   │
+             ▼                   ▼                   ▼
+      ┌────────────┐      ┌─────────────┐     ┌────────────┐
+      │   Alert    │      │ Maintenance │     │  Incident  │
+      │   Service  │      │   Service   │     │  Service   │
+      └────────────┘      └─────────────┘     └────────────┘
+             │                   │                   │
+             └───────────────────┼───────────────────┘
+                                 │
+                     ┌───────────┴───────────┐
+                     ▼                       ▼
+              ┌─────────────┐        ┌─────────────┐
+              │  Reporting  │        │    Audit    │
+              │   Service   │        │   Service   │
+              └─────────────┘        └─────────────┘
+```
 
-This platform aims to digitize factory operations and provide real-time insights for operational excellence.
+### Services
+
+| Service             | Responsibility                                      |
+| ------------------- | --------------------------------------------------- |
+| API Gateway         | External API entry point                            |
+| Auth Service        | Authentication, users, roles, permissions, sessions |
+| Factory Service     | Organizations, factories, machines, assets          |
+| Telemetry Service   | Sensor telemetry ingestion and storage              |
+| Alert Service       | Alert rules and alert lifecycle                     |
+| Maintenance Service | Maintenance schedules and work management           |
+| Incident Service    | Incident lifecycle and resolution                   |
+| Reporting Service   | Reporting and analytics                             |
+| Audit Service       | Audit event storage and querying                    |
 
 ---
 
-# Technology Stack
+## Technology Stack
 
-## Backend
+### Runtime
 
-- Node.js
-- NestJS
+- Node.js 22
 - TypeScript
+- Yarn
 
-## Database
+### Backend
+
+- NestJS
+- REST API
+- gRPC
+- Event-Driven Architecture
+
+### Databases
 
 - PostgreSQL
-
-## Realtime
-
-- MQTT (EMQX)
+- MongoDB
 - Redis
-- Socket.IO
 
-## Infrastructure
+### Data Access
+
+- Prisma
+
+### Messaging
+
+- RabbitMQ
+
+### Infrastructure
 
 - Docker
 - Docker Compose
+- Kubernetes
+
+### Observability
+
+- OpenTelemetry
+- Prometheus
+- Grafana
+- Jaeger / Tempo
+
+### Testing
+
+- Jest
+- NestJS Testing
+- Supertest
 
 ---
 
-# Architecture Overview
+## Project Structure
 
 ```text
-Sensors
-   ↓
-MQTT Broker (EMQX)
-   ↓
-Telemetry Service
-   ↓
-Redis
-   ├── Alarm Service
-   ├── Analytics Service
-   └── WebSocket Gateway
-               ↓
-          Frontend Dashboard
-
-Telemetry History
-        ↓
-     PostgreSQL
-```
-
----
-
-# Why This Architecture?
-
-## MQTT
-
-Selected because:
-
-- Lightweight protocol for IoT devices
-- Low bandwidth usage
-- Publish / Subscribe model
-- High scalability
-
-## Redis
-
-Selected because:
-
-- Sub-millisecond latency
-- Realtime caching
-- Pub/Sub support
-- Fast alarm evaluation
-
-## PostgreSQL
-
-Selected because:
-
-- ACID compliance
-- Strong relational modeling
-- Reliable transactional processing
-
-## NestJS
-
-Selected because:
-
-- Modular architecture
-- Dependency Injection
-- Enterprise-grade scalability
-- Strong TypeScript support
-
----
-
-# System Architecture
-
-## Core Business Flow
-
-```text
-Factory
-   ↓
-Workshop
-   ↓
-Machine
-   ↓
-Sensor / Device
-   ↓
-Telemetry
-   ↓
-Alarm
-   ↓
-Maintenance
-   ↓
-Analytics
-```
-
----
-
-## Realtime Data Flow
-
-```text
-Sensor
-   ↓
-MQTT Broker
-   ↓
-Telemetry Service
-   ↓
-Redis
-   ↓
-WebSocket Gateway
-   ↓
-Frontend Dashboard
-```
-
----
-
-# Development Roadmap
-
-## Phase 1 - Foundation & Asset Management
-
-### Modules
-
-- Authentication
-- User Management
-- RBAC
-- Factory Management
-- Workshop Management
-- Machine Management
-- Sensor Management
-- Device Management
-
-### Objective
-
-Build the core factory hierarchy and asset structure.
-
----
-
-## Phase 2 - Realtime Monitoring
-
-### Modules
-
-- MQTT Integration
-- Telemetry Processing
-- Redis Cache
-- WebSocket Gateway
-- Realtime Dashboard
-
-### Objective
-
-Collect and visualize sensor data in real time.
-
----
-
-## Phase 3 - Alarm Management
-
-### Modules
-
-- Alarm Rules
-- Alarm Engine
-- Alarm Dashboard
-- Notification Service
-
-### Objective
-
-Automatically detect abnormal equipment behavior.
-
----
-
-## Phase 4 - Maintenance Management
-
-### Modules
-
-- Maintenance Plans
-- Maintenance Tickets
-- Scheduling
-- Maintenance History
-
-### Objective
-
-Support preventive and corrective maintenance workflows.
-
----
-
-## Phase 5 - Analytics & Reporting
-
-### Modules
-
-- Production Analytics
-- Energy Analytics
-- KPI Dashboard
-- OEE Dashboard
-- Export Reports
-
-### Objective
-
-Deliver operational insights and performance measurements.
-
----
-
-## Phase 6 - Digital Twin (Planned)
-
-### Modules
-
-- Factory Mapping
-- Machine Mapping
-- 3D Visualization
-- Realtime Overlay
-
----
-
-## Phase 7 - AI Features (Planned)
-
-### Modules
-
-- Predictive Maintenance
-- AI Anomaly Detection
-- Failure Prediction
-- Energy Optimization
-
----
-
-# Monorepo Structure
-
-```text
-backend/
-
+factory-management/
 ├── apps/
-├── libs/
-├── infrastructure/
-├── deployments/
+│   ├── api-gateway/
+│   ├── auth-service/
+│   ├── factory-service/
+│   ├── telemetry-service/
+│   ├── alert-service/
+│   ├── maintenance-service/
+│   ├── incident-service/
+│   ├── reporting-service/
+│   └── audit-service/
+│
+├── packages/
+│   └── ...
+│
+├── config/
+│   └── ...
+│
+├── docker/
+│   └── ...
+│
 ├── docs/
-├── prisma/
-└── scripts/
+│   └── ...
+│
+├── scripts/
+│   └── ...
+│
+├── docker-compose.yml
+├── package.json
+├── tsconfig.json
+├── .gitignore
+├── .gitattributes
+└── README.md
 ```
 
 ---
 
-# Applications
+## Requirements
+
+Before starting development, make sure the following are installed:
+
+- Node.js 22
+- Yarn
+- Docker
+- Docker Compose
+- Git
+
+Check the installed versions:
+
+```bash
+node --version
+yarn --version
+docker --version
+docker compose version
+git --version
+```
+
+---
+
+## Getting Started
+
+See [Getting Started](#getting-started) below for the complete local development setup.
+
+### 1. Clone the repository
+
+```bash
+git clone <repository-url>
+cd factory-management
+```
+
+### 2. Install dependencies
+
+```bash
+yarn install
+```
+
+### 3. Configure environment
+
+Copy the example environment file:
+
+```bash
+cp .env.example .env
+```
+
+Review the environment variables before starting the services.
+
+### 4. Start development infrastructure
+
+```bash
+docker compose up -d
+```
+
+Check the infrastructure:
+
+```bash
+docker compose ps
+```
+
+### 5. Start Auth Service
+
+```bash
+yarn workspace @fms/auth-service dev
+```
+
+The service should start on the configured application port.
+
+---
+
+## Development Commands
+
+### Typecheck
+
+```bash
+yarn workspace @fms/auth-service typecheck
+```
+
+### Lint
+
+```bash
+yarn workspace @fms/auth-service lint
+```
+
+### Unit Tests
+
+```bash
+yarn workspace @fms/auth-service test
+```
+
+### Test Coverage
+
+```bash
+yarn workspace @fms/auth-service test:coverage
+```
+
+### Build
+
+```bash
+yarn workspace @fms/auth-service build
+```
+
+---
+
+## Docker Development Environment
+
+Development infrastructure is provided through Docker Compose.
+
+Current infrastructure includes:
+
+- PostgreSQL
+- Redis
+
+Start:
+
+```bash
+docker compose up -d
+```
+
+Stop:
+
+```bash
+docker compose down
+```
+
+Stop and remove development volumes:
+
+```bash
+docker compose down -v
+```
+
+> `docker compose down -v` removes persistent development data. Use it only when a complete database reset is required.
+
+---
+
+## Environment Configuration
+
+Application configuration is managed through NestJS `ConfigModule`.
+
+Environment variables are:
 
 ```text
-apps/
-
-├── api-gateway/
-├── auth-service/
-├── factory-service/
-├── telemetry-service/
-├── alarm-service/
-├── maintenance-service/
-├── analytics-service/
-└── notification-service/
+.env
+  │
+  ▼
+Joi Validation
+  │
+  ▼
+Configuration Mapping
+  │
+  ▼
+ConfigService
+  │
+  ▼
+Application
 ```
+
+Application code must not access environment variables directly.
+
+Do:
+
+```typescript
+configService.getOrThrow('database.url');
+```
+
+Do not:
+
+```typescript
+process.env.DATABASE_URL;
+```
+
+See [Environment Configuration](./docs/environment.md) for details.
 
 ---
 
-# Shared Libraries
+## Testing
+
+The project follows a testing pyramid:
 
 ```text
-libs/
-
-├── common/
-├── database/
-├── logger/
-├── mqtt/
-├── redis/
-├── websocket/
-├── auth/
-└── events/
+              E2E
+               ▲
+               │
+        Integration
+               ▲
+               │
+             Unit
 ```
 
+Testing tools include:
+
+- Jest
+- `@nestjs/testing`
+- Supertest
+
+See [Testing](./docs/testing.md).
+
 ---
 
-# Event Driven Design
+## Git Workflow
 
-Example domain events:
+The project uses:
 
-```text
-TelemetryReceivedEvent
+- Feature branches
+- Conventional Commits
+- Atomic commits
+- Pull Requests
+- Code Review
 
-AlarmCreatedEvent
+Example:
 
-AlarmResolvedEvent
+```bash
+git checkout -b feature/auth-login
 
-MaintenanceTicketCreatedEvent
+git add .
 
-MaintenanceCompletedEvent
+git commit -m "feat(auth): add login endpoint"
+
+git push -u origin feature/auth-login
 ```
 
-Services communicate through events rather than direct dependencies whenever possible.
+See [Git Workflow](./docs/git-workflow.md).
 
 ---
 
-# Security Strategy
+## Engineering Principles
 
-- JWT Authentication
-- Refresh Token
-- Role-Based Access Control (RBAC)
-- Request Validation
-- Audit Logging
-- Secure MQTT Authentication
-- API Rate Limiting
+The project follows these core engineering principles:
 
----
+1. Domain-driven service boundaries
+2. Database-per-service
+3. Contract-first communication
+4. REST for external communication
+5. gRPC for internal synchronous communication
+6. Event-driven asynchronous workflows
+7. Idempotent consumers
+8. Transactional Outbox
+9. Strong typing and validation
+10. Observability by default
+11. Testability by design
 
-# Observability
-
-Metrics collected:
-
-- API Response Time
-- MQTT Throughput
-- Redis Hit/Miss Ratio
-- Alarm Processing Time
-- Active WebSocket Connections
-- Database Query Performance
+See [Coding Standards](./docs/coding-standards.md).
 
 ---
 
-# CI/CD Pipeline
+## Documentation
 
-```text
-Developer
-   ↓
-GitHub
-   ↓
-GitHub Actions
-   ↓
-Build
-   ↓
-Test
-   ↓
-Docker Image
-   ↓
-Deployment
-```
+Project documentation is organized under `docs/`.
 
----
+### Architecture
 
-# Scalability Strategy
+- [Architecture Overview](./docs/architecture/overview.md)
+- [Service Boundaries](./docs/architecture/service-boundaries.md)
+- [Communication](./docs/architecture/communication.md)
 
-Future scaling plan:
+### Development
 
-- EMQX Cluster
-- Redis Cluster
-- Kubernetes Deployment
-- TimescaleDB
-- Kafka Event Streaming
-- Multi-Factory Architecture
-- Multi-Tenant Support
+- [Environment Configuration](./docs/environment.md)
+- [Testing](./docs/testing.md)
+- [Git Workflow](./docs/git-workflow.md)
+- [Coding Standards](./docs/coding-standards.md)
 
 ---
 
-# Non-Functional Requirements
+## Development Status
 
-- Realtime latency < 1 second
-- Horizontal scaling ready
-- High availability architecture
-- Event-driven processing
-- Observability by design
-- Microservice-ready structure
+The project is currently in the foundation phase.
 
----
+The current focus is establishing:
 
-# Project Status
+- Repository structure
+- Development environment
+- TypeScript configuration
+- NestJS service foundation
+- Code quality
+- Environment configuration
+- Docker development infrastructure
+- Git standards
+- Testing foundation
+- Documentation
+- Foundation verification
 
-Current Phase: Realtime Monitoring
-
-Completed:
-
-- Authentication
-- RBAC
-- Factory Management
-- MQTT Integration
-- Telemetry Processing
-- Redis Integration
-
-In Progress:
-
-- Alarm Engine
-- WebSocket Dashboard
-
-Planned:
-
-- Maintenance Management
-- Analytics
-- Digital Twin
-- AI Predictive Maintenance
+Business features will be implemented after the foundation passes the verification gate.
 
 ---
 
-# Engineering Principles
+## License
 
-1. Domain-Oriented Design
-2. Event-Driven Architecture
-3. Realtime-First Approach
-4. Microservice-Ready Structure
-5. Scalability by Design
-6. Observability First
-7. Clean Architecture
-8. Separation of Concerns
-
----
-
-# Author
-
-Truong Vi Huy
-
-Backend Engineer | Fullstack Engineer (Backend Focus)
-
-Tech Stack:
-
-NestJS • PostgreSQL • Redis • MQTT • Socket.IO • Docker
+This project is currently for development and technical implementation purposes.

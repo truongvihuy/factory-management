@@ -1,4 +1,4 @@
-import type { FactoryClientService} from '@libs/http-client';
+import type { FactoryClientService } from '@libs/http-client';
 import { HTTP_CLIENTS } from '@libs/http-client';
 import { Inject, Injectable } from '@nestjs/common';
 import type { PayloadSensorDto } from '../dto/payload-sensor.dto';
