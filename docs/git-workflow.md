@@ -188,11 +188,11 @@ test(auth): add credential validation tests
 
 Commit descriptions should:
 
-* Be concise.
-* Use lowercase.
-* Describe the change.
-* Use imperative wording.
-* Not end with a period.
+- Be concise.
+- Use lowercase.
+- Describe the change.
+- Use imperative wording.
+- Not end with a period.
 
 Good:
 
@@ -243,11 +243,11 @@ docs(auth): document authentication flow
 
 Atomic commits make the history easier to:
 
-* Review
-* Revert
-* Cherry-pick
-* Debug
-* Bisect
+- Review
+- Revert
+- Cherry-pick
+- Debug
+- Bisect
 
 ---
 
@@ -421,9 +421,9 @@ git rebase -i HEAD~3
 
 This can be used to:
 
-* Squash unnecessary commits.
-* Fix commit messages.
-* Reorder local commits.
+- Squash unnecessary commits.
+- Fix commit messages.
+- Reorder local commits.
 
 Do not rewrite shared history without agreement from collaborators.
 
@@ -490,10 +490,10 @@ The repository uses `.gitattributes` to normalize line endings.
 
 This prevents unnecessary line-ending changes between:
 
-* Windows
-* WSL
-* Linux
-* CI environments
+- Windows
+- WSL
+- Linux
+- CI environments
 
 ---
 
