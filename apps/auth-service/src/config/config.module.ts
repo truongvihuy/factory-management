@@ -8,6 +8,7 @@ import { envValidationSchema } from './env.validation';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      cache: true,
       load: [configuration],
       validationSchema: envValidationSchema,
       validationOptions: {

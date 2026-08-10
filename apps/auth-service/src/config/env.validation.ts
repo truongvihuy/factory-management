@@ -7,13 +7,21 @@ export const envValidationSchema = Joi.object({
 
   PORT: Joi.number().port().default(3001),
 
-  DATABASE_URL: Joi.string().uri().required(),
+  DATABASE_URL: Joi.string()
+    .uri({ scheme: ['postgresql', 'postgres'] })
+    .required(),
 
-  REDIS_URL: Joi.string().uri().required(),
+  REDIS_URL: Joi.string()
+    .uri({ scheme: ['redis', 'rediss'] })
+    .required(),
 
   GRPC_HOST: Joi.string().default('0.0.0.0'),
 
   GRPC_PORT: Joi.number().port().default(5001),
 
-  RABBITMQ_URL: Joi.string().uri().required(),
+  RABBITMQ_URL: Joi.string()
+    .uri({
+      scheme: ['amqp', 'amqps'],
+    })
+    .required(),
 });

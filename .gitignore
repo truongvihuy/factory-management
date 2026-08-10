@@ -1,12 +1,12 @@
 # compiled output
 /dist
-/apps/**/dist
+**/dist
 /build
-/apps/**/build
+**/build
 
 # node_modules
 /node_modules
-/apps/**/node_modules
+**/node_modules
 
 # Logs
 logs
@@ -19,9 +19,11 @@ lerna-debug.log*
 
 # OS
 .DS_Store
+Thumbs.db
 
 # Tests
 /coverage
+**/coverage
 /.nyc_output
 
 # IDEs and editors
@@ -39,6 +41,7 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+.ide/*
 
 # yarn
 .yarn/*
@@ -59,6 +62,8 @@ lerna-debug.log*
 # temp directory
 .temp
 .tmp
+tmp/
+temp/
 
 # Runtime data
 pids
