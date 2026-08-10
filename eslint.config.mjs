@@ -57,19 +57,12 @@ export default tseslint.config(
        */
 
       'no-console': 'warn',
-
       'no-debugger': 'error',
-
       'no-duplicate-imports': 'error',
-
       'no-var': 'error',
-
       'prefer-const': 'error',
-
       'object-shorthand': 'error',
-
       eqeqeq: ['error', 'always'],
-
       curly: ['error', 'multi-line'],
 
       /*
@@ -79,11 +72,8 @@ export default tseslint.config(
        */
 
       'no-eval': 'error',
-
       'no-implied-eval': 'error',
-
       'no-new-func': 'error',
-
       'no-return-await': 'error',
 
       /*
