@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:17
-    container_name: fsm-postgres
+    container_name: fms-postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
