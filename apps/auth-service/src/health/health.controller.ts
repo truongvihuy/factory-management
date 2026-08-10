@@ -1,26 +1,46 @@
 import { Controller, Get } from '@nestjs/common';
 import { HealthCheck, type HealthCheckService, type MemoryHealthIndicator } from '@nestjs/terminus';
 
+import { DatabaseHealthIndicator } from '@/health/indicators/database.health';
+
 @Controller('health')
 export class HealthController {
   constructor(
     private readonly health: HealthCheckService,
     private readonly memory: MemoryHealthIndicator,
+    private readonly database: DatabaseHealthIndicator,
   ) {}
 
+  /**
+   * Overall health check.
+   * Checks application memory and database connectivity.
+   */
   @Get()
   @HealthCheck()
   check() {
-    return this.health.check([() => this.memory.checkHeap('memory_heap', 300 * 1024 * 1024)]);
+    return this.health.check([
+      () => this.memory.checkHeap('memory_heap', 300 * 1024 * 1024),
+      () => this.database.isHealthy(),
+    ]);
   }
 
-  @Get()
+  /**
+   * Liveness probe.
+   * Indicates whether the application process is alive.
+   * It must not depend on external services.
+   */
+  @Get('live')
   live() {
     return { status: 'ok' };
   }
 
+  /**
+   * Readiness probe.
+   * Indicates whether the application is ready to receive traffic.
+   * Database connectivity is required.
+   */
   @Get()
   ready() {
-    return { status: 'ok' };
+    return this.health.check([() => this.database.isHealthy()]);
   }
 }

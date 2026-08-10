@@ -4,3 +4,4 @@ coverage
 .yarn
 .git
 .idea
+**/generated/

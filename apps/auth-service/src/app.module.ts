@@ -1,9 +1,11 @@
 import { Module, type MiddlewareConsumer } from '@nestjs/common';
+
 import { LoggerModule } from './common/logger/logger.module';
 import { CorrelationMiddleware } from './common/tracing/correlation.middleware';
 import { TracingModule } from './common/tracing/tracing.module';
 import { AppConfigModule } from './config/config.module';
 import { HealthModule } from './health/health.module';
+import { PrismaModule } from './infrastructure/database/prisma/prisma.module';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
 import { RolesModule } from './modules/roles/roles.module';
@@ -16,6 +18,7 @@ import { UsersModule } from './modules/users/users.module';
     LoggerModule,
     TracingModule,
     HealthModule,
+    PrismaModule,
     UsersModule,
     AuthenticationModule,
     RolesModule,

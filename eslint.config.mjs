@@ -4,7 +4,16 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['**/node_modules/**', '**/dist/**', '**/coverage/**', '**/.yarn/**', '**/.pnp.*', '**/*.min.js'],
+    ignores: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/coverage/**',
+      '**/.yarn/**',
+      '**/.pnp.*',
+      '**/*.min.js',
+      '**/generated/**',
+      '.idea/**',
+    ],
   },
 
   eslint.configs.recommended,
