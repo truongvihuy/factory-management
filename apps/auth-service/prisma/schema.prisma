@@ -8,68 +8,98 @@ datasource db {
   // url      = env("DATABASE_URL")
 }
 
+// 
+// ============================== 
+// ENUMS 
+// ============================== 
+//
+
 enum UserStatus {
   ACTIVE
   INACTIVE
   LOCKED
 }
 
-enum RoleStatus {
-  ACTIVE
-  INACTIVE
+enum AccessScope {
+  GLOBAL
+  FACTORY
+  // WORKSHOP
+  // PRODUCTION_LINE
 }
 
-enum PermissionStatus {
-  ACTIVE
-  INACTIVE
-}
+// enum RoleStatus {
+//   ACTIVE
+//   INACTIVE
+// }
+
+// enum PermissionStatus {
+//   ACTIVE
+//   INACTIVE
+// }
+
+// 
+// ============================== 
+// USER 
+// ============================== 
+//
 
 model User {
   id                  String     @id @default(uuid()) @db.Uuid
   username            String     @unique @db.VarChar(100)
   email               String     @unique @db.VarChar(255)
-  passwordHash        String     @db.VarChar(255)
-  firstName           String     @db.VarChar(100)
-  lastName            String     @db.VarChar(100)
+  // firstName           String     @db.VarChar(100)
+  // lastName            String     @db.VarChar(100)
+  displayName         String     @db.VarChar(200)
+  
   status              UserStatus @default(ACTIVE)
+  
+  passwordHash        String     @db.VarChar(255)
   failedLoginAttempts Int        @default(0)
   lockedUntil         DateTime?
   lastLoginAt         DateTime?
+  
   createdAt           DateTime   @default(now())
   updatedAt           DateTime   @updatedAt
-  deletedAt           DateTime?
+  // deletedAt           DateTime?
 
   userRoles          UserRole[]
-  factoryAccesses    UserFactoryAccess[]
-  createdRoles       Role[]              @relation("RoleCreatedBy")
-  updatedRoles       Role[]              @relation("RoleUpdatedBy")
-  createdPermissions Permission[]        @relation("PermissionCreatedBy")
-  updatedPermissions Permission[]        @relation("PermissionUpdatedBy")
+  // createdRoles       Role[]              @relation("RoleCreatedBy")
+  // updatedRoles       Role[]              @relation("RoleUpdatedBy")
+  // createdPermissions Permission[]        @relation("PermissionCreatedBy")
+  // updatedPermissions Permission[]        @relation("PermissionUpdatedBy")
 
   @@index([status])
-  @@index([deletedAt])
+  // @@index([deletedAt])
   @@map("users")
 }
+
+// 
+// ============================== 
+// ROLE 
+// ============================== 
+//
 
 model Role {
   id          String     @id @default(uuid()) @db.Uuid
   code        String     @unique @db.VarChar(100)
   name        String     @db.VarChar(150)
   description String?    @db.VarChar(500)
-  status      RoleStatus @default(ACTIVE)
-  createdById String?    @db.Uuid
-  updatedById String?    @db.Uuid
+  // status      RoleStatus @default(ACTIVE)
+
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-  deletedAt   DateTime?
+  // deletedAt   DateTime?
+
+  // createdById String?    @db.Uuid
+  // updatedById String?    @db.Uuid
 
   userRoles       UserRole[]
   rolePermissions RolePermission[]
-  createdBy       User?            @relation("RoleCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
-  updatedBy       User?            @relation("RoleUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+  // createdBy       User?            @relation("RoleCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  // updatedBy       User?            @relation("RoleUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
 
-  @@index([status])
-  @@index([deletedAt])
+  // @@index([status])
+  // @@index([deletedAt])
   @@map("roles")
 }
 
@@ -78,40 +108,76 @@ model Permission {
   code        String           @unique @db.VarChar(150)
   name        String           @db.VarChar(150)
   description String?          @db.VarChar(500)
-  status      PermissionStatus @default(ACTIVE)
-  createdById String?          @db.Uuid
-  updatedById String?          @db.Uuid
+  // status      PermissionStatus @default(ACTIVE)
+
+  // createdById String?          @db.Uuid
+  // updatedById String?          @db.Uuid
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
-  deletedAt   DateTime?
+  // deletedAt   DateTime?
 
   rolePermissions RolePermission[]
-  createdBy       User?            @relation("PermissionCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
-  updatedBy       User?            @relation("PermissionUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+  // createdBy       User?            @relation("PermissionCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  // updatedBy       User?            @relation("PermissionUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
 
-  @@index([status])
-  @@index([deletedAt])
+  // @@index([status])
+  // @@index([deletedAt])
   @@map("permissions")
 }
 
+// 
+// ============================== 
+// USER ↔ ROLE 
+// ============================== 
+// 
+// This is the key authorization-scope table. 
+// 
+// It answers: 
+// 
+// "Which role does this user have, 
+// and where does that role apply?" 
+// 
+// GLOBAL: 
+// factoryId = NULL 
+// 
+// FACTORY: 
+// factoryId = specific factory ID 
+// 
+// factoryId is NOT a foreign key because 
+// Factory belongs to another service/database. 
+//
+
 model UserRole {
-  id        String   @id @default(uuid()) @db.Uuid
-  userId    String   @db.Uuid
-  roleId    String   @db.Uuid
-  createdAt DateTime @default(now())
+  id        String      @id @default(uuid()) @db.Uuid
+  userId    String      @db.Uuid
+  roleId    String      @db.Uuid
+  scope     AccessScope @default(FACTORY)
+  factoryId String?     @db.Uuid
+
+  createdAt DateTime    @default(now())
+  revokedAt DateTime?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, roleId])
+  @@index([userId, roleId])
   @@index([roleId])
+  @@index([factoryId])
+  @@index([revokedAt])
   @@map("user_roles")
 }
+
+// 
+// ============================== 
+// ROLE ↔ PERMISSION 
+// ============================== 
+//
 
 model RolePermission {
   id           String   @id @default(uuid()) @db.Uuid
   roleId       String   @db.Uuid
   permissionId String   @db.Uuid
+
   createdAt    DateTime @default(now())
 
   role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
@@ -122,17 +188,33 @@ model RolePermission {
   @@map("role_permissions")
 }
 
-model UserFactoryAccess {
-  id        String    @id @default(uuid()) @db.Uuid
-  userId    String    @db.Uuid
-  factoryId String    @db.Uuid
-  createdAt DateTime  @default(now())
-  revokedAt DateTime?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+// 
+// ============================== 
+// USER ↔ FACTORY ACCESS 
+// ============================== 
+// 
+// This table answers: 
+// 
+// "Can this user access this factory context?" 
+// 
+// factoryId is an external reference. 
+// No FK is created because Factory belongs 
+// to another service/database. 
+//
 
-  @@unique([userId, factoryId])
-  @@index([factoryId])
-  @@index([revokedAt])
-  @@map("user_factory_access")
-}
+// model UserFactoryAccess { 
+//   id          String    @id @default(uuid()) @db.Uuid 
+//   userId      String    @db.Uuid 
+//   factoryId   String    @db.Uuid 
+
+//   createdAt   DateTime  @default(now()) 
+//   revokedAt   DateTime? 
+
+//   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade) 
+  
+//   @@unique([userId, factoryId]) 
+//   @@index([factoryId]) 
+//   @@index([revokedAt]) 
+//   @@map("user_factory_access") 
+// }
