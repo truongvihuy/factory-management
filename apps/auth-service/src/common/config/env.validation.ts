@@ -7,6 +7,18 @@ export const envValidationSchema = Joi.object({
 
   PORT: Joi.number().port().default(3001),
 
+  AUTH_MAX_LOGIN_ATTEMPTS: Joi.number().integer().min(1).max(20).default(5),
+
+  AUTH_LOCK_DURATION_MINUTES: Joi.number().integer().min(1).max(1440).default(15),
+
+  JWT_SECRET: Joi.string().required(),
+
+  JWT_ISSUER: Joi.string().min(1).max(200).default('fms-auth-service'),
+
+  JWT_AUDIENCE: Joi.string().min(1).max(200).default('fms'),
+
+  JWT_ACCESS_TOKEN_TTL: Joi.number().integer().min(60).max(86400).default(900),
+
   DATABASE_URL: Joi.string()
     .uri({ scheme: ['postgresql', 'postgres'] })
     .required(),
@@ -24,16 +36,4 @@ export const envValidationSchema = Joi.object({
       scheme: ['amqp', 'amqps'],
     })
     .required(),
-
-  AUTH_MAX_LOGIN_ATTEMPTS: Joi.number().integer().min(1).max(20).default(5),
-
-  AUTH_LOCK_DURATION_MINUTES: Joi.number().integer().min(1).max(1440).default(15),
-
-  JWT_SECRET: Joi.string().required(),
-
-  JWT_ISSUER: Joi.string().min(1).max(200).default('fms-auth-service'),
-
-  JWT_AUDIENCE: Joi.string().min(1).max(200).default('fms'),
-
-  JWT_ACCESS_TOKEN_TTL: Joi.number().integer().min(60).max(86400).default(900),
 });

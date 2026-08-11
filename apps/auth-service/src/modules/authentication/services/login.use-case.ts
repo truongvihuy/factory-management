@@ -35,12 +35,14 @@ export class LoginUseCase {
 
     await this.loginSecurityPolicy.handleSuccessfulLogin(user);
 
-    const accessToken = await this.accessTokenIssuer.issue({
+    const token = await this.accessTokenIssuer.issue({
       userId: user.id,
     });
 
     return {
-      accessToken,
+      accessToken: token.accessToken,
+      tokenType: 'Bearer',
+      expiresIn: token.expiresIn,
       user: {
         id: user.id,
         username: user.username,

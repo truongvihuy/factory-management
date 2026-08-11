@@ -24,6 +24,8 @@ export interface LoginCommand {
 
 export interface AuthenticationResult {
   accessToken: string;
+  tokenType: 'Bearer';
+  expiresIn: number;
 
   user: {
     id: string;

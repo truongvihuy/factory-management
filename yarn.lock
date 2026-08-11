@@ -646,6 +646,7 @@ __metadata:
     "@prisma/client": "npm:^7.9.1"
     "@types/express": "npm:^5"
     "@types/pg": "npm:^8"
+    "@types/supertest": "npm:^7.2.1"
     argon2: "npm:^0.45.1"
     class-transformer: "npm:^0.5.1"
     class-validator: "npm:^0.15.1"
@@ -656,6 +657,7 @@ __metadata:
     prisma: "npm:^7.9.1"
     reflect-metadata: "npm:^0.2.2"
     rxjs: "npm:^7.8.2"
+    supertest: "npm:^7.2.2"
     typescript: "npm:^6.0.3"
   languageName: unknown
   linkType: soft

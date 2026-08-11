@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 
+import { AuthenticationController } from './controllers/authentication.controller';
+import { LoginUseCase } from './services/login.use-case';
+
 @Module({
   imports: [
     JwtModule.registerAsync({
@@ -16,5 +19,7 @@ import { JwtModule } from '@nestjs/jwt';
       }),
     }),
   ],
+  controllers: [AuthenticationController],
+  providers: [LoginUseCase],
 })
 export class AuthenticationModule {}

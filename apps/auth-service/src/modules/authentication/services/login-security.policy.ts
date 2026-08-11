@@ -3,6 +3,9 @@ import type { ConfigService } from '@nestjs/config';
 
 import { UserStatus } from '@/infrastructure/database/prisma/generated';
 
+import { AccountInactiveError } from '../exceptions/account-inactive.error';
+import { AccountLockedError } from '../exceptions/account-locked.error';
+import { InvalidCredentialsError } from '../exceptions/invalid-credentials.error';
 import type { AuthenticationUser } from '../interfaces/authentication.types';
 import type { UserRepository } from '../interfaces/user-repository.interface';
 
@@ -23,7 +26,7 @@ export class LoginSecurityPolicy {
 
   ensureAccountCanLogin(user: AuthenticationUser): void {
     if (user.status === UserStatus.INACTIVE) {
-      throw new Error('Account is inactive');
+      throw new AccountInactiveError();
     }
 
     if (user.status !== UserStatus.LOCKED) {
@@ -34,7 +37,7 @@ export class LoginSecurityPolicy {
       return;
     }
 
-    throw new Error('Account is locked');
+    throw new AccountLockedError();
   }
 
   async handleFailedLogin(user: AuthenticationUser): Promise<void> {
@@ -60,6 +63,6 @@ export class LoginSecurityPolicy {
   }
 
   invalidCredentials(): Error {
-    return new Error('Invalid credentials');
+    return new InvalidCredentialsError();
   }
 }
