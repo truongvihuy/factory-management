@@ -1,8 +1,8 @@
-import { HttpStatus, INestApplication } from '@nestjs/common';
+import { HttpStatus, type INestApplication } from '@nestjs/common';
 import { Test, type TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
-import { LoginDto } from '../dto/login.dto';
+import type { LoginDto } from '../dto/login.dto';
 import { AccountInactiveError } from '../exceptions/account-inactive.error';
 import { AccountLockedError } from '../exceptions/account-locked.error';
 import { InvalidCredentialsError } from '../exceptions/invalid-credentials.error';
