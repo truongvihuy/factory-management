@@ -199,4 +199,41 @@ describe('Auth Database Schema Integration', () => {
       }),
     ).rejects.toThrow();
   });
+
+  it('should cascade delete user roles when user is deleted', async () => {
+    const user = await prisma.user.create({
+      data: {
+        username: 'cascade-user',
+        email: 'cascade@example.com',
+        displayName: 'Cascade User',
+        passwordHash: 'hash',
+      },
+    });
+
+    const role = await prisma.role.create({
+      data: {
+        code: 'CASCADE_ROLE',
+        name: 'Cascade Role',
+      },
+    });
+
+    await prisma.userRole.create({
+      data: {
+        userId: user.id,
+        roleId: role.id,
+        scope: 'FACTORY',
+        factoryId: '00000000-0000-0000-0000-000000000004',
+      },
+    });
+
+    await prisma.user.delete({
+      where: { id: user.id },
+    });
+
+    const assignments = await prisma.userRole.findMany({
+      where: { userId: user.id },
+    });
+
+    expect(assignments).toHaveLength(0);
+  });
 });
