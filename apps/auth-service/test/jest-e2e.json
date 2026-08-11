@@ -1,12 +1,12 @@
 {
   "displayName": "fms-auth-service-e2e",
+  "rootDir": "..",
+  "testEnvironment": "node",
   "moduleFileExtensions": [
     "js",
     "json",
     "ts"
   ],
-  "rootDir": ".",
-  "testEnvironment": "node",
   "testRegex": "test/e2e/.*\\.e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
