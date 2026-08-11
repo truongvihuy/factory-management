@@ -24,11 +24,12 @@ export default () => ({
 
   authentication: {
     security: {
-      maxLoginAttempts: Number(process.env.AUTH_MAX_LOGIN_ATTEMPTS ?? 5),
-      lockDurationMinutes: Number(process.env.AUTH_LOCK_DURATION_MINUTES ?? 15),
+      maxLoginAttempts: Number(process.env.AUTH_MAX_LOGIN_ATTEMPTS),
+      lockDurationMinutes: Number(process.env.AUTH_LOCK_DURATION_MINUTES),
     },
 
     token: {
+      secret: process.env.JWT_SECRET,
       issuer: process.env.JWT_ISSUER,
       audience: process.env.JWT_AUDIENCE,
       accessTokenTtlSeconds: Number(process.env.JWT_ACCESS_TOKEN_TTL),

@@ -29,6 +29,8 @@ export const envValidationSchema = Joi.object({
 
   AUTH_LOCK_DURATION_MINUTES: Joi.number().integer().min(1).max(1440).default(15),
 
+  JWT_SECRET: Joi.string().required(),
+
   JWT_ISSUER: Joi.string().min(1).max(200).default('fms-auth-service'),
 
   JWT_AUDIENCE: Joi.string().min(1).max(200).default('fms'),
