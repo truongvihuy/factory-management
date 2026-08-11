@@ -11,7 +11,7 @@ export class AuthenticationExceptionMapper {
     if (error instanceof InvalidCredentialsError) {
       return new UnauthorizedException({
         code: ErrorCode.AUTH_INVALID_CREDENTIALS,
-        message: error.message || 'Invalid username or password',
+        message: error.message,
       });
     }
 
@@ -19,7 +19,7 @@ export class AuthenticationExceptionMapper {
       return new HttpException(
         {
           code: ErrorCode.AUTH_ACCOUNT_LOCKED,
-          message: error.message || 'Account is locked',
+          message: error.message,
         },
         HttpStatus.LOCKED,
       );
@@ -28,7 +28,7 @@ export class AuthenticationExceptionMapper {
     if (error instanceof AccountInactiveError) {
       return new ForbiddenException({
         code: ErrorCode.AUTH_ACCOUNT_INACTIVE,
-        message: error.message || 'Account is inactive',
+        message: error.message,
       });
     }
 

@@ -2,6 +2,7 @@ import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test, type TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
+import { LoginDto } from '../dto/login.dto';
 import { AccountInactiveError } from '../exceptions/account-inactive.error';
 import { AccountLockedError } from '../exceptions/account-locked.error';
 import { InvalidCredentialsError } from '../exceptions/invalid-credentials.error';
@@ -39,14 +40,15 @@ describe('AuthenticationController', () => {
   });
 
   describe('POST /auth/login', () => {
-    const loginPayload = {
-      username: 'huy',
+    const loginPayload: LoginDto = {
+      identifier: 'huy',
       password: 'password123',
     };
 
     it('should call LoginUseCase', async () => {
       loginUseCase.execute.mockResolvedValue({
         accessToken: 'mock-access-token',
+        tokenType: 'Bearer',
         expiresIn: 900,
         user: {
           id: 'user-123',
@@ -60,12 +62,13 @@ describe('AuthenticationController', () => {
 
       expect(loginUseCase.execute).toHaveBeenCalledTimes(1);
 
-      expect(loginUseCase.execute).toHaveBeenCalledWith(loginPayload);
+      expect(loginUseCase.execute).toHaveBeenCalledWith('huy', 'password123');
     });
 
     it('should return access token', async () => {
       loginUseCase.execute.mockResolvedValue({
         accessToken: 'mock-access-token',
+        tokenType: 'Bearer',
         expiresIn: 900,
         user: {
           id: 'user-123',
@@ -83,6 +86,7 @@ describe('AuthenticationController', () => {
     it('should return tokenType Bearer', async () => {
       loginUseCase.execute.mockResolvedValue({
         accessToken: 'mock-access-token',
+        tokenType: 'Bearer',
         expiresIn: 900,
         user: {
           id: 'user-123',
@@ -100,6 +104,7 @@ describe('AuthenticationController', () => {
     it('should return expiresIn', async () => {
       loginUseCase.execute.mockResolvedValue({
         accessToken: 'mock-access-token',
+        tokenType: 'Bearer',
         expiresIn: 900,
         user: {
           id: 'user-123',

@@ -1,1 +1,6 @@
-export class InvalidCredentialsError extends Error {}
+export class InvalidCredentialsError extends Error {
+  constructor(message = 'Invalid username or password') {
+    super(message);
+    this.name = 'InvalidCredentialsError';
+  }
+}
