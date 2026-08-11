@@ -1,5 +1,6 @@
 import { ForbiddenException, HttpException, HttpStatus, UnauthorizedException } from '@nestjs/common';
 
+import { AppException } from '@/common/errors/app.exception';
 import { ErrorCode } from '@/common/errors/error-code';
 
 import { AccountInactiveError } from '../exceptions/account-inactive.error';
@@ -16,13 +17,7 @@ export class AuthenticationExceptionMapper {
     }
 
     if (error instanceof AccountLockedError) {
-      return new HttpException(
-        {
-          code: ErrorCode.AUTH_ACCOUNT_LOCKED,
-          message: error.message,
-        },
-        HttpStatus.LOCKED,
-      );
+      return new AppException(ErrorCode.AUTH_ACCOUNT_LOCKED, error.message, HttpStatus.LOCKED);
     }
 
     if (error instanceof AccountInactiveError) {
