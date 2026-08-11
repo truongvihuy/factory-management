@@ -5,7 +5,7 @@ import type { AuthenticationResult } from '../interfaces/authentication.types';
 import type { PasswordHasher } from '../interfaces/password-hasher.interface';
 import type { UserRepository } from '../interfaces/user-repository.interface';
 
-import { LoginSecurityPolicy } from './login-security.policy';
+import type { LoginSecurityPolicy } from './login-security.policy';
 
 @Injectable()
 export class LoginUseCase {

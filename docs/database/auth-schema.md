@@ -6,14 +6,14 @@ The Auth Service owns the authentication and authorization data of the Factory M
 
 The database is responsible for:
 
-* User identity and account security
-* Role definitions
-* Permission definitions
-* Role-to-permission assignments
-* User-to-role assignments
-* Factory-scoped authorization
-* User access to factories
-* Authorization assignment lifecycle
+- User identity and account security
+- Role definitions
+- Permission definitions
+- Role-to-permission assignments
+- User-to-role assignments
+- Factory-scoped authorization
+- User access to factories
+- Authorization assignment lifecycle
 
 The Auth Service **does not own Factory data**.
 

@@ -4,7 +4,7 @@ import type { AuthenticationUser } from '@/modules/authentication/interfaces/aut
 import type { UserRepository } from '@/modules/authentication/interfaces/user-repository.interface';
 
 import { UserStatus } from '../generated';
-import { PrismaService } from '../prisma.service';
+import type { PrismaService } from '../prisma.service';
 
 @Injectable()
 export class PrismaUserRepository implements UserRepository {
