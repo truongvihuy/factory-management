@@ -1,7 +1,7 @@
 import type { Config } from 'jest';
 
 const config: Config = {
-  displayName: 'auth-service',
+  displayName: 'fms-auth-service',
 
   rootDir: '.',
 
@@ -20,7 +20,11 @@ const config: Config = {
     ],
   },
 
-  collectCoverageFrom: ['src/**/*.ts', '!src/main.ts', '!src/**/*.module.ts'],
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1',
+  },
+
+  collectCoverageFrom: ['<rootDir>/src/**/*.ts', '!<rootDir>/src/main.ts', '!<rootDir>/src/**/*.module.ts'],
 
   coverageDirectory: '<rootDir>/coverage',
 

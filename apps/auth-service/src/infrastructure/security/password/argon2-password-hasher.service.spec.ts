@@ -52,7 +52,9 @@ describe('Argon2PasswordHasherService', () => {
     it('should handle invalid hash safely', async () => {
       const invalidHash = 'invalid-hash';
 
-      await expect(service.verify(password, invalidHash)).resolves.toBe(false);
+      const result = await service.verify(password, invalidHash);
+
+      expect(result).toBe(false);
     });
   });
 });

@@ -1,5 +1,6 @@
 import { Test, type TestingModule } from '@nestjs/testing';
 
+import { AppConfigModule } from '@/common/config/config.module';
 import { PrismaService } from './prisma.service';
 
 describe('PrismaService', () => {
@@ -9,6 +10,7 @@ describe('PrismaService', () => {
   beforeAll(async () => {
     // create testing module
     module = await Test.createTestingModule({
+      imports: [AppConfigModule],
       providers: [PrismaService],
     }).compile();
 
@@ -26,7 +28,7 @@ describe('PrismaService', () => {
   });
 
   it('should excute a PostgreSQL query successfully', async () => {
-    const result = await prisma.$queryRaw<Array<{ result: number }>>`SELECT 1`;
+    const result = await prisma.$queryRaw<Array<{ result: number }>>`SELECT 1 AS result`;
     expect(result).toEqual([{ result: 1 }]);
   });
 });
