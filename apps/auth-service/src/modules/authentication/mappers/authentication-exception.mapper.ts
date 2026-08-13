@@ -1,4 +1,4 @@
-import { ForbiddenException, HttpException, HttpStatus, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, type HttpException, HttpStatus, UnauthorizedException } from '@nestjs/common';
 
 import { AppException } from '@/common/errors/app.exception';
 import { ErrorCode } from '@/common/errors/error-code';

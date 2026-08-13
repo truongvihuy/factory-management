@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import type { ConfigService } from '@nestjs/config';
+import { Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 import { UserStatus } from '@/infrastructure/database/prisma/generated';
 
@@ -13,15 +13,16 @@ import type { UserRepository } from '../interfaces/user-repository.interface';
 export class LoginSecurityPolicy {
   constructor(
     private readonly configService: ConfigService,
+    @Inject('USER_REPOSITORY')
     private readonly userRepository: UserRepository,
   ) {}
 
   private get maxLoginAttempts(): number {
-    return this.configService.getOrThrow<number>('app.name');
+    return this.configService.getOrThrow<number>('authentication.security.maxLoginAttempts');
   }
 
   private get lockDurationMinutes(): number {
-    return this.configService.getOrThrow<number>('app.environment');
+    return this.configService.getOrThrow<number>('authentication.security.lockDurationMinutes');
   }
 
   ensureAccountCanLogin(user: AuthenticationUser): void {

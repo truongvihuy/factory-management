@@ -1,51 +1,71 @@
-import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import { Test, type TestingModule } from '@nestjs/testing';
 
+import { AppConfigModule } from '../../src/common/config/config.module';
 import { UserStatus } from '../../src/infrastructure/database/prisma/generated';
+import { PrismaModule } from '../../src/infrastructure/database/prisma/prisma.module';
 import { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service';
 import { PrismaUserRepository } from '../../src/infrastructure/database/prisma/repositories/user.repository';
 import { Argon2PasswordHasherService } from '../../src/infrastructure/security/password/argon2-password-hasher.service';
 import { JwtAccessTokenIssuerService } from '../../src/infrastructure/security/token/jwt-access-token-issuer.service';
-
 import { AccountInactiveError } from '../../src/modules/authentication/exceptions/account-inactive.error';
 import { AccountLockedError } from '../../src/modules/authentication/exceptions/account-locked.error';
 import { InvalidCredentialsError } from '../../src/modules/authentication/exceptions/invalid-credentials.error';
+import { LoginSecurityPolicy } from '../../src/modules/authentication/services/login-security.policy';
 import { LoginUseCase } from '../../src/modules/authentication/services/login.use-case';
+import { createTestUser, deleteTestUser, findTestUser } from '../helpers/authentication-test.helper';
 
 describe('Authentication Integration', () => {
   let module: TestingModule;
-
   let prisma: PrismaService;
   let loginUseCase: LoginUseCase;
   let passwordHasher: Argon2PasswordHasherService;
 
-  const testPassword = 'password123';
-  const wrongPassword = 'wrong-password';
-
-  const MAX_FAILED_LOGIN_ATTEMPTS = 5;
+  const TEST_PASSWORD = 'password123';
+  const WRONG_PASSWORD = 'wrong-password';
+  let MAX_FAILED_LOGIN_ATTEMPTS = 5;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
+      imports: [
+        AppConfigModule,
+        PrismaModule,
+        JwtModule.registerAsync({
+          inject: [ConfigService],
+          useFactory: (config: ConfigService) => ({
+            secret: config.getOrThrow<string>('authentication.token.secret'),
+            issuer: config.getOrThrow<string>('authentication.token.issuer'),
+            audience: config.getOrThrow<string>('authentication.token.audience'),
+            signOptions: {
+              expiresIn: config.getOrThrow<number>('authentication.token.accessTokenTtlSeconds'),
+            },
+          }),
+        }),
+      ],
       providers: [
-        PrismaService,
-
-        Argon2PasswordHasherService,
-
-        JwtService,
-
-        JwtAccessTokenIssuerService,
-
-        PrismaUserRepository,
-
+        {
+          provide: 'PASSWORD_HANSHER',
+          useClass: Argon2PasswordHasherService,
+        },
+        {
+          provide: 'ACCESS_TOKEN_ISSUER',
+          useClass: JwtAccessTokenIssuerService,
+        },
+        {
+          provide: 'USER_REPOSITORY',
+          useClass: PrismaUserRepository,
+        },
+        LoginSecurityPolicy,
         LoginUseCase,
       ],
     }).compile();
 
     prisma = module.get<PrismaService>(PrismaService);
-
-    passwordHasher = module.get<Argon2PasswordHasherService>(Argon2PasswordHasherService);
-
+    passwordHasher = module.get<Argon2PasswordHasherService>('PASSWORD_HANSHER');
     loginUseCase = module.get<LoginUseCase>(LoginUseCase);
+    const configService = module.get<ConfigService>(ConfigService);
+    MAX_FAILED_LOGIN_ATTEMPTS = configService.getOrThrow<number>('authentication.security.maxLoginAttempts');
 
     await prisma.$connect();
   });
@@ -55,194 +75,156 @@ describe('Authentication Integration', () => {
     await module.close();
   });
 
-  beforeEach(async () => {
-    await prisma.user.deleteMany({
-      where: {
-        username: {
-          startsWith: 'integration-',
-        },
-      },
-    });
-  });
-
-  afterEach(async () => {
-    await prisma.user.deleteMany({
-      where: {
-        username: {
-          startsWith: 'integration-',
-        },
-      },
-    });
-  });
-
-  async function createUser(
-    overrides: {
-      username?: string;
-      email?: string;
-      status?: UserStatus;
-      password?: string;
-      failedLoginAttempts?: number;
-      lockedUntil?: Date | null;
-      lastLoginAt?: Date | null;
-    } = {},
-  ) {
-    const password = overrides.password ?? testPassword;
-
-    const passwordHash = await passwordHasher.hash(password);
-
-    return prisma.user.create({
-      data: {
-        username: overrides.username ?? 'integration-user',
-        email: overrides.email ?? `${overrides.username ?? 'integration-user'}@example.com`,
-        displayName: 'Integration User',
-        passwordHash,
-        status: overrides.status ?? UserStatus.ACTIVE,
-        failedLoginAttempts: overrides.failedLoginAttempts ?? 0,
-        lockedUntil: overrides.lockedUntil ?? null,
-        lastLoginAt: overrides.lastLoginAt ?? null,
-      },
-    });
-  }
-
-  async function findUser(userId: string) {
-    return prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-  }
-
   describe('valid credentials', () => {
-    it('should login successfully with valid credentials', async () => {
-      const user = await createUser();
+    it('should login successfully', async () => {
+      const user = await createTestUser(prisma, passwordHasher, {
+        password: TEST_PASSWORD,
+      });
 
-      const result = await loginUseCase.execute(user.username, testPassword);
+      const result = await loginUseCase.execute(user.username, TEST_PASSWORD);
 
-      expect(result).toBeDefined();
-      expect(result.accessToken).toBeDefined();
-      expect(typeof result.accessToken).toBe('string');
+      expect(result).toMatchObject({
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          displayName: user.displayName,
+        },
+      });
 
-      expect(result.user.id).toBe(user.id);
-      expect(result.user.username).toBe(user.username);
-      expect(result.user.email).toBe(user.email);
-      expect(result.user.displayName).toBe(user.displayName);
+      expect(result.accessToken).toEqual(expect.any(String));
+      expect(result.accessToken.length).toBeGreaterThan(0);
+      expect(result.expiresIn).toBeGreaterThan(0);
+
+      await deleteTestUser(prisma, user.id);
     });
   });
 
   describe('invalid password', () => {
-    it('should reject login with invalid password', async () => {
-      const user = await createUser();
+    it('should reject invalid password', async () => {
+      const user = await createTestUser(prisma, passwordHasher);
 
-      await expect(loginUseCase.execute(user.username, wrongPassword)).rejects.toBeInstanceOf(InvalidCredentialsError);
+      await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(InvalidCredentialsError);
+
+      await deleteTestUser(prisma, user.id);
     });
   });
 
   describe('unknown user', () => {
-    it('should reject login when user does not exist', async () => {
-      await expect(loginUseCase.execute('integration-user-not-found', testPassword)).rejects.toBeInstanceOf(
+    it('should reject unknown user', async () => {
+      await expect(loginUseCase.execute('integration-user-not-found', TEST_PASSWORD)).rejects.toBeInstanceOf(
         InvalidCredentialsError,
       );
     });
   });
 
   describe('inactive user', () => {
-    it('should reject login for inactive user', async () => {
-      const user = await createUser({
-        username: 'integration-inactive',
+    it('should reject inactive user', async () => {
+      const user = await createTestUser(prisma, passwordHasher, {
         status: UserStatus.INACTIVE,
       });
 
-      await expect(loginUseCase.execute(user.username, testPassword)).rejects.toBeInstanceOf(AccountInactiveError);
+      await expect(loginUseCase.execute(user.username, TEST_PASSWORD)).rejects.toBeInstanceOf(AccountInactiveError);
+
+      await deleteTestUser(prisma, user.id);
     });
   });
 
   describe('locked user', () => {
-    it('should reject login for locked user', async () => {
-      const user = await createUser({
-        username: 'integration-locked',
+    it('should reject locked user', async () => {
+      const user = await createTestUser(prisma, passwordHasher, {
         status: UserStatus.LOCKED,
         failedLoginAttempts: MAX_FAILED_LOGIN_ATTEMPTS,
       });
 
-      await expect(loginUseCase.execute(user.username, testPassword)).rejects.toBeInstanceOf(AccountLockedError);
+      await expect(loginUseCase.execute(user.username, TEST_PASSWORD)).rejects.toBeInstanceOf(AccountLockedError);
+
+      await deleteTestUser(prisma, user.id);
     });
   });
 
   describe('failed login attempts', () => {
     it('should increment failed login attempts', async () => {
-      const user = await createUser({
-        username: 'integration-failed-attempt',
-      });
+      const user = await createTestUser(prisma, passwordHasher);
 
-      await expect(loginUseCase.execute(user.username, wrongPassword)).rejects.toBeInstanceOf(InvalidCredentialsError);
+      await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(InvalidCredentialsError);
 
-      const updatedUser = await findUser(user.id);
+      const updatedUser = await findTestUser(prisma, user.id);
 
       expect(updatedUser?.failedLoginAttempts).toBe(1);
+
+      await deleteTestUser(prisma, user.id);
     });
   });
 
   describe('account lock threshold', () => {
-    it('should lock the account after reaching the threshold', async () => {
-      const user = await createUser({
-        username: 'integration-lock-threshold',
+    it('should lock account after reaching threshold', async () => {
+      const user = await createTestUser(prisma, passwordHasher, {
         failedLoginAttempts: MAX_FAILED_LOGIN_ATTEMPTS - 1,
       });
 
-      await expect(loginUseCase.execute(user.username, wrongPassword)).rejects.toBeInstanceOf(InvalidCredentialsError);
+      console.log(user);
 
-      const updatedUser = await findUser(user.id);
+      await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(InvalidCredentialsError);
 
-      expect(updatedUser?.failedLoginAttempts).toBe(MAX_FAILED_LOGIN_ATTEMPTS);
+      const updatedUser = await findTestUser(prisma, user.id);
 
-      expect(updatedUser?.status).toBe(UserStatus.LOCKED);
+      console.log(updatedUser);
+
+      expect(updatedUser).toMatchObject({
+        failedLoginAttempts: MAX_FAILED_LOGIN_ATTEMPTS,
+        status: UserStatus.LOCKED,
+      });
+
+      await deleteTestUser(prisma, user.id);
     });
   });
 
   describe('successful login security state', () => {
-    it('should reset failed login attempts after successful login', async () => {
-      const user = await createUser({
-        username: 'integration-reset-failures',
+    it('should reset failed login attempts', async () => {
+      const user = await createTestUser(prisma, passwordHasher, {
         failedLoginAttempts: 3,
       });
 
-      await loginUseCase.execute(user.username, testPassword);
+      await loginUseCase.execute(user.username, TEST_PASSWORD);
 
-      const updatedUser = await findUser(user.id);
+      const updatedUser = await findTestUser(prisma, user.id);
 
       expect(updatedUser?.failedLoginAttempts).toBe(0);
+
+      await deleteTestUser(prisma, user.id);
     });
 
-    it('should update lastLoginAt after successful login', async () => {
-      const user = await createUser({
-        username: 'integration-last-login',
+    it('should update lastLoginAt', async () => {
+      const user = await createTestUser(prisma, passwordHasher, {
         lastLoginAt: null,
       });
 
-      expect(user.lastLoginAt).toBeNull();
+      await loginUseCase.execute(user.username, TEST_PASSWORD);
 
-      await loginUseCase.execute(user.username, testPassword);
+      const updatedUser = await findTestUser(prisma, user.id);
 
-      const updatedUser = await findUser(user.id);
+      expect(updatedUser?.lastLoginAt).toEqual(expect.any(Date));
 
-      expect(updatedUser?.lastLoginAt).toBeInstanceOf(Date);
+      await deleteTestUser(prisma, user.id);
     });
   });
 
   describe('access token', () => {
-    it('should issue an access token after successful login', async () => {
-      const user = await createUser({
-        username: 'integration-token',
-      });
+    it('should issue access token after successful login', async () => {
+      const user = await createTestUser(prisma, passwordHasher);
 
-      const result = await loginUseCase.execute(user.username, testPassword);
+      const result = await loginUseCase.execute(user.username, TEST_PASSWORD);
 
-      expect(result.accessToken).toBeDefined();
-      expect(typeof result.accessToken).toBe('string');
+      expect(result.accessToken).toEqual(expect.any(String));
+
       expect(result.accessToken.length).toBeGreaterThan(0);
 
-      expect(result.expiresIn).toBeDefined();
+      expect(result.expiresIn).toEqual(expect.any(Number));
+
       expect(result.expiresIn).toBeGreaterThan(0);
+
+      await deleteTestUser(prisma, user.id);
     });
   });
 });

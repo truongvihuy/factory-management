@@ -1,17 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
 import type { AccessTokenIssuer } from '../interfaces/access-token-issuer.interface';
 import type { AuthenticationResult } from '../interfaces/authentication.types';
 import type { PasswordHasher } from '../interfaces/password-hasher.interface';
 import type { UserRepository } from '../interfaces/user-repository.interface';
-
-import type { LoginSecurityPolicy } from './login-security.policy';
+import { LoginSecurityPolicy } from './login-security.policy';
 
 @Injectable()
 export class LoginUseCase {
   constructor(
+    @Inject('USER_REPOSITORY')
     private readonly userRepository: UserRepository,
+    @Inject('PASSWORD_HANSHER')
     private readonly passwordHasher: PasswordHasher,
+    @Inject('ACCESS_TOKEN_ISSUER')
     private readonly accessTokenIssuer: AccessTokenIssuer,
     private readonly loginSecurityPolicy: LoginSecurityPolicy,
   ) {}

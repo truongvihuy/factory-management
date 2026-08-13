@@ -1,16 +1,38 @@
-import { AccessScope, PrismaClient, UserStatus } from '../../src/infrastructure/database/prisma/generated/index.js';
+import { Test, type TestingModule } from '@nestjs/testing';
+
+import { AppConfigModule } from '../../src/common/config/config.module';
+import { AccessScope, UserStatus } from '../../src/infrastructure/database/prisma/generated';
+import { PrismaModule } from '../../src/infrastructure/database/prisma/prisma.module';
+import { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service';
+import {
+  createTestPermission,
+  createTestRole,
+  createTestRolePermission,
+  createTestUser,
+  deleteTestPermission,
+  deleteTestRole,
+  deleteTestRolePermission,
+  deleteTestUser,
+  unique,
+} from '../helpers/prisma-test.helper';
 
 describe('Auth Database Schema Integration', () => {
-  let prisma: PrismaClient;
+  let prisma: PrismaService;
+  let module: TestingModule;
 
   beforeAll(async () => {
-    prisma = new PrismaClient();
+    module = await Test.createTestingModule({
+      imports: [AppConfigModule, PrismaModule],
+    }).compile();
+
+    prisma = module.get<PrismaService>(PrismaService);
 
     await prisma.$connect();
   });
 
   afterAll(async () => {
     await prisma.$disconnect();
+    await module.close();
   });
 
   it('should connect to PostgreSQL', async () => {
@@ -18,80 +40,71 @@ describe('Auth Database Schema Integration', () => {
   });
 
   it('should create a user', async () => {
-    const user = await prisma.user.create({
-      data: {
-        username: 'integration-user',
-        email: 'integration@example.com',
-        displayName: 'Integration User',
-        passwordHash: 'hashed-password',
-      },
+    const username = unique('integration-user');
+    const user = await createTestUser(prisma, {
+      username,
+      displayName: 'Integration User',
+      passwordHash: 'hashed-password',
     });
 
     expect(user.id).toBeDefined();
-    expect(user.username).toBe('integration-user');
+    expect(user.username).toBe(username);
     expect(user.status).toBe(UserStatus.ACTIVE);
+
+    await deleteTestUser(prisma, user.id);
   });
 
   it('should create role and permission', async () => {
-    const role = await prisma.role.create({
-      data: {
-        code: 'FACTORY_MANAGER',
-        name: 'Factory Manager',
-      },
+    const role = await createTestRole(prisma, {
+      code: unique('FACTORY_MANAGER'),
+      name: 'Factory Manager',
     });
 
-    const permission = await prisma.permission.create({
-      data: {
-        code: 'machine.read',
-        name: 'Read Machines',
-      },
+    const permission = await createTestPermission(prisma, {
+      code: unique('machine.read'),
+      name: 'Read Machines',
     });
 
     expect(role.id).toBeDefined();
     expect(permission.id).toBeDefined();
+
+    await deleteTestPermission(prisma, permission.id);
+    await deleteTestRole(prisma, role.id);
   });
 
   it('should assign permission to role', async () => {
-    const role = await prisma.role.create({
-      data: {
-        code: 'OPERATOR',
-        name: 'Operator',
-      },
+    const role = await createTestRole(prisma, {
+      code: unique('OPERATOR'),
+      name: 'Operator',
     });
 
-    const permission = await prisma.permission.create({
-      data: {
-        code: 'machine.read',
-        name: 'Read Machines',
-      },
+    const permission = await createTestPermission(prisma, {
+      code: unique('machine.read'),
+      name: 'Read Machines',
     });
 
-    const rolePermission = await prisma.rolePermission.create({
-      data: {
-        roleId: role.id,
-        permissionId: permission.id,
-      },
+    const rolePermission = await createTestRolePermission(prisma, {
+      roleId: role.id,
+      permissionId: permission.id,
     });
 
     expect(rolePermission.roleId).toBe(role.id);
     expect(rolePermission.permissionId).toBe(permission.id);
+
+    await deleteTestRolePermission(prisma, rolePermission.id);
+    await deleteTestPermission(prisma, permission.id);
+    await deleteTestRole(prisma, role.id);
   });
 
   it('should assign a role to a user within a factory scope', async () => {
-    const user = await prisma.user.create({
-      data: {
-        username: 'factory-user',
-        email: 'factory-user@example.com',
-        displayName: 'Factory User',
-        passwordHash: 'hashed-password',
-      },
+    const user = await createTestUser(prisma, {
+      username: unique('factory-user'),
+      displayName: 'Factory User',
     });
 
-    const role = await prisma.role.create({
-      data: {
-        code: 'FACTORY_MANAGER',
-        name: 'Factory Manager',
-      },
+    const role = await createTestRole(prisma, {
+      code: unique('FACTORY_MANAGER'),
+      name: 'Factory Manager',
     });
 
     const assignment = await prisma.userRole.create({
@@ -105,6 +118,15 @@ describe('Auth Database Schema Integration', () => {
 
     expect(assignment.scope).toBe(AccessScope.FACTORY);
     expect(assignment.factoryId).toBe('00000000-0000-0000-0000-000000000001');
+
+    await prisma.userRole.delete({
+      where: {
+        id: assignment.id,
+      },
+    });
+
+    await deleteTestRole(prisma, role.id);
+    await deleteTestUser(prisma, user.id);
   });
 
   // it('should grant user access to a factory', async () => {
@@ -179,61 +201,52 @@ describe('Auth Database Schema Integration', () => {
   // });
 
   it('should reject duplicate username', async () => {
-    await prisma.user.create({
-      data: {
-        username: 'duplicate-user',
-        email: 'first@example.com',
-        displayName: 'First User',
-        passwordHash: 'hash',
-      },
+    const username = unique('duplicate-user');
+
+    const user = await createTestUser(prisma, {
+      username,
+      displayName: 'First User',
     });
 
     await expect(
-      prisma.user.create({
-        data: {
-          username: 'duplicate-user',
-          email: 'second@example.com',
-          displayName: 'Second User',
-          passwordHash: 'hash',
-        },
+      createTestUser(prisma, {
+        username,
+        email: `${username}-second@example.com`,
+        displayName: 'Second User',
       }),
     ).rejects.toThrow();
+
+    await deleteTestUser(prisma, user.id);
   });
 
   it('should cascade delete user roles when user is deleted', async () => {
-    const user = await prisma.user.create({
-      data: {
-        username: 'cascade-user',
-        email: 'cascade@example.com',
-        displayName: 'Cascade User',
-        passwordHash: 'hash',
-      },
+    const user = await createTestUser(prisma, {
+      username: unique('cascade-user'),
+      displayName: 'Cascade User',
     });
 
-    const role = await prisma.role.create({
-      data: {
-        code: 'CASCADE_ROLE',
-        name: 'Cascade Role',
-      },
+    const role = await createTestRole(prisma, {
+      code: unique('CASCADE_ROLE'),
+      name: 'Cascade Role',
     });
 
     await prisma.userRole.create({
       data: {
         userId: user.id,
         roleId: role.id,
-        scope: 'FACTORY',
+        scope: AccessScope.FACTORY,
         factoryId: '00000000-0000-0000-0000-000000000004',
       },
     });
 
-    await prisma.user.delete({
-      where: { id: user.id },
-    });
+    await deleteTestUser(prisma, user.id);
 
     const assignments = await prisma.userRole.findMany({
       where: { userId: user.id },
     });
 
     expect(assignments).toHaveLength(0);
+
+    await deleteTestRole(prisma, role.id);
   });
 });
