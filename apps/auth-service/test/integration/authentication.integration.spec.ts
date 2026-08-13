@@ -163,13 +163,9 @@ describe('Authentication Integration', () => {
         failedLoginAttempts: MAX_FAILED_LOGIN_ATTEMPTS - 1,
       });
 
-      console.log(user);
-
       await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(InvalidCredentialsError);
 
       const updatedUser = await findTestUser(prisma, user.id);
-
-      console.log(updatedUser);
 
       expect(updatedUser).toMatchObject({
         failedLoginAttempts: MAX_FAILED_LOGIN_ATTEMPTS,
