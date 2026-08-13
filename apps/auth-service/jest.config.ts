@@ -7,9 +7,9 @@ const config: Config = {
 
   testEnvironment: 'node',
 
-  testMatch: ['<rootDir>/src/**/*.spec.ts', '<rootDir>/test/**/*.spec.ts'],
-
   moduleFileExtensions: ['js', 'json', 'ts'],
+
+  testMatch: ['<rootDir>/src/**/*.spec.ts', '<rootDir>/test/**/*.spec.ts'],
 
   transform: {
     '^.+\\.ts$': [
@@ -23,6 +23,8 @@ const config: Config = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
+
+  modulePathIgnorePatterns: ['<rootDir>/dist', '<rootDir>/coverage'],
 
   coveragePathIgnorePatterns: ['<rootDir>/src/infrastructure/database/', '<rootDir>/src/common/'],
 

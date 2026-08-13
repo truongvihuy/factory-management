@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { UserStatus } from '@/prisma/generated';
+import { UserStatus } from '@/infrastructure/database/prisma/generated';
 
 import { AccountInactiveError } from '../exceptions/account-inactive.error';
 import { AccountLockedError } from '../exceptions/account-locked.error';

@@ -1,4 +1,4 @@
-import type { UserStatus } from '@/prisma/generated';
+import type { UserStatus } from '@/infrastructure/database/prisma/generated';
 
 export type AuthenticationIdentifier = string;
 

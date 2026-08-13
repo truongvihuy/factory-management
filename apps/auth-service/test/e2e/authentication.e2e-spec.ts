@@ -2,15 +2,15 @@ import { HttpStatus, type INestApplication } from '@nestjs/common';
 import { Test, type TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
-import { UserStatus } from '../../prisma/generated';
 import { AppModule } from '../../src/app.module';
+import { UserStatus } from '../../src/infrastructure/database/prisma/generated';
 import { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service';
-import { Argon2PasswordHasherService } from '../../src/infrastructure/security/password/argon2-password-hasher.service';
+import { PasswordHasher } from '../../src/modules/authentication/interfaces/password-hasher.interface';
 
 describe('Authentication E2E', () => {
   let app: INestApplication;
   let prisma: PrismaService;
-  let passwordHasher: Argon2PasswordHasherService;
+  let passwordHasher: PasswordHasher;
 
   const TEST_PASSWORD = 'password123';
   const WRONG_PASSWORD = 'wrong-password';
@@ -30,7 +30,7 @@ describe('Authentication E2E', () => {
     await app.init();
 
     prisma = moduleFixture.get<PrismaService>(PrismaService);
-    passwordHasher = moduleFixture.get(Argon2PasswordHasherService);
+    passwordHasher = moduleFixture.get<PasswordHasher>('PASSWORD_HANSHER');
   });
 
   afterAll(async () => {

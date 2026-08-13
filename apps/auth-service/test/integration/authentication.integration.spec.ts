@@ -2,8 +2,8 @@ import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { Test, type TestingModule } from '@nestjs/testing';
 
-import { UserStatus } from '../../prisma/generated';
 import { AppConfigModule } from '../../src/common/config/config.module';
+import { UserStatus } from '../../src/infrastructure/database/prisma/generated';
 import { PrismaModule } from '../../src/infrastructure/database/prisma/prisma.module';
 import { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service';
 import { PrismaUserRepository } from '../../src/infrastructure/database/prisma/repositories/user.repository';

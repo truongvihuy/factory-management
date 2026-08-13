@@ -1,4 +1,4 @@
-import { UserStatus } from '../../prisma/generated';
+import { UserStatus } from '../../src/infrastructure/database/prisma/generated';
 import type { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service';
 
 export const unique = (prefix: string): string => `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
