@@ -3,7 +3,7 @@ import type { NextFunction, Request, Response } from 'express';
 import { randomUUID } from 'node:crypto';
 
 import { REQUEST_ID_HEADER, TRACE_ID_HEADER } from '../constants/correlation.constant';
-import type { CorrelationContextService } from './correlation-context.service';
+import { CorrelationContextService } from './correlation-context.service';
 
 @Injectable()
 export class CorrelationMiddleware implements NestMiddleware {

@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import type { AuthenticationUser } from '@/modules/authentication/interfaces/authentication.types';
 import type { UserRepository } from '@/modules/authentication/interfaces/user-repository.interface';
 
-import { UserStatus } from '../generated';
+import { UserStatus } from '@/prisma/generated';
 import { PrismaService } from '../prisma.service';
 
 @Injectable()

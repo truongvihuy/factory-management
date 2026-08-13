@@ -1,6 +1,6 @@
 import { Injectable, type LoggerService } from '@nestjs/common';
-import type { ConfigService } from '@nestjs/config';
-import type { CorrelationContextService } from '../tracing/correlation-context.service';
+import { ConfigService } from '@nestjs/config';
+import { CorrelationContextService } from '../tracing/correlation-context.service';
 
 interface LogContext {
   service: string;

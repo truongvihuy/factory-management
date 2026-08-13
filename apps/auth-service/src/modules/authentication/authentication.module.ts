@@ -2,7 +2,12 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 
+import { PrismaUserRepository } from '@/infrastructure/database/prisma/repositories/user.repository';
+import { Argon2PasswordHasherService } from '@/infrastructure/security/password/argon2-password-hasher.service';
+import { JwtAccessTokenIssuerService } from '@/infrastructure/security/token/jwt-access-token-issuer.service';
+
 import { AuthenticationController } from './controllers/authentication.controller';
+import { LoginSecurityPolicy } from './services/login-security.policy';
 import { LoginUseCase } from './services/login.use-case';
 
 @Module({
@@ -20,6 +25,21 @@ import { LoginUseCase } from './services/login.use-case';
     }),
   ],
   controllers: [AuthenticationController],
-  providers: [LoginUseCase],
+  providers: [
+    LoginUseCase,
+    {
+      provide: 'USER_REPOSITORY',
+      useClass: PrismaUserRepository,
+    },
+    {
+      provide: 'PASSWORD_HANSHER',
+      useClass: Argon2PasswordHasherService,
+    },
+    {
+      provide: 'ACCESS_TOKEN_ISSUER',
+      useClass: JwtAccessTokenIssuerService,
+    },
+    LoginSecurityPolicy,
+  ],
 })
 export class AuthenticationModule {}

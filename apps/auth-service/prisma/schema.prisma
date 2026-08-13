@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/infrastructure/database/prisma/generated"
+  output   = "./generated"
 }
 
 datasource db {
@@ -44,25 +44,25 @@ enum AccessScope {
 //
 
 model User {
-  id                  String     @id @default(uuid()) @db.Uuid
-  username            String     @unique @db.VarChar(100)
-  email               String     @unique @db.VarChar(255)
+  id          String @id @default(uuid()) @db.Uuid
+  username    String @unique @db.VarChar(100)
+  email       String @unique @db.VarChar(255)
   // firstName           String     @db.VarChar(100)
   // lastName            String     @db.VarChar(100)
-  displayName         String     @db.VarChar(200)
-  
-  status              UserStatus @default(ACTIVE)
-  
-  passwordHash        String     @db.VarChar(255)
-  failedLoginAttempts Int        @default(0)
+  displayName String @db.VarChar(200)
+
+  status UserStatus @default(ACTIVE)
+
+  passwordHash        String    @db.VarChar(255)
+  failedLoginAttempts Int       @default(0)
   lockedUntil         DateTime?
   lastLoginAt         DateTime?
-  
-  createdAt           DateTime   @default(now())
-  updatedAt           DateTime   @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   // deletedAt           DateTime?
 
-  userRoles          UserRole[]
+  userRoles UserRole[]
   // createdRoles       Role[]              @relation("RoleCreatedBy")
   // updatedRoles       Role[]              @relation("RoleUpdatedBy")
   // createdPermissions Permission[]        @relation("PermissionCreatedBy")
@@ -80,14 +80,14 @@ model User {
 //
 
 model Role {
-  id          String     @id @default(uuid()) @db.Uuid
-  code        String     @unique @db.VarChar(100)
-  name        String     @db.VarChar(150)
-  description String?    @db.VarChar(500)
+  id          String  @id @default(uuid()) @db.Uuid
+  code        String  @unique @db.VarChar(100)
+  name        String  @db.VarChar(150)
+  description String? @db.VarChar(500)
   // status      RoleStatus @default(ACTIVE)
 
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   // deletedAt   DateTime?
 
   // createdById String?    @db.Uuid
@@ -104,16 +104,16 @@ model Role {
 }
 
 model Permission {
-  id          String           @id @default(uuid()) @db.Uuid
-  code        String           @unique @db.VarChar(150)
-  name        String           @db.VarChar(150)
-  description String?          @db.VarChar(500)
+  id          String  @id @default(uuid()) @db.Uuid
+  code        String  @unique @db.VarChar(150)
+  name        String  @db.VarChar(150)
+  description String? @db.VarChar(500)
   // status      PermissionStatus @default(ACTIVE)
 
   // createdById String?          @db.Uuid
   // updatedById String?          @db.Uuid
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   // deletedAt   DateTime?
 
   rolePermissions RolePermission[]
@@ -154,7 +154,7 @@ model UserRole {
   scope     AccessScope @default(FACTORY)
   factoryId String?     @db.Uuid
 
-  createdAt DateTime    @default(now())
+  createdAt DateTime  @default(now())
   revokedAt DateTime?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -174,11 +174,11 @@ model UserRole {
 //
 
 model RolePermission {
-  id           String   @id @default(uuid()) @db.Uuid
-  roleId       String   @db.Uuid
-  permissionId String   @db.Uuid
+  id           String @id @default(uuid()) @db.Uuid
+  roleId       String @db.Uuid
+  permissionId String @db.Uuid
 
-  createdAt    DateTime @default(now())
+  createdAt DateTime @default(now())
 
   role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
   permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
@@ -187,7 +187,6 @@ model RolePermission {
   @@index([permissionId])
   @@map("role_permissions")
 }
-
 
 // 
 // ============================== 
@@ -212,7 +211,7 @@ model RolePermission {
 //   revokedAt   DateTime? 
 
 //   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade) 
-  
+
 //   @@unique([userId, factoryId]) 
 //   @@index([factoryId]) 
 //   @@index([revokedAt]) 

@@ -2,8 +2,8 @@ import { HttpStatus, type INestApplication } from '@nestjs/common';
 import { Test, type TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
+import { UserStatus } from '../../prisma/generated';
 import { AppModule } from '../../src/app.module';
-import { UserStatus } from '../../src/infrastructure/database/prisma/generated';
 import { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service';
 import { Argon2PasswordHasherService } from '../../src/infrastructure/security/password/argon2-password-hasher.service';
 
@@ -12,10 +12,13 @@ describe('Authentication E2E', () => {
   let prisma: PrismaService;
   let passwordHasher: Argon2PasswordHasherService;
 
-  const loginPayload = {
-    identifier: 'e2e-huy',
-    password: 'password123',
-  };
+  const TEST_PASSWORD = 'password123';
+  const WRONG_PASSWORD = 'wrong-password';
+
+  const createLoginPayload = (identifier: string, password: string = TEST_PASSWORD) => ({
+    identifier,
+    password,
+  });
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -27,19 +30,10 @@ describe('Authentication E2E', () => {
     await app.init();
 
     prisma = moduleFixture.get<PrismaService>(PrismaService);
-
-    passwordHasher = moduleFixture.get<Argon2PasswordHasherService>(Argon2PasswordHasherService);
+    passwordHasher = moduleFixture.get(Argon2PasswordHasherService);
   });
 
   afterAll(async () => {
-    await prisma.user.deleteMany({
-      where: {
-        username: {
-          startsWith: 'e2e-',
-        },
-      },
-    });
-
     await app.close();
   });
 
@@ -53,10 +47,15 @@ describe('Authentication E2E', () => {
     });
   });
 
-  async function createUser(options?: { username?: string; password?: string; status?: UserStatus }) {
-    const username = options?.username ?? 'e2e-huy';
-
-    const password = options?.password ?? 'password123';
+  async function createUser(
+    options: {
+      username?: string;
+      password?: string;
+      status?: UserStatus;
+    } = {},
+  ) {
+    const username = options.username ?? 'e2e-fms-test';
+    const password = options.password ?? TEST_PASSWORD;
 
     const passwordHash = await passwordHasher.hash(password);
 
@@ -66,7 +65,7 @@ describe('Authentication E2E', () => {
         email: `${username}@example.com`,
         displayName: 'E2E Huy',
         passwordHash,
-        status: options?.status ?? UserStatus.ACTIVE,
+        status: options.status ?? UserStatus.ACTIVE,
         failedLoginAttempts: 0,
         lockedUntil: null,
         lastLoginAt: null,
@@ -74,83 +73,93 @@ describe('Authentication E2E', () => {
     });
   }
 
+  async function login(identifier: string, password: string = TEST_PASSWORD) {
+    return request(app.getHttpServer()).post('/auth/login').send(createLoginPayload(identifier, password));
+  }
+
   describe('POST /auth/login', () => {
-    it('should login successfully with valid credentials', async () => {
-      await createUser();
+    describe('successful authentication', () => {
+      it('should return 200 with authentication result', async () => {
+        const user = await createUser();
 
-      const response = await request(app.getHttpServer()).post('/auth/login').send(loginPayload).expect(HttpStatus.OK);
+        const response = await login(user.username);
 
-      expect(response.body).toBeDefined();
-    });
+        expect(response.status).toBe(HttpStatus.OK);
 
-    it('should return accessToken', async () => {
-      await createUser();
+        expect(response.body).toMatchObject({
+          tokenType: 'Bearer',
+          user: {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            displayName: user.displayName,
+          },
+        });
 
-      const response = await request(app.getHttpServer()).post('/auth/login').send(loginPayload).expect(HttpStatus.OK);
+        expect(response.body.accessToken).toEqual(expect.any(String));
 
-      expect(response.body.accessToken).toBeDefined();
-      expect(typeof response.body.accessToken).toBe('string');
-      expect(response.body.accessToken.length).toBeGreaterThan(0);
-    });
-
-    it('should return tokenType Bearer', async () => {
-      await createUser();
-
-      const response = await request(app.getHttpServer()).post('/auth/login').send(loginPayload).expect(HttpStatus.OK);
-
-      expect(response.body.tokenType).toBe('Bearer');
-    });
-
-    it('should return expiresIn', async () => {
-      await createUser();
-
-      const response = await request(app.getHttpServer()).post('/auth/login').send(loginPayload).expect(HttpStatus.OK);
-
-      expect(response.body.expiresIn).toBeDefined();
-      expect(typeof response.body.expiresIn).toBe('number');
-      expect(response.body.expiresIn).toBeGreaterThan(0);
-    });
-
-    it('should return 401 when password is incorrect', async () => {
-      await createUser();
-
-      await request(app.getHttpServer())
-        .post('/auth/login')
-        .send({
-          identifier: 'e2e-huy',
-          password: 'wrong-password',
-        })
-        .expect(HttpStatus.UNAUTHORIZED);
-    });
-
-    it('should return 403 when account is inactive', async () => {
-      await createUser({
-        username: 'e2e-inactive',
-        status: UserStatus.INACTIVE,
+        expect(response.body.expiresIn).toEqual(expect.any(Number));
       });
 
-      await request(app.getHttpServer())
-        .post('/auth/login')
-        .send({
-          identifier: 'e2e-inactive',
-          password: 'password123',
-        })
-        .expect(HttpStatus.FORBIDDEN);
-    });
+      it('should return a valid access token', async () => {
+        const user = await createUser();
 
-    it('should return 423 when account is locked', async () => {
-      await createUser({
-        username: 'e2e-locked',
-        status: UserStatus.LOCKED,
+        const response = await login(user.username);
+
+        expect(response.body.accessToken).toEqual(expect.any(String));
+
+        expect(response.body.accessToken.length).toBeGreaterThan(0);
       });
 
-      await request(app.getHttpServer())
-        .post('/auth/login')
-        .send({
-          identifier: 'e2e-locked',
-          password: 'password123',
-        })
-        .expect(HttpStatus.LOCKED);
+      it('should return Bearer token type', async () => {
+        const user = await createUser();
+
+        const response = await login(user.username);
+
+        expect(response.body.tokenType).toBe('Bearer');
+      });
+
+      it('should return positive expiresIn', async () => {
+        const user = await createUser();
+
+        const response = await login(user.username);
+
+        expect(response.body.expiresIn).toEqual(expect.any(Number));
+
+        expect(response.body.expiresIn).toBeGreaterThan(0);
+      });
+    });
+
+    describe('authentication failure', () => {
+      it('should return 401 when password is incorrect', async () => {
+        const user = await createUser();
+
+        const response = await login(user.username, WRONG_PASSWORD);
+
+        expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
+      });
+
+      it('should return 403 when account is inactive', async () => {
+        const user = await createUser({
+          username: 'e2e-inactive',
+          status: UserStatus.INACTIVE,
+        });
+
+        const response = await login(user.username);
+
+        expect(response.status).toBe(HttpStatus.FORBIDDEN);
+      });
+
+      it('should return 423 when account is locked', async () => {
+        const user = await createUser({
+          username: 'e2e-locked',
+          status: UserStatus.LOCKED,
+        });
+
+        const response = await login(user.username);
+
+        expect(response.status).toBe(HttpStatus.LOCKED);
+      });
     });
   });
 });

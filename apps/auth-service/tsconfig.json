@@ -6,7 +6,8 @@
     "outDir": "dist",
     "declaration": false,
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@/prisma/*": ["prisma/*"]
     },
     "ignoreDeprecations": "6.0"
   },
