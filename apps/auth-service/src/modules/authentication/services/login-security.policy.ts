@@ -1,9 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { UserStatus } from '@/infrastructure/database/prisma/generated';
-
 import { USER_REPOSITORY } from '@/common/constants/repository.constants';
+import { UserStatus } from '@/infrastructure/database/prisma/generated';
+import { AuthenticationRedisService } from '@/infrastructure/redis/authentication/authentication-redis.service';
+
 import { AccountInactiveError } from '../exceptions/account-inactive.error';
 import { AccountLockedError } from '../exceptions/account-locked.error';
 import { InvalidCredentialsError } from '../exceptions/invalid-credentials.error';
@@ -14,6 +15,7 @@ import type { UserRepository } from '../interfaces/user-repository.interface';
 export class LoginSecurityPolicy {
   constructor(
     private readonly configService: ConfigService,
+    private readonly authenticationRedis: AuthenticationRedisService,
     @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository,
   ) {}
@@ -26,7 +28,7 @@ export class LoginSecurityPolicy {
     return this.configService.getOrThrow<number>('authentication.security.lockDurationMinutes');
   }
 
-  ensureAccountCanLogin(user: AuthenticationUser): void {
+  async ensureAccountCanLogin(user: AuthenticationUser): Promise<void> {
     if (user.status === UserStatus.INACTIVE) {
       throw new AccountInactiveError();
     }
@@ -35,33 +37,31 @@ export class LoginSecurityPolicy {
       return;
     }
 
-    if (user.lockedUntil !== null && user.lockedUntil.getTime() <= Date.now()) {
-      return;
+    if (user.lockedUntil === null || user.lockedUntil.getTime() > Date.now()) {
+      throw new AccountLockedError();
     }
 
-    throw new AccountLockedError();
+    await this.userRepository.unlockUser(user.id);
   }
 
   async handleFailedLogin(user: AuthenticationUser): Promise<void> {
-    const nextFailedAttempts = user.failedLoginAttempts + 1;
+    const attempts = await this.authenticationRedis.incrementFailedLoginAttempts(user.id);
 
-    if (nextFailedAttempts >= this.maxLoginAttempts) {
-      const lockedUntil = new Date(Date.now() + this.lockDurationMinutes * 60 * 1000);
-
-      await this.userRepository.lockUser(user.id, lockedUntil);
-
+    if (attempts < this.maxLoginAttempts) {
       return;
     }
 
-    await this.userRepository.incrementFailedLoginAttempts(user.id);
+    const lockedUntil = new Date(Date.now() + this.lockDurationMinutes * 60 * 1000);
+
+    await this.userRepository.lockUser(user.id, lockedUntil);
   }
 
   async handleSuccessfulLogin(user: AuthenticationUser): Promise<void> {
-    const now = new Date();
+    await this.authenticationRedis.resetFailedLoginAttempts(user.id);
 
-    await this.userRepository.resetFailedLoginAttempts(user.id);
+    await this.userRepository.resetLoginSecurityState(user.id);
 
-    await this.userRepository.updateLastLoginAt(user.id, now);
+    await this.userRepository.updateLastLoginAt(user.id, new Date());
   }
 
   invalidCredentials(): Error {

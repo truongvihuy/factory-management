@@ -12,7 +12,6 @@ export interface AuthenticationUser {
 
   status: UserStatus;
 
-  failedLoginAttempts: number;
   lockedUntil: Date | null;
   lastLoginAt: Date | null;
 }

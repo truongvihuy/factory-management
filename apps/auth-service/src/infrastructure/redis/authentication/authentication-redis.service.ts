@@ -1,16 +1,22 @@
 import { Injectable } from '@nestjs/common';
 
+import { ConfigService } from '@nestjs/config';
 import { authRedisKeys } from '../keys/auth-redis.keys';
 import { RedisService } from '../redis.service';
 
 @Injectable()
 export class AuthenticationRedisService {
-  private static readonly FAILED_LOGIN_TTL_SECONDS = 15 * 60;
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly redisService: RedisService,
+  ) {}
 
-  constructor(private readonly redisService: RedisService) {}
+  private get failureWindowMinutes(): number {
+    return this.configService.getOrThrow<number>('authentication.security.failureWindowMinutes');
+  }
 
-  async getFailedLoginAttempts(identifier: string): Promise<number> {
-    const key = authRedisKeys.failedLoginAttempts(identifier);
+  async getFailedLoginAttempts(userId: string): Promise<number> {
+    const key = authRedisKeys.failedLoginAttempts(userId);
 
     const value = await this.redisService.get(key);
 
@@ -21,26 +27,26 @@ export class AuthenticationRedisService {
     return Number(value);
   }
 
-  async incrementFailedLoginAttempts(identifier: string): Promise<number> {
-    const key = authRedisKeys.failedLoginAttempts(identifier);
+  async incrementFailedLoginAttempts(userId: string): Promise<number> {
+    const key = authRedisKeys.failedLoginAttempts(userId);
 
     const attempts = await this.redisService.increment(key);
 
     if (attempts === 1) {
-      await this.redisService.expire(key, AuthenticationRedisService.FAILED_LOGIN_TTL_SECONDS);
+      await this.redisService.expire(key, this.failureWindowMinutes);
     }
 
     return attempts;
   }
 
-  async resetFailedLoginAttempts(identifier: string): Promise<void> {
-    const key = authRedisKeys.failedLoginAttempts(identifier);
+  async resetFailedLoginAttempts(userId: string): Promise<void> {
+    const key = authRedisKeys.failedLoginAttempts(userId);
 
     await this.redisService.delete(key);
   }
 
-  async getFailedLoginAttemptsTtl(identifier: string): Promise<number> {
-    const key = authRedisKeys.failedLoginAttempts(identifier);
+  async getFailedLoginAttemptsTtl(userId: string): Promise<number> {
+    const key = authRedisKeys.failedLoginAttempts(userId);
 
     return this.redisService.ttl(key);
   }

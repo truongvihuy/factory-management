@@ -35,23 +35,9 @@ export class PrismaUserRepository implements UserRepository {
       displayName: user.displayName,
       passwordHash: user.passwordHash,
       status: user.status,
-      failedLoginAttempts: user.failedLoginAttempts,
       lockedUntil: user.lockedUntil,
       lastLoginAt: user.lastLoginAt,
     };
-  }
-
-  async incrementFailedLoginAttempts(userId: string): Promise<void> {
-    await this.prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        failedLoginAttempts: {
-          increment: 1,
-        },
-      },
-    });
   }
 
   async lockUser(userId: string, lockedUntil: Date): Promise<void> {
@@ -69,13 +55,24 @@ export class PrismaUserRepository implements UserRepository {
     });
   }
 
-  async resetFailedLoginAttempts(userId: string): Promise<void> {
+  async unlockUser(userId: string): Promise<void> {
     await this.prisma.user.update({
       where: {
         id: userId,
       },
       data: {
-        failedLoginAttempts: 0,
+        status: UserStatus.ACTIVE,
+        lockedUntil: null,
+      },
+    });
+  }
+
+  async resetLoginSecurityState(userId: string): Promise<void> {
+    await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
         lockedUntil: null,
       },
     });
