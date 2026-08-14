@@ -1,5 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 
+import { ACCESS_TOKEN_ISSUER, PASSWORD_HANSHER } from '@/common/constants/authentication.constants';
+
+import { USER_REPOSITORY } from '@/common/constants/repository.constants';
 import type { AccessTokenIssuer } from '../interfaces/access-token-issuer.interface';
 import type { AuthenticationResult } from '../interfaces/authentication.types';
 import type { PasswordHasher } from '../interfaces/password-hasher.interface';
@@ -9,11 +12,11 @@ import { LoginSecurityPolicy } from './login-security.policy';
 @Injectable()
 export class LoginUseCase {
   constructor(
-    @Inject('USER_REPOSITORY')
+    @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository,
-    @Inject('PASSWORD_HANSHER')
+    @Inject(PASSWORD_HANSHER)
     private readonly passwordHasher: PasswordHasher,
-    @Inject('ACCESS_TOKEN_ISSUER')
+    @Inject(ACCESS_TOKEN_ISSUER)
     private readonly accessTokenIssuer: AccessTokenIssuer,
     private readonly loginSecurityPolicy: LoginSecurityPolicy,
   ) {}

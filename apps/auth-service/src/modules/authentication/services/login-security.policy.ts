@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 
 import { UserStatus } from '@/infrastructure/database/prisma/generated';
 
+import { USER_REPOSITORY } from '@/common/constants/repository.constants';
 import { AccountInactiveError } from '../exceptions/account-inactive.error';
 import { AccountLockedError } from '../exceptions/account-locked.error';
 import { InvalidCredentialsError } from '../exceptions/invalid-credentials.error';
@@ -13,7 +14,7 @@ import type { UserRepository } from '../interfaces/user-repository.interface';
 export class LoginSecurityPolicy {
   constructor(
     private readonly configService: ConfigService,
-    @Inject('USER_REPOSITORY')
+    @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository,
   ) {}
 

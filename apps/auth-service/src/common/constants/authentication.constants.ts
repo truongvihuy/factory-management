@@ -1,1 +1,2 @@
-export const AUTHENTICATION_MODULE = 'authentication';
+export const PASSWORD_HANSHER = Symbol('PASSWORD_HANSHER');
+export const ACCESS_TOKEN_ISSUER = Symbol('ACCESS_TOKEN_ISSUER');

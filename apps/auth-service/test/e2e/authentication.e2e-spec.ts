@@ -3,6 +3,7 @@ import { Test, type TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
 import { AppModule } from '../../src/app.module';
+import { PASSWORD_HANSHER } from '../../src/common/constants/authentication.constants';
 import { UserStatus } from '../../src/infrastructure/database/prisma/generated';
 import { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service';
 import { PasswordHasher } from '../../src/modules/authentication/interfaces/password-hasher.interface';
@@ -30,7 +31,7 @@ describe('Authentication E2E', () => {
     await app.init();
 
     prisma = moduleFixture.get<PrismaService>(PrismaService);
-    passwordHasher = moduleFixture.get<PasswordHasher>('PASSWORD_HANSHER');
+    passwordHasher = moduleFixture.get<PasswordHasher>(PASSWORD_HANSHER);
   });
 
   afterAll(async () => {

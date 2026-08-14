@@ -3,6 +3,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { Test, type TestingModule } from '@nestjs/testing';
 
 import { AppConfigModule } from '../../src/common/config/config.module';
+import { ACCESS_TOKEN_ISSUER, PASSWORD_HANSHER } from '../../src/common/constants/authentication.constants';
+import { USER_REPOSITORY } from '../../src/common/constants/repository.constants';
 import { UserStatus } from '../../src/infrastructure/database/prisma/generated';
 import { PrismaModule } from '../../src/infrastructure/database/prisma/prisma.module';
 import { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service';
@@ -12,6 +14,7 @@ import { JwtAccessTokenIssuerService } from '../../src/infrastructure/security/t
 import { AccountInactiveError } from '../../src/modules/authentication/exceptions/account-inactive.error';
 import { AccountLockedError } from '../../src/modules/authentication/exceptions/account-locked.error';
 import { InvalidCredentialsError } from '../../src/modules/authentication/exceptions/invalid-credentials.error';
+import { PasswordHasher } from '../../src/modules/authentication/interfaces/password-hasher.interface';
 import { LoginSecurityPolicy } from '../../src/modules/authentication/services/login-security.policy';
 import { LoginUseCase } from '../../src/modules/authentication/services/login.use-case';
 import { createTestUser, deleteTestUser, findTestUser } from '../helpers/authentication-test.helper';
@@ -45,15 +48,15 @@ describe('Authentication Integration', () => {
       ],
       providers: [
         {
-          provide: 'PASSWORD_HANSHER',
+          provide: PASSWORD_HANSHER,
           useClass: Argon2PasswordHasherService,
         },
         {
-          provide: 'ACCESS_TOKEN_ISSUER',
+          provide: ACCESS_TOKEN_ISSUER,
           useClass: JwtAccessTokenIssuerService,
         },
         {
-          provide: 'USER_REPOSITORY',
+          provide: USER_REPOSITORY,
           useClass: PrismaUserRepository,
         },
         LoginSecurityPolicy,
@@ -62,7 +65,7 @@ describe('Authentication Integration', () => {
     }).compile();
 
     prisma = module.get<PrismaService>(PrismaService);
-    passwordHasher = module.get<Argon2PasswordHasherService>('PASSWORD_HANSHER');
+    passwordHasher = module.get<PasswordHasher>(PASSWORD_HANSHER);
     loginUseCase = module.get<LoginUseCase>(LoginUseCase);
     const configService = module.get<ConfigService>(ConfigService);
     MAX_FAILED_LOGIN_ATTEMPTS = configService.getOrThrow<number>('authentication.security.maxLoginAttempts');
