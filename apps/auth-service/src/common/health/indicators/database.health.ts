@@ -14,7 +14,7 @@ export class DatabaseHealthIndicator extends HealthIndicator {
       await this.prisma.$queryRaw`SELECT 1`;
 
       return this.getStatus('database', true);
-    } catch (error) {
+    } catch {
       throw new HealthCheckError('Database health check failed', this.getStatus('database', false));
     }
   }
