@@ -1,15 +1,25 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import Redis from 'ioredis';
 
 import { CacheStore } from './interfaces/redis-store.interface';
-import { REDIS_CLIENT } from './redis.constants';
 
 @Injectable()
-export class RedisService implements CacheStore {
-  constructor(
-    @Inject(REDIS_CLIENT)
-    private readonly client: Redis,
-  ) {}
+export class RedisService implements CacheStore, OnModuleInit, OnModuleDestroy {
+  private client: Redis;
+
+  constructor(readonly configService: ConfigService) {
+    const connectionString = configService.getOrThrow<string>('redis.url');
+    this.client = new Redis(connectionString);
+  }
+
+  async onModuleInit(): Promise<void> {
+    await this.client.ping();
+  }
+
+  async onModuleDestroy(): Promise<void> {
+    await this.client.quit();
+  }
 
   async get(key: string): Promise<string | null> {
     return this.client.get(key);
@@ -21,6 +31,10 @@ export class RedisService implements CacheStore {
     }
 
     return this.client.set(key, value);
+  }
+
+  async increment(key: string): Promise<number> {
+    return this.client.incr(key);
   }
 
   async delete(key: string): Promise<number> {

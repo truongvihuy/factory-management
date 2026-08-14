@@ -5,8 +5,8 @@ import { HealthModule } from './common/health/health.module';
 import { LoggerModule } from './common/logger/logger.module';
 import { CorrelationMiddleware } from './common/tracing/correlation.middleware';
 import { TracingModule } from './common/tracing/tracing.module';
+import { CacheModule } from './infrastructure/cache/cache.module';
 import { PrismaModule } from './infrastructure/database/prisma/prisma.module';
-import { RedisModule } from './infrastructure/redis/redis.module';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
 import { RolesModule } from './modules/roles/roles.module';
@@ -21,7 +21,7 @@ import { UsersModule } from './modules/users/users.module';
     HealthModule,
 
     PrismaModule,
-    RedisModule,
+    CacheModule,
 
     UsersModule,
     AuthenticationModule,

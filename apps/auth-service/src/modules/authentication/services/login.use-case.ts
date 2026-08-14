@@ -1,8 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 
 import { ACCESS_TOKEN_ISSUER, PASSWORD_HANSHER } from '@/common/constants/authentication.constants';
-
 import { USER_REPOSITORY } from '@/common/constants/repository.constants';
+import { CacheService } from '@/infrastructure/cache/cache.service';
+
 import type { AccessTokenIssuer } from '../interfaces/access-token-issuer.interface';
 import type { AuthenticationResult } from '../interfaces/authentication.types';
 import type { PasswordHasher } from '../interfaces/password-hasher.interface';
@@ -14,6 +15,7 @@ export class LoginUseCase {
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository,
+    private readonly cacheService: CacheService,
     @Inject(PASSWORD_HANSHER)
     private readonly passwordHasher: PasswordHasher,
     @Inject(ACCESS_TOKEN_ISSUER)
