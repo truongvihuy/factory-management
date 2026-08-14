@@ -37,7 +37,7 @@ describe('Authentication E2E', () => {
     await app.close();
   });
 
-  beforeEach(async () => {
+  afterEach(async () => {
     await prisma.user.deleteMany({
       where: {
         username: {
