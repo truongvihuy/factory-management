@@ -3,24 +3,24 @@ import { ForbiddenException, type HttpException, HttpStatus, UnauthorizedExcepti
 import { AppException } from '@/common/errors/app.exception';
 import { ErrorCode } from '@/common/errors/error-code';
 
-import { AccountInactiveError } from '../exceptions/account-inactive.error';
-import { AccountLockedError } from '../exceptions/account-locked.error';
-import { InvalidCredentialsError } from '../exceptions/invalid-credentials.error';
+import { AccountInactiveDomainError } from '../domain/exceptions/account-inactive.domain-error';
+import { AccountLockedDomainError } from '../domain/exceptions/account-locked.domain-error';
+import { InvalidCredentialsDomainError } from '../domain/exceptions/invalid-credentials.domain-error';
 
 export class AuthenticationExceptionMapper {
   static map(error: unknown): HttpException {
-    if (error instanceof InvalidCredentialsError) {
+    if (error instanceof InvalidCredentialsDomainError) {
       return new UnauthorizedException({
         code: ErrorCode.AUTH_INVALID_CREDENTIALS,
         message: error.message,
       });
     }
 
-    if (error instanceof AccountLockedError) {
+    if (error instanceof AccountLockedDomainError) {
       return new AppException(ErrorCode.AUTH_ACCOUNT_LOCKED, error.message, HttpStatus.LOCKED);
     }
 
-    if (error instanceof AccountInactiveError) {
+    if (error instanceof AccountInactiveDomainError) {
       return new ForbiddenException({
         code: ErrorCode.AUTH_ACCOUNT_INACTIVE,
         message: error.message,

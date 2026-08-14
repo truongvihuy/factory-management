@@ -1,11 +1,13 @@
 import { ConfigService } from '@nestjs/config';
 import { Test, type TestingModule } from '@nestjs/testing';
 
+import { LOGIN_ATTEMPT_STORE } from '@/common/constants/authentication.constants';
+import { LoginAttemptStore } from '@/modules/authentication/interfaces/login-attempt-store.interface';
 import { RedisService } from '../redis.service';
-import { AuthenticationRedisService } from './authentication-redis.service';
+import { RedisLoginAttemptStore } from './login-attempt.store';
 
-describe('AuthenticationRedisService', () => {
-  let service: AuthenticationRedisService;
+describe('RedisLoginAttemptStore', () => {
+  let store: LoginAttemptStore;
 
   let redisService: {
     get: jest.Mock;
@@ -36,7 +38,10 @@ describe('AuthenticationRedisService', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        AuthenticationRedisService,
+        {
+          provide: LOGIN_ATTEMPT_STORE,
+          useClass: RedisLoginAttemptStore,
+        },
         {
           provide: RedisService,
           useValue: redisService,
@@ -48,7 +53,7 @@ describe('AuthenticationRedisService', () => {
       ],
     }).compile();
 
-    service = module.get<AuthenticationRedisService>(AuthenticationRedisService);
+    store = module.get<LoginAttemptStore>(LOGIN_ATTEMPT_STORE);
   });
 
   afterEach(() => {
@@ -59,7 +64,7 @@ describe('AuthenticationRedisService', () => {
     it('should return failed login attempts when value exists', async () => {
       redisService.get.mockResolvedValue('3');
 
-      const result = await service.getFailedLoginAttempts('user-001');
+      const result = await store.getAttempts('user-001');
 
       expect(result).toBe(3);
 
@@ -69,7 +74,7 @@ describe('AuthenticationRedisService', () => {
     it('should return 0 when counter does not exist', async () => {
       redisService.get.mockResolvedValue(null);
 
-      const result = await service.getFailedLoginAttempts('user-001');
+      const result = await store.getAttempts('user-001');
 
       expect(result).toBe(0);
 
@@ -79,7 +84,7 @@ describe('AuthenticationRedisService', () => {
     it('should convert Redis string value to number', async () => {
       redisService.get.mockResolvedValue('5');
 
-      const result = await service.getFailedLoginAttempts('user-001');
+      const result = await store.getAttempts('user-001');
 
       expect(result).toBe(5);
       expect(typeof result).toBe('number');
@@ -91,7 +96,7 @@ describe('AuthenticationRedisService', () => {
       redisService.increment.mockResolvedValue(1);
       redisService.expire.mockResolvedValue(true);
 
-      const result = await service.incrementFailedLoginAttempts('user-001');
+      const result = await store.incrementAttempts('user-001');
 
       expect(result).toBe(1);
 
@@ -104,7 +109,7 @@ describe('AuthenticationRedisService', () => {
       redisService.increment.mockResolvedValue(1);
       redisService.expire.mockResolvedValue(true);
 
-      await service.incrementFailedLoginAttempts('user-001');
+      await store.incrementAttempts('user-001');
 
       expect(redisService.expire).toHaveBeenCalledTimes(1);
 
@@ -117,7 +122,7 @@ describe('AuthenticationRedisService', () => {
     it('should not reset expiration when counter already exists', async () => {
       redisService.increment.mockResolvedValue(2);
 
-      const result = await service.incrementFailedLoginAttempts('user-001');
+      const result = await store.incrementAttempts('user-001');
 
       expect(result).toBe(2);
 
@@ -129,9 +134,9 @@ describe('AuthenticationRedisService', () => {
 
       redisService.expire.mockResolvedValue(true);
 
-      await service.incrementFailedLoginAttempts('user-001');
-      await service.incrementFailedLoginAttempts('user-001');
-      await service.incrementFailedLoginAttempts('user-001');
+      await store.incrementAttempts('user-001');
+      await store.incrementAttempts('user-001');
+      await store.incrementAttempts('user-001');
 
       expect(redisService.increment).toHaveBeenCalledTimes(3);
 
@@ -141,7 +146,7 @@ describe('AuthenticationRedisService', () => {
     it('should use configured failure window', async () => {
       redisService.increment.mockResolvedValue(1);
 
-      await service.incrementFailedLoginAttempts('user-001');
+      await store.incrementAttempts('user-001');
 
       expect(configService.getOrThrow).toHaveBeenCalledWith('authentication.security.failureWindowSeconds');
 
@@ -153,7 +158,7 @@ describe('AuthenticationRedisService', () => {
     it('should delete failed login counter', async () => {
       redisService.delete.mockResolvedValue(1);
 
-      await service.resetFailedLoginAttempts('user-001');
+      await store.resetAttempts('user-001');
 
       expect(redisService.delete).toHaveBeenCalledTimes(1);
 
@@ -163,7 +168,7 @@ describe('AuthenticationRedisService', () => {
     it('should not throw when counter does not exist', async () => {
       redisService.delete.mockResolvedValue(0);
 
-      await expect(service.resetFailedLoginAttempts('user-001')).resolves.toBeUndefined();
+      await expect(store.resetAttempts('user-001')).resolves.toBeUndefined();
 
       expect(redisService.delete).toHaveBeenCalledTimes(1);
     });
@@ -173,7 +178,7 @@ describe('AuthenticationRedisService', () => {
     it('should return remaining TTL', async () => {
       redisService.ttl.mockResolvedValue(600);
 
-      const result = await service.getFailedLoginAttemptsTtl('user-001');
+      const result = await store.getTtl('user-001');
 
       expect(result).toBe(600);
 
@@ -183,7 +188,7 @@ describe('AuthenticationRedisService', () => {
     it('should return -1 when counter has no expiration', async () => {
       redisService.ttl.mockResolvedValue(-1);
 
-      const result = await service.getFailedLoginAttemptsTtl('user-001');
+      const result = await store.getTtl('user-001');
 
       expect(result).toBe(-1);
     });
@@ -191,7 +196,7 @@ describe('AuthenticationRedisService', () => {
     it('should return -2 when counter does not exist', async () => {
       redisService.ttl.mockResolvedValue(-2);
 
-      const result = await service.getFailedLoginAttemptsTtl('user-001');
+      const result = await store.getTtl('user-001');
 
       expect(result).toBe(-2);
     });

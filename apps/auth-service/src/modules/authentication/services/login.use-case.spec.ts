@@ -1,29 +1,30 @@
+import { AuthenticationUser, AuthenticationUserStatus } from '../domain/entities/authentication-user.entity';
+import { UserRepositoryPort } from '../domain/ports/user-repository.port';
+import { AccountLoginRule } from '../domain/rules/account-login.rule';
+import type { AccessTokenIssuer } from '../interfaces/access-token-issuer.interface';
+import type { PasswordHasher } from '../interfaces/password-hasher.interface';
+
 import { LoginSecurityPolicy } from './login-security.policy';
 import { LoginUseCase } from './login.use-case';
-
-import type { AccessTokenIssuer } from '../interfaces/access-token-issuer.interface';
-import type { AuthenticationUser } from '../interfaces/authentication.types';
-import type { PasswordHasher } from '../interfaces/password-hasher.interface';
-import type { UserRepository } from '../interfaces/user-repository.interface';
 
 describe('LoginUseCase', () => {
   let useCase: LoginUseCase;
 
-  let userRepository: jest.Mocked<UserRepository>;
+  let userRepositoryPort: jest.Mocked<UserRepositoryPort>;
   let passwordHasher: jest.Mocked<PasswordHasher>;
   let accessTokenIssuer: jest.Mocked<AccessTokenIssuer>;
   let loginSecurityPolicy: jest.Mocked<LoginSecurityPolicy>;
 
-  const user: AuthenticationUser = {
+  const user: AuthenticationUser = new AuthenticationUser({
     id: 'user-123',
     username: 'huy',
     email: 'huy@example.com',
     displayName: 'Huy',
     passwordHash: 'hashed-password',
-    status: 'ACTIVE' as AuthenticationUser['status'],
+    status: AuthenticationUserStatus.ACTIVE,
     lockedUntil: null,
     lastLoginAt: null,
-  };
+  });
 
   const accessToken = {
     accessToken: 'access-token-123',
@@ -31,7 +32,7 @@ describe('LoginUseCase', () => {
   };
 
   beforeEach(() => {
-    userRepository = {
+    userRepositoryPort = {
       findByIdentifier: jest.fn(),
       lockUser: jest.fn(),
       unlockUser: jest.fn(),
@@ -55,7 +56,7 @@ describe('LoginUseCase', () => {
       invalidCredentials: jest.fn(),
     } as unknown as jest.Mocked<LoginSecurityPolicy>;
 
-    useCase = new LoginUseCase(userRepository, passwordHasher, accessTokenIssuer, loginSecurityPolicy);
+    useCase = new LoginUseCase(userRepositoryPort, passwordHasher, accessTokenIssuer, loginSecurityPolicy);
   });
 
   afterEach(() => {
@@ -64,58 +65,58 @@ describe('LoginUseCase', () => {
 
   describe('user lookup', () => {
     it('should find user by identifier', async () => {
-      userRepository.findByIdentifier.mockResolvedValue(user);
-      loginSecurityPolicy.ensureAccountCanLogin.mockImplementation();
+      userRepositoryPort.findByIdentifier.mockResolvedValue(user);
       passwordHasher.verify.mockResolvedValue(true);
       loginSecurityPolicy.handleSuccessfulLogin.mockResolvedValue();
       accessTokenIssuer.issue.mockResolvedValue(accessToken);
 
       await useCase.execute('huy', 'password123');
 
-      expect(userRepository.findByIdentifier).toHaveBeenCalledTimes(1);
-      expect(userRepository.findByIdentifier).toHaveBeenCalledWith('huy');
+      expect(userRepositoryPort.findByIdentifier).toHaveBeenCalledTimes(1);
+      expect(userRepositoryPort.findByIdentifier).toHaveBeenCalledWith('huy');
     });
 
     it('should reject login when user does not exist', async () => {
       const error = new Error('Invalid credentials');
 
-      userRepository.findByIdentifier.mockResolvedValue(null);
+      userRepositoryPort.findByIdentifier.mockResolvedValue(null);
       loginSecurityPolicy.invalidCredentials.mockReturnValue(error);
+      jest.spyOn(AccountLoginRule, 'ensureCanLogin').mockImplementation();
 
       await expect(useCase.execute('unknown-user', 'password123')).rejects.toBe(error);
 
       expect(loginSecurityPolicy.invalidCredentials).toHaveBeenCalledTimes(1);
 
-      expect(loginSecurityPolicy.ensureAccountCanLogin).not.toHaveBeenCalled();
       expect(passwordHasher.verify).not.toHaveBeenCalled();
       expect(loginSecurityPolicy.handleFailedLogin).not.toHaveBeenCalled();
       expect(loginSecurityPolicy.handleSuccessfulLogin).not.toHaveBeenCalled();
       expect(accessTokenIssuer.issue).not.toHaveBeenCalled();
+      expect(AccountLoginRule.ensureCanLogin).not.toHaveBeenCalled();
     });
   });
 
   describe('account security', () => {
     beforeEach(() => {
-      userRepository.findByIdentifier.mockResolvedValue(user);
+      userRepositoryPort.findByIdentifier.mockResolvedValue(user);
     });
 
     it('should check whether account can login', async () => {
-      loginSecurityPolicy.ensureAccountCanLogin.mockImplementation();
+      jest.spyOn(AccountLoginRule, 'ensureCanLogin');
       passwordHasher.verify.mockResolvedValue(true);
       loginSecurityPolicy.handleSuccessfulLogin.mockResolvedValue();
       accessTokenIssuer.issue.mockResolvedValue(accessToken);
 
       await useCase.execute(user.username, 'password123');
 
-      expect(loginSecurityPolicy.ensureAccountCanLogin).toHaveBeenCalledTimes(1);
+      expect(AccountLoginRule.ensureCanLogin).toHaveBeenCalledTimes(1);
 
-      expect(loginSecurityPolicy.ensureAccountCanLogin).toHaveBeenCalledWith(user);
+      expect(AccountLoginRule.ensureCanLogin).toHaveBeenCalledWith(user);
     });
 
     it('should stop authentication when account cannot login', async () => {
       const error = new Error('Account locked');
 
-      loginSecurityPolicy.ensureAccountCanLogin.mockImplementation(() => {
+      jest.spyOn(AccountLoginRule, 'ensureCanLogin').mockImplementation(() => {
         throw error;
       });
 
@@ -130,8 +131,7 @@ describe('LoginUseCase', () => {
 
   describe('password verification', () => {
     beforeEach(() => {
-      userRepository.findByIdentifier.mockResolvedValue(user);
-      loginSecurityPolicy.ensureAccountCanLogin.mockImplementation();
+      userRepositoryPort.findByIdentifier.mockResolvedValue(user);
     });
 
     it('should verify password using stored password hash', async () => {
@@ -183,9 +183,7 @@ describe('LoginUseCase', () => {
 
   describe('successful authentication', () => {
     beforeEach(() => {
-      userRepository.findByIdentifier.mockResolvedValue(user);
-
-      loginSecurityPolicy.ensureAccountCanLogin.mockImplementation();
+      userRepositoryPort.findByIdentifier.mockResolvedValue(user);
 
       passwordHasher.verify.mockResolvedValue(true);
 
@@ -243,8 +241,7 @@ describe('LoginUseCase', () => {
 
   describe('failure propagation', () => {
     beforeEach(() => {
-      userRepository.findByIdentifier.mockResolvedValue(user);
-      loginSecurityPolicy.ensureAccountCanLogin.mockImplementation();
+      userRepositoryPort.findByIdentifier.mockResolvedValue(user);
     });
 
     it('should propagate password verification errors', async () => {
@@ -298,8 +295,7 @@ describe('LoginUseCase', () => {
 
   describe('repository boundary', () => {
     it('should not manipulate login security state directly', async () => {
-      userRepository.findByIdentifier.mockResolvedValue(user);
-      loginSecurityPolicy.ensureAccountCanLogin.mockImplementation();
+      userRepositoryPort.findByIdentifier.mockResolvedValue(user);
 
       passwordHasher.verify.mockResolvedValue(false);
 
@@ -310,10 +306,10 @@ describe('LoginUseCase', () => {
 
       await expect(useCase.execute(user.username, 'wrong-password')).rejects.toBe(error);
 
-      expect(userRepository.lockUser).not.toHaveBeenCalled();
-      expect(userRepository.unlockUser).not.toHaveBeenCalled();
-      expect(userRepository.resetLoginSecurityState).not.toHaveBeenCalled();
-      expect(userRepository.updateLastLoginAt).not.toHaveBeenCalled();
+      expect(userRepositoryPort.lockUser).not.toHaveBeenCalled();
+      expect(userRepositoryPort.unlockUser).not.toHaveBeenCalled();
+      expect(userRepositoryPort.resetLoginSecurityState).not.toHaveBeenCalled();
+      expect(userRepositoryPort.updateLastLoginAt).not.toHaveBeenCalled();
     });
   });
 });

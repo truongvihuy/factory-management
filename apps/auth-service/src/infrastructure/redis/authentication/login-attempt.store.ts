@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
+import { LoginAttemptStore } from '@/modules/authentication/interfaces/login-attempt-store.interface';
+
 import { authRedisKeys } from '../keys/auth-redis.keys';
 import { RedisService } from '../redis.service';
 
 @Injectable()
-export class AuthenticationRedisService {
+export class RedisLoginAttemptStore implements LoginAttemptStore {
   constructor(
     private readonly configService: ConfigService,
     private readonly redisService: RedisService,
@@ -15,7 +17,7 @@ export class AuthenticationRedisService {
     return this.configService.getOrThrow<number>('authentication.security.failureWindowSeconds');
   }
 
-  async getFailedLoginAttempts(userId: string): Promise<number> {
+  async getAttempts(userId: string): Promise<number> {
     const key = authRedisKeys.failedLoginAttempts(userId);
 
     const value = await this.redisService.get(key);
@@ -27,7 +29,7 @@ export class AuthenticationRedisService {
     return Number(value);
   }
 
-  async incrementFailedLoginAttempts(userId: string): Promise<number> {
+  async incrementAttempts(userId: string): Promise<number> {
     const key = authRedisKeys.failedLoginAttempts(userId);
 
     const attempts = await this.redisService.increment(key);
@@ -39,13 +41,13 @@ export class AuthenticationRedisService {
     return attempts;
   }
 
-  async resetFailedLoginAttempts(userId: string): Promise<void> {
+  async resetAttempts(userId: string): Promise<void> {
     const key = authRedisKeys.failedLoginAttempts(userId);
 
     await this.redisService.delete(key);
   }
 
-  async getFailedLoginAttemptsTtl(userId: string): Promise<number> {
+  async getTtl(userId: string): Promise<number> {
     const key = authRedisKeys.failedLoginAttempts(userId);
 
     return this.redisService.ttl(key);

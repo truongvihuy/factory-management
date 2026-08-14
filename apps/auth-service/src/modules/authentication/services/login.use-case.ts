@@ -1,19 +1,19 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-import { ACCESS_TOKEN_ISSUER, PASSWORD_HANSHER } from '@/common/constants/authentication.constants';
-import { USER_REPOSITORY } from '@/common/constants/repository.constants';
+import { ACCESS_TOKEN_ISSUER, PASSWORD_HANSHER, USER_REPOSITORY } from '@/common/constants/authentication.constants';
 
+import type { UserRepositoryPort } from '../domain/ports/user-repository.port';
+import { AccountLoginRule } from '../domain/rules/account-login.rule';
 import type { AccessTokenIssuer } from '../interfaces/access-token-issuer.interface';
 import type { AuthenticationResult } from '../interfaces/authentication.types';
 import type { PasswordHasher } from '../interfaces/password-hasher.interface';
-import type { UserRepository } from '../interfaces/user-repository.interface';
 import { LoginSecurityPolicy } from './login-security.policy';
 
 @Injectable()
 export class LoginUseCase {
   constructor(
     @Inject(USER_REPOSITORY)
-    private readonly userRepository: UserRepository,
+    private readonly userRepositoryPort: UserRepositoryPort,
     @Inject(PASSWORD_HANSHER)
     private readonly passwordHasher: PasswordHasher,
     @Inject(ACCESS_TOKEN_ISSUER)
@@ -22,13 +22,13 @@ export class LoginUseCase {
   ) {}
 
   async execute(identifier: string, password: string): Promise<AuthenticationResult> {
-    const user = await this.userRepository.findByIdentifier(identifier);
+    const user = await this.userRepositoryPort.findByIdentifier(identifier);
 
     if (!user) {
       throw this.loginSecurityPolicy.invalidCredentials();
     }
 
-    await this.loginSecurityPolicy.ensureAccountCanLogin(user);
+    AccountLoginRule.ensureCanLogin(user);
 
     const passwordValid = await this.passwordHasher.verify(password, user.passwordHash);
 

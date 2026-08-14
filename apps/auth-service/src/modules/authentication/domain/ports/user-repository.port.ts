@@ -1,6 +1,6 @@
-import type { AuthenticationUser } from './authentication.types';
+import type { AuthenticationUser } from '../entities/authentication-user.entity';
 
-export interface UserRepository {
+export interface UserRepositoryPort {
   findByIdentifier(identifier: string): Promise<AuthenticationUser | null>;
 
   lockUser(userId: string, lockedUntil: Date): Promise<void>;

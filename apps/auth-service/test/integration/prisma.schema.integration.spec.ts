@@ -4,6 +4,7 @@ import { AppConfigModule } from '../../src/common/config/config.module';
 import { AccessScope, UserStatus } from '../../src/infrastructure/database/prisma/generated';
 import { PrismaModule } from '../../src/infrastructure/database/prisma/prisma.module';
 import { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service';
+
 import {
   createTestPermission,
   createTestRole,

@@ -1,13 +1,9 @@
 import { ConfigService } from '@nestjs/config';
 import { Test, type TestingModule } from '@nestjs/testing';
 
-import { USER_REPOSITORY } from '@/common/constants/repository.constants';
-import { UserStatus } from '@/infrastructure/database/prisma/generated';
-import { AuthenticationRedisService } from '@/infrastructure/redis/authentication/authentication-redis.service';
+import { LOGIN_ATTEMPT_STORE, USER_REPOSITORY } from '@/common/constants/authentication.constants';
 
-import { AccountInactiveError } from '../exceptions/account-inactive.error';
-import { AccountLockedError } from '../exceptions/account-locked.error';
-import type { AuthenticationUser } from '../interfaces/authentication.types';
+import { AuthenticationUser, AuthenticationUserStatus } from '../domain/entities/authentication-user.entity';
 import { LoginSecurityPolicy } from './login-security.policy';
 
 describe('LoginSecurityPolicy', () => {
@@ -20,10 +16,11 @@ describe('LoginSecurityPolicy', () => {
     updateLastLoginAt: jest.Mock;
   };
 
-  let authenticationRedis: {
-    getFailedLoginAttempts: jest.Mock;
-    incrementFailedLoginAttempts: jest.Mock;
-    resetFailedLoginAttempts: jest.Mock;
+  let loginAttemptStore: {
+    getAttempts: jest.Mock;
+    incrementAttempts: jest.Mock;
+    resetAttempts: jest.Mock;
+    getTtl: jest.Mock;
   };
 
   let configService: {
@@ -33,17 +30,18 @@ describe('LoginSecurityPolicy', () => {
   const MAX_LOGIN_ATTEMPTS = 5;
   const LOCK_DURATION_MINUTES = 30;
 
-  const createUser = (overrides: Partial<AuthenticationUser> = {}): AuthenticationUser => ({
-    id: 'user-001',
-    username: 'huy',
-    email: 'huy@example.com',
-    displayName: 'Huy',
-    passwordHash: 'hashed-password',
-    status: UserStatus.ACTIVE,
-    lockedUntil: null,
-    lastLoginAt: null,
-    ...overrides,
-  });
+  const createUser = (overrides: Partial<AuthenticationUser> = {}): AuthenticationUser =>
+    new AuthenticationUser({
+      id: 'user-001',
+      username: 'huy',
+      email: 'huy@example.com',
+      displayName: 'Huy',
+      passwordHash: 'hashed-password',
+      status: AuthenticationUserStatus.ACTIVE,
+      lockedUntil: null,
+      lastLoginAt: null,
+      ...overrides,
+    });
 
   beforeEach(async () => {
     userRepository = {
@@ -53,10 +51,11 @@ describe('LoginSecurityPolicy', () => {
       updateLastLoginAt: jest.fn(),
     };
 
-    authenticationRedis = {
-      getFailedLoginAttempts: jest.fn(),
-      incrementFailedLoginAttempts: jest.fn(),
-      resetFailedLoginAttempts: jest.fn(),
+    loginAttemptStore = {
+      getAttempts: jest.fn(),
+      incrementAttempts: jest.fn(),
+      resetAttempts: jest.fn(),
+      getTtl: jest.fn(),
     };
 
     configService = {
@@ -81,12 +80,12 @@ describe('LoginSecurityPolicy', () => {
           useValue: configService,
         },
         {
-          provide: AuthenticationRedisService,
-          useValue: authenticationRedis,
-        },
-        {
           provide: USER_REPOSITORY,
           useValue: userRepository,
+        },
+        {
+          provide: LOGIN_ATTEMPT_STORE,
+          useValue: loginAttemptStore,
         },
       ],
     }).compile();
@@ -94,72 +93,16 @@ describe('LoginSecurityPolicy', () => {
     policy = module.get<LoginSecurityPolicy>(LoginSecurityPolicy);
   });
 
-  describe('ensureAccountCanLogin', () => {
-    it('should allow an active account', async () => {
-      const user = createUser({
-        status: UserStatus.ACTIVE,
-      });
-
-      await expect(policy.ensureAccountCanLogin(user)).resolves.toBeUndefined();
-    });
-
-    it('should reject an inactive account', async () => {
-      const user = createUser({
-        status: UserStatus.INACTIVE,
-      });
-
-      await expect(policy.ensureAccountCanLogin(user)).rejects.toBeInstanceOf(AccountInactiveError);
-    });
-
-    it('should reject a locked account when lock has not expired', async () => {
-      const lockedUntil = new Date(Date.now() + 10 * 60 * 1000);
-
-      const user = createUser({
-        status: UserStatus.LOCKED,
-        lockedUntil,
-      });
-
-      await expect(policy.ensureAccountCanLogin(user)).rejects.toBeInstanceOf(AccountLockedError);
-
-      expect(userRepository.unlockUser).not.toHaveBeenCalled();
-    });
-
-    it('should reject a locked account without lockedUntil', async () => {
-      const user = createUser({
-        status: UserStatus.LOCKED,
-        lockedUntil: null,
-      });
-
-      await expect(policy.ensureAccountCanLogin(user)).rejects.toBeInstanceOf(AccountLockedError);
-
-      expect(userRepository.unlockUser).not.toHaveBeenCalled();
-    });
-
-    it('should unlock an account when lock has expired', async () => {
-      const lockedUntil = new Date(Date.now() - 1_000);
-
-      const user = createUser({
-        status: UserStatus.LOCKED,
-        lockedUntil,
-      });
-
-      await expect(policy.ensureAccountCanLogin(user)).resolves.toBeUndefined();
-
-      expect(userRepository.unlockUser).toHaveBeenCalledTimes(1);
-      expect(userRepository.unlockUser).toHaveBeenCalledWith(user.id);
-    });
-  });
-
   describe('handleFailedLogin', () => {
     it('should increment failed attempts in Redis', async () => {
       const user = createUser();
 
-      authenticationRedis.incrementFailedLoginAttempts.mockResolvedValue(1);
+      loginAttemptStore.incrementAttempts.mockResolvedValue(1);
 
       await policy.handleFailedLogin(user);
 
-      expect(authenticationRedis.incrementFailedLoginAttempts).toHaveBeenCalledTimes(1);
-      expect(authenticationRedis.incrementFailedLoginAttempts).toHaveBeenCalledWith(user.id);
+      expect(loginAttemptStore.incrementAttempts).toHaveBeenCalledTimes(1);
+      expect(loginAttemptStore.incrementAttempts).toHaveBeenCalledWith(user.id);
 
       expect(userRepository.lockUser).not.toHaveBeenCalled();
     });
@@ -167,11 +110,11 @@ describe('LoginSecurityPolicy', () => {
     it('should not lock the account before reaching the threshold', async () => {
       const user = createUser();
 
-      authenticationRedis.incrementFailedLoginAttempts.mockResolvedValue(MAX_LOGIN_ATTEMPTS - 1);
+      loginAttemptStore.incrementAttempts.mockResolvedValue(MAX_LOGIN_ATTEMPTS - 1);
 
       await policy.handleFailedLogin(user);
 
-      expect(authenticationRedis.incrementFailedLoginAttempts).toHaveBeenCalledWith(user.id);
+      expect(loginAttemptStore.incrementAttempts).toHaveBeenCalledWith(user.id);
 
       expect(userRepository.lockUser).not.toHaveBeenCalled();
     });
@@ -179,11 +122,11 @@ describe('LoginSecurityPolicy', () => {
     it('should lock the account when threshold is reached', async () => {
       const user = createUser();
 
-      authenticationRedis.incrementFailedLoginAttempts.mockResolvedValue(MAX_LOGIN_ATTEMPTS);
+      loginAttemptStore.incrementAttempts.mockResolvedValue(MAX_LOGIN_ATTEMPTS);
 
       await policy.handleFailedLogin(user);
 
-      expect(authenticationRedis.incrementFailedLoginAttempts).toHaveBeenCalledWith(user.id);
+      expect(loginAttemptStore.incrementAttempts).toHaveBeenCalledWith(user.id);
 
       expect(userRepository.lockUser).toHaveBeenCalledTimes(1);
       expect(userRepository.lockUser).toHaveBeenCalledWith(user.id, expect.any(Date));
@@ -192,7 +135,7 @@ describe('LoginSecurityPolicy', () => {
     it('should use configured lock duration', async () => {
       const user = createUser();
 
-      authenticationRedis.incrementFailedLoginAttempts.mockResolvedValue(MAX_LOGIN_ATTEMPTS);
+      loginAttemptStore.incrementAttempts.mockResolvedValue(MAX_LOGIN_ATTEMPTS);
 
       const before = Date.now();
 
@@ -217,9 +160,9 @@ describe('LoginSecurityPolicy', () => {
 
       await policy.handleSuccessfulLogin(user);
 
-      expect(authenticationRedis.resetFailedLoginAttempts).toHaveBeenCalledTimes(1);
+      expect(loginAttemptStore.resetAttempts).toHaveBeenCalledTimes(1);
 
-      expect(authenticationRedis.resetFailedLoginAttempts).toHaveBeenCalledWith(user.id);
+      expect(loginAttemptStore.resetAttempts).toHaveBeenCalledWith(user.id);
     });
 
     it('should reset login security state in PostgreSQL', async () => {
@@ -255,7 +198,7 @@ describe('LoginSecurityPolicy', () => {
 
       const calls: string[] = [];
 
-      authenticationRedis.resetFailedLoginAttempts.mockImplementation(async () => {
+      loginAttemptStore.resetAttempts.mockImplementation(async () => {
         calls.push('redis');
       });
 
@@ -278,7 +221,7 @@ describe('LoginSecurityPolicy', () => {
       const error = policy.invalidCredentials();
 
       expect(error).toBeInstanceOf(Error);
-      expect(error.name).toBe('InvalidCredentialsError');
+      expect(error.name).toBe('InvalidCredentialsDomainError');
     });
   });
 });

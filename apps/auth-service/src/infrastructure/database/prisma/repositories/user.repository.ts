@@ -1,13 +1,16 @@
 import { Injectable } from '@nestjs/common';
 
-import type { AuthenticationUser } from '@/modules/authentication/interfaces/authentication.types';
-import type { UserRepository } from '@/modules/authentication/interfaces/user-repository.interface';
+import {
+  AuthenticationUser,
+  AuthenticationUserStatus,
+} from '@/modules/authentication/domain/entities/authentication-user.entity';
+import type { UserRepositoryPort } from '@/modules/authentication/domain/ports/user-repository.port';
 
 import { UserStatus } from '../generated';
 import { PrismaService } from '../prisma.service';
 
 @Injectable()
-export class PrismaUserRepository implements UserRepository {
+export class PrismaUserRepository implements UserRepositoryPort {
   constructor(private readonly prisma: PrismaService) {}
 
   async findByIdentifier(identifier: string): Promise<AuthenticationUser | null> {
@@ -28,16 +31,16 @@ export class PrismaUserRepository implements UserRepository {
       return null;
     }
 
-    return {
+    return new AuthenticationUser({
       id: user.id,
       username: user.username,
       email: user.email,
       displayName: user.displayName,
       passwordHash: user.passwordHash,
-      status: user.status,
+      status: user.status as AuthenticationUserStatus,
       lockedUntil: user.lockedUntil,
       lastLoginAt: user.lastLoginAt,
-    };
+    });
   }
 
   async lockUser(userId: string, lockedUntil: Date): Promise<void> {
@@ -70,6 +73,7 @@ export class PrismaUserRepository implements UserRepository {
         id: userId,
       },
       data: {
+        status: UserStatus.ACTIVE,
         lockedUntil: null,
       },
     });

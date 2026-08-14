@@ -2,9 +2,14 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 
-import { ACCESS_TOKEN_ISSUER, PASSWORD_HANSHER } from '@/common/constants/authentication.constants';
-import { USER_REPOSITORY } from '@/common/constants/repository.constants';
+import {
+  ACCESS_TOKEN_ISSUER,
+  LOGIN_ATTEMPT_STORE,
+  PASSWORD_HANSHER,
+  USER_REPOSITORY,
+} from '@/common/constants/authentication.constants';
 import { PrismaUserRepository } from '@/infrastructure/database/prisma/repositories/user.repository';
+import { RedisLoginAttemptStore } from '@/infrastructure/redis/authentication/login-attempt.store';
 import { Argon2PasswordHasherService } from '@/infrastructure/security/password/argon2-password-hasher.service';
 import { JwtAccessTokenIssuerService } from '@/infrastructure/security/token/jwt-access-token-issuer.service';
 
@@ -32,6 +37,10 @@ import { LoginUseCase } from './services/login.use-case';
     {
       provide: USER_REPOSITORY,
       useClass: PrismaUserRepository,
+    },
+    {
+      provide: LOGIN_ATTEMPT_STORE,
+      useClass: RedisLoginAttemptStore,
     },
     {
       provide: PASSWORD_HANSHER,

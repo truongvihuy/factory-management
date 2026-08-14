@@ -1,23 +1,21 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { USER_REPOSITORY } from '@/common/constants/repository.constants';
-import { UserStatus } from '@/infrastructure/database/prisma/generated';
-import { AuthenticationRedisService } from '@/infrastructure/redis/authentication/authentication-redis.service';
+import { LOGIN_ATTEMPT_STORE, USER_REPOSITORY } from '@/common/constants/authentication.constants';
 
-import { AccountInactiveError } from '../exceptions/account-inactive.error';
-import { AccountLockedError } from '../exceptions/account-locked.error';
-import { InvalidCredentialsError } from '../exceptions/invalid-credentials.error';
-import type { AuthenticationUser } from '../interfaces/authentication.types';
-import type { UserRepository } from '../interfaces/user-repository.interface';
+import { AuthenticationUser } from '../domain/entities/authentication-user.entity';
+import { InvalidCredentialsDomainError } from '../domain/exceptions/invalid-credentials.domain-error';
+import type { UserRepositoryPort } from '../domain/ports/user-repository.port';
+import type { LoginAttemptStore } from '../interfaces/login-attempt-store.interface';
 
 @Injectable()
 export class LoginSecurityPolicy {
   constructor(
     private readonly configService: ConfigService,
-    private readonly authenticationRedis: AuthenticationRedisService,
     @Inject(USER_REPOSITORY)
-    private readonly userRepository: UserRepository,
+    private readonly userRepositoryPort: UserRepositoryPort,
+    @Inject(LOGIN_ATTEMPT_STORE)
+    private readonly loginAttemptStore: LoginAttemptStore,
   ) {}
 
   private get maxLoginAttempts(): number {
@@ -28,24 +26,8 @@ export class LoginSecurityPolicy {
     return this.configService.getOrThrow<number>('authentication.security.lockDurationMinutes');
   }
 
-  async ensureAccountCanLogin(user: AuthenticationUser): Promise<void> {
-    if (user.status === UserStatus.INACTIVE) {
-      throw new AccountInactiveError();
-    }
-
-    if (user.status !== UserStatus.LOCKED) {
-      return;
-    }
-
-    if (user.lockedUntil === null || user.lockedUntil.getTime() > Date.now()) {
-      throw new AccountLockedError();
-    }
-
-    await this.userRepository.unlockUser(user.id);
-  }
-
   async handleFailedLogin(user: AuthenticationUser): Promise<void> {
-    const attempts = await this.authenticationRedis.incrementFailedLoginAttempts(user.id);
+    const attempts = await this.loginAttemptStore.incrementAttempts(user.id);
 
     if (attempts < this.maxLoginAttempts) {
       return;
@@ -53,18 +35,18 @@ export class LoginSecurityPolicy {
 
     const lockedUntil = new Date(Date.now() + this.lockDurationMinutes * 60 * 1000);
 
-    await this.userRepository.lockUser(user.id, lockedUntil);
+    await this.userRepositoryPort.lockUser(user.id, lockedUntil);
   }
 
   async handleSuccessfulLogin(user: AuthenticationUser): Promise<void> {
-    await this.authenticationRedis.resetFailedLoginAttempts(user.id);
+    await this.loginAttemptStore.resetAttempts(user.id);
 
-    await this.userRepository.resetLoginSecurityState(user.id);
+    await this.userRepositoryPort.resetLoginSecurityState(user.id);
 
-    await this.userRepository.updateLastLoginAt(user.id, new Date());
+    await this.userRepositoryPort.updateLastLoginAt(user.id, new Date());
   }
 
   invalidCredentials(): Error {
-    return new InvalidCredentialsError();
+    return new InvalidCredentialsDomainError();
   }
 }
