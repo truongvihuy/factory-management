@@ -119,5 +119,21 @@ describe('CacheService', () => {
 
       expect(redisService.exists).toHaveBeenCalledTimes(1);
     });
+
+    it('should propagate Redis errors when getting value', async () => {
+      const error = new Error('Redis unavailable');
+
+      redisService.get.mockRejectedValue(error);
+
+      await expect(service.get('user:key')).rejects.toThrow('Redis unavailable');
+    });
+
+    it('should propagate Redis errors when setting value', async () => {
+      const error = new Error('Redis unavailable');
+
+      redisService.set.mockRejectedValue(error);
+
+      await expect(service.set('user:key', { id: 'user-123' })).rejects.toThrow('Redis unavailable');
+    });
   });
 });
