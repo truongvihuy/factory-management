@@ -1,4 +1,5 @@
 import { Catch, HttpException, type ArgumentsHost, type ExceptionFilter } from '@nestjs/common';
+
 import { ErrorCode } from './error-code';
 
 interface HttpExceptionResponse {

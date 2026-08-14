@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-
 import { ConfigService } from '@nestjs/config';
+
 import { authRedisKeys } from '../keys/auth-redis.keys';
 import { RedisService } from '../redis.service';
 
@@ -11,8 +11,8 @@ export class AuthenticationRedisService {
     private readonly redisService: RedisService,
   ) {}
 
-  private get failureWindowMinutes(): number {
-    return this.configService.getOrThrow<number>('authentication.security.failureWindowMinutes');
+  private get failureWindowSeconds(): number {
+    return this.configService.getOrThrow<number>('authentication.security.failureWindowSeconds');
   }
 
   async getFailedLoginAttempts(userId: string): Promise<number> {
@@ -33,7 +33,7 @@ export class AuthenticationRedisService {
     const attempts = await this.redisService.increment(key);
 
     if (attempts === 1) {
-      await this.redisService.expire(key, this.failureWindowMinutes);
+      await this.redisService.expire(key, this.failureWindowSeconds);
     }
 
     return attempts;

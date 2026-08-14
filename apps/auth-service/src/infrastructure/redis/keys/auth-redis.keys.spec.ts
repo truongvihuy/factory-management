@@ -6,7 +6,7 @@ describe('authRedisKeys', () => {
   });
 
   it('should generate login attempt key', () => {
-    expect(authRedisKeys.loginAttempt('user-123')).toBe('fms:auth:login-attempt:user:user-123');
+    expect(authRedisKeys.failedLoginAttempts('user-123')).toBe('fms:auth:failed-login-attempts:user:user-123');
   });
 
   it('should generate refresh token key', () => {

@@ -25,7 +25,7 @@ export default () => ({
   authentication: {
     security: {
       maxLoginAttempts: Number(process.env.AUTH_MAX_LOGIN_ATTEMPTS),
-      failureWindowMinutes: Number(process.env.AUTH_FAILURE_WINDOWN_MINUTES),
+      failureWindowSeconds: Number(process.env.AUTH_FAILURE_WINDOWN_SECONDS),
       lockDurationMinutes: Number(process.env.AUTH_LOCK_DURATION_MINUTES),
     },
 

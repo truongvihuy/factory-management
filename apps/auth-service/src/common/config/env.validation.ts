@@ -9,7 +9,7 @@ export const envValidationSchema = Joi.object({
 
   AUTH_MAX_LOGIN_ATTEMPTS: Joi.number().integer().min(1).max(20).default(5),
 
-  AUTH_FAILURE_WINDOWN_MINUTES: Joi.number().integer().min(1).max(1440).default(5),
+  AUTH_FAILURE_WINDOWN_SECONDS: Joi.number().integer().min(1).max(86_400).default(500),
 
   AUTH_LOCK_DURATION_MINUTES: Joi.number().integer().min(1).max(1440).default(15),
 

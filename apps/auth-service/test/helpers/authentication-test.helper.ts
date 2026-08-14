@@ -1,5 +1,6 @@
 import { UserStatus } from '../../src/infrastructure/database/prisma/generated';
 import type { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service';
+import { AuthenticationRedisService } from '../../src/infrastructure/redis/authentication/authentication-redis.service';
 
 export const unique = (prefix: string): string => `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
@@ -14,7 +15,6 @@ export const createTestUser = async (
     displayName?: string;
     status?: UserStatus;
     password?: string;
-    failedLoginAttempts?: number;
     lockedUntil?: Date | null;
     lastLoginAt?: Date | null;
   } = {},
@@ -31,7 +31,6 @@ export const createTestUser = async (
       displayName: overrides.displayName ?? 'Integration User',
       passwordHash,
       status: overrides.status ?? UserStatus.ACTIVE,
-      failedLoginAttempts: overrides.failedLoginAttempts ?? 0,
       lockedUntil: overrides.lockedUntil ?? null,
       lastLoginAt: overrides.lastLoginAt ?? null,
     },
@@ -52,4 +51,23 @@ export const deleteTestUser = async (prisma: PrismaService, userId: string): Pro
       id: userId,
     },
   });
+};
+
+/**
+ * Removes all authentication state created by the test.
+ *
+ * PostgreSQL:
+ * - user
+ *
+ * Redis:
+ * - failed login attempts
+ */
+export const cleanupUser = async (
+  authenticationRedis: AuthenticationRedisService,
+  prisma: PrismaService,
+  userId: string,
+): Promise<void> => {
+  await authenticationRedis.resetFailedLoginAttempts(userId);
+
+  await deleteTestUser(prisma, userId);
 };

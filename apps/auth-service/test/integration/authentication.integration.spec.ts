@@ -9,6 +9,8 @@ import { UserStatus } from '../../src/infrastructure/database/prisma/generated';
 import { PrismaModule } from '../../src/infrastructure/database/prisma/prisma.module';
 import { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service';
 import { PrismaUserRepository } from '../../src/infrastructure/database/prisma/repositories/user.repository';
+import { AuthenticationRedisService } from '../../src/infrastructure/redis/authentication/authentication-redis.service';
+import { RedisModule } from '../../src/infrastructure/redis/redis.module';
 import { Argon2PasswordHasherService } from '../../src/infrastructure/security/password/argon2-password-hasher.service';
 import { JwtAccessTokenIssuerService } from '../../src/infrastructure/security/token/jwt-access-token-issuer.service';
 import { AccountInactiveError } from '../../src/modules/authentication/exceptions/account-inactive.error';
@@ -17,23 +19,29 @@ import { InvalidCredentialsError } from '../../src/modules/authentication/except
 import { PasswordHasher } from '../../src/modules/authentication/interfaces/password-hasher.interface';
 import { LoginSecurityPolicy } from '../../src/modules/authentication/services/login-security.policy';
 import { LoginUseCase } from '../../src/modules/authentication/services/login.use-case';
-import { createTestUser, deleteTestUser, findTestUser } from '../helpers/authentication-test.helper';
+
+import { cleanupUser, createTestUser, findTestUser } from '../helpers/authentication-test.helper';
 
 describe('Authentication Integration', () => {
   let module: TestingModule;
+
   let prisma: PrismaService;
   let loginUseCase: LoginUseCase;
-  let passwordHasher: Argon2PasswordHasherService;
+  let passwordHasher: PasswordHasher;
+  let authenticationRedis: AuthenticationRedisService;
 
   const TEST_PASSWORD = 'password123';
   const WRONG_PASSWORD = 'wrong-password';
-  let MAX_FAILED_LOGIN_ATTEMPTS = 5;
+
+  let MAX_FAILED_LOGIN_ATTEMPTS: number;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
       imports: [
         AppConfigModule,
         PrismaModule,
+        RedisModule,
+
         JwtModule.registerAsync({
           inject: [ConfigService],
           useFactory: (config: ConfigService) => ({
@@ -46,6 +54,7 @@ describe('Authentication Integration', () => {
           }),
         }),
       ],
+
       providers: [
         {
           provide: PASSWORD_HANSHER,
@@ -59,15 +68,22 @@ describe('Authentication Integration', () => {
           provide: USER_REPOSITORY,
           useClass: PrismaUserRepository,
         },
+
         LoginSecurityPolicy,
         LoginUseCase,
       ],
     }).compile();
 
     prisma = module.get<PrismaService>(PrismaService);
+
     passwordHasher = module.get<PasswordHasher>(PASSWORD_HANSHER);
+
     loginUseCase = module.get<LoginUseCase>(LoginUseCase);
+
+    authenticationRedis = module.get<AuthenticationRedisService>(AuthenticationRedisService);
+
     const configService = module.get<ConfigService>(ConfigService);
+
     MAX_FAILED_LOGIN_ATTEMPTS = configService.getOrThrow<number>('authentication.security.maxLoginAttempts');
 
     await prisma.$connect();
@@ -79,27 +95,31 @@ describe('Authentication Integration', () => {
   });
 
   describe('valid credentials', () => {
-    it('should login successfully', async () => {
+    it('should login successfully with valid credentials', async () => {
       const user = await createTestUser(prisma, passwordHasher, {
         password: TEST_PASSWORD,
       });
 
-      const result = await loginUseCase.execute(user.username, TEST_PASSWORD);
+      try {
+        const result = await loginUseCase.execute(user.username, TEST_PASSWORD);
 
-      expect(result).toMatchObject({
-        user: {
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          displayName: user.displayName,
-        },
-      });
+        expect(result).toMatchObject({
+          user: {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            displayName: user.displayName,
+          },
+          tokenType: 'Bearer',
+        });
 
-      expect(result.accessToken).toEqual(expect.any(String));
-      expect(result.accessToken.length).toBeGreaterThan(0);
-      expect(result.expiresIn).toBeGreaterThan(0);
-
-      await deleteTestUser(prisma, user.id);
+        expect(result.accessToken).toEqual(expect.any(String));
+        expect(result.accessToken.length).toBeGreaterThan(0);
+        expect(result.expiresIn).toEqual(expect.any(Number));
+        expect(result.expiresIn).toBeGreaterThan(0);
+      } finally {
+        await cleanupUser(authenticationRedis, prisma, user.id);
+      }
     });
   });
 
@@ -107,9 +127,13 @@ describe('Authentication Integration', () => {
     it('should reject invalid password', async () => {
       const user = await createTestUser(prisma, passwordHasher);
 
-      await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(InvalidCredentialsError);
-
-      await deleteTestUser(prisma, user.id);
+      try {
+        await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(
+          InvalidCredentialsError,
+        );
+      } finally {
+        await cleanupUser(authenticationRedis, prisma, user.id);
+      }
     });
   });
 
@@ -127,9 +151,11 @@ describe('Authentication Integration', () => {
         status: UserStatus.INACTIVE,
       });
 
-      await expect(loginUseCase.execute(user.username, TEST_PASSWORD)).rejects.toBeInstanceOf(AccountInactiveError);
-
-      await deleteTestUser(prisma, user.id);
+      try {
+        await expect(loginUseCase.execute(user.username, TEST_PASSWORD)).rejects.toBeInstanceOf(AccountInactiveError);
+      } finally {
+        await cleanupUser(authenticationRedis, prisma, user.id);
+      }
     });
   });
 
@@ -137,75 +163,137 @@ describe('Authentication Integration', () => {
     it('should reject locked user', async () => {
       const user = await createTestUser(prisma, passwordHasher, {
         status: UserStatus.LOCKED,
-        failedLoginAttempts: MAX_FAILED_LOGIN_ATTEMPTS,
       });
 
-      await expect(loginUseCase.execute(user.username, TEST_PASSWORD)).rejects.toBeInstanceOf(AccountLockedError);
-
-      await deleteTestUser(prisma, user.id);
+      try {
+        await expect(loginUseCase.execute(user.username, TEST_PASSWORD)).rejects.toBeInstanceOf(AccountLockedError);
+      } finally {
+        await cleanupUser(authenticationRedis, prisma, user.id);
+      }
     });
   });
 
   describe('failed login attempts', () => {
-    it('should increment failed login attempts', async () => {
+    it('should track failed login attempts in Redis', async () => {
       const user = await createTestUser(prisma, passwordHasher);
 
-      await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(InvalidCredentialsError);
+      try {
+        await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(
+          InvalidCredentialsError,
+        );
 
-      const updatedUser = await findTestUser(prisma, user.id);
+        const attempts = await authenticationRedis.getFailedLoginAttempts(user.id);
 
-      expect(updatedUser?.failedLoginAttempts).toBe(1);
+        expect(attempts).toBe(1);
+      } finally {
+        await cleanupUser(authenticationRedis, prisma, user.id);
+      }
+    });
 
-      await deleteTestUser(prisma, user.id);
+    it('should increment failed login attempts in Redis', async () => {
+      const user = await createTestUser(prisma, passwordHasher);
+
+      try {
+        await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(
+          InvalidCredentialsError,
+        );
+
+        await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(
+          InvalidCredentialsError,
+        );
+
+        const attempts = await authenticationRedis.getFailedLoginAttempts(user.id);
+
+        expect(attempts).toBe(2);
+      } finally {
+        await cleanupUser(authenticationRedis, prisma, user.id);
+      }
+    });
+
+    it('should assign failure window TTL after first failed login', async () => {
+      const user = await createTestUser(prisma, passwordHasher);
+
+      try {
+        await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(
+          InvalidCredentialsError,
+        );
+
+        const ttl = await authenticationRedis.getFailedLoginAttemptsTtl(user.id);
+
+        expect(ttl).toBeGreaterThan(0);
+      } finally {
+        await cleanupUser(authenticationRedis, prisma, user.id);
+      }
     });
   });
 
   describe('account lock threshold', () => {
     it('should lock account after reaching threshold', async () => {
-      const user = await createTestUser(prisma, passwordHasher, {
-        failedLoginAttempts: MAX_FAILED_LOGIN_ATTEMPTS - 1,
-      });
+      const user = await createTestUser(prisma, passwordHasher);
 
-      await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(InvalidCredentialsError);
+      try {
+        for (let attempt = 0; attempt < MAX_FAILED_LOGIN_ATTEMPTS; attempt++) {
+          await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(
+            InvalidCredentialsError,
+          );
+        }
 
-      const updatedUser = await findTestUser(prisma, user.id);
+        const updatedUser = await findTestUser(prisma, user.id);
 
-      expect(updatedUser).toMatchObject({
-        failedLoginAttempts: MAX_FAILED_LOGIN_ATTEMPTS,
-        status: UserStatus.LOCKED,
-      });
+        expect(updatedUser).toMatchObject({
+          status: UserStatus.LOCKED,
+        });
 
-      await deleteTestUser(prisma, user.id);
+        const attempts = await authenticationRedis.getFailedLoginAttempts(user.id);
+
+        expect(attempts).toBe(MAX_FAILED_LOGIN_ATTEMPTS);
+      } finally {
+        await cleanupUser(authenticationRedis, prisma, user.id);
+      }
     });
   });
 
   describe('successful login security state', () => {
-    it('should reset failed login attempts', async () => {
-      const user = await createTestUser(prisma, passwordHasher, {
-        failedLoginAttempts: 3,
-      });
+    it('should reset failed login attempts after successful login', async () => {
+      const user = await createTestUser(prisma, passwordHasher);
 
-      await loginUseCase.execute(user.username, TEST_PASSWORD);
+      try {
+        // Build failed-login state.
+        await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(
+          InvalidCredentialsError,
+        );
 
-      const updatedUser = await findTestUser(prisma, user.id);
+        const failedAttempts = await authenticationRedis.getFailedLoginAttempts(user.id);
 
-      expect(updatedUser?.failedLoginAttempts).toBe(0);
+        expect(failedAttempts).toBe(1);
 
-      await deleteTestUser(prisma, user.id);
+        // Successful login should clear Redis state.
+        await loginUseCase.execute(user.username, TEST_PASSWORD);
+
+        const attemptsAfterSuccess = await authenticationRedis.getFailedLoginAttempts(user.id);
+
+        expect(attemptsAfterSuccess).toBe(0);
+      } finally {
+        await cleanupUser(authenticationRedis, prisma, user.id);
+      }
     });
 
-    it('should update lastLoginAt', async () => {
+    it('should update lastLoginAt after successful login', async () => {
       const user = await createTestUser(prisma, passwordHasher, {
         lastLoginAt: null,
       });
 
-      await loginUseCase.execute(user.username, TEST_PASSWORD);
+      try {
+        expect(user.lastLoginAt).toBeNull();
 
-      const updatedUser = await findTestUser(prisma, user.id);
+        await loginUseCase.execute(user.username, TEST_PASSWORD);
 
-      expect(updatedUser?.lastLoginAt).toEqual(expect.any(Date));
+        const updatedUser = await findTestUser(prisma, user.id);
 
-      await deleteTestUser(prisma, user.id);
+        expect(updatedUser?.lastLoginAt).toEqual(expect.any(Date));
+      } finally {
+        await cleanupUser(authenticationRedis, prisma, user.id);
+      }
     });
   });
 
@@ -213,17 +301,19 @@ describe('Authentication Integration', () => {
     it('should issue access token after successful login', async () => {
       const user = await createTestUser(prisma, passwordHasher);
 
-      const result = await loginUseCase.execute(user.username, TEST_PASSWORD);
+      try {
+        const result = await loginUseCase.execute(user.username, TEST_PASSWORD);
 
-      expect(result.accessToken).toEqual(expect.any(String));
+        expect(result.accessToken).toEqual(expect.any(String));
 
-      expect(result.accessToken.length).toBeGreaterThan(0);
+        expect(result.accessToken.length).toBeGreaterThan(0);
 
-      expect(result.expiresIn).toEqual(expect.any(Number));
+        expect(result.expiresIn).toEqual(expect.any(Number));
 
-      expect(result.expiresIn).toBeGreaterThan(0);
-
-      await deleteTestUser(prisma, user.id);
+        expect(result.expiresIn).toBeGreaterThan(0);
+      } finally {
+        await cleanupUser(authenticationRedis, prisma, user.id);
+      }
     });
   });
 });
