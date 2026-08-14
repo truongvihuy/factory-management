@@ -67,7 +67,6 @@ describe('Authentication E2E', () => {
         displayName: 'E2E Huy',
         passwordHash,
         status: options.status ?? UserStatus.ACTIVE,
-        failedLoginAttempts: 0,
         lockedUntil: null,
         lastLoginAt: null,
       },
