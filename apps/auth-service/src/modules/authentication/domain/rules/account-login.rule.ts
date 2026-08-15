@@ -1,6 +1,6 @@
-import { AccountInactiveError } from '../domain-errors/account-inactive.error';
-import { AccountLockedError } from '../domain-errors/account-locked.error';
 import { AuthenticationUser } from '../entities/authentication-user.entity';
+import { AccountInactiveError } from '../errors/account-inactive.error';
+import { AccountLockedError } from '../errors/account-locked.error';
 
 export class AccountLoginRule {
   static ensureCanLogin(user: AuthenticationUser): void {

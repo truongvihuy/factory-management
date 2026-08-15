@@ -1,9 +1,9 @@
-import { InvalidCredentialsError } from '../../domain/domain-errors/invalid-credentials.error';
 import {
   AuthenticationUser,
   AuthenticationUserProps,
   AuthenticationUserStatus,
 } from '../../domain/entities/authentication-user.entity';
+import { InvalidCredentialsError } from '../../domain/errors/invalid-credentials.error';
 import type { UserRepositoryPort } from '../../domain/ports/user-repository.port';
 import { AccountLoginRule } from '../../domain/rules/account-login.rule';
 import { LoginSecurityPolicy } from '../policies/login-security.policy';

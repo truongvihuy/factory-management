@@ -1,10 +1,10 @@
-import { AccountInactiveError } from '../domain-errors/account-inactive.error';
-import { AccountLockedError } from '../domain-errors/account-locked.error';
 import {
   AuthenticationUser,
   AuthenticationUserStatus,
   type AuthenticationUserProps,
 } from '../entities/authentication-user.entity';
+import { AccountInactiveError } from '../errors/account-inactive.error';
+import { AccountLockedError } from '../errors/account-locked.error';
 import { AccountLoginRule } from './account-login.rule';
 
 describe('AccountLoginRule', () => {
