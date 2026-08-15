@@ -1,4 +1,4 @@
-import { LoginIdentifier } from './login-identifier';
+import { LoginIdentifier } from './login-identifier.vo';
 
 describe('LoginIdentifier', () => {
   describe('create', () => {
