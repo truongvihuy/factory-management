@@ -1,8 +1,8 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 
+import { LoginUseCase } from '../../application/use-cases/login.use-case';
 import type { LoginDto } from '../dto/login.dto';
 import { AuthenticationExceptionMapper } from '../mappers/authentication-exception.mapper';
-import { LoginUseCase } from '../services/login.use-case';
 
 @Controller('auth')
 export class AuthenticationController {

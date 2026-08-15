@@ -1,23 +1,16 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { InvalidCredentialsError } from '../../domain/domain-errors/invalid-credentials.error';
+import type { UserRepositoryPort } from '../../domain/ports/user-repository.port';
+import { AccountLoginRule } from '../../domain/rules/account-login.rule';
+import { LoginSecurityPolicy } from '../policies/login-security.policy';
+import type { AccessTokenIssuerPort } from '../ports/access-token-issuer.port';
+import type { PasswordHasherPort } from '../ports/password-hasher.port';
+import type { AuthenticationResult } from '../results/login.result';
 
-import { ACCESS_TOKEN_ISSUER, PASSWORD_HANSHER, USER_REPOSITORY } from '@/common/constants/authentication.constants';
-
-import type { UserRepositoryPort } from '../domain/ports/user-repository.port';
-import { AccountLoginRule } from '../domain/rules/account-login.rule';
-import type { AccessTokenIssuer } from '../interfaces/access-token-issuer.interface';
-import type { AuthenticationResult } from '../interfaces/authentication.types';
-import type { PasswordHasher } from '../interfaces/password-hasher.interface';
-import { LoginSecurityPolicy } from './login-security.policy';
-
-@Injectable()
 export class LoginUseCase {
   constructor(
-    @Inject(USER_REPOSITORY)
     private readonly userRepositoryPort: UserRepositoryPort,
-    @Inject(PASSWORD_HANSHER)
-    private readonly passwordHasher: PasswordHasher,
-    @Inject(ACCESS_TOKEN_ISSUER)
-    private readonly accessTokenIssuer: AccessTokenIssuer,
+    private readonly passwordHasher: PasswordHasherPort,
+    private readonly accessTokenIssuer: AccessTokenIssuerPort,
     private readonly loginSecurityPolicy: LoginSecurityPolicy,
   ) {}
 
@@ -25,7 +18,7 @@ export class LoginUseCase {
     const user = await this.userRepositoryPort.findByIdentifier(identifier);
 
     if (!user) {
-      throw this.loginSecurityPolicy.invalidCredentials();
+      throw new InvalidCredentialsError();
     }
 
     AccountLoginRule.ensureCanLogin(user);
@@ -35,7 +28,7 @@ export class LoginUseCase {
     if (!passwordValid) {
       await this.loginSecurityPolicy.handleFailedLogin(user);
 
-      throw this.loginSecurityPolicy.invalidCredentials();
+      throw new InvalidCredentialsError();
     }
 
     await this.loginSecurityPolicy.handleSuccessfulLogin(user);

@@ -1,15 +1,15 @@
+import { AccountInactiveError } from '../domain-errors/account-inactive.error';
+import { AccountLockedError } from '../domain-errors/account-locked.error';
 import { AuthenticationUser } from '../entities/authentication-user.entity';
-import { AccountInactiveDomainError } from '../exceptions/account-inactive.domain-error';
-import { AccountLockedDomainError } from '../exceptions/account-locked.domain-error';
 
 export class AccountLoginRule {
   static ensureCanLogin(user: AuthenticationUser): void {
     if (user.isInactive()) {
-      throw new AccountInactiveDomainError();
+      throw new AccountInactiveError();
     }
 
     if (user.isLocked()) {
-      throw new AccountLockedDomainError();
+      throw new AccountLockedError();
     }
   }
 }

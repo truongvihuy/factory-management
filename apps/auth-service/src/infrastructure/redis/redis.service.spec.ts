@@ -1,15 +1,10 @@
-import { ConfigService } from '@nestjs/config';
 import Redis from 'ioredis';
 
 import { RedisService } from './redis.service';
 
-jest.mock('ioredis');
-
 describe('RedisService', () => {
   let service: RedisService;
   let redisClient: jest.Mocked<Redis>;
-
-  const redisUrl = 'redis://localhost:6379';
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -27,24 +22,11 @@ describe('RedisService', () => {
       status: 'ready',
     } as unknown as jest.Mocked<Redis>;
 
-    (Redis as unknown as jest.Mock).mockImplementation(() => redisClient);
-
-    const configService = {
-      getOrThrow: jest.fn().mockReturnValue(redisUrl),
-    } as unknown as ConfigService;
-
-    service = new RedisService(configService);
+    service = new RedisService(redisClient);
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
-  });
-
-  describe('constructor', () => {
-    it('should create Redis client using configured URL', () => {
-      expect(Redis).toHaveBeenCalledTimes(1);
-      expect(Redis).toHaveBeenCalledWith(redisUrl);
-    });
   });
 
   describe('onModuleInit', () => {

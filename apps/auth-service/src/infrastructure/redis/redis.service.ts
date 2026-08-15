@@ -1,17 +1,15 @@
-import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Inject, Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import Redis from 'ioredis';
 
+import { CACHE } from '@/common/constants/authentication.constants';
 import type { RedisStore } from './interfaces/redis-store.interface';
 
 @Injectable()
 export class RedisService implements RedisStore, OnModuleInit, OnModuleDestroy {
-  private client: Redis;
-
-  constructor(readonly configService: ConfigService) {
-    const connectionString = configService.getOrThrow<string>('redis.url');
-    this.client = new Redis(connectionString);
-  }
+  constructor(
+    @Inject(CACHE)
+    private readonly client: Redis,
+  ) {}
 
   async onModuleInit(): Promise<void> {
     await this.client.ping();

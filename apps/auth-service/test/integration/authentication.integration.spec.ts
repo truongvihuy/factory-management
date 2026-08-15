@@ -3,28 +3,18 @@ import { JwtModule } from '@nestjs/jwt';
 import { Test, type TestingModule } from '@nestjs/testing';
 
 import { AppConfigModule } from '../../src/common/config/config.module';
-import {
-  ACCESS_TOKEN_ISSUER,
-  LOGIN_ATTEMPT_STORE,
-  PASSWORD_HANSHER,
-  USER_REPOSITORY,
-} from '../../src/common/constants/authentication.constants';
+import { LOGIN_ATTEMPT_STORE, PASSWORD_HANSHER } from '../../src/common/constants/authentication.constants';
 import { UserStatus } from '../../src/infrastructure/database/prisma/generated';
 import { PrismaModule } from '../../src/infrastructure/database/prisma/prisma.module';
 import { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service';
-import { PrismaUserRepository } from '../../src/infrastructure/database/prisma/repositories/user.repository';
-import { RedisLoginAttemptStore } from '../../src/infrastructure/redis/authentication/login-attempt.store';
 import { RedisModule } from '../../src/infrastructure/redis/redis.module';
-import { Argon2PasswordHasherService } from '../../src/infrastructure/security/password/argon2-password-hasher.service';
-import { JwtAccessTokenIssuerService } from '../../src/infrastructure/security/token/jwt-access-token-issuer.service';
-import { AccountInactiveDomainError } from '../../src/modules/authentication/domain/exceptions/account-inactive.domain-error';
-import { AccountLockedDomainError } from '../../src/modules/authentication/domain/exceptions/account-locked.domain-error';
-import { InvalidCredentialsDomainError } from '../../src/modules/authentication/domain/exceptions/invalid-credentials.domain-error';
-import { LoginAttemptStore } from '../../src/modules/authentication/interfaces/login-attempt-store.interface';
-import { PasswordHasher } from '../../src/modules/authentication/interfaces/password-hasher.interface';
-import { LoginSecurityPolicy } from '../../src/modules/authentication/services/login-security.policy';
-import { LoginUseCase } from '../../src/modules/authentication/services/login.use-case';
-
+import { LoginAttemptStorePort } from '../../src/modules/authentication/application/ports/login-attempt-store.port';
+import { PasswordHasherPort } from '../../src/modules/authentication/application/ports/password-hasher.port';
+import { LoginUseCase } from '../../src/modules/authentication/application/use-cases/login.use-case';
+import { AuthenticationModule } from '../../src/modules/authentication/authentication.module';
+import { AccountInactiveError } from '../../src/modules/authentication/domain/domain-errors/account-inactive.error';
+import { AccountLockedError } from '../../src/modules/authentication/domain/domain-errors/account-locked.error';
+import { InvalidCredentialsError } from '../../src/modules/authentication/domain/domain-errors/invalid-credentials.error';
 import { cleanupUser, createTestUser, findTestUser } from '../helpers/authentication-test.helper';
 
 describe('Authentication Integration', () => {
@@ -32,8 +22,8 @@ describe('Authentication Integration', () => {
 
   let prisma: PrismaService;
   let loginUseCase: LoginUseCase;
-  let passwordHasher: PasswordHasher;
-  let loginAttemptStore: LoginAttemptStore;
+  let passwordHasher: PasswordHasherPort;
+  let loginAttemptStore: LoginAttemptStorePort;
 
   const TEST_PASSWORD = 'password123';
   const WRONG_PASSWORD = 'wrong-password';
@@ -44,9 +34,6 @@ describe('Authentication Integration', () => {
     module = await Test.createTestingModule({
       imports: [
         AppConfigModule,
-        PrismaModule,
-        RedisModule,
-
         JwtModule.registerAsync({
           inject: [ConfigService],
           useFactory: (config: ConfigService) => ({
@@ -58,39 +45,18 @@ describe('Authentication Integration', () => {
             },
           }),
         }),
-      ],
 
-      providers: [
-        {
-          provide: PASSWORD_HANSHER,
-          useClass: Argon2PasswordHasherService,
-        },
-        {
-          provide: ACCESS_TOKEN_ISSUER,
-          useClass: JwtAccessTokenIssuerService,
-        },
-        {
-          provide: USER_REPOSITORY,
-          useClass: PrismaUserRepository,
-        },
-        {
-          provide: LOGIN_ATTEMPT_STORE,
-          useClass: RedisLoginAttemptStore,
-        },
+        PrismaModule,
+        RedisModule,
 
-        LoginSecurityPolicy,
-        LoginUseCase,
+        AuthenticationModule,
       ],
     }).compile();
 
     prisma = module.get<PrismaService>(PrismaService);
-
-    passwordHasher = module.get<PasswordHasher>(PASSWORD_HANSHER);
-
+    passwordHasher = module.get<PasswordHasherPort>(PASSWORD_HANSHER);
     loginUseCase = module.get<LoginUseCase>(LoginUseCase);
-
-    loginAttemptStore = module.get<LoginAttemptStore>(LOGIN_ATTEMPT_STORE);
-
+    loginAttemptStore = module.get<LoginAttemptStorePort>(LOGIN_ATTEMPT_STORE);
     const configService = module.get<ConfigService>(ConfigService);
 
     MAX_FAILED_LOGIN_ATTEMPTS = configService.getOrThrow<number>('authentication.security.maxLoginAttempts');
@@ -138,7 +104,7 @@ describe('Authentication Integration', () => {
 
       try {
         await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(
-          InvalidCredentialsDomainError,
+          InvalidCredentialsError,
         );
       } finally {
         await cleanupUser(loginAttemptStore, prisma, user.id);
@@ -149,7 +115,7 @@ describe('Authentication Integration', () => {
   describe('unknown user', () => {
     it('should reject unknown user', async () => {
       await expect(loginUseCase.execute('integration-user-not-found', TEST_PASSWORD)).rejects.toBeInstanceOf(
-        InvalidCredentialsDomainError,
+        InvalidCredentialsError,
       );
     });
   });
@@ -161,9 +127,7 @@ describe('Authentication Integration', () => {
       });
 
       try {
-        await expect(loginUseCase.execute(user.username, TEST_PASSWORD)).rejects.toBeInstanceOf(
-          AccountInactiveDomainError,
-        );
+        await expect(loginUseCase.execute(user.username, TEST_PASSWORD)).rejects.toBeInstanceOf(AccountInactiveError);
       } finally {
         await cleanupUser(loginAttemptStore, prisma, user.id);
       }
@@ -177,9 +141,7 @@ describe('Authentication Integration', () => {
       });
 
       try {
-        await expect(loginUseCase.execute(user.username, TEST_PASSWORD)).rejects.toBeInstanceOf(
-          AccountLockedDomainError,
-        );
+        await expect(loginUseCase.execute(user.username, TEST_PASSWORD)).rejects.toBeInstanceOf(AccountLockedError);
       } finally {
         await cleanupUser(loginAttemptStore, prisma, user.id);
       }
@@ -192,10 +154,10 @@ describe('Authentication Integration', () => {
 
       try {
         await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(
-          InvalidCredentialsDomainError,
+          InvalidCredentialsError,
         );
 
-        const attempts = await loginAttemptStore.getAttempts(user.id);
+        const attempts = await loginAttemptStore.getFailedAttempts(user.id);
 
         expect(attempts).toBe(1);
       } finally {
@@ -208,14 +170,14 @@ describe('Authentication Integration', () => {
 
       try {
         await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(
-          InvalidCredentialsDomainError,
+          InvalidCredentialsError,
         );
 
         await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(
-          InvalidCredentialsDomainError,
+          InvalidCredentialsError,
         );
 
-        const attempts = await loginAttemptStore.getAttempts(user.id);
+        const attempts = await loginAttemptStore.getFailedAttempts(user.id);
 
         expect(attempts).toBe(2);
       } finally {
@@ -228,7 +190,7 @@ describe('Authentication Integration', () => {
 
       try {
         await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(
-          InvalidCredentialsDomainError,
+          InvalidCredentialsError,
         );
 
         const ttl = await loginAttemptStore.getTtl(user.id);
@@ -247,7 +209,7 @@ describe('Authentication Integration', () => {
       try {
         for (let attempt = 0; attempt < MAX_FAILED_LOGIN_ATTEMPTS; attempt++) {
           await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(
-            InvalidCredentialsDomainError,
+            InvalidCredentialsError,
           );
         }
 
@@ -257,7 +219,7 @@ describe('Authentication Integration', () => {
           status: UserStatus.LOCKED,
         });
 
-        const attempts = await loginAttemptStore.getAttempts(user.id);
+        const attempts = await loginAttemptStore.getFailedAttempts(user.id);
 
         expect(attempts).toBe(MAX_FAILED_LOGIN_ATTEMPTS);
       } finally {
@@ -273,17 +235,17 @@ describe('Authentication Integration', () => {
       try {
         // Build failed-login state.
         await expect(loginUseCase.execute(user.username, WRONG_PASSWORD)).rejects.toBeInstanceOf(
-          InvalidCredentialsDomainError,
+          InvalidCredentialsError,
         );
 
-        const failedAttempts = await loginAttemptStore.getAttempts(user.id);
+        const failedAttempts = await loginAttemptStore.getFailedAttempts(user.id);
 
         expect(failedAttempts).toBe(1);
 
         // Successful login should clear Redis state.
         await loginUseCase.execute(user.username, TEST_PASSWORD);
 
-        const attemptsAfterSuccess = await loginAttemptStore.getAttempts(user.id);
+        const attemptsAfterSuccess = await loginAttemptStore.getFailedAttempts(user.id);
 
         expect(attemptsAfterSuccess).toBe(0);
       } finally {

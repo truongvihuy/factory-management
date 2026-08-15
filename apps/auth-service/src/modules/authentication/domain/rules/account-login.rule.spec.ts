@@ -1,10 +1,10 @@
+import { AccountInactiveError } from '../domain-errors/account-inactive.error';
+import { AccountLockedError } from '../domain-errors/account-locked.error';
 import {
   AuthenticationUser,
   AuthenticationUserStatus,
   type AuthenticationUserProps,
 } from '../entities/authentication-user.entity';
-import { AccountInactiveDomainError } from '../exceptions/account-inactive.domain-error';
-import { AccountLockedDomainError } from '../exceptions/account-locked.domain-error';
 import { AccountLoginRule } from './account-login.rule';
 
 describe('AccountLoginRule', () => {
@@ -42,7 +42,7 @@ describe('AccountLoginRule', () => {
         status: AuthenticationUserStatus.INACTIVE,
       });
 
-      expect(() => AccountLoginRule.ensureCanLogin(user)).toThrow(AccountInactiveDomainError);
+      expect(() => AccountLoginRule.ensureCanLogin(user)).toThrow(AccountInactiveError);
     });
   });
 
@@ -55,7 +55,7 @@ describe('AccountLoginRule', () => {
         lockedUntil,
       });
 
-      expect(() => AccountLoginRule.ensureCanLogin(user)).toThrow(AccountLockedDomainError);
+      expect(() => AccountLoginRule.ensureCanLogin(user)).toThrow(AccountLockedError);
     });
 
     it('should reject login when lockedUntil is null', () => {
@@ -64,7 +64,7 @@ describe('AccountLoginRule', () => {
         lockedUntil: null,
       });
 
-      expect(() => AccountLoginRule.ensureCanLogin(user)).toThrow(AccountLockedDomainError);
+      expect(() => AccountLoginRule.ensureCanLogin(user)).toThrow(AccountLockedError);
     });
 
     it('should allow login when lock has expired', () => {

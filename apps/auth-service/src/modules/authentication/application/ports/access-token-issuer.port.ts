@@ -7,6 +7,6 @@ export interface AccessTokenResult {
   expiresIn: number;
 }
 
-export interface AccessTokenIssuer {
-  issue(payload: { userId: string }): Promise<AccessTokenResult>;
+export interface AccessTokenIssuerPort {
+  issue(payload: AccessTokenPayload): Promise<AccessTokenResult>;
 }

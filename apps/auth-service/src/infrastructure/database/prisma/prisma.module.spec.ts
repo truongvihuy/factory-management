@@ -2,25 +2,23 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { AppConfigModule } from '@/common/config/config.module';
 
+import { PrismaModule } from './prisma.module';
 import { PrismaService } from './prisma.service';
 
 describe('PrismaService', () => {
-  let prisma: PrismaService;
   let module: TestingModule;
+  let prisma: PrismaService;
 
   beforeAll(async () => {
     // create testing module
     module = await Test.createTestingModule({
-      imports: [AppConfigModule],
-      providers: [PrismaService],
+      imports: [AppConfigModule, PrismaModule],
     }).compile();
 
     prisma = module.get<PrismaService>(PrismaService);
-    await prisma.$connect();
   });
 
   afterAll(async () => {
-    await prisma.$disconnect();
     await module.close();
   });
 

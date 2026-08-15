@@ -3,13 +3,13 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
 import type {
-  AccessTokenIssuer,
+  AccessTokenIssuerPort,
   AccessTokenPayload,
   AccessTokenResult,
-} from '@/modules/authentication/interfaces/access-token-issuer.interface';
+} from '@/modules/authentication/application/ports/access-token-issuer.port';
 
 @Injectable()
-export class JwtAccessTokenIssuerService implements AccessTokenIssuer {
+export class JwtAccessTokenIssuerService implements AccessTokenIssuerPort {
   constructor(
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,

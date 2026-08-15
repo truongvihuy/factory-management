@@ -1,11 +1,9 @@
 import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 
-import type { AuthenticationIdentifier } from '../interfaces/authentication.types';
-
 export class LoginDto {
   @IsString()
   @IsNotEmpty()
-  identifier!: AuthenticationIdentifier;
+  identifier!: string;
 
   @IsString()
   @IsNotEmpty()

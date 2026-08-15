@@ -1,6 +1,8 @@
 import { Global, Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { PrismaPg } from '@prisma/adapter-pg';
 
-import { USER_REPOSITORY } from '@/common/constants/authentication.constants';
+import { DATABASE, USER_REPOSITORY } from '@/common/constants/authentication.constants';
 
 import { PrismaService } from './prisma.service';
 import { PrismaUserRepository } from './repositories/user.repository';
@@ -12,6 +14,14 @@ import { PrismaUserRepository } from './repositories/user.repository';
     {
       provide: USER_REPOSITORY,
       useClass: PrismaUserRepository,
+    },
+    {
+      provide: DATABASE,
+      useFactory: (configService: ConfigService) => {
+        const connectionString = configService.getOrThrow('database.url');
+        return new PrismaPg({ connectionString });
+      },
+      inject: [ConfigService],
     },
   ],
   exports: [

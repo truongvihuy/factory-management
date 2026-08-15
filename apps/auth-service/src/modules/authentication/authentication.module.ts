@@ -3,9 +3,9 @@ import { Module } from '@nestjs/common';
 import { PashwordHasherModule } from '@/infrastructure/security/password/password-hasher.module';
 import { AccessTokenIssuerModule } from '@/infrastructure/security/token/access-token-issuer.module';
 
-import { AuthenticationController } from './controllers/authentication.controller';
-import { LoginSecurityPolicy } from './services/login-security.policy';
-import { LoginUseCase } from './services/login.use-case';
+import { LoginSecurityPolicy } from './application/policies/login-security.policy';
+import { LoginUseCase } from './application/use-cases/login.use-case';
+import { AuthenticationController } from './presentation/controllers/authentication.controller';
 
 @Module({
   imports: [PashwordHasherModule, AccessTokenIssuerModule],

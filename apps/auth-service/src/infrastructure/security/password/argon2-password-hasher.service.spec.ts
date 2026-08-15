@@ -1,5 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
+
 import { Argon2PasswordHasherService } from './argon2-password-hasher.service';
 
 describe('Argon2PasswordHasherService', () => {
@@ -97,7 +98,7 @@ describe('Argon2PasswordHasherService', () => {
         const hash = await service.hash('password123');
 
         expect(hash).toContain('$argon2id$');
-        expect(hash).toContain('m=32768,t=2,p=1');
+        expect(hash).toContain('m=32768,p=1,t=2');
       });
     });
   });

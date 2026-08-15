@@ -1,6 +1,6 @@
 import { UserStatus } from '../../src/infrastructure/database/prisma/generated';
 import type { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service';
-import { LoginAttemptStore } from '../../src/modules/authentication/interfaces/login-attempt-store.interface';
+import { LoginAttemptStorePort } from '../../src/modules/authentication/application/ports/login-attempt-store.port';
 
 export const unique = (prefix: string): string => `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
@@ -63,11 +63,11 @@ export const deleteTestUser = async (prisma: PrismaService, userId: string): Pro
  * - failed login attempts
  */
 export const cleanupUser = async (
-  loginAttemptStore: LoginAttemptStore,
+  loginAttemptStore: LoginAttemptStorePort,
   prisma: PrismaService,
   userId: string,
 ): Promise<void> => {
-  await loginAttemptStore.resetAttempts(userId);
+  await loginAttemptStore.resetFailedAttempts(userId);
 
   await deleteTestUser(prisma, userId);
 };

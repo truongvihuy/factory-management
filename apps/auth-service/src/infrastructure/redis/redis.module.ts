@@ -1,8 +1,10 @@
 import { Global, Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import Redis from 'ioredis';
 
-import { LOGIN_ATTEMPT_STORE } from '@/common/constants/authentication.constants';
+import { CACHE, LOGIN_ATTEMPT_STORE } from '@/common/constants/authentication.constants';
 
-import { RedisLoginAttemptStore } from './authentication/login-attempt.store';
+import { RedisLoginAttemptStore } from './authentication/redis-login-attempt.store';
 import { RedisService } from './redis.service';
 
 @Global()
@@ -12,6 +14,14 @@ import { RedisService } from './redis.service';
     {
       provide: LOGIN_ATTEMPT_STORE,
       useClass: RedisLoginAttemptStore,
+    },
+    {
+      provide: CACHE,
+      useFactory: (configService: ConfigService) => {
+        const connectionString = configService.getOrThrow<string>('redis.url');
+        return new Redis(connectionString);
+      },
+      inject: [ConfigService],
     },
   ],
   exports: [
