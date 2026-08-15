@@ -17,14 +17,14 @@ import { RedisLoginAttemptStore } from '../../src/infrastructure/redis/authentic
 import { RedisModule } from '../../src/infrastructure/redis/redis.module';
 import { Argon2PasswordHasherService } from '../../src/infrastructure/security/password/argon2-password-hasher.service';
 import { JwtAccessTokenIssuerService } from '../../src/infrastructure/security/token/jwt-access-token-issuer.service';
+import { AccountInactiveDomainError } from '../../src/modules/authentication/domain/exceptions/account-inactive.domain-error';
+import { AccountLockedDomainError } from '../../src/modules/authentication/domain/exceptions/account-locked.domain-error';
+import { InvalidCredentialsDomainError } from '../../src/modules/authentication/domain/exceptions/invalid-credentials.domain-error';
 import { LoginAttemptStore } from '../../src/modules/authentication/interfaces/login-attempt-store.interface';
 import { PasswordHasher } from '../../src/modules/authentication/interfaces/password-hasher.interface';
 import { LoginSecurityPolicy } from '../../src/modules/authentication/services/login-security.policy';
 import { LoginUseCase } from '../../src/modules/authentication/services/login.use-case';
 
-import { AccountInactiveDomainError } from '../../src/modules/authentication/domain/exceptions/account-inactive.domain-error';
-import { AccountLockedDomainError } from '../../src/modules/authentication/domain/exceptions/account-locked.domain-error';
-import { InvalidCredentialsDomainError } from '../../src/modules/authentication/domain/exceptions/invalid-credentials.domain-error';
 import { cleanupUser, createTestUser, findTestUser } from '../helpers/authentication-test.helper';
 
 describe('Authentication Integration', () => {
