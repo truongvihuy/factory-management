@@ -1,56 +1,14 @@
 import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
 
-import {
-  ACCESS_TOKEN_ISSUER,
-  LOGIN_ATTEMPT_STORE,
-  PASSWORD_HANSHER,
-  USER_REPOSITORY,
-} from '@/common/constants/authentication.constants';
-import { PrismaUserRepository } from '@/infrastructure/database/prisma/repositories/user.repository';
-import { RedisLoginAttemptStore } from '@/infrastructure/redis/authentication/login-attempt.store';
-import { Argon2PasswordHasherService } from '@/infrastructure/security/password/argon2-password-hasher.service';
-import { JwtAccessTokenIssuerService } from '@/infrastructure/security/token/jwt-access-token-issuer.service';
-
+import { PashwordHasherModule } from '@/infrastructure/security/password/password-hasher.module';
+import { AccessTokenIssuerModule } from '@/infrastructure/security/token/access-token-issuer.module';
 import { AuthenticationController } from './controllers/authentication.controller';
 import { LoginSecurityPolicy } from './services/login-security.policy';
 import { LoginUseCase } from './services/login.use-case';
 
 @Module({
-  imports: [
-    JwtModule.registerAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        secret: config.getOrThrow<string>('authentication.token.secret'),
-        issuer: config.getOrThrow<string>('authentication.token.issuer'),
-        audience: config.getOrThrow<string>('authentication.token.audience'),
-        signOptions: {
-          expiresIn: config.getOrThrow<number>('authentication.token.accessTokenTtlSeconds'),
-        },
-      }),
-    }),
-  ],
+  imports: [PashwordHasherModule, AccessTokenIssuerModule],
   controllers: [AuthenticationController],
-  providers: [
-    LoginUseCase,
-    {
-      provide: USER_REPOSITORY,
-      useClass: PrismaUserRepository,
-    },
-    {
-      provide: LOGIN_ATTEMPT_STORE,
-      useClass: RedisLoginAttemptStore,
-    },
-    {
-      provide: PASSWORD_HANSHER,
-      useClass: Argon2PasswordHasherService,
-    },
-    {
-      provide: ACCESS_TOKEN_ISSUER,
-      useClass: JwtAccessTokenIssuerService,
-    },
-    LoginSecurityPolicy,
-  ],
+  providers: [LoginUseCase, LoginSecurityPolicy],
 })
 export class AuthenticationModule {}
