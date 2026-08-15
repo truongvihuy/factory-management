@@ -6,12 +6,12 @@ import { AppModule } from '../../src/app.module';
 import { PASSWORD_HANSHER } from '../../src/common/constants/authentication.constants';
 import { UserStatus } from '../../src/infrastructure/database/prisma/generated';
 import { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service';
-import { PasswordHasher } from '../../src/modules/authentication/interfaces/password-hasher.interface';
+import { PasswordHasherPort } from '../../src/modules/authentication/application/ports/password-hasher.port';
 
 describe('Authentication E2E', () => {
   let app: INestApplication;
   let prisma: PrismaService;
-  let passwordHasher: PasswordHasher;
+  let passwordHasher: PasswordHasherPort;
 
   const TEST_PASSWORD = 'password123';
   const WRONG_PASSWORD = 'wrong-password';
@@ -31,7 +31,7 @@ describe('Authentication E2E', () => {
     await app.init();
 
     prisma = moduleFixture.get<PrismaService>(PrismaService);
-    passwordHasher = moduleFixture.get<PasswordHasher>(PASSWORD_HANSHER);
+    passwordHasher = moduleFixture.get<PasswordHasherPort>(PASSWORD_HANSHER);
   });
 
   afterAll(async () => {
