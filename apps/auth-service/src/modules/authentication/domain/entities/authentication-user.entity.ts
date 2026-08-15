@@ -11,12 +11,29 @@ export interface AuthenticationUserProps {
   displayName: string;
   passwordHash: string;
   status: AuthenticationUserStatus;
-  lockedUntil: Date | null;
-  lastLoginAt: Date | null;
+  lockedUntil?: Date | null;
+  lastLoginAt?: Date | null;
 }
 
 export class AuthenticationUser {
   constructor(private readonly props: AuthenticationUserProps) {}
+
+  static create(props: AuthenticationUserProps): AuthenticationUser {
+    if (!props.id.trim()) {
+      throw new Error('User id cannot be empty');
+    }
+
+    return new AuthenticationUser({
+      id: props.id,
+      username: props.username,
+      email: props.email,
+      displayName: props.displayName,
+      passwordHash: props.passwordHash,
+      status: props.status,
+      lockedUntil: props.lockedUntil ?? null,
+      lastLoginAt: props.lastLoginAt ?? null,
+    });
+  }
 
   get id(): string {
     return this.props.id;
@@ -43,11 +60,11 @@ export class AuthenticationUser {
   }
 
   get lockedUntil(): Date | null {
-    return this.props.lockedUntil;
+    return this.props.lockedUntil ?? null;
   }
 
   get lastLoginAt(): Date | null {
-    return this.props.lastLoginAt;
+    return this.props.lastLoginAt ?? null;
   }
 
   isInactive(): boolean {
@@ -59,7 +76,7 @@ export class AuthenticationUser {
       return false;
     }
 
-    if (this.props.lockedUntil === null) {
+    if (!this.props.lockedUntil) {
       return true;
     }
 

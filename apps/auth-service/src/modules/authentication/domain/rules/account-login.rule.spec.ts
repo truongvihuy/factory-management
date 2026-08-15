@@ -20,7 +20,7 @@ describe('AccountLoginRule', () => {
   };
 
   const createUser = (overrides: Partial<AuthenticationUserProps> = {}): AuthenticationUser => {
-    return new AuthenticationUser({
+    return AuthenticationUser.create({
       ...baseProps,
       ...overrides,
     });

@@ -1,8 +1,4 @@
-import {
-  AuthenticationUser,
-  AuthenticationUserProps,
-  AuthenticationUserStatus,
-} from '../../domain/entities/authentication-user.entity';
+import { AuthenticationUser, AuthenticationUserStatus } from '../../domain/entities/authentication-user.entity';
 import { InvalidCredentialsError } from '../../domain/errors/invalid-credentials.error';
 import type { UserRepositoryPort } from '../../domain/ports/user-repository.port';
 import { AccountLoginRule } from '../../domain/rules/account-login.rule';
@@ -20,14 +16,14 @@ describe('LoginUseCase', () => {
   let accessTokenIssuer: jest.Mocked<AccessTokenIssuerPort>;
   let loginSecurityPolicy: jest.Mocked<LoginSecurityPolicy>;
 
-  const user = new AuthenticationUser({
+  const user = AuthenticationUser.create({
     id: 'user-123',
     username: 'huy',
     email: 'huy@example.com',
     displayName: 'Huy',
     passwordHash: 'hashed-password',
     status: AuthenticationUserStatus.ACTIVE,
-  } as AuthenticationUserProps);
+  });
 
   const accessToken = {
     accessToken: 'access-token-123',

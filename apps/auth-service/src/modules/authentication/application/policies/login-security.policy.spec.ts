@@ -1,9 +1,5 @@
 import { getCallSites } from 'node:util';
-import {
-  AuthenticationUser,
-  AuthenticationUserProps,
-  AuthenticationUserStatus,
-} from '../../domain/entities/authentication-user.entity';
+import { AuthenticationUser, AuthenticationUserStatus } from '../../domain/entities/authentication-user.entity';
 import type { UserRepositoryPort } from '../../domain/ports/user-repository.port';
 import type { LoginAttemptStorePort } from '../ports/login-attempt-store.port';
 import { LoginSecurityPolicy, type LoginSecurityConfig } from './login-security.policy';
@@ -41,14 +37,14 @@ describe('LoginSecurityPolicy', () => {
 
     policy = new LoginSecurityPolicy(userRepositoryPort, loginAttemptStore, config);
 
-    user = new AuthenticationUser({
+    user = AuthenticationUser.create({
       id: 'user-123',
       username: 'huy',
       email: 'huy@example.com',
       displayName: 'Huy',
       passwordHash: 'hashed-password',
       status: AuthenticationUserStatus.ACTIVE,
-    } as AuthenticationUserProps);
+    });
   });
 
   describe('handleFailedLogin', () => {

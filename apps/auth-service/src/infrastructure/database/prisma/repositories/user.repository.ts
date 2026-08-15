@@ -31,7 +31,7 @@ export class PrismaUserRepository implements UserRepositoryPort {
       return null;
     }
 
-    return new AuthenticationUser({
+    return AuthenticationUser.create({
       id: user.id,
       username: user.username,
       email: user.email,

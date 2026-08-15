@@ -17,13 +17,13 @@ describe('AuthenticationUser', () => {
   };
 
   it('should create an authentication user', () => {
-    const user = new AuthenticationUser(props);
+    const user = AuthenticationUser.create(props);
 
     expect(user).toBeInstanceOf(AuthenticationUser);
   });
 
   it('should expose user identity', () => {
-    const user = new AuthenticationUser(props);
+    const user = AuthenticationUser.create(props);
 
     expect(user.id).toBe('user-1');
     expect(user.username).toBe('huy');
@@ -32,7 +32,7 @@ describe('AuthenticationUser', () => {
   });
 
   it('should expose authentication state', () => {
-    const user = new AuthenticationUser(props);
+    const user = AuthenticationUser.create(props);
 
     expect(user.status).toBe(AuthenticationUserStatus.ACTIVE);
     expect(user.lockedUntil).toBeNull();
@@ -40,7 +40,7 @@ describe('AuthenticationUser', () => {
   });
 
   it('should expose password hash', () => {
-    const user = new AuthenticationUser(props);
+    const user = AuthenticationUser.create(props);
 
     expect(user.passwordHash).toBe('hashed-password');
   });
@@ -48,7 +48,7 @@ describe('AuthenticationUser', () => {
   it('should support locked user state', () => {
     const lockedUntil = new Date('2026-08-14T12:00:00.000Z');
 
-    const user = new AuthenticationUser({
+    const user = AuthenticationUser.create({
       ...props,
       status: AuthenticationUserStatus.LOCKED,
       lockedUntil,

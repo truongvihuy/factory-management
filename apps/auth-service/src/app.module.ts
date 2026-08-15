@@ -8,10 +8,6 @@ import { TracingModule } from './common/tracing/tracing.module';
 import { PrismaModule } from './infrastructure/database/prisma/prisma.module';
 import { RedisModule } from './infrastructure/redis/redis.module';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
-import { PermissionsModule } from './modules/permissions/permissions.module';
-import { RolesModule } from './modules/roles/roles.module';
-import { SessionsModule } from './modules/sessions/sessions.module';
-import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -23,11 +19,7 @@ import { UsersModule } from './modules/users/users.module';
     PrismaModule,
     RedisModule,
 
-    UsersModule,
     AuthenticationModule,
-    RolesModule,
-    PermissionsModule,
-    SessionsModule,
   ],
 })
 export class AppModule {
