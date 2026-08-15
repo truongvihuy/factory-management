@@ -35,5 +35,11 @@ export default () => ({
       audience: process.env.JWT_AUDIENCE,
       accessTokenTtlSeconds: Number(process.env.JWT_ACCESS_TOKEN_TTL),
     },
+
+    password: {
+      memoryCost: Number(process.env.PASSWORD_MEMORY_COST),
+      timeCost: Number(process.env.PASSWORD_TIME_COST),
+      parallelism: Number(process.env.PASSWORD_PARALLELISM_COST),
+    },
   },
 });

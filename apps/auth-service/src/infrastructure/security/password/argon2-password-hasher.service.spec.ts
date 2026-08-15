@@ -1,12 +1,39 @@
+import { ConfigService } from '@nestjs/config';
+import { Test, TestingModule } from '@nestjs/testing';
 import { Argon2PasswordHasherService } from './argon2-password-hasher.service';
 
 describe('Argon2PasswordHasherService', () => {
   let service: Argon2PasswordHasherService;
+  let configService: {
+    getOrThrow: jest.Mock;
+  };
 
   const password = 'StrongPassword123!';
 
-  beforeEach(() => {
-    service = new Argon2PasswordHasherService();
+  beforeEach(async () => {
+    configService = {
+      getOrThrow: jest.fn().mockImplementation((key: string) => {
+        const config = {
+          'authentication.password.memoryCost': 32768,
+          'authentication.password.timeCost': 2,
+          'authentication.password.parallelism': 1,
+        };
+
+        return config[key as keyof typeof config];
+      }),
+    };
+
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        Argon2PasswordHasherService,
+        {
+          provide: ConfigService,
+          useValue: configService,
+        },
+      ],
+    }).compile();
+
+    service = module.get<Argon2PasswordHasherService>(Argon2PasswordHasherService);
   });
 
   describe('hash()', () => {
@@ -55,6 +82,15 @@ describe('Argon2PasswordHasherService', () => {
       const result = await service.verify(password, invalidHash);
 
       expect(result).toBe(false);
+    });
+
+    describe('Argon2PasswordHasherService configuration', () => {
+      it('should use configured Argon2 parameters', async () => {
+        const hash = await service.hash('password123');
+
+        expect(hash).toContain('$argon2id$');
+        expect(hash).toContain('m=32768,t=2,p=1');
+      });
     });
   });
 });
