@@ -57,6 +57,14 @@ describe('Argon2PasswordHasherService', () => {
 
       expect(hash1).not.toBe(hash2);
     });
+
+    it('should not contain the plaintext password', async () => {
+      const password = 'password123';
+
+      const hash = await service.hash(password);
+
+      expect(hash).not.toContain(password);
+    });
   });
 
   describe('verify()', () => {
