@@ -33,18 +33,6 @@ import { AuthenticationController } from './presentation/controllers/authenticat
       useClass: RedisLoginAttemptStore,
     },
     {
-      provide: LoginUseCase,
-      useFactory: (
-        repository: AuthenticationContextRepositoryPort,
-        passwordHasher: PasswordHasherPort,
-        accessTokenIssuer: AccessTokenIssuerPort,
-        loginSecurityPolicy: LoginSecurityPolicy,
-      ) => {
-        return new LoginUseCase(repository, passwordHasher, accessTokenIssuer, loginSecurityPolicy);
-      },
-      inject: [AUTHENTICATION_CONTEXT_PORT, PASSWORD_HASHER_PORT, ACCESS_TOKEN_ISSUER_PORT, LoginSecurityPolicy],
-    },
-    {
       provide: LoginSecurityPolicy,
       useFactory: (
         repository: AuthenticationContextRepositoryPort,
@@ -58,6 +46,18 @@ import { AuthenticationController } from './presentation/controllers/authenticat
         return new LoginSecurityPolicy(repository, loginAttemptStore, config);
       },
       inject: [AUTHENTICATION_CONTEXT_PORT, LOGIN_ATTEMPT_STORE_PORT, ConfigService],
+    },
+    {
+      provide: LoginUseCase,
+      useFactory: (
+        repository: AuthenticationContextRepositoryPort,
+        passwordHasher: PasswordHasherPort,
+        accessTokenIssuer: AccessTokenIssuerPort,
+        loginSecurityPolicy: LoginSecurityPolicy,
+      ) => {
+        return new LoginUseCase(repository, passwordHasher, accessTokenIssuer, loginSecurityPolicy);
+      },
+      inject: [AUTHENTICATION_CONTEXT_PORT, PASSWORD_HASHER_PORT, ACCESS_TOKEN_ISSUER_PORT, LoginSecurityPolicy],
     },
   ],
 })

@@ -1,15 +1,16 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
-import { AUTHORIZATION_CONTEXT } from '@/common/constants/authentication.constants';
+import { AUTHORIZATION_CONTEXT_PORT } from '../../application/ports/application.token';
 import type { AuthorizationContextPort } from '../../application/ports/authorization-context.port';
 import { AuthorizationRule } from '../../domain/rules/authorization.rule';
 import { REQUIRED_PERMISSION_KEY } from '../decorators/require-permission.decorator';
+
 @Injectable()
 export class AuthorizationGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    @Inject(AUTHORIZATION_CONTEXT)
+    @Inject(AUTHORIZATION_CONTEXT_PORT)
     private readonly authorizationContextPort: AuthorizationContextPort,
   ) {}
 
