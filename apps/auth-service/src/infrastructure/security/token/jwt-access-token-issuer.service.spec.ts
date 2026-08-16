@@ -2,6 +2,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Test, type TestingModule } from '@nestjs/testing';
 
 import { AppConfigModule } from '@/common/config/config.module';
+
 import { JwtAccessTokenIssuerService } from './jwt-access-token-issuer.service';
 
 describe('JwtAccessTokenIssuerService', () => {

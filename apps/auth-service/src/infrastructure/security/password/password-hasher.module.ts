@@ -1,21 +1,16 @@
 import { Module } from '@nestjs/common';
 
-import { PASSWORD_HANSHER } from '@/common/constants/authentication.constants';
+import { PASSWORD_HASHER_PORT } from '@/modules/authentication/application/ports/application.token';
 
 import { Argon2PasswordHasherService } from './argon2-password-hasher.service';
 
 @Module({
   providers: [
     {
-      provide: PASSWORD_HANSHER,
+      provide: PASSWORD_HASHER_PORT,
       useClass: Argon2PasswordHasherService,
     },
   ],
-  exports: [
-    {
-      provide: PASSWORD_HANSHER,
-      useClass: Argon2PasswordHasherService,
-    },
-  ],
+  exports: [PASSWORD_HASHER_PORT],
 })
 export class PashwordHasherModule {}

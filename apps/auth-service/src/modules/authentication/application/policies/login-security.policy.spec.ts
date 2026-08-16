@@ -1,13 +1,14 @@
 import { getCallSites } from 'node:util';
+
 import { AuthenticationUser, AuthenticationUserStatus } from '../../domain/entities/authentication-user.entity';
-import type { UserRepositoryPort } from '../../domain/ports/authentication-context.port';
+import { AuthenticationContextRepositoryPort } from '../../domain/ports/authentication-context.port';
 import type { LoginAttemptStorePort } from '../ports/login-attempt-store.port';
 import { LoginSecurityPolicy, type LoginSecurityConfig } from './login-security.policy';
 
 describe('LoginSecurityPolicy', () => {
   let policy: LoginSecurityPolicy;
 
-  let userRepositoryPort: jest.Mocked<UserRepositoryPort>;
+  let repository: jest.Mocked<AuthenticationContextRepositoryPort>;
   let loginAttemptStore: jest.Mocked<LoginAttemptStorePort>;
 
   let config: LoginSecurityConfig;
@@ -15,7 +16,7 @@ describe('LoginSecurityPolicy', () => {
   let user: AuthenticationUser;
 
   beforeEach(() => {
-    userRepositoryPort = {
+    repository = {
       findByIdentifier: jest.fn(),
       lockUser: jest.fn(),
       unlockUser: jest.fn(),
@@ -35,7 +36,7 @@ describe('LoginSecurityPolicy', () => {
       lockDurationMinutes: 15,
     };
 
-    policy = new LoginSecurityPolicy(userRepositoryPort, loginAttemptStore, config);
+    policy = new LoginSecurityPolicy(repository, loginAttemptStore, config);
 
     user = AuthenticationUser.create({
       id: 'user-123',
@@ -65,7 +66,7 @@ describe('LoginSecurityPolicy', () => {
 
       expect(loginAttemptStore.incrementFailedAttempts).toHaveBeenCalledWith(user.id);
 
-      expect(userRepositoryPort.lockUser).not.toHaveBeenCalled();
+      expect(repository.lockUser).not.toHaveBeenCalled();
     });
 
     it('should lock account when failed attempts reach threshold', async () => {
@@ -77,9 +78,9 @@ describe('LoginSecurityPolicy', () => {
 
       const after = Date.now();
 
-      expect(userRepositoryPort.lockUser).toHaveBeenCalledTimes(1);
+      expect(repository.lockUser).toHaveBeenCalledTimes(1);
 
-      const calls = userRepositoryPort.lockUser.mock.calls[0];
+      const calls = repository.lockUser.mock.calls[0];
 
       expect(calls).toBeDefined();
 
@@ -106,9 +107,9 @@ describe('LoginSecurityPolicy', () => {
 
       await policy.handleFailedLogin(user);
 
-      expect(userRepositoryPort.lockUser).toHaveBeenCalledTimes(1);
+      expect(repository.lockUser).toHaveBeenCalledTimes(1);
 
-      expect(userRepositoryPort.lockUser).toHaveBeenCalledWith(user.id, expect.any(Date));
+      expect(repository.lockUser).toHaveBeenCalledWith(user.id, expect.any(Date));
     });
 
     it('should not perform repository operations when increment fails', async () => {
@@ -118,7 +119,7 @@ describe('LoginSecurityPolicy', () => {
 
       await expect(policy.handleFailedLogin(user)).rejects.toBe(error);
 
-      expect(userRepositoryPort.lockUser).not.toHaveBeenCalled();
+      expect(repository.lockUser).not.toHaveBeenCalled();
     });
   });
 
@@ -135,20 +136,20 @@ describe('LoginSecurityPolicy', () => {
 
     it('should reset login security state', async () => {
       loginAttemptStore.resetFailedAttempts.mockResolvedValue();
-      userRepositoryPort.resetLoginSecurityState.mockResolvedValue();
-      userRepositoryPort.updateLastLoginAt.mockResolvedValue();
+      repository.resetLoginSecurityState.mockResolvedValue();
+      repository.updateLastLoginAt.mockResolvedValue();
 
       await policy.handleSuccessfulLogin(user);
 
-      expect(userRepositoryPort.resetLoginSecurityState).toHaveBeenCalledTimes(1);
+      expect(repository.resetLoginSecurityState).toHaveBeenCalledTimes(1);
 
-      expect(userRepositoryPort.resetLoginSecurityState).toHaveBeenCalledWith(user.id);
+      expect(repository.resetLoginSecurityState).toHaveBeenCalledWith(user.id);
     });
 
     it('should update last login time', async () => {
       loginAttemptStore.resetFailedAttempts.mockResolvedValue();
-      userRepositoryPort.resetLoginSecurityState.mockResolvedValue();
-      userRepositoryPort.updateLastLoginAt.mockResolvedValue();
+      repository.resetLoginSecurityState.mockResolvedValue();
+      repository.updateLastLoginAt.mockResolvedValue();
 
       const before = Date.now();
 
@@ -156,9 +157,9 @@ describe('LoginSecurityPolicy', () => {
 
       const after = Date.now();
 
-      expect(userRepositoryPort.updateLastLoginAt).toHaveBeenCalledTimes(1);
+      expect(repository.updateLastLoginAt).toHaveBeenCalledTimes(1);
 
-      const calls = userRepositoryPort.updateLastLoginAt.mock.calls[0];
+      const calls = repository.updateLastLoginAt.mock.calls[0];
 
       expect(getCallSites).toBeDefined();
 
@@ -177,8 +178,8 @@ describe('LoginSecurityPolicy', () => {
 
     it('should execute security state updates in the expected order', async () => {
       loginAttemptStore.resetFailedAttempts.mockResolvedValue();
-      userRepositoryPort.resetLoginSecurityState.mockResolvedValue();
-      userRepositoryPort.updateLastLoginAt.mockResolvedValue();
+      repository.resetLoginSecurityState.mockResolvedValue();
+      repository.updateLastLoginAt.mockResolvedValue();
 
       const calls: string[] = [];
 
@@ -186,11 +187,11 @@ describe('LoginSecurityPolicy', () => {
         calls.push('resetFailedAttempts');
       });
 
-      userRepositoryPort.resetLoginSecurityState.mockImplementation(async () => {
+      repository.resetLoginSecurityState.mockImplementation(async () => {
         calls.push('resetLoginSecurityState');
       });
 
-      userRepositoryPort.updateLastLoginAt.mockImplementation(async () => {
+      repository.updateLastLoginAt.mockImplementation(async () => {
         calls.push('updateLastLoginAt');
       });
 
@@ -206,9 +207,9 @@ describe('LoginSecurityPolicy', () => {
 
       await expect(policy.handleSuccessfulLogin(user)).rejects.toBe(error);
 
-      expect(userRepositoryPort.resetLoginSecurityState).not.toHaveBeenCalled();
+      expect(repository.resetLoginSecurityState).not.toHaveBeenCalled();
 
-      expect(userRepositoryPort.updateLastLoginAt).not.toHaveBeenCalled();
+      expect(repository.updateLastLoginAt).not.toHaveBeenCalled();
     });
   });
 });

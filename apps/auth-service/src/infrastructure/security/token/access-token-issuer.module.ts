@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 
-import { ACCESS_TOKEN_ISSUER } from '@/common/constants/authentication.constants';
+import { ACCESS_TOKEN_ISSUER_PORT } from '@/modules/authentication/application/ports/application.token';
 
 import { JwtAccessTokenIssuerService } from './jwt-access-token-issuer.service';
 
@@ -22,15 +22,10 @@ import { JwtAccessTokenIssuerService } from './jwt-access-token-issuer.service';
   ],
   providers: [
     {
-      provide: ACCESS_TOKEN_ISSUER,
+      provide: ACCESS_TOKEN_ISSUER_PORT,
       useClass: JwtAccessTokenIssuerService,
     },
   ],
-  exports: [
-    {
-      provide: ACCESS_TOKEN_ISSUER,
-      useClass: JwtAccessTokenIssuerService,
-    },
-  ],
+  exports: [ACCESS_TOKEN_ISSUER_PORT],
 })
 export class AccessTokenIssuerModule {}
