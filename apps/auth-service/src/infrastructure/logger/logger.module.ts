@@ -1,6 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 
-import { TracingModule } from '../tracing/tracing.module';
+import { TracingModule } from '@/infrastructure/tracing/tracing.module';
+
 import { AppLoggerService } from './app-logger.service';
 
 @Global()

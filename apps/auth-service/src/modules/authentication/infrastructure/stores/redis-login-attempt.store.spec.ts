@@ -1,10 +1,10 @@
 import { ConfigService } from '@nestjs/config';
 import { Test, type TestingModule } from '@nestjs/testing';
 
-import { LOGIN_ATTEMPT_STORE } from '@/common/constants/authentication.constants';
-import { LoginAttemptStorePort } from '@/modules/authentication/application/ports/login-attempt-store.port';
+import { RedisService } from '@/infrastructure/redis/redis.service';
 
-import { RedisService } from '../redis.service';
+import { LOGIN_ATTEMPT_STORE_PORT } from '../../application/ports/application.token';
+import { LoginAttemptStorePort } from '../../application/ports/login-attempt-store.port';
 import { RedisLoginAttemptStore } from './redis-login-attempt.store';
 
 describe('RedisLoginAttemptStore', () => {
@@ -40,7 +40,7 @@ describe('RedisLoginAttemptStore', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         {
-          provide: LOGIN_ATTEMPT_STORE,
+          provide: LOGIN_ATTEMPT_STORE_PORT,
           useClass: RedisLoginAttemptStore,
         },
         {
@@ -54,7 +54,7 @@ describe('RedisLoginAttemptStore', () => {
       ],
     }).compile();
 
-    store = module.get<LoginAttemptStorePort>(LOGIN_ATTEMPT_STORE);
+    store = module.get<LoginAttemptStorePort>(LOGIN_ATTEMPT_STORE_PORT);
   });
 
   afterEach(() => {

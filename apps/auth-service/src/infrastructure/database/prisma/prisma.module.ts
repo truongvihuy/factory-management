@@ -2,19 +2,13 @@ import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaPg } from '@prisma/adapter-pg';
 
-import { DATABASE, USER_REPOSITORY } from '@/common/constants/authentication.constants';
-
 import { PrismaService } from './prisma.service';
-import { PrismaUserRepository } from './repositories/user.repository';
+import { DATABASE } from './prisma.token';
 
 @Global()
 @Module({
   providers: [
     PrismaService,
-    {
-      provide: USER_REPOSITORY,
-      useClass: PrismaUserRepository,
-    },
     {
       provide: DATABASE,
       useFactory: (configService: ConfigService) => {
@@ -24,12 +18,6 @@ import { PrismaUserRepository } from './repositories/user.repository';
       inject: [ConfigService],
     },
   ],
-  exports: [
-    PrismaService,
-    {
-      provide: USER_REPOSITORY,
-      useClass: PrismaUserRepository,
-    },
-  ],
+  exports: [PrismaService, DATABASE],
 })
 export class PrismaModule {}

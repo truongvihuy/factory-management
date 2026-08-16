@@ -4,7 +4,7 @@ import { HealthCheckError, HealthIndicator, type HealthIndicatorResult } from '@
 import { PrismaService } from '@/infrastructure/database/prisma/prisma.service';
 
 @Injectable()
-export class DatabaseHealthIndicator extends HealthIndicator {
+export class PrismaHealthIndicator extends HealthIndicator {
   constructor(private readonly prisma: PrismaService) {
     super();
   }

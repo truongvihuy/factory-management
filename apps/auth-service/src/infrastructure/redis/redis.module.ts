@@ -2,19 +2,13 @@ import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Redis from 'ioredis';
 
-import { CACHE, LOGIN_ATTEMPT_STORE } from '@/common/constants/authentication.constants';
-
-import { RedisLoginAttemptStore } from './authentication/redis-login-attempt.store';
 import { RedisService } from './redis.service';
+import { CACHE } from './redis.token';
 
 @Global()
 @Module({
   providers: [
     RedisService,
-    {
-      provide: LOGIN_ATTEMPT_STORE,
-      useClass: RedisLoginAttemptStore,
-    },
     {
       provide: CACHE,
       useFactory: (configService: ConfigService) => {
@@ -24,12 +18,6 @@ import { RedisService } from './redis.service';
       inject: [ConfigService],
     },
   ],
-  exports: [
-    RedisService,
-    {
-      provide: LOGIN_ATTEMPT_STORE,
-      useClass: RedisLoginAttemptStore,
-    },
-  ],
+  exports: [RedisService],
 })
 export class RedisModule {}

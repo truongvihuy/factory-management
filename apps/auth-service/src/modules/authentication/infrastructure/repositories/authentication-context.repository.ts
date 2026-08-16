@@ -1,16 +1,13 @@
 import { Injectable } from '@nestjs/common';
 
-import {
-  AuthenticationUser,
-  AuthenticationUserStatus,
-} from '@/modules/authentication/domain/entities/authentication-user.entity';
-import type { UserRepositoryPort } from '@/modules/authentication/domain/ports/user-repository.port';
+import { UserStatus } from '@/infrastructure/database/prisma/generated';
+import { PrismaService } from '@/infrastructure/database/prisma/prisma.service';
 
-import { UserStatus } from '../generated';
-import { PrismaService } from '../prisma.service';
+import { AuthenticationUser, AuthenticationUserStatus } from '../../domain/entities/authentication-user.entity';
+import type { AuthenticationContextRepositoryPort } from '../../domain/ports/authentication-context.port';
 
 @Injectable()
-export class PrismaUserRepository implements UserRepositoryPort {
+export class PrismaAuthenticationContextRepository implements AuthenticationContextRepositoryPort {
   constructor(private readonly prisma: PrismaService) {}
 
   async findByIdentifier(identifier: string): Promise<AuthenticationUser | null> {

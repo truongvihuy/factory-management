@@ -1,6 +1,6 @@
 import { AuthenticationUser, AuthenticationUserStatus } from '../../domain/entities/authentication-user.entity';
 import { InvalidCredentialsError } from '../../domain/errors/invalid-credentials.error';
-import type { UserRepositoryPort } from '../../domain/ports/user-repository.port';
+import type { AuthenticationContextRepositoryPort } from '../../domain/ports/authentication-context.port';
 import { AccountLoginRule } from '../../domain/rules/account-login.rule';
 import { LoginSecurityPolicy } from '../policies/login-security.policy';
 import type { AccessTokenIssuerPort } from '../ports/access-token-issuer.port';
@@ -11,7 +11,7 @@ import { LoginUseCase } from './login.use-case';
 describe('LoginUseCase', () => {
   let useCase: LoginUseCase;
 
-  let userRepository: jest.Mocked<UserRepositoryPort>;
+  let repository: jest.Mocked<AuthenticationContextRepositoryPort>;
   let passwordHasher: jest.Mocked<PasswordHasherPort>;
   let accessTokenIssuer: jest.Mocked<AccessTokenIssuerPort>;
   let loginSecurityPolicy: jest.Mocked<LoginSecurityPolicy>;
@@ -31,7 +31,7 @@ describe('LoginUseCase', () => {
   };
 
   beforeEach(() => {
-    userRepository = {
+    repository = {
       findByIdentifier: jest.fn(),
       lockUser: jest.fn(),
       unlockUser: jest.fn(),
@@ -53,7 +53,7 @@ describe('LoginUseCase', () => {
       handleSuccessfulLogin: jest.fn(),
     } as unknown as jest.Mocked<LoginSecurityPolicy>;
 
-    useCase = new LoginUseCase(userRepository, passwordHasher, accessTokenIssuer, loginSecurityPolicy);
+    useCase = new LoginUseCase(repository, passwordHasher, accessTokenIssuer, loginSecurityPolicy);
   });
 
   afterEach(() => {
@@ -63,23 +63,23 @@ describe('LoginUseCase', () => {
 
   describe('user lookup', () => {
     it('should find user by identifier', async () => {
-      userRepository.findByIdentifier.mockResolvedValue(user);
+      repository.findByIdentifier.mockResolvedValue(user);
       passwordHasher.verify.mockResolvedValue(true);
       loginSecurityPolicy.handleSuccessfulLogin.mockResolvedValue();
       accessTokenIssuer.issue.mockResolvedValue(accessToken);
 
       await useCase.execute('huy', 'password123');
 
-      expect(userRepository.findByIdentifier).toHaveBeenCalledTimes(1);
-      expect(userRepository.findByIdentifier).toHaveBeenCalledWith('huy');
+      expect(repository.findByIdentifier).toHaveBeenCalledTimes(1);
+      expect(repository.findByIdentifier).toHaveBeenCalledWith('huy');
     });
 
     it('should reject login when user does not exist', async () => {
-      userRepository.findByIdentifier.mockResolvedValue(null);
+      repository.findByIdentifier.mockResolvedValue(null);
 
       await expect(useCase.execute('unknown-user', 'password123')).rejects.toBeInstanceOf(InvalidCredentialsError);
 
-      expect(userRepository.findByIdentifier).toHaveBeenCalledWith('unknown-user');
+      expect(repository.findByIdentifier).toHaveBeenCalledWith('unknown-user');
 
       expect(passwordHasher.verify).not.toHaveBeenCalled();
       expect(loginSecurityPolicy.handleFailedLogin).not.toHaveBeenCalled();
@@ -90,7 +90,7 @@ describe('LoginUseCase', () => {
 
   describe('account security', () => {
     beforeEach(() => {
-      userRepository.findByIdentifier.mockResolvedValue(user);
+      repository.findByIdentifier.mockResolvedValue(user);
     });
 
     it('should check whether account can login', async () => {
@@ -124,7 +124,7 @@ describe('LoginUseCase', () => {
 
   describe('password verification', () => {
     beforeEach(() => {
-      userRepository.findByIdentifier.mockResolvedValue(user);
+      repository.findByIdentifier.mockResolvedValue(user);
 
       jest.spyOn(AccountLoginRule, 'ensureCanLogin').mockImplementation(() => undefined);
     });
@@ -170,7 +170,7 @@ describe('LoginUseCase', () => {
 
   describe('successful authentication', () => {
     beforeEach(() => {
-      userRepository.findByIdentifier.mockResolvedValue(user);
+      repository.findByIdentifier.mockResolvedValue(user);
 
       jest.spyOn(AccountLoginRule, 'ensureCanLogin').mockImplementation(() => undefined);
 
@@ -216,7 +216,7 @@ describe('LoginUseCase', () => {
 
   describe('failure propagation', () => {
     beforeEach(() => {
-      userRepository.findByIdentifier.mockResolvedValue(user);
+      repository.findByIdentifier.mockResolvedValue(user);
 
       jest.spyOn(AccountLoginRule, 'ensureCanLogin').mockImplementation(() => undefined);
     });

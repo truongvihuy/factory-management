@@ -1,5 +1,5 @@
 import { InvalidCredentialsError } from '../../domain/errors/invalid-credentials.error';
-import type { UserRepositoryPort } from '../../domain/ports/user-repository.port';
+import type { AuthenticationContextRepositoryPort } from '../../domain/ports/authentication-context.port';
 import { AccountLoginRule } from '../../domain/rules/account-login.rule';
 import { LoginSecurityPolicy } from '../policies/login-security.policy';
 import type { AccessTokenIssuerPort } from '../ports/access-token-issuer.port';
@@ -8,14 +8,14 @@ import type { AuthenticationResult } from '../results/login.result';
 
 export class LoginUseCase {
   constructor(
-    private readonly userRepositoryPort: UserRepositoryPort,
+    private readonly repository: AuthenticationContextRepositoryPort,
     private readonly passwordHasher: PasswordHasherPort,
     private readonly accessTokenIssuer: AccessTokenIssuerPort,
     private readonly loginSecurityPolicy: LoginSecurityPolicy,
   ) {}
 
   async execute(identifier: string, password: string): Promise<AuthenticationResult> {
-    const user = await this.userRepositoryPort.findByIdentifier(identifier);
+    const user = await this.repository.findByIdentifier(identifier);
 
     if (!user) {
       throw new InvalidCredentialsError();

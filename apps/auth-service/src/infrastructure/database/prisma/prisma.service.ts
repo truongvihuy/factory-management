@@ -1,9 +1,8 @@
 import { Inject, Injectable, type OnModuleDestroy, type OnModuleInit } from '@nestjs/common';
 import { PrismaPg } from '@prisma/adapter-pg';
 
-import { DATABASE } from '@/common/constants/authentication.constants';
-
 import { PrismaClient } from './generated';
+import { DATABASE } from './prisma.token';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {

@@ -2,7 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import { HealthCheck, HealthCheckService, MemoryHealthIndicator, type HealthCheckResult } from '@nestjs/terminus';
 
 import { HEALTH_MEMORY_HEAP_LIMIT_BYTES } from './health.constants';
-import { DatabaseHealthIndicator } from './indicators/database.health';
+import { PrismaHealthIndicator } from './indicators/prisma.health';
 import { RedisHealthIndicator } from './indicators/redis.health';
 
 @Controller('health')
@@ -10,7 +10,7 @@ export class HealthController {
   constructor(
     private readonly health: HealthCheckService,
     private readonly memory: MemoryHealthIndicator,
-    private readonly database: DatabaseHealthIndicator,
+    private readonly database: PrismaHealthIndicator,
     private readonly redis: RedisHealthIndicator,
   ) {}
 

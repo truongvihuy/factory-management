@@ -1,5 +1,5 @@
 import { AuthenticationUser } from '../../domain/entities/authentication-user.entity';
-import type { UserRepositoryPort } from '../../domain/ports/user-repository.port';
+import type { AuthenticationContextRepositoryPort } from '../../domain/ports/authentication-context.port';
 import type { LoginAttemptStorePort } from '../ports/login-attempt-store.port';
 
 export interface LoginSecurityConfig {
@@ -8,7 +8,7 @@ export interface LoginSecurityConfig {
 }
 export class LoginSecurityPolicy {
   constructor(
-    private readonly userRepositoryPort: UserRepositoryPort,
+    private readonly repository: AuthenticationContextRepositoryPort,
     private readonly loginAttemptStore: LoginAttemptStorePort,
     private readonly config: LoginSecurityConfig,
   ) {}
@@ -22,14 +22,14 @@ export class LoginSecurityPolicy {
 
     const lockedUntil = new Date(Date.now() + this.config.lockDurationMinutes * 60 * 1000);
 
-    await this.userRepositoryPort.lockUser(user.id, lockedUntil);
+    await this.repository.lockUser(user.id, lockedUntil);
   }
 
   async handleSuccessfulLogin(user: AuthenticationUser): Promise<void> {
     await this.loginAttemptStore.resetFailedAttempts(user.id);
 
-    await this.userRepositoryPort.resetLoginSecurityState(user.id);
+    await this.repository.resetLoginSecurityState(user.id);
 
-    await this.userRepositoryPort.updateLastLoginAt(user.id, new Date());
+    await this.repository.updateLastLoginAt(user.id, new Date());
   }
 }

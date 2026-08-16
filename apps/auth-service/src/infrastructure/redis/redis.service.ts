@@ -1,8 +1,8 @@
 import { Inject, Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import Redis from 'ioredis';
 
-import { CACHE } from '@/common/constants/authentication.constants';
 import type { RedisStore } from './interfaces/redis-store.interface';
+import { CACHE } from './redis.token';
 
 @Injectable()
 export class RedisService implements RedisStore, OnModuleInit, OnModuleDestroy {

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { LoginAttemptStorePort } from '@/modules/authentication/application/ports/login-attempt-store.port';
+import { authRedisKeys } from '@/infrastructure/redis/keys/auth-redis.keys';
+import { RedisService } from '@/infrastructure/redis/redis.service';
 
-import { authRedisKeys } from '../keys/auth-redis.keys';
-import { RedisService } from '../redis.service';
+import { LoginAttemptStorePort } from '../../application/ports/login-attempt-store.port';
 
 @Injectable()
 export class RedisLoginAttemptStore implements LoginAttemptStorePort {

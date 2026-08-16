@@ -1,6 +1,6 @@
 import { getCallSites } from 'node:util';
 import { AuthenticationUser, AuthenticationUserStatus } from '../../domain/entities/authentication-user.entity';
-import type { UserRepositoryPort } from '../../domain/ports/user-repository.port';
+import type { UserRepositoryPort } from '../../domain/ports/authentication-context.port';
 import type { LoginAttemptStorePort } from '../ports/login-attempt-store.port';
 import { LoginSecurityPolicy, type LoginSecurityConfig } from './login-security.policy';
 

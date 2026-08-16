@@ -1,9 +1,9 @@
 import { HealthCheckError } from '@nestjs/terminus';
 
-import { DatabaseHealthIndicator } from './database.health';
+import { PrismaHealthIndicator } from './prisma.health';
 
-describe('DatabaseHealthIndicator', () => {
-  let indicator: DatabaseHealthIndicator;
+describe('PrismaHealthIndicator', () => {
+  let indicator: PrismaHealthIndicator;
 
   let prisma: {
     $queryRaw: jest.Mock;
@@ -14,7 +14,7 @@ describe('DatabaseHealthIndicator', () => {
       $queryRaw: jest.fn(),
     };
 
-    indicator = new DatabaseHealthIndicator(prisma as never);
+    indicator = new PrismaHealthIndicator(prisma as never);
   });
 
   describe('isHealthy()', () => {
