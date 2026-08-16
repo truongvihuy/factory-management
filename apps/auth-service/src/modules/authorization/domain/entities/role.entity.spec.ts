@@ -1,54 +1,72 @@
 import { Role } from './role.entity';
 
 describe('Role', () => {
+  const validRole = {
+    id: 'role-1',
+    code: 'FACTORY_MANAGER',
+    name: 'Factory Manager',
+    description: 'Manages factory operations',
+  };
+
   it('should create a role', () => {
-    const role = Role.create({
-      id: 'role-1',
-      name: 'FACTORY_MANAGER',
-      description: 'Factory manager',
-    });
+    const role = Role.create(validRole);
 
     expect(role.id).toBe('role-1');
-    expect(role.name).toBe('FACTORY_MANAGER');
-    expect(role.description).toBe('Factory manager');
+    expect(role.code).toBe('FACTORY_MANAGER');
+    expect(role.name).toBe('Factory Manager');
+    expect(role.description).toBe('Manages factory operations');
   });
 
-  it('should allow a role without description', () => {
+  it('should allow null description', () => {
     const role = Role.create({
-      id: 'role-1',
-      name: 'OPERATOR',
+      ...validRole,
       description: null,
     });
 
     expect(role.description).toBeNull();
   });
 
-  it('should reject empty role id', () => {
+  it('should reject empty id', () => {
     expect(() =>
       Role.create({
+        ...validRole,
         id: '',
-        name: 'OPERATOR',
-        description: null,
       }),
     ).toThrow('Role id cannot be empty');
   });
 
-  it('should reject empty role name', () => {
+  it('should reject empty code', () => {
     expect(() =>
       Role.create({
-        id: 'role-1',
+        ...validRole,
+        code: '',
+      }),
+    ).toThrow('Role code cannot be empty');
+  });
+
+  it('should reject whitespace-only code', () => {
+    expect(() =>
+      Role.create({
+        ...validRole,
+        code: '   ',
+      }),
+    ).toThrow('Role code cannot be empty');
+  });
+
+  it('should reject empty name', () => {
+    expect(() =>
+      Role.create({
+        ...validRole,
         name: '',
-        description: null,
       }),
     ).toThrow('Role name cannot be empty');
   });
 
-  it('should reject whitespace-only role name', () => {
+  it('should reject whitespace-only name', () => {
     expect(() =>
       Role.create({
-        id: 'role-1',
+        ...validRole,
         name: '   ',
-        description: null,
       }),
     ).toThrow('Role name cannot be empty');
   });

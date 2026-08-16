@@ -1,12 +1,12 @@
 import { Module, type MiddlewareConsumer } from '@nestjs/common';
 
 import { AppConfigModule } from './common/config/config.module';
-import { HealthModule } from './common/health/health.module';
-import { LoggerModule } from './common/logger/logger.module';
-import { CorrelationMiddleware } from './common/tracing/correlation.middleware';
-import { TracingModule } from './common/tracing/tracing.module';
 import { PrismaModule } from './infrastructure/database/prisma/prisma.module';
+import { HealthModule } from './infrastructure/health/health.module';
+import { LoggerModule } from './infrastructure/logger/logger.module';
 import { RedisModule } from './infrastructure/redis/redis.module';
+import { CorrelationMiddleware } from './infrastructure/tracing/correlation.middleware';
+import { TracingModule } from './infrastructure/tracing/tracing.module';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 
 @Module({

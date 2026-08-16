@@ -1,28 +1,30 @@
-export interface RoleProps {
+export interface PermissionProps {
   id: string;
-  name: string;
   code: string;
+  name: string;
   description: string | null;
 }
 
-export class Role {
-  private constructor(private readonly props: RoleProps) {}
+export class Permission {
+  private constructor(private readonly props: PermissionProps) {}
 
-  static create(props: RoleProps): Role {
+  static create(props: PermissionProps): Permission {
     if (!props.id.trim()) {
-      throw new Error('Role id cannot be empty');
-    }
-    if (!props.code.trim()) {
-      throw new Error('Role code cannot be empty');
-    }
-    if (!props.name.trim()) {
-      throw new Error('Role name cannot be empty');
+      throw new Error('Permission id cannot be empty');
     }
 
-    return new Role({
+    if (!props.code.trim()) {
+      throw new Error('Permission code cannot be empty');
+    }
+
+    if (!props.name.trim()) {
+      throw new Error('Permission name cannot be empty');
+    }
+
+    return new Permission({
       id: props.id,
-      name: props.name,
       code: props.code,
+      name: props.name,
       description: props.description,
     });
   }
