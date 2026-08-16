@@ -13,5 +13,6 @@ import { AuthorizationGuard } from './presentation/guards/authorization.guard';
     },
     AuthorizationGuard,
   ],
+  exports: [AuthorizationGuard],
 })
 export class AuthorizationModule {}

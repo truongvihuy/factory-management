@@ -3,7 +3,7 @@ import { InvalidCredentialsError } from '../../domain/errors/invalid-credentials
 import type { AuthenticationContextRepositoryPort } from '../../domain/ports/authentication-context.port';
 import { AccountLoginRule } from '../../domain/rules/account-login.rule';
 import { LoginSecurityPolicy } from '../policies/login-security.policy';
-import type { AccessTokenIssuerPort } from '../ports/access-token-issuer.port';
+import type { AccessTokenPort } from '../ports/access-token.port';
 import type { PasswordHasherPort } from '../ports/password-hasher.port';
 import type { AuthenticationResult } from '../results/login.result';
 import { LoginUseCase } from './login.use-case';
@@ -13,7 +13,7 @@ describe('LoginUseCase', () => {
 
   let repository: jest.Mocked<AuthenticationContextRepositoryPort>;
   let passwordHasher: jest.Mocked<PasswordHasherPort>;
-  let accessTokenIssuer: jest.Mocked<AccessTokenIssuerPort>;
+  let service: jest.Mocked<AccessTokenPort>;
   let loginSecurityPolicy: jest.Mocked<LoginSecurityPolicy>;
 
   const user = AuthenticationUser.create({
@@ -44,8 +44,9 @@ describe('LoginUseCase', () => {
       verify: jest.fn(),
     };
 
-    accessTokenIssuer = {
+    service = {
       issue: jest.fn(),
+      verify: jest.fn(),
     };
 
     loginSecurityPolicy = {
@@ -53,7 +54,7 @@ describe('LoginUseCase', () => {
       handleSuccessfulLogin: jest.fn(),
     } as unknown as jest.Mocked<LoginSecurityPolicy>;
 
-    useCase = new LoginUseCase(repository, passwordHasher, accessTokenIssuer, loginSecurityPolicy);
+    useCase = new LoginUseCase(repository, passwordHasher, service, loginSecurityPolicy);
   });
 
   afterEach(() => {
@@ -66,7 +67,7 @@ describe('LoginUseCase', () => {
       repository.findByIdentifier.mockResolvedValue(user);
       passwordHasher.verify.mockResolvedValue(true);
       loginSecurityPolicy.handleSuccessfulLogin.mockResolvedValue();
-      accessTokenIssuer.issue.mockResolvedValue(accessToken);
+      service.issue.mockResolvedValue(accessToken);
 
       await useCase.execute('huy', 'password123');
 
@@ -84,7 +85,7 @@ describe('LoginUseCase', () => {
       expect(passwordHasher.verify).not.toHaveBeenCalled();
       expect(loginSecurityPolicy.handleFailedLogin).not.toHaveBeenCalled();
       expect(loginSecurityPolicy.handleSuccessfulLogin).not.toHaveBeenCalled();
-      expect(accessTokenIssuer.issue).not.toHaveBeenCalled();
+      expect(service.issue).not.toHaveBeenCalled();
     });
   });
 
@@ -98,7 +99,7 @@ describe('LoginUseCase', () => {
 
       passwordHasher.verify.mockResolvedValue(true);
       loginSecurityPolicy.handleSuccessfulLogin.mockResolvedValue();
-      accessTokenIssuer.issue.mockResolvedValue(accessToken);
+      service.issue.mockResolvedValue(accessToken);
 
       await useCase.execute(user.username, 'password123');
 
@@ -118,7 +119,7 @@ describe('LoginUseCase', () => {
       expect(passwordHasher.verify).not.toHaveBeenCalled();
       expect(loginSecurityPolicy.handleFailedLogin).not.toHaveBeenCalled();
       expect(loginSecurityPolicy.handleSuccessfulLogin).not.toHaveBeenCalled();
-      expect(accessTokenIssuer.issue).not.toHaveBeenCalled();
+      expect(service.issue).not.toHaveBeenCalled();
     });
   });
 
@@ -132,7 +133,7 @@ describe('LoginUseCase', () => {
     it('should verify password using stored password hash', async () => {
       passwordHasher.verify.mockResolvedValue(true);
       loginSecurityPolicy.handleSuccessfulLogin.mockResolvedValue();
-      accessTokenIssuer.issue.mockResolvedValue(accessToken);
+      service.issue.mockResolvedValue(accessToken);
 
       await useCase.execute(user.username, 'password123');
 
@@ -150,7 +151,7 @@ describe('LoginUseCase', () => {
       expect(loginSecurityPolicy.handleFailedLogin).toHaveBeenCalledWith(user);
 
       expect(loginSecurityPolicy.handleSuccessfulLogin).not.toHaveBeenCalled();
-      expect(accessTokenIssuer.issue).not.toHaveBeenCalled();
+      expect(service.issue).not.toHaveBeenCalled();
     });
 
     it('should handle failed login before throwing invalid credentials', async () => {
@@ -176,7 +177,7 @@ describe('LoginUseCase', () => {
 
       passwordHasher.verify.mockResolvedValue(true);
       loginSecurityPolicy.handleSuccessfulLogin.mockResolvedValue();
-      accessTokenIssuer.issue.mockResolvedValue(accessToken);
+      service.issue.mockResolvedValue(accessToken);
     });
 
     it('should handle successful login security state', async () => {
@@ -190,9 +191,9 @@ describe('LoginUseCase', () => {
     it('should issue access token for authenticated user', async () => {
       await useCase.execute(user.username, 'password123');
 
-      expect(accessTokenIssuer.issue).toHaveBeenCalledTimes(1);
+      expect(service.issue).toHaveBeenCalledTimes(1);
 
-      expect(accessTokenIssuer.issue).toHaveBeenCalledWith({
+      expect(service.issue).toHaveBeenCalledWith({
         userId: user.id,
       });
     });
@@ -230,7 +231,7 @@ describe('LoginUseCase', () => {
 
       expect(loginSecurityPolicy.handleFailedLogin).not.toHaveBeenCalled();
       expect(loginSecurityPolicy.handleSuccessfulLogin).not.toHaveBeenCalled();
-      expect(accessTokenIssuer.issue).not.toHaveBeenCalled();
+      expect(service.issue).not.toHaveBeenCalled();
     });
 
     it('should propagate failed login policy errors', async () => {
@@ -241,7 +242,7 @@ describe('LoginUseCase', () => {
 
       await expect(useCase.execute(user.username, 'wrong-password')).rejects.toBe(error);
 
-      expect(accessTokenIssuer.issue).not.toHaveBeenCalled();
+      expect(service.issue).not.toHaveBeenCalled();
     });
 
     it('should propagate successful login policy errors', async () => {
@@ -252,7 +253,7 @@ describe('LoginUseCase', () => {
 
       await expect(useCase.execute(user.username, 'password123')).rejects.toBe(error);
 
-      expect(accessTokenIssuer.issue).not.toHaveBeenCalled();
+      expect(service.issue).not.toHaveBeenCalled();
     });
 
     it('should propagate access token issuer errors', async () => {
@@ -260,7 +261,7 @@ describe('LoginUseCase', () => {
 
       passwordHasher.verify.mockResolvedValue(true);
       loginSecurityPolicy.handleSuccessfulLogin.mockResolvedValue();
-      accessTokenIssuer.issue.mockRejectedValue(error);
+      service.issue.mockRejectedValue(error);
 
       await expect(useCase.execute(user.username, 'password123')).rejects.toBe(error);
     });

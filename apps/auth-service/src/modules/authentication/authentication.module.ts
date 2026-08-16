@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 import { PashwordHasherModule } from '@/infrastructure/security/password/password-hasher.module';
-import { AccessTokenIssuerModule } from '@/infrastructure/security/token/access-token-issuer.module';
+import { AccessTokenModule } from '@/infrastructure/security/token/access-token.module';
 
 import { LoginSecurityConfig, LoginSecurityPolicy } from './application/policies/login-security.policy';
-import { AccessTokenIssuerPort } from './application/ports/access-token-issuer.port';
+import { AccessTokenPort } from './application/ports/access-token.port';
 import {
-  ACCESS_TOKEN_ISSUER_PORT,
+  ACCESS_TOKEN_PORT,
   LOGIN_ATTEMPT_STORE_PORT,
   PASSWORD_HASHER_PORT,
 } from './application/ports/application.token';
@@ -21,7 +21,7 @@ import { RedisLoginAttemptStore } from './infrastructure/stores/redis-login-atte
 import { AuthenticationController } from './presentation/controllers/authentication.controller';
 
 @Module({
-  imports: [PashwordHasherModule, AccessTokenIssuerModule],
+  imports: [PashwordHasherModule, AccessTokenModule],
   controllers: [AuthenticationController],
   providers: [
     {
@@ -52,13 +52,14 @@ import { AuthenticationController } from './presentation/controllers/authenticat
       useFactory: (
         repository: AuthenticationContextRepositoryPort,
         passwordHasher: PasswordHasherPort,
-        accessTokenIssuer: AccessTokenIssuerPort,
+        accessTokenService: AccessTokenPort,
         loginSecurityPolicy: LoginSecurityPolicy,
       ) => {
-        return new LoginUseCase(repository, passwordHasher, accessTokenIssuer, loginSecurityPolicy);
+        return new LoginUseCase(repository, passwordHasher, accessTokenService, loginSecurityPolicy);
       },
-      inject: [AUTHENTICATION_CONTEXT_PORT, PASSWORD_HASHER_PORT, ACCESS_TOKEN_ISSUER_PORT, LoginSecurityPolicy],
+      inject: [AUTHENTICATION_CONTEXT_PORT, PASSWORD_HASHER_PORT, ACCESS_TOKEN_PORT, LoginSecurityPolicy],
     },
   ],
+  exports: [],
 })
 export class AuthenticationModule {}

@@ -2,7 +2,7 @@ import { InvalidCredentialsError } from '../../domain/errors/invalid-credentials
 import type { AuthenticationContextRepositoryPort } from '../../domain/ports/authentication-context.port';
 import { AccountLoginRule } from '../../domain/rules/account-login.rule';
 import { LoginSecurityPolicy } from '../policies/login-security.policy';
-import type { AccessTokenIssuerPort } from '../ports/access-token-issuer.port';
+import type { AccessTokenPort } from '../ports/access-token.port';
 import type { PasswordHasherPort } from '../ports/password-hasher.port';
 import type { AuthenticationResult } from '../results/login.result';
 
@@ -10,7 +10,7 @@ export class LoginUseCase {
   constructor(
     private readonly repository: AuthenticationContextRepositoryPort,
     private readonly passwordHasher: PasswordHasherPort,
-    private readonly accessTokenIssuer: AccessTokenIssuerPort,
+    private readonly accessTokenService: AccessTokenPort,
     private readonly loginSecurityPolicy: LoginSecurityPolicy,
   ) {}
 
@@ -33,7 +33,7 @@ export class LoginUseCase {
 
     await this.loginSecurityPolicy.handleSuccessfulLogin(user);
 
-    const token = await this.accessTokenIssuer.issue({
+    const token = await this.accessTokenService.issue({
       userId: user.id,
     });
 

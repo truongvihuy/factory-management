@@ -3,13 +3,13 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
 import type {
-  AccessTokenIssuerPort,
   AccessTokenPayload,
+  AccessTokenPort,
   AccessTokenResult,
-} from '@/modules/authentication/application/ports/access-token-issuer.port';
+} from '@/modules/authentication/application/ports/access-token.port';
 
 @Injectable()
-export class JwtAccessTokenIssuerService implements AccessTokenIssuerPort {
+export class JwtAccessTokenService implements AccessTokenPort {
   constructor(
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
@@ -26,5 +26,9 @@ export class JwtAccessTokenIssuerService implements AccessTokenIssuerPort {
       accessToken,
       expiresIn,
     };
+  }
+
+  async verify(token: string): Promise<AccessTokenPayload> {
+    return this.jwtService.verifyAsync<AccessTokenPayload>(token);
   }
 }

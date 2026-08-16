@@ -3,10 +3,10 @@ import { Test, type TestingModule } from '@nestjs/testing';
 
 import { AppConfigModule } from '@/common/config/config.module';
 
-import { JwtAccessTokenIssuerService } from './jwt-access-token-issuer.service';
+import { JwtAccessTokenService } from './jwt-access-token.service';
 
-describe('JwtAccessTokenIssuerService', () => {
-  let service: JwtAccessTokenIssuerService;
+describe('JwtAccessTokenService', () => {
+  let service: JwtAccessTokenService;
   let jwtService: {
     signAsync: jest.Mock;
   };
@@ -25,7 +25,7 @@ describe('JwtAccessTokenIssuerService', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [AppConfigModule],
       providers: [
-        JwtAccessTokenIssuerService,
+        JwtAccessTokenService,
         {
           provide: JwtService,
           useValue: jwtService,
@@ -33,7 +33,7 @@ describe('JwtAccessTokenIssuerService', () => {
       ],
     }).compile();
 
-    service = module.get<JwtAccessTokenIssuerService>(JwtAccessTokenIssuerService);
+    service = module.get<JwtAccessTokenService>(JwtAccessTokenService);
   });
 
   describe('issue()', () => {
