@@ -8,6 +8,7 @@ import { RedisModule } from './infrastructure/redis/redis.module';
 import { CorrelationMiddleware } from './infrastructure/tracing/correlation.middleware';
 import { TracingModule } from './infrastructure/tracing/tracing.module';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
+import { AuthorizationModule } from './modules/authorization/authorization.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AuthenticationModule } from './modules/authentication/authentication.mo
     RedisModule,
 
     AuthenticationModule,
+    AuthorizationModule,
   ],
 })
 export class AppModule {

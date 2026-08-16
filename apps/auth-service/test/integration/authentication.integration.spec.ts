@@ -12,9 +12,9 @@ import { LoginAttemptStorePort } from '../../src/modules/authentication/applicat
 import { PasswordHasherPort } from '../../src/modules/authentication/application/ports/password-hasher.port';
 import { LoginUseCase } from '../../src/modules/authentication/application/use-cases/login.use-case';
 import { AuthenticationModule } from '../../src/modules/authentication/authentication.module';
-import { AccountInactiveError } from '../../src/modules/authentication/domain/domain-errors/account-inactive.error';
-import { AccountLockedError } from '../../src/modules/authentication/domain/domain-errors/account-locked.error';
-import { InvalidCredentialsError } from '../../src/modules/authentication/domain/domain-errors/invalid-credentials.error';
+import { AccountInactiveError } from '../../src/modules/authentication/domain/errors/account-inactive.error';
+import { AccountLockedError } from '../../src/modules/authentication/domain/errors/account-locked.error';
+import { InvalidCredentialsError } from '../../src/modules/authentication/domain/errors/invalid-credentials.error';
 import { cleanupUser, createTestUser, findTestUser } from '../helpers/authentication-test.helper';
 
 describe('Authentication Integration', () => {

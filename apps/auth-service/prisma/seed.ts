@@ -88,6 +88,7 @@ async function main() {
       create: role,
     });
   }
+  console.log('- Seeding roles success.');
 
   // 2. Permissions
   for (const permission of permissions) {
@@ -101,6 +102,7 @@ async function main() {
       create: permission,
     });
   }
+  console.log('- Seeding permission success.');
 
   // 3. Role permissions
   for (const [roleCode, permissionCodes] of Object.entries(rolePermissions)) {
@@ -132,6 +134,7 @@ async function main() {
       });
     }
   }
+  console.log('- Seeding role permission success.');
 
   console.log('Reference data seeded successfully.');
 }
