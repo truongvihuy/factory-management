@@ -3,9 +3,9 @@ import { CanActivate, ExecutionContext, Inject, UnauthorizedException } from '@n
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 
+import { IS_PUBLIC_KEY } from '../../../../common/security/decorators/public.decorator';
 import { AccessTokenPort } from '../../application/ports/access-token.port';
 import { ACCESS_TOKEN_PORT } from '../../application/ports/application.token';
-import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 
 export class AuthenticationGuard implements CanActivate {
   constructor(
