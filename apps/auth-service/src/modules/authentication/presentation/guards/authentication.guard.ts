@@ -1,5 +1,5 @@
 import { ErrorCode } from '@/common/errors/error-code';
-import { CanActivate, ExecutionContext, Inject, UnauthorizedException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 
@@ -7,6 +7,7 @@ import { IS_PUBLIC_KEY } from '../../../../common/security/decorators/public.dec
 import { AccessTokenPort } from '../../application/ports/access-token.port';
 import { ACCESS_TOKEN_PORT } from '../../application/ports/application.token';
 
+@Injectable()
 export class AuthenticationGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
