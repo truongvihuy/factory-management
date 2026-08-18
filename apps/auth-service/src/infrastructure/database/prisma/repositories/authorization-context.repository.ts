@@ -52,7 +52,7 @@ export class AuthorizationContextRepository implements AuthorizationContextPort 
       case PrismaAccessScope.GLOBAL:
         return AccessScope.GLOBAL;
 
-      case PrismaAccessScope.GLOBAL:
+      case PrismaAccessScope.FACTORY:
         return AccessScope.FACTORY;
 
       default:

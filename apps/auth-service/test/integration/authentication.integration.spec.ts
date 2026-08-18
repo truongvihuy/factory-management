@@ -3,11 +3,14 @@ import { JwtModule } from '@nestjs/jwt';
 import { Test, type TestingModule } from '@nestjs/testing';
 
 import { AppConfigModule } from '../../src/common/config/config.module';
-import { LOGIN_ATTEMPT_STORE, PASSWORD_HANSHER } from '../../src/common/constants/authentication.constants';
 import { UserStatus } from '../../src/infrastructure/database/prisma/generated';
 import { PrismaModule } from '../../src/infrastructure/database/prisma/prisma.module';
 import { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service';
 import { RedisModule } from '../../src/infrastructure/redis/redis.module';
+import {
+  LOGIN_ATTEMPT_STORE_PORT,
+  PASSWORD_HASHER_PORT,
+} from '../../src/modules/authentication/application/ports/application.token';
 import { LoginAttemptStorePort } from '../../src/modules/authentication/application/ports/login-attempt-store.port';
 import { PasswordHasherPort } from '../../src/modules/authentication/application/ports/password-hasher.port';
 import { LoginUseCase } from '../../src/modules/authentication/application/use-cases/login.use-case';
@@ -54,9 +57,9 @@ describe('Authentication Integration', () => {
     }).compile();
 
     prisma = module.get<PrismaService>(PrismaService);
-    passwordHasher = module.get<PasswordHasherPort>(PASSWORD_HANSHER);
+    passwordHasher = module.get<PasswordHasherPort>(PASSWORD_HASHER_PORT);
     loginUseCase = module.get<LoginUseCase>(LoginUseCase);
-    loginAttemptStore = module.get<LoginAttemptStorePort>(LOGIN_ATTEMPT_STORE);
+    loginAttemptStore = module.get<LoginAttemptStorePort>(LOGIN_ATTEMPT_STORE_PORT);
     const configService = module.get<ConfigService>(ConfigService);
 
     MAX_FAILED_LOGIN_ATTEMPTS = configService.getOrThrow<number>('authentication.security.maxLoginAttempts');
