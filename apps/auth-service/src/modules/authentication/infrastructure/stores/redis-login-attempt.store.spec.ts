@@ -3,8 +3,8 @@ import { Test, type TestingModule } from '@nestjs/testing';
 
 import { RedisService } from '@/infrastructure/redis/redis.service';
 
-import { LOGIN_ATTEMPT_STORE_PORT } from '../../application/ports/application.token';
-import { LoginAttemptStorePort } from '../../application/ports/login-attempt-store.port';
+import { LoginAttemptStorePort } from '../../ports/outbound';
+import { LOGIN_ATTEMPT_STORE_PORT } from '../../ports/token';
 import { RedisLoginAttemptStore } from './redis-login-attempt.store';
 
 describe('RedisLoginAttemptStore', () => {

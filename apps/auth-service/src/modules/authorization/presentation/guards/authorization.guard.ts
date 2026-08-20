@@ -11,10 +11,11 @@ import { Request } from 'express';
 
 import { ErrorCode } from '@/common/errors/error-code';
 
-import { AUTHORIZATION_CONTEXT_PORT } from '../../application/ports/application.token';
-import type { AuthorizationContextPort } from '../../application/ports/authorization-context.port';
-import { AuthorizationDeniedError } from '../../domain/errors/authorization-denied.error';
-import { AuthorizationRule } from '../../domain/rules/authorization.rule';
+import { AuthorizationCommand } from '../../application/authorization/authorization.command';
+import { AuthorizationHandler } from '../../application/authorization/authorization.handler';
+import { AuthorizationDeniedError } from '../../domain/errors';
+import { AuthorizationContextPort } from '../../ports/outbound';
+import { AUTHORIZATION_CONTEXT_PORT } from '../../ports/token';
 import { REQUIRED_PERMISSION_KEY } from '../decorators/require-permission.decorator';
 
 @Injectable()
@@ -46,15 +47,11 @@ export class AuthorizationGuard implements CanActivate {
       });
     }
 
-    const authorizationContext = await this.authorizationContextPort.getByUserId(user.userId);
-
-    const factoryId = this.resolveFactoryId(request);
-
     try {
-      AuthorizationRule.ensureCanAccess(authorizationContext, {
-        permission: requiredPermission,
-        factoryId,
-      });
+      const handler = new AuthorizationHandler(this.authorizationContextPort);
+      await handler.execute(
+        new AuthorizationCommand(user.userId, requiredPermission, AuthorizationGuard.resolveFactoryId(request)),
+      );
 
       return true;
     } catch (error) {
@@ -69,7 +66,7 @@ export class AuthorizationGuard implements CanActivate {
     }
   }
 
-  private resolveFactoryId(request: Request): string | null {
+  private static resolveFactoryId(request: Request): string | null {
     const routeFactoryId = request.params?.factoryId;
 
     if (typeof routeFactoryId === 'string' && routeFactoryId.length > 0) {

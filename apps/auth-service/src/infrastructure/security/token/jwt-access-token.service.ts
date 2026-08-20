@@ -6,7 +6,7 @@ import type {
   AccessTokenPayload,
   AccessTokenPort,
   AccessTokenResult,
-} from '@/modules/authentication/application/ports/access-token.port';
+} from '@/modules/authentication/ports/outbound/access-token-service.port';
 
 @Injectable()
 export class JwtAccessTokenService implements AccessTokenPort {

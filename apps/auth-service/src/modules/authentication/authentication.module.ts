@@ -4,20 +4,16 @@ import { ConfigService } from '@nestjs/config';
 import { PashwordHasherModule } from '@/infrastructure/security/password/password-hasher.module';
 import { AccessTokenModule } from '@/infrastructure/security/token/access-token.module';
 
-import { LoginSecurityConfig, LoginSecurityPolicy } from './application/policies/login-security.policy';
-import { AccessTokenPort } from './application/ports/access-token.port';
-import {
-  ACCESS_TOKEN_PORT,
-  LOGIN_ATTEMPT_STORE_PORT,
-  PASSWORD_HASHER_PORT,
-} from './application/ports/application.token';
-import { LoginAttemptStorePort } from './application/ports/login-attempt-store.port';
-import { PasswordHasherPort } from './application/ports/password-hasher.port';
-import { LoginUseCase } from './application/use-cases/login.use-case';
-import { AuthenticationContextRepositoryPort } from './domain/ports/authentication-context.port';
-import { AUTHENTICATION_CONTEXT_PORT } from './domain/ports/domain.token';
-import { PrismaAuthenticationContextRepository } from './infrastructure/repositories/authentication-context.repository';
+import { LoginSecurityConfig } from './application/commands/login/login.type';
+import { PrismaUserRepository } from './infrastructure/persistence/repositories/user.repository';
 import { RedisLoginAttemptStore } from './infrastructure/stores/redis-login-attempt.store';
+import { RedisSessionStore } from './infrastructure/stores/redis-session.store';
+import {
+  LOGIN_ATTEMPT_STORE_PORT,
+  LOGIN_SECURITY_CONFIG,
+  SESSION_STORE_PORT,
+  USER_REPOSITORY_PORT,
+} from './ports/token';
 import { AuthenticationController } from './presentation/controllers/authentication.controller';
 
 @Module({
@@ -25,39 +21,27 @@ import { AuthenticationController } from './presentation/controllers/authenticat
   controllers: [AuthenticationController],
   providers: [
     {
-      provide: AUTHENTICATION_CONTEXT_PORT,
-      useClass: PrismaAuthenticationContextRepository,
+      provide: USER_REPOSITORY_PORT,
+      useClass: PrismaUserRepository,
     },
     {
       provide: LOGIN_ATTEMPT_STORE_PORT,
       useClass: RedisLoginAttemptStore,
     },
     {
-      provide: LoginSecurityPolicy,
-      useFactory: (
-        repository: AuthenticationContextRepositoryPort,
-        loginAttemptStore: LoginAttemptStorePort,
-        configService: ConfigService,
-      ) => {
+      provide: SESSION_STORE_PORT,
+      useClass: RedisSessionStore,
+    },
+    {
+      provide: LOGIN_SECURITY_CONFIG,
+      useFactory: (configService: ConfigService): LoginSecurityConfig => {
         const config: LoginSecurityConfig = {
           maxLoginAttempts: configService.getOrThrow<number>('authentication.security.maxLoginAttempts'),
           lockDurationMinutes: configService.getOrThrow<number>('authentication.security.lockDurationMinutes'),
         };
-        return new LoginSecurityPolicy(repository, loginAttemptStore, config);
+        return config;
       },
-      inject: [AUTHENTICATION_CONTEXT_PORT, LOGIN_ATTEMPT_STORE_PORT, ConfigService],
-    },
-    {
-      provide: LoginUseCase,
-      useFactory: (
-        repository: AuthenticationContextRepositoryPort,
-        passwordHasher: PasswordHasherPort,
-        accessTokenService: AccessTokenPort,
-        loginSecurityPolicy: LoginSecurityPolicy,
-      ) => {
-        return new LoginUseCase(repository, passwordHasher, accessTokenService, loginSecurityPolicy);
-      },
-      inject: [AUTHENTICATION_CONTEXT_PORT, PASSWORD_HASHER_PORT, ACCESS_TOKEN_PORT, LoginSecurityPolicy],
+      inject: [ConfigService],
     },
   ],
   exports: [],

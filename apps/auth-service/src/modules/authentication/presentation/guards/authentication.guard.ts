@@ -3,16 +3,17 @@ import { CanActivate, ExecutionContext, Inject, Injectable, UnauthorizedExceptio
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 
-import { IS_PUBLIC_KEY } from '../../../../common/security/decorators/public.decorator';
-import { AccessTokenPort } from '../../application/ports/access-token.port';
-import { ACCESS_TOKEN_PORT } from '../../application/ports/application.token';
+import { IS_PUBLIC_KEY } from '@/common/security/decorators/public.decorator';
+
+import { AccessTokenServicePort } from '../../ports/outbound';
+import { ACCESS_TOKEN_SERVICE_PORT } from '../../ports/token';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    @Inject(ACCESS_TOKEN_PORT)
-    private readonly accessTokenService: AccessTokenPort,
+    @Inject(ACCESS_TOKEN_SERVICE_PORT)
+    private readonly accessTokenService: AccessTokenServicePort,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {

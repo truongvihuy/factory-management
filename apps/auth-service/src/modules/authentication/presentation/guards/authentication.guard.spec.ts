@@ -4,13 +4,13 @@ import type { Request } from 'express';
 
 import { ErrorCode } from '@/common/errors/error-code';
 
-import type { AccessTokenPort } from '../../application/ports/access-token.port';
+import { AccessTokenServicePort } from '../../ports/outbound';
 import { AuthenticationGuard } from './authentication.guard';
 
 describe('AuthenticationGuard', () => {
   let guard: AuthenticationGuard;
   let reflector: jest.Mocked<Reflector>;
-  let accessTokenPort: jest.Mocked<AccessTokenPort>;
+  let accessTokenService: jest.Mocked<AccessTokenServicePort>;
 
   let request: Request;
   let context: ExecutionContext;
@@ -20,9 +20,9 @@ describe('AuthenticationGuard', () => {
       getAllAndOverride: jest.fn(),
     } as unknown as jest.Mocked<Reflector>;
 
-    accessTokenPort = {
+    accessTokenService = {
       verify: jest.fn(),
-    } as unknown as jest.Mocked<AccessTokenPort>;
+    } as unknown as jest.Mocked<AccessTokenServicePort>;
 
     request = {
       headers: {},
@@ -36,7 +36,7 @@ describe('AuthenticationGuard', () => {
       }),
     } as unknown as ExecutionContext;
 
-    guard = new AuthenticationGuard(reflector, accessTokenPort);
+    guard = new AuthenticationGuard(reflector, accessTokenService);
   });
 
   describe('public endpoint', () => {
@@ -45,7 +45,7 @@ describe('AuthenticationGuard', () => {
 
       await expect(guard.canActivate(context)).resolves.toBe(true);
 
-      expect(accessTokenPort.verify).not.toHaveBeenCalled();
+      expect(accessTokenService.verify).not.toHaveBeenCalled();
     });
   });
 
@@ -62,7 +62,7 @@ describe('AuthenticationGuard', () => {
         },
       });
 
-      expect(accessTokenPort.verify).not.toHaveBeenCalled();
+      expect(accessTokenService.verify).not.toHaveBeenCalled();
     });
 
     it('should reject when authorization scheme is not Bearer', async () => {
@@ -75,7 +75,7 @@ describe('AuthenticationGuard', () => {
         },
       });
 
-      expect(accessTokenPort.verify).not.toHaveBeenCalled();
+      expect(accessTokenService.verify).not.toHaveBeenCalled();
     });
 
     it('should reject when Bearer token is missing', async () => {
@@ -88,13 +88,13 @@ describe('AuthenticationGuard', () => {
         },
       });
 
-      expect(accessTokenPort.verify).not.toHaveBeenCalled();
+      expect(accessTokenService.verify).not.toHaveBeenCalled();
     });
 
     it('should reject when token verification fails', async () => {
       request.headers.authorization = 'Bearer invalid-token';
 
-      accessTokenPort.verify.mockRejectedValue(new Error('Invalid token'));
+      accessTokenService.verify.mockRejectedValue(new Error('Invalid token'));
 
       await expect(guard.canActivate(context)).rejects.toMatchObject({
         response: {
@@ -103,8 +103,8 @@ describe('AuthenticationGuard', () => {
         },
       });
 
-      expect(accessTokenPort.verify).toHaveBeenCalledTimes(1);
-      expect(accessTokenPort.verify).toHaveBeenCalledWith('invalid-token');
+      expect(accessTokenService.verify).toHaveBeenCalledTimes(1);
+      expect(accessTokenService.verify).toHaveBeenCalledWith('invalid-token');
     });
 
     it('should authenticate user when token is valid', async () => {
@@ -114,12 +114,12 @@ describe('AuthenticationGuard', () => {
         userId: 'user-123',
       };
 
-      accessTokenPort.verify.mockResolvedValue(identity);
+      accessTokenService.verify.mockResolvedValue(identity);
 
       await expect(guard.canActivate(context)).resolves.toBe(true);
 
-      expect(accessTokenPort.verify).toHaveBeenCalledTimes(1);
-      expect(accessTokenPort.verify).toHaveBeenCalledWith('valid-token');
+      expect(accessTokenService.verify).toHaveBeenCalledTimes(1);
+      expect(accessTokenService.verify).toHaveBeenCalledWith('valid-token');
 
       expect(request.user).toEqual(identity);
     });

@@ -3,9 +3,7 @@ import { ForbiddenException, type HttpException, HttpStatus, UnauthorizedExcepti
 import { AppException } from '@/common/errors/app.exception';
 import { ErrorCode } from '@/common/errors/error-code';
 
-import { AccountInactiveError } from '../../domain/errors/account-inactive.error';
-import { AccountLockedError } from '../../domain/errors/account-locked.error';
-import { InvalidCredentialsError } from '../../domain/errors/invalid-credentials.error';
+import { AccountInactiveError, AccountLockedError, InvalidCredentialsError } from '../../domain/errors';
 
 export class AuthenticationExceptionMapper {
   static map(error: unknown): HttpException {

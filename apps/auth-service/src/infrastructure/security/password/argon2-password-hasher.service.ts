@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as argon2 from 'argon2';
 
-import type { PasswordHasherPort } from '@/modules/authentication/application/ports/password-hasher.port';
+import type { PasswordHasherPort } from '@/modules/authentication/ports/outbound/password-hasher.port';
 
 @Injectable()
 export class Argon2PasswordHasherService implements PasswordHasherPort {
