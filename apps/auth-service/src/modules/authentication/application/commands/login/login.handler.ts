@@ -9,14 +9,14 @@ import {
 } from '@/modules/authentication/domain/errors';
 import { LoginHandlerPort } from '@/modules/authentication/ports/inbound';
 import {
-  AccessTokenServicePort,
+  JwtServicePort,
   LoginAttemptStorePort,
   PasswordHasherPort,
   SessionStorePort,
   UserRepositoryPort,
 } from '@/modules/authentication/ports/outbound';
 import {
-  ACCESS_TOKEN_SERVICE_PORT,
+  JWT_SERVICE_PORT,
   LOGIN_ATTEMPT_STORE_PORT,
   LOGIN_SECURITY_CONFIG,
   PASSWORD_HASHER_PORT,
@@ -35,8 +35,8 @@ export class LoginHandler implements ICommandHandler<LoginCommand>, LoginHandler
     private readonly loginAttemptStore: LoginAttemptStorePort,
     @Inject(SESSION_STORE_PORT)
     private readonly sessionStore: SessionStorePort,
-    @Inject(ACCESS_TOKEN_SERVICE_PORT)
-    private readonly accessTokenService: AccessTokenServicePort,
+    @Inject(JWT_SERVICE_PORT)
+    private readonly jwtService: JwtServicePort,
     @Inject(PASSWORD_HASHER_PORT)
     private readonly passwordHasher: PasswordHasherPort,
     @Inject(LOGIN_SECURITY_CONFIG)
@@ -62,7 +62,7 @@ export class LoginHandler implements ICommandHandler<LoginCommand>, LoginHandler
 
     await this.handleSuccessfulLogin(user, { ip: command.ip, userAgent: command.userAgent });
 
-    const token = await this.accessTokenService.issue({
+    const token = await this.jwtService.issue({
       userId: user.id,
     });
 

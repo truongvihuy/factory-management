@@ -4,13 +4,13 @@ import type { Request } from 'express';
 
 import { ErrorCode } from '@/common/errors/error-code';
 
-import { AccessTokenServicePort } from '../../ports/outbound';
+import { JwtServicePort } from '../../ports/outbound';
 import { AuthenticationGuard } from './authentication.guard';
 
 describe('AuthenticationGuard', () => {
   let guard: AuthenticationGuard;
   let reflector: jest.Mocked<Reflector>;
-  let accessTokenService: jest.Mocked<AccessTokenServicePort>;
+  let accessTokenService: jest.Mocked<JwtServicePort>;
 
   let request: Request;
   let context: ExecutionContext;
@@ -22,7 +22,7 @@ describe('AuthenticationGuard', () => {
 
     accessTokenService = {
       verify: jest.fn(),
-    } as unknown as jest.Mocked<AccessTokenServicePort>;
+    } as unknown as jest.Mocked<JwtServicePort>;
 
     request = {
       headers: {},

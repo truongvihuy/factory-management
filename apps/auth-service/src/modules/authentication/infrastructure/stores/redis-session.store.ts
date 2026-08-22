@@ -7,15 +7,15 @@ import { SessionPayload, SessionStorePort } from '../../ports/outbound';
 
 @Injectable()
 export class RedisSessionStore implements SessionStorePort {
-  constructor(private readonly redisService: RedisService) {}
+  constructor(private readonly _redisService: RedisService) {}
 
-  async register(payload: SessionPayload): Promise<SessionEntity> {
+  async register(_payload: SessionPayload): Promise<SessionEntity> {
     return {} as SessionEntity;
   }
 
-  async getSessionId(sessionId: string): Promise<SessionEntity> {
+  async getSessionId(_sessionId: string): Promise<SessionEntity> {
     return {} as SessionEntity;
   }
 
-  async revorked(sessionId: string): Promise<void> {}
+  async revorked(_sessionId: string): Promise<void> {}
 }

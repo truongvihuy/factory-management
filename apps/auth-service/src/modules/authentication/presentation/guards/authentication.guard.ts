@@ -5,15 +5,15 @@ import { Request } from 'express';
 import { ErrorCode } from '@/common/errors/error-code';
 import { IS_PUBLIC_KEY } from '@/common/security/decorators/public.decorator';
 
-import { AccessTokenServicePort } from '../../ports/outbound';
-import { ACCESS_TOKEN_SERVICE_PORT } from '../../ports/token';
+import { JwtServicePort } from '../../ports/outbound';
+import { JWT_SERVICE_PORT } from '../../ports/token';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    @Inject(ACCESS_TOKEN_SERVICE_PORT)
-    private readonly accessTokenService: AccessTokenServicePort,
+    @Inject(JWT_SERVICE_PORT)
+    private readonly accessTokenService: JwtServicePort,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {

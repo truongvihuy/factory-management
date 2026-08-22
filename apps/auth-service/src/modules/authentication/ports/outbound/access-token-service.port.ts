@@ -7,7 +7,7 @@ export interface AccessTokenResult {
   expiresIn: number;
 }
 
-export interface AccessTokenServicePort {
+export interface JwtServicePort {
   issue(payload: AccessTokenPayload): Promise<AccessTokenResult>;
 
   verify(token: string): Promise<AccessTokenPayload>;

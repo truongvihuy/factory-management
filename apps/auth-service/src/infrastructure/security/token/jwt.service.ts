@@ -4,12 +4,12 @@ import { JwtService } from '@nestjs/jwt';
 
 import type {
   AccessTokenPayload,
-  AccessTokenPort,
   AccessTokenResult,
+  JwtServicePort,
 } from '@/modules/authentication/ports/outbound/access-token-service.port';
 
 @Injectable()
-export class JwtAccessTokenService implements AccessTokenPort {
+export class JwtAccessTokenService implements JwtServicePort {
   constructor(
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
