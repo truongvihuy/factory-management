@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 
 import { ACCESS_TOKEN_SERVICE_PORT } from '@/modules/authentication/ports/token';
-import { JwtAccessTokenService } from './jwt-access-token.service';
+import { JwtAccessTokenService } from './jwt.service';
 
 @Module({
   imports: [
@@ -27,4 +27,4 @@ import { JwtAccessTokenService } from './jwt-access-token.service';
   ],
   exports: [ACCESS_TOKEN_SERVICE_PORT],
 })
-export class AccessTokenModule {}
+export class JWTModule {}

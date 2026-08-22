@@ -3,7 +3,7 @@ import { Test, type TestingModule } from '@nestjs/testing';
 
 import { AppConfigModule } from '@/common/config/config.module';
 
-import { JwtAccessTokenService } from './jwt-access-token.service';
+import { JwtAccessTokenService } from './jwt.service';
 
 describe('JwtAccessTokenService', () => {
   let service: JwtAccessTokenService;

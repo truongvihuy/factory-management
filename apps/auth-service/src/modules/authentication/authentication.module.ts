@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 import { PashwordHasherModule } from '@/infrastructure/security/password/password-hasher.module';
-import { AccessTokenModule } from '@/infrastructure/security/token/access-token.module';
+import { JWTModule } from '@/infrastructure/security/token/jwt.module';
+import { AuthorizationModule } from '@/modules/authorization/authorization.module';
 
 import { LoginSecurityConfig } from './application/commands/login/login.type';
 import { PrismaUserRepository } from './infrastructure/persistence/repositories/user.repository';
@@ -17,7 +18,7 @@ import {
 import { AuthenticationController } from './presentation/controllers/authentication.controller';
 
 @Module({
-  imports: [PashwordHasherModule, AccessTokenModule],
+  imports: [PashwordHasherModule, JWTModule, AuthorizationModule],
   controllers: [AuthenticationController],
   providers: [
     {

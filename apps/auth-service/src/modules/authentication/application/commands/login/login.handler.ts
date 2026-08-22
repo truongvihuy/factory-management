@@ -104,14 +104,14 @@ export class LoginHandler implements ICommandHandler<LoginCommand>, LoginHandler
   private async handleSuccessfulLogin(user: UserEntity, infoSession: InfoSession): Promise<void> {
     await this.loginAttemptStore.resetFailedAttempts(user.id);
 
+    await this.repository.resetLoginSecurityState(user.id);
+
+    await this.repository.updateLastLoginAt(user.id, new Date());
+
     await this.sessionStore.register({
       userId: user.id,
       userAgent: infoSession.userAgent,
       ip: infoSession.ip,
     });
-
-    await this.repository.resetLoginSecurityState(user.id);
-
-    await this.repository.updateLastLoginAt(user.id, new Date());
   }
 }
