@@ -1,6 +1,6 @@
 import { UserStatus } from '../../src/infrastructure/database/prisma/generated';
 import type { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service';
-import { LoginAttemptStorePort } from '../../src/modules/authentication/application/ports/login-attempt-store.port';
+import { LoginAttemptStorePort } from '../../src/modules/authentication/ports/outbound';
 
 export const unique = (prefix: string): string => `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 

@@ -7,17 +7,12 @@ import { UserStatus } from '../../src/infrastructure/database/prisma/generated';
 import { PrismaModule } from '../../src/infrastructure/database/prisma/prisma.module';
 import { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service';
 import { RedisModule } from '../../src/infrastructure/redis/redis.module';
-import {
-  LOGIN_ATTEMPT_STORE_PORT,
-  PASSWORD_HASHER_PORT,
-} from '../../src/modules/authentication/application/ports/application.token';
-import { LoginAttemptStorePort } from '../../src/modules/authentication/application/ports/login-attempt-store.port';
-import { PasswordHasherPort } from '../../src/modules/authentication/application/ports/password-hasher.port';
-import { LoginUseCase } from '../../src/modules/authentication/application/use-cases/login.use-case';
 import { AuthenticationModule } from '../../src/modules/authentication/authentication.module';
 import { AccountInactiveError } from '../../src/modules/authentication/domain/errors/account-inactive.error';
 import { AccountLockedError } from '../../src/modules/authentication/domain/errors/account-locked.error';
 import { InvalidCredentialsError } from '../../src/modules/authentication/domain/errors/invalid-credentials.error';
+import { LoginAttemptStorePort, PasswordHasherPort } from '../../src/modules/authentication/ports/outbound';
+import { LOGIN_ATTEMPT_STORE_PORT, PASSWORD_HASHER_PORT } from '../../src/modules/authentication/ports/token';
 import { cleanupUser, createTestUser, findTestUser } from '../helpers/authentication-test.helper';
 
 describe('Authentication Integration', () => {

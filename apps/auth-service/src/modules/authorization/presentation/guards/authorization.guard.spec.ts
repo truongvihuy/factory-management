@@ -4,8 +4,8 @@ import type { Request } from 'express';
 
 import { ErrorCode } from '@/common/errors/error-code';
 
-import type { AuthorizationContextPort } from '../../application/ports/authorization-context.port';
 import { AccessScope } from '../../domain/value-objects/access-scope.vo';
+import { AuthorizationContextPort } from '../../ports/outbound';
 import { AuthorizationGuard } from './authorization.guard';
 
 describe('AuthorizationGuard', () => {
