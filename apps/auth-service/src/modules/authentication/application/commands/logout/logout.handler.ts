@@ -4,6 +4,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { LogoutHandlerPort } from '@/modules/authentication/ports/inbound';
 import { SessionStorePort } from '@/modules/authentication/ports/outbound';
 import { SESSION_STORE_PORT } from '@/modules/authentication/ports/token';
+
 import { LogoutCommand } from './logout.command';
 
 @CommandHandler(LogoutCommand)

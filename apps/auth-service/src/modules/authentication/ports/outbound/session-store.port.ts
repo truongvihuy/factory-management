@@ -1,4 +1,4 @@
-import { SessionEntity } from '../../domain/entities/session.entity';
+import { SessionEntity } from '../../domain/entities';
 
 export interface SessionPayload {
   userId: string;

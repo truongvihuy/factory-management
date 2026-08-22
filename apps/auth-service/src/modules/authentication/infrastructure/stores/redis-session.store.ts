@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { RedisService } from '@/infrastructure/redis/redis.service';
 
-import { SessionEntity } from '../../domain/entities/session.entity';
+import { SessionEntity } from '../../domain/entities';
 import { SessionPayload, SessionStorePort } from '../../ports/outbound';
 
 @Injectable()

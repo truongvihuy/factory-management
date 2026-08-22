@@ -1,4 +1,4 @@
-import type { UserEntity } from '../../domain/entities/user.entity';
+import type { UserEntity } from '../../domain/entities';
 
 export interface UserRepositoryPort {
   findByIdentifier(identifier: string): Promise<UserEntity | null>;

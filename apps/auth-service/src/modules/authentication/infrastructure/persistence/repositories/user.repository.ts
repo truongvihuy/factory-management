@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { UserStatus } from '@/infrastructure/database/prisma/generated';
 import { PrismaService } from '@/infrastructure/database/prisma/prisma.service';
 
-import { UserEntity } from '../../../domain/entities/user.entity';
-import { UserRepositoryPort } from '../../../ports/outbound';
+import { UserEntity } from '@/modules/authentication/domain/entities';
+import { UserRepositoryPort } from '@/modules/authentication/ports/outbound';
 import { UserMapper } from '../mappers/user.mapper';
 
 @Injectable()

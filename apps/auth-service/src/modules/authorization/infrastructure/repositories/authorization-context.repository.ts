@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 
-import type { AuthorizationContextPort } from '@/modules/authorization/application/ports/authorization-context.port';
-import type {
+import { AccessScope as PrismaAccessScope } from '@/infrastructure/database/prisma/generated';
+import { PrismaService } from '@/infrastructure/database/prisma/prisma.service';
+
+import {
   AuthorizationContext,
   AuthorizationRole,
-} from '@/modules/authorization/domain/models/authorization-context';
-import { AccessScope } from '@/modules/authorization/domain/value-objects/access-scope.vo';
-
-import { AccessScope as PrismaAccessScope } from '../generated';
-import { PrismaService } from '../prisma.service';
+} from '@/modules/authorization/application/authorization/authorization.type';
+import { AccessScope } from '@/modules/authorization/domain/value-objects';
+import { AuthorizationContextPort } from '@/modules/authorization/ports/outbound';
 
 @Injectable()
 export class AuthorizationContextRepository implements AuthorizationContextPort {

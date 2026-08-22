@@ -1,5 +1,6 @@
 import { UserStatus as PrismaUserStatus, User } from '@/infrastructure/database/prisma/generated';
-import { UserEntity, UserStatus } from '@/modules/authentication/domain/entities/user.entity';
+
+import { UserEntity, UserStatus } from '@/modules/authentication/domain/entities';
 
 export class UserMapper {
   static toDomain(props: User): UserEntity {
