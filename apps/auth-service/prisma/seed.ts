@@ -7,7 +7,19 @@ const adapter = new PrismaPg({
 });
 
 const prisma = new PrismaClient({
+  log: [
+    {
+      emit: 'event',
+      level: 'query',
+    },
+  ],
   adapter,
+});
+
+prisma.$on('query', (e) => {
+  console.log('Query: ' + e.query);
+  console.log('Params: ' + e.params);
+  console.log('Duration: ' + e.duration + 'ms');
 });
 
 const roles = [
