@@ -11,7 +11,7 @@ import { DATABASE } from './prisma.token';
     PrismaService,
     {
       provide: DATABASE,
-      useFactory: (configService: ConfigService) => {
+      useFactory: (configService: ConfigService): PrismaPg => {
         const connectionString = configService.getOrThrow('database.url');
         return new PrismaPg({ connectionString });
       },
