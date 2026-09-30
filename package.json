@@ -17,7 +17,10 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "quantity": "yarn format:check && yarn lint"
+    "quantity": "yarn format:check && yarn lint",
+    "architecture:check": "depcruise --config .dependency-cruiser.mjs apps libs proto",
+    "architecture:graph": "depcruise --config .dependency-cruiser.mjs --output-type dot apps libs proto",
+    "verify:foundation": "yarn typecheck && yarn lint && yarn format:check && yarn architecture:check && yarn test"
   },
   "workspaces": [
     "apps/*",
@@ -32,6 +35,7 @@
     "@types/supertest": "^7.2.1",
     "@typescript-eslint/eslint-plugin": "^8.66.0",
     "@typescript-eslint/parser": "^8.66.0",
+    "dependency-cruiser": "^18.4.0",
     "eslint": "^10.8.1",
     "eslint-config-prettier": "^10.1.8",
     "jest": "^30.4.2",
