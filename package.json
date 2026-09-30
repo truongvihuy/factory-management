@@ -18,8 +18,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "quantity": "yarn format:check && yarn lint",
-    "architecture:check": "depcruise --config .dependency-cruiser.mjs apps libs proto",
-    "architecture:graph": "depcruise --config .dependency-cruiser.mjs --output-type dot apps libs proto",
+    "architecture:check": "depcruise --config dependency-cruiser.mjs apps libs proto",
+    "architecture:graph": "depcruise --config dependency-cruiser.mjs --output-type dot apps libs proto",
     "verify:foundation": "yarn typecheck && yarn lint && yarn format:check && yarn architecture:check && yarn test"
   },
   "workspaces": [
