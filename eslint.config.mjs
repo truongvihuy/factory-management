@@ -182,7 +182,7 @@ export default tseslint.config(
         {
           patterns: [
             {
-              group: ['../../apps/**', '../apps/**', '@apps/**'],
+              group: ['../../apps/**', '../apps/**', '@apps/**', 'apps/**'],
               message: 'Shared libraries must not depend on application code.',
             },
           ],
@@ -202,6 +202,27 @@ export default tseslint.config(
               group: ['../../apps/**', '../../../apps/**', '@apps/**'],
               message:
                 'Services must not import source code from another service. Use gRPC contracts or events instead.',
+            },
+            {
+              group: [
+                '@fms/common/*',
+                '@fms/config/*',
+                '@fms/events/*',
+                '@fms/grpc/*',
+                '@fms/logger/*',
+                '@fms/observability/*',
+              ],
+              message:
+                'Import shared libraries through their public package entrypoint. Deep imports are forbidden.',
+            },
+            {
+              group: [
+                '../../../libs/*',
+                '../../libs/*',
+                '../libs/*',
+              ],
+              message:
+                'Do not import libraries through relative paths. Use the package public API.',
             },
           ],
         },

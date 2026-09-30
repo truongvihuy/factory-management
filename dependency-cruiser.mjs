@@ -140,6 +140,18 @@ export default {
       },
     },
 
+    {
+      name: 'no-library-deep-import',
+      severity: 'error',
+      comment: 'Libraries must be consumed through their public package API.',
+      from: {
+        path: '^apps/',
+      },
+      to: {
+        path: '^libs/[^/]+/src/',
+      },
+    },
+
     // ============================================================
     // 6. PROTO BOUNDARY
     // ============================================================

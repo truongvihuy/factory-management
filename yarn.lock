@@ -817,6 +817,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@fms/auth-service@workspace:apps/auth-service"
   dependencies:
+    "@fms/common": "workspace:*"
     "@nestjs/cli": "npm:^11.0.24"
     "@nestjs/common": "npm:^11.1.28"
     "@nestjs/config": "npm:^4.0.4"
@@ -845,6 +846,12 @@ __metadata:
     supertest: "npm:^7.2.2"
     tsx: "npm:^4.23.12"
     typescript: "npm:^6.0.3"
+  languageName: unknown
+  linkType: soft
+
+"@fms/common@workspace:*, @fms/common@workspace:libs/common":
+  version: 0.0.0-use.local
+  resolution: "@fms/common@workspace:libs/common"
   languageName: unknown
   linkType: soft
 
@@ -4149,12 +4156,6 @@ __metadata:
   checksum: 10c0/86172bcdfc33e3f3da23819151a11a0a30e0d632c255c66541e511b6d41e549a10f1011c1467ded5ea5fe08096769cacfeb84107bbab2347f506aab926ad9082
   languageName: node
   linkType: hard
-
-"common@workspace:libs/common":
-  version: 0.0.0-use.local
-  resolution: "common@workspace:libs/common"
-  languageName: unknown
-  linkType: soft
 
 "component-emitter@npm:^1.3.1":
   version: 1.3.1
