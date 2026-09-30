@@ -116,4 +116,121 @@ export default tseslint.config(
    */
 
   prettier,
+
+  /*
+   * ========================================
+   * Imports
+   * ========================================
+   *
+   */
+  {
+    files: ['apps/*/src/**/domain/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['**/application/**', '**/infrastructure/**', '**/presentation/**', '**/apps/**'],
+              message: 'Domain layer must not depend on Application, Infrastructure, or Presentation layers.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  {
+    files: ['apps/*/src/**/application/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['**/infrastructure/**', '**/presentation/**', '**/apps/**'],
+              message: 'Application layer must depend on port/contracts, not Infrastructure, or Presentation layers.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  {
+    files: ['apps/*/src/**/infrastructure/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['**/presentation/**'],
+              message: 'Infrastructure layer must not depend on Presentation layers.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  {
+    files: ['libs/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['../../apps/**', '../apps/**', '@apps/**'],
+              message: 'Shared libraries must not depend on application code.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  {
+    files: ['apps/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['../../apps/**', '../../../apps/**', '@apps/**'],
+              message:
+                'Services must not import source code from another service. Use gRPC contracts or events instead.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  {
+    files: ['libs/common/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          path: [
+            {
+              name: '@nestjs/common',
+              message: 'Use @nestjs/common only in the application layer, not in shared libraries.',
+            },
+            {
+              name: '@nestjs/core',
+              message: 'Use @nestjs/core only in the application layer, not in shared libraries.',
+            },
+            {
+              name: 'express',
+              message: 'Use express only in the application layer, not in shared libraries.',
+            },
+          ],
+        },
+      ],
+    },
+  },
 );
